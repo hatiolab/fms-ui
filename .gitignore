@@ -83,3 +83,5 @@ pickle-email-*.html
 .rbenv-version
 
 Gemfile.lock
+
+/vendor/assets/bower_components

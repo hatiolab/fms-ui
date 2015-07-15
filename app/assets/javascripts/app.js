@@ -1,0 +1,1 @@
+var fmsApp = angular.module('fmsApp', []);

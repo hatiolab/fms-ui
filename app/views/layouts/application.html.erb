@@ -2,13 +2,13 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= content_for?(:title) ? yield(:title) : "Fms Ui" %></title>
-    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Fms Ui" %>">
+    <title><%= content_for?(:title) ? yield(:title) : "FMS UI" %></title>
+    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "FMS UI" %>">
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
     <%= csrf_meta_tags %>
   </head>
-  <body>
+  <body ng-app="fmsApp">
     <header>
       <%= render 'layouts/navigation' %>
     </header>
