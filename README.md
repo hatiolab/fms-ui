@@ -1,4 +1,4 @@
-Fms Ui
+FMS UI
 ================
 
 This application was generated with the [rails_apps_composer](https://github.com/RailsApps/rails_apps_composer) gem
@@ -21,13 +21,24 @@ Ruby on Rails
 
 This application requires:
 
-- Ruby 2.0.0
+- Ruby 2.2.0
 - Rails 4.2.0
 
 Learn more about [Installing Rails](http://railsapps.github.io/installing-rails.html).
 
 Getting Started
 ---------------
+1. Install gems 
+- bundle install
+
+2. Bower install if not installed bower and install client libraries
+- npm install -g bower
+- rake bower:install
+
+3. Copy database.yml.sample to database.yml and set the database config
+
+4. Start Appllication
+- rails s
 
 Documentation and Support
 -------------------------

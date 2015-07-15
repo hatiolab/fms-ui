@@ -13,6 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap-sprockets
+//= require bootstrap-sass-official/assets/javascripts/bootstrap
+//= require angular/angular
 //= require_tree .
-//= require bootstrp
-//= require angularjs
