@@ -1,1 +1,1 @@
-var fmsApp = angular.module('fmsApp', []);
+var fmsApp = angular.module('fmsApp', ['ui.router']);

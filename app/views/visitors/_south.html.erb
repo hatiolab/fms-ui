@@ -1,0 +1,223 @@
+				<!-- info & list begin -->
+				<div class="infolist-panel col-md-12 padding-clear">
+					  <!-- Nav tabs -->
+					  <ul class="nav nav-tabs" role="tablist">
+					    <li role="presentation" class="active"><a href="#info" aria-controls="home" role="tab" data-toggle="tab">information</a></li>
+					    <li role="presentation"><a href="#alert-list" aria-controls="profile" role="tab" data-toggle="tab">alert list</a></li>
+					    <li role="presentation"><a href="#trip-list" aria-controls="messages" role="tab" data-toggle="tab">trip list</a></li>
+							<button type="button" class="btn btn-default icon-infolist panel-toggle pull-right"></button>
+					  </ul>
+					  <!-- Tab panes -->
+					  <div class="tab-content">
+					    <!-- info tab content begin -->
+							<div role="tabpanel" class="tab-pane active" id="info">
+								<table class="info-table">
+									<tr>
+										<td class="info-label">Started at / Till</td>
+										<td class="info-value">Fri May 29 2015 22:38:11 GMT-0800 / Fri May 29 2015 14:37:46 GMT-0800</td>
+									</tr>
+									<tr>
+										<td class="info-label">Duration / Distance</td>
+										<td class="info-value">0 h 0 m 0 s / 0 Km</td>
+									</tr>
+									<tr>
+										<td class="info-label">Last Speed (Avg.)</td>
+										<td class="info-value speed-status"><span class="status-box orange"></span><strong>111 Km/h</strong> (Avg: 41)</td>
+									</tr>
+									<tr>
+										<td class="info-label">Speeds</td>
+										<td class="info-value">
+											<div class="col-xs-2 col-md-1 status-box gray padding-clear">0</div>
+											<div class="col-xs-2 col-md-1 status-box dark padding-clear">1</div>
+											<div class="col-xs-2 col-md-1 status-box blue padding-clear">3</div>
+											<div class="col-xs-2 col-md-1 status-box green padding-clear">5</div>
+											<div class="col-xs-2 col-md-1 status-box orange padding-clear">3</div>
+											<div class="col-xs-2 col-md-1 status-box red padding-clear">0</div>
+										</td>
+									</tr>
+									<tr>
+										<td class="info-label">From</td>
+										<td class="info-value">152-198 West 32nd Street, New York, NY 10001, USA</td>
+									</tr>
+								</table>
+								<!-- pagination begin -->
+								<div class="pagecontainer">
+									<nav class="pull-right padding-clear">
+								  	<ul class="pagination">
+								    <li class="padding-rl7 border-rl-lightgray" style="padding-top:3px;padding-bottom:8px">
+								      <button type="button" class="btn btn-in-pagination"><span class="icon-infolist arrow-left"></span>older trip</button>
+											<button type="button" class="btn btn-in-pagination">newer trip<span class="icon-infolist arrow-right"></span></button>
+								    </li>
+								    <li class="padding-rl7">
+								      <button type="button" class="btn btn-in-pagination"><span class="icon-infolist arrow-left"></span>older alert</button>
+											<button type="button" class="btn btn-in-pagination">newer alert<span class="icon-infolist arrow-right"></span></button>
+								    </li>
+								  </ul>
+									</nav>
+								</div>	
+								<!-- pagination end -->
+							</div>
+							<!-- info tab content end -->
+							
+							<!-- alert-list tab content begin -->
+					    <div role="tabpanel" class="tab-pane" id="alert-list">
+								<form class="form-horizontal">
+									<!-- period begin -->
+									<div class="form-group">
+									    <label for="inputPassword" class="col-xs-2 col-sm-2 col-md-2 control-label">period</label>
+									    <div class="col-xs-3 col-sm-3 col-md-3 padding-clear">
+												 <div id="datetimepicker1" class="input-append date">
+												     <input data-format="dd/MM/yyyy" type="text" class="form-control" placeholder="from"></input>
+												     <span class="add-on">
+												       <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+												     </span>
+												</div>
+									    </div>
+											<span class="col-xs-1 col-sm-1 col-md-1 padding-clear align-center margin-t7">~</span>
+									    <div class="col-xs-3 col-sm-3 col-md-3 padding-clear">
+												 <div id="datetimepicker1" class="input-append date">
+												     <input data-format="dd/MM/yyyy" type="text" class="form-control" placeholder="to"></input>
+												     <span class="add-on">
+												       <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+												     </span>
+												</div>		 
+									    </div>
+									</div>
+									<!-- period end -->
+								</form>	
+									<!-- table begin -->
+									<table class="table table-striped table-hover">
+									  <tr>
+											<th>No.</th>
+											<th>date / time</th>
+											<th>type</th>
+											<th>description</th>
+										</tr>
+										<tr>
+											<td class="align-center">1</td>
+											<td>2015-07-30 23:00:00</td>
+											<td class="icon-td"><span class="type-icon impact-red"></span>impact</td>
+											<td>severe safety alert</td>
+										</tr>
+										<tr>
+											<td class="align-center">2</td>
+											<td>2015-07-29 16:30:11</td>
+											<td class="icon-td"><span class="type-icon overspeed-red"></span>over speed</td>
+											<td>severe safety alert</td>
+										</tr>
+										<tr>
+											<td class="align-center">3</td>
+											<td>2015-07-29 16:30:11</td>
+											<td class="icon-td"><span class="type-icon geofence-red"></span>geofence</td>
+											<td>severe safety alert</td>
+										</tr>
+									</table>
+									<!-- table end -->
+									
+									<!-- pagination begin -->
+									<div class="pagecontainer">
+										<nav class="pull-left padding-clear">
+									  	<ul class="pagination">
+									    <li>
+									      <a href="#" aria-label="Previous">
+									        <span aria-hidden="true">&laquo;</span>
+									      </a>
+									    </li>
+									    <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+									    <li><a href="#">2</a></li>
+									    <li><a href="#">3</a></li>
+									    <li>
+									      <a href="#" aria-label="Next">
+									        <span aria-hidden="true">&raquo;</span>
+									      </a>
+									    </li>
+									  </ul>
+										</nav>
+										<div class="pull-right"><strong>1-5</strong> of 19</div>
+									</div>	
+									<!-- pagination end -->
+							</div>
+							<!-- alert-list tab content end -->
+							
+							<!-- trip-list tab content begin -->
+					    <div role="tabpanel" class="tab-pane" id="trip-list">
+								<form class="form-horizontal">
+									<!-- period begin -->
+									<div class="form-group">
+									    <label for="inputPassword" class="col-xs-2 col-sm-2 col-md-2 control-label">period</label>
+									    <div class="col-xs-3 col-sm-3 col-md-3 padding-clear">
+												 <div id="datetimepicker1" class="input-append date">
+												     <input data-format="dd/MM/yyyy" type="text" class="form-control" placeholder="from"></input>
+												     <span class="add-on">
+												       <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+												     </span>
+												</div>
+									    </div>
+											<span class="col-xs-1 col-sm-1 col-md-1 padding-clear align-center margin-t7">~</span>
+									    <div class="col-xs-3 col-sm-3 col-md-3 padding-clear">
+												 <div id="datetimepicker1" class="input-append date">
+												     <input data-format="dd/MM/yyyy" type="text" class="form-control" placeholder="to"></input>
+												     <span class="add-on">
+												       <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+												     </span>
+												</div>		 
+									    </div>
+									</div>
+									<!-- period end -->
+								</form>	
+									<!-- table begin -->
+									<table class="table table-striped table-hover">
+									  <tr>
+											<th>No.</th>
+											<th>start time</th>
+											<th>max</th>
+											<th>average</th>
+											<th>distance</th>
+											<th>duration</th>
+										</tr>
+										<tr>
+											<td class="align-center">1</td>
+											<td>2015-07-30 23:00:00</td>
+											<td>111</td>
+											<td>41</td>
+											<td>0</td>
+											<td>0h 0m 0s</td>
+										</tr>
+										<tr>
+											<td class="align-center">2</td>
+											<td>2015-07-30 18:00:00</td>
+											<td>94</td>
+											<td>37</td>
+											<td>0</td>
+											<td>0h 0m 0s</td>
+										</tr>
+									</table>
+									<!-- table end -->
+									
+									<!-- pagination begin -->
+									<div class="pagecontainer">
+										<nav class="pull-left padding-clear">
+									  	<ul class="pagination">
+									    <li>
+									      <a href="#" aria-label="Previous">
+									        <span aria-hidden="true">&laquo;</span>
+									      </a>
+									    </li>
+									    <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+									    <li><a href="#">2</a></li>
+									    <li><a href="#">3</a></li>
+									    <li>
+									      <a href="#" aria-label="Next">
+									        <span aria-hidden="true">&raquo;</span>
+									      </a>
+									    </li>
+									  </ul>
+										</nav>
+										<div class="pull-right"><strong>1-5</strong> of 19</div>
+									</div>	
+									<!-- pagination end -->
+							</div>
+							<!-- trip-list tab content end -->
+					  </div>
+				</div>
+				<!-- info & list end -->

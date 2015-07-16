@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap-sprockets
-//= require bootstrap-sass-official/assets/javascripts/bootstrap
+//= require bs
 //= require angular/angular
+//= require angular-ui-router/release/angular-ui-router.min
 //= require_tree .
