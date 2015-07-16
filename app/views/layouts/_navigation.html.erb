@@ -10,10 +10,13 @@
       </button>
       <%= link_to 'Home', root_path, class: 'navbar-brand' %>
     </div>
-    <div class="collapse navbar-collapse">
+    <div class="collapse navbar-collapse  navbar-right">
       <ul class="nav navbar-nav">
         <%= render 'layouts/navigation_links' %>
       </ul>
+			<ul class="nav navbar-nav">
+				<li><%= link_to 'Sign out', destroy_user_session_path, :method=>'delete' %></li>
+			</ul>
     </div>
   </div>
 </nav>
