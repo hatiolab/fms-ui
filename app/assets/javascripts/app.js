@@ -1,1 +1,1 @@
-var fmsApp = angular.module('fmsApp', ['ui.router']);
+var fmsApp = angular.module('fmsApp', ['ui.router', 'uiGmapgoogle-maps']);

@@ -16,4 +16,6 @@
 //= require bs
 //= require angular/angular
 //= require angular-ui-router/release/angular-ui-router.min
+//= require angular-google-maps/dist/angular-google-maps.min
+//= require lodash/lodash.min
 //= require_tree .
