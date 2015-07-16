@@ -1,0 +1,1 @@
+<%= Hatio::Generators::ApiUtil.generate_single_json_builder(singular_name, @attributes) %>

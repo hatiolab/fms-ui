@@ -1,0 +1,1 @@
+<%= Hatio::Generators::ApiUtil.generate_index_template(singular_name, @attributes) %>

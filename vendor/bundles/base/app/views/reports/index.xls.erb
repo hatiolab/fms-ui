@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Report">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">ID</Data></Cell>
+        <Cell><Data ss:Type="String">Name</Data></Cell>
+        <Cell><Data ss:Type="String">Description</Data></Cell>
+        <Cell><Data ss:Type="String">Template</Data></Cell>
+      </Row>
+    <% @collection.each do |report| %>
+      <Row>
+        <Cell><Data ss:Type="String"><%= report.id %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= report.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= report.description %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= report.template %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

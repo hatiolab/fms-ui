@@ -1,0 +1,25 @@
+<html lang='en'>
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<meta http-equiv="X-UA-Compatible" content="chrome=1">
+		<title><%= 'STD' %></title>
+
+		<!-- Assets Pipeline for Library Stylesheets -->
+	    <%= stylesheet_link_tag "label", :media => "all" %>
+	    <%= csrf_meta_tags %>
+
+		<script type="text/javascript">
+		var login = <%=raw current_user.to_json %>;
+		login.current_domain_id = <%= current_domain.id %>;
+
+		LOCALE_RESOURCE = <%=raw Terminology.to_resource(cookies[:locale] || current_user.locale) %>;
+		OPS_URL = '<%= GlobalConfig.ops_name %>';
+		BRAND_IMAGE_URL = '<%=raw current_domain.brand_image.url %>';
+		CONTENT_IMAGE_URL = '<%=raw current_domain.content_image.url %>';
+		</script>
+
+	    <%= javascript_include_tag "application" %>
+	</head>
+	<body>
+	</body>
+</html>

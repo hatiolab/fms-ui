@@ -1,0 +1,27 @@
+ko-KR:
+  activerecord:
+    models:
+      aaa: 'aaa'     
+    attributes:
+      aaa:
+              
+  button:
+    aaa: 'aaa'
+  
+  tab:
+    aaa: 'aaa'
+  
+  menu_item:
+    aaa: 'aaa'
+  
+  transactions:
+    aaa: 'aaa'
+  
+  legend:
+    aaa: 'aaaa'
+  
+  link:
+    aaa: 'aaaa'
+    
+  prompt:
+    aaa: 'aaaaa'

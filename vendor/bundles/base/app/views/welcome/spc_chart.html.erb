@@ -1,0 +1,57 @@
+<html lang='en'>
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<meta http-equiv="X-UA-Compatible" content="chrome=1">
+		<title>SPC Chart</title>
+
+		<!-- Assets Pipeline -->
+	    <%= stylesheet_link_tag "chart", :media => "all" %>
+	    <%= csrf_meta_tags %>
+	    <%= javascript_include_tag "chart" %>
+		
+		<script type="text/javascript">
+		$(window).resize(function() {
+			chartReady();
+			chartDisplay(rowData);
+		});
+
+		$(document).ready(function () {
+			chartReady();
+		});
+		</script>
+	</head>
+
+	<body id="body">
+	  <div id="x-bar-Label">
+	  	<table border=0 cellpading=0 cellspacing=0>
+	  		<tr><th>&nbsp;Xbar
+	  				<td>&nbsp;usl&nbsp;<input id="xBarUsl" type="text" readonly></td>
+	  				<td>&nbsp;lsl&nbsp;<input id="xBarLsl" type="text" readonly></td>
+	  				<td>&nbsp;cl&nbsp;<input id="xBarCl" type="text" readonly></td>
+	  				<td>&nbsp;cp&nbsp;<input id="xBarCp" type="text" readonly></td>
+	  				<td>&nbsp;cpk&nbsp;<input id="xBarCpk" type="text" readonly></td>
+	  			</th>
+	  		</tr>
+	  	</table>
+	  </div>
+  
+	  <div id="x-bar">
+	    <svg></svg>
+	  </div>
+  
+	  <div id="r-Label">
+	  	<table border=0 cellpading=0 cellspacing=0>
+	  		<tr><th>&nbsp;Rbar
+	  				<td>&nbsp;usl&nbsp;<input id="rUsl" type="text" readonly></td>
+	  				<td>&nbsp;lsl&nbsp;<input id="rLsl" type="text" readonly></td>
+	  				<td>&nbsp;cl&nbsp;<input id="rCl" type="text" readonly></td>
+	  			</th>
+	  		</tr>
+	  	</table>
+	  </div>
+  
+	  <div id="r">
+	    <svg></svg>
+	  </div>
+	</body>
+</html>

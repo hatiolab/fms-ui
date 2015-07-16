@@ -1,0 +1,54 @@
+<html lang='en'>
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<meta http-equiv="X-UA-Compatible" content="chrome=1">
+		<title><%= Terminology.t 'title', 'page-standard', false %></title>
+
+		<!-- Assets Pipeline for Library Stylesheets -->
+		<!-- To test Asset Pipiline, use below -->
+	    <%= stylesheet_link_tag "std", :media => "all" %>
+		<!-- Or, you want faster loading, use below -->
+        <!-- link href="assets/std.css" rel="stylesheet" type="text/css" /-->
+		<!-- End. -->
+
+	    <%= csrf_meta_tags %>
+
+		<script type="text/javascript">
+		var login = <%=raw current_user.to_json %>;
+		login.current_domain_id = <%= current_domain.id %>;
+		login.current_domain_name = '<%= current_domain.name %>';
+
+		LOCALE_RESOURCE = <%=raw Terminology.to_resource(cookies[:locale] || current_user.locale) %>;
+		OPS_URL = '<%= GlobalConfig.ops_name %>';
+		BRAND_NAME = '<%=raw current_domain.brand_name %>';
+		BRAND_IMAGE_URL = '<%=raw current_domain.brand_image.url %>';
+		CONTENT_IMAGE_URL = '<%=raw current_domain.content_image.url %>';
+		CONTENT_BASE_URL = '<%= GlobalConfig.content_base_url %>';
+		DEFAULT_LAT = <%= GlobalConfig.default_lat %>;
+		DEFAULT_LNG = <%= GlobalConfig.default_lng %>;
+		</script>
+
+		<!-- To test Asset Pipiline, use below -->
+		<%= javascript_include_tag "jquery" %>
+		<%= javascript_include_tag "underscore" %>
+		<%= javascript_include_tag "backbone" %>
+		<%= javascript_include_tag "kinetic/kinetic-4.7.2" %>
+		<%= javascript_include_tag "infogra-min" %>
+
+		<%= javascript_include_tag "std" %>
+		
+		<script type="text/javascript" 			src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=drawing&language=en"/>
+		
+		<!-- Or, you want faster loading, use below -->
+		<!-- script type="text/javascript" src="assets/std.js"></script -->
+		<!-- End. -->
+
+		<script type="text/javascript">
+		<% Hatio::Bundle.ordered_bundle_list.each do |bundle| %>
+		HF.bundle('<%= bundle.name %>', [<%=raw bundle.bootstrap_controllers.collect{|clazz| "'#{clazz}'"}.join(',') %>]);
+		<% end %>
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

@@ -1,0 +1,35 @@
+<html lang='en'>
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<meta http-equiv="X-UA-Compatible" content="chrome=1">
+		<title><%= Terminology.t 'title', 'page-operator', false %></title>
+
+		<!-- Assets Pipeline for Library Stylesheets -->
+	    <%= stylesheet_link_tag "ops", :media => "all" %>
+	    <%= csrf_meta_tags %>
+
+		<script type="text/javascript">
+		var login = <%=raw current_user.to_json %>;
+		
+		LOCALE_RESOURCE = <%=raw Terminology.to_resource(cookies[:locale] || current_user.locale) %>;
+		STD_URL = '<%= GlobalConfig.std_name %>';
+		BRAND_NAME = '<%=raw current_domain.brand_name %>';
+		BRAND_IMAGE_URL = '<%=raw current_domain.brand_image.url %>';
+		CONTENT_IMAGE_URL = '<%=raw current_domain.content_image.url %>';
+		</script>
+
+		<!-- To test Asset Pipiline, use below -->
+	    <%= javascript_include_tag "ops" %>
+		<!-- Or, you want faster loading, use below -->
+	  <!-- script type="text/javascript" src="assets/ops.js"></script-->
+		<!-- End. -->
+		
+		<script type="text/javascript">
+		<% Hatio::Bundle.ordered_bundle_list.each do |bundle| %>
+		HF.bundle('<%= bundle.name %>', [<%=raw bundle.bootstrap_controllers.collect{|clazz| "'#{clazz}'"}.join(',') %>]);
+		<% end %>
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

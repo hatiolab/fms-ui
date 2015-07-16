@@ -1,0 +1,7 @@
+#encoding: utf-8
+Driver.create! :code => 'D-001', :name => 'HongKilDong', :division => '1사업부', :title => '이사', :social_id => '700101-xxxxxx', :phone_no => '031-xxx-xxxx', :mobile_no => '010-xxx-1214', :email => 'cskim@example.com'
+Driver.create! :code => 'D-002', :name => 'Tom', :division => '2사업부', :title => '차장', :social_id => '720719-xxxxxx', :phone_no => '070-xxx-xxxx', :mobile_no => '010-xxx-9873', :email => 'kdhong@example.com'
+Driver.create! :code => 'D-003', :name => 'Hatio', :division => '3사업부', :title => '과장', :social_id => '761201-xxxxxx', :phone_no => '02-xxx-xxxx', :mobile_no => '010-xxx-1098', :email => 'chchoi@example.com'
+Driver.create! :code => 'D-004', :name => 'Christina', :division => '4사업부', :title => '대리', :social_id => '820225-xxxxxx', :phone_no => '02-xxx-xxxx', :mobile_no => '010-xxx-6518', :email => 'hslee@example.com'
+Driver.create! :code => 'D-005', :name => 'Julia', :division => '5사업부', :title => '대리', :social_id => '810527-xxxxxx', :phone_no => '02-xxx-xxxx', :mobile_no => '010-xxx-3511', :email => 'julia@example.com'
+Driver.create! :code => 'D-006', :name => 'Rodriguez', :division => '6사업부', :title => '과장', :social_id => '780225-xxxxxx', :phone_no => '02-xxx-xxxx', :mobile_no => '010-xxx-9268', :email => 'rodriguez@example.com'

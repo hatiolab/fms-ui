@@ -1,0 +1,68 @@
+Description:
+    Generate bundle
+
+Example:
+bundle exec rails generate hatio:bundle Fleet --bundle_name=fleet --dependency=base
+Things Framework Loaded!
+Generate fleet server bundle....
+
+      exist  vendor/bundles
+      create  vendor/bundles/fleet
+      create  vendor/bundles/fleet/app
+      create  vendor/bundles/fleet/app/controllers
+      create  vendor/bundles/fleet/app/models
+      create  vendor/bundles/fleet/app/helpers
+      create  vendor/bundles/fleet/app/views
+      create  vendor/bundles/fleet/config
+      create  vendor/bundles/fleet/config/locales
+      create  vendor/bundles/fleet/db
+      create  vendor/bundles/fleet/db/migrate
+      create  vendor/bundles/fleet/db/seeds.rb
+      create  vendor/bundles/fleet/db/seeds
+      create  vendor/bundles/fleet/db/seeds/04_fleet_entities.rb
+      create  vendor/bundles/fleet/db/seeds/05_fleet_common_codes.rb
+      create  vendor/bundles/fleet/db/seeds/06_fleet_menus.rb
+      create  vendor/bundles/fleet/lib
+      create  vendor/bundles/fleet/lib/fleet
+      create  vendor/bundles/fleet/test
+      create  vendor/bundles/fleet/lib/init.rb
+      create  vendor/bundles/fleet/lib/fleet.rb
+      create  vendor/bundles/fleet/lib/fleet/version.rb
+      create  vendor/bundles/fleet/lib/fleet/engine.rb
+      create  vendor/bundles/fleet/lib/fleet/pluggable_spot.rb
+      create  vendor/bundles/fleet/config/routes.rb
+      create  vendor/bundles/fleet/config/locales/en-US.yml
+      create  vendor/bundles/fleet/config/locales/ko-KR.yml
+      create  vendor/bundles/fleet/config/locales/zh-CN.yml
+      create  vendor/bundles/fleet/lib/tasks/fleet.rake
+      create  vendor/bundles/fleet/Gemfile
+      create  vendor/bundles/fleet/Rakefile
+      create  vendor/bundles/fleet/fleet.gemspec
+      create  vendor/bundles/fleet/LICENSE.txt
+      create  vendor/bundles/fleet/README.md
+      create  vendor/bundles/fleet/test/test_helper.rb
+      create  vendor/bundles/fleet/test/fleet_test.rb
+
+Server bundle fleet generated!
+Generate fleet client bundle....
+
+      create  vendor/bundles/fleet/app/assets
+      create  vendor/bundles/fleet/app/assets/images
+      create  vendor/bundles/fleet/app/assets/javascripts
+      create  vendor/bundles/fleet/app/assets/javascripts/bundle
+      create  vendor/bundles/fleet/app/assets/javascripts/bundle/fleet
+      create  vendor/bundles/fleet/app/assets/javascripts/bundle/fleet/controller
+      create  vendor/bundles/fleet/app/assets/javascripts/bundle/fleet/model
+      create  vendor/bundles/fleet/app/assets/javascripts/bundle/fleet/store
+      create  vendor/bundles/fleet/app/assets/javascripts/bundle/fleet/view
+      create  vendor/bundles/fleet/app/assets/javascripts/bundle/fleet/mixin
+      create  vendor/bundles/fleet/app/assets/javascripts/bundle/fleet/locale
+      create  vendor/bundles/fleet/app/assets/javascripts/bundle/fleet/locale/en-US.js
+      create  vendor/bundles/fleet/app/assets/javascripts/bundle/fleet/locale/ko-KR.js
+      create  vendor/bundles/fleet/app/assets/javascripts/bundle/fleet/locale/zh-CN.js
+      create  vendor/bundles/fleet/app/assets/javascripts/bundle/fleet/controller/FleetController.js
+      create  vendor/bundles/fleet/app/assets/javascripts/bundle/fleet/index.js
+
+Client bundle fleet generated!
+Success
+	      create  public/bundle/sample/controller/SampleController.js

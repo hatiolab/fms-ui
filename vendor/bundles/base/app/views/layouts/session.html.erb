@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <title>Things System</title>
+  <%= stylesheet_link_tag    "session", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "session", "data-turbolinks-track" => true %>
+  <%= csrf_meta_tags %>
+
+  <script>
+  if(location.hash)
+	  $.cookie('_anchor' , location.hash, {path: '/'});
+  else if($.cookie('_anchor'))
+	  location.hash = $.cookie('_anchor');
+
+  window.onload = function() {
+    document.getElementById('user_email').focus();
+  }
+  </script>
+</head>
+<body>
+
+<div class="msgBox notice"><%= notice %></div>
+<div class="msgBox alert"><%= alert %></div>
+
+<%= yield %>
+
+</body>
+</html>

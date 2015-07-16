@@ -1,0 +1,16 @@
+Description:
+	Generate view (javascript files : controller, model, store, view)
+
+Example:
+    view : rails generate hatio:resource_view Supplier --bundle=Common --domain_id=1 --view_type=list-item --detail_view_type=view --parent_menu=System
+
+    This will create:
+		vendor/bundles/common/app/assets/javascripts/bundle/common/controller/supplier/Supplier.js
+		vendor/bundles/common/app/assets/javascripts/bundle/common/modle/Supplier.js
+		vendor/bundles/common/app/assets/javascripts/bundle/common/store/Supplier.js
+		vendor/bundles/common/app/assets/javascripts/bundle/common/view/supplier/Supplier.js
+
+
+bundle : rails generate hatio:bundle Common --bundle_name=common
+
+api : rails generate hatio:resource_api Supplier --id_type=auto-increment --bundle=Common --history=n --domain_name=System

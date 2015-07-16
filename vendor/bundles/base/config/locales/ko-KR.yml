@@ -1,0 +1,64 @@
+ko-KR:
+  attributes:
+    script_type: '스크립트 타입'
+    service_logic: '로직'
+    active_flag: '활성화'
+  activerecord:
+    models:
+      domain: '도메인'
+      shift: 'Shift'
+      user: '사용자'
+      role: '역할'
+      common_code: '공통 코드'
+      terminology: '용어 정의'
+      menu: '메뉴'
+      entity: '엔티티'
+      diy_selection: '커스텀 조회'
+      diy_service: '커스텀 서비스'
+      diy_report: '커스텀 리포트'
+      attachment: '첨부파일'
+      property: '확장 속성'
+      varialble: '변수'
+      infographic: '인포그래픽'
+      contact: '연락처'
+      report: '리포트'
+    attributes:
+      menu:
+        menu_type: '메뉴 타입'
+        template: '화면'
+      common_code:
+        parent_id: '상위 코드'
+      diy_service:
+        atomic_flag: '원자성'
+      diy_report:
+        diy_selection_id: '커스텀 조회'
+      terminology:
+        locale: '언어-국가'
+        display: '표현'
+      infographic:
+        infographic_type: '인포그래픽 타입'
+      report:
+        template: '템플릿'
+    errors:
+      models:
+        menu:
+          attributes:
+            name:
+              blank: '메뉴 코드 값은 빈 값이어서는 안됩니다.'
+              taken: '입력한 메뉴 코드(%{value})는 이미 존재합니다.'
+      messages:
+        record_invalid : '유효하지 않은 레코드'
+    
+  errors:
+    messages:
+      duplicated_code: '생성하고자 하는 코드(%{code})가 이미 존재합니다.!'
+      invalid_x: '유효하지 않은 %{x}'
+      empty_x_not_allowed: '%{x} 값이 비어있습니다.'
+      x_already_exist: '%{x}가 이미 존재합니다.'
+      x_not_found: '%{x}가 존재하지 않습니다.!'
+      mismatch_with_x: '%{x}가 일치하지 않습니다.'
+      unknown_file_type: '알 수 없는 파일 형식'
+      x_gte_y: '%{x}는 %{y} 보다 크거나 같아야 합니다.'
+      x_gt_y: '%{x}는 %{y} 보다 커야 합니다.'
+      x_lte_y: '%{x}는 %{y} 보다 작거나 같아야 합니다.'
+      x_lt_y: '%{x}는 %{y} 보다 작아야 합니다.'

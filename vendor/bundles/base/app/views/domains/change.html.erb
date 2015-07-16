@@ -1,0 +1,31 @@
+<%- model_class = Domain -%>
+<div class="page-header">
+  <h1>Change Domain</h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class.human_attribute_name(:description) %></th>
+      <th><%= model_class.human_attribute_name(:timezone) %></th>
+      <th><%= model_class.human_attribute_name(:system_flag) %></th>
+	  <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @domains.each do |domain| %>
+      <tr>
+        <td><%= domain.id %></td>
+        <td><%= domain.name %></td>
+        <td><%= domain.description %></td>
+        <td><%= domain.timezone %></td>
+        <td><%= domain.system_flag %></td>
+        <td>
+          <%= link_to 'enter', enter_domain_path(domain), :method => 'put', :class => 'btn btn-mini' if(domain.id != @domain.id) %>
+		  <%= 'Current Domain' if(domain.id == @domain.id) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

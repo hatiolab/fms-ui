@@ -10,6 +10,8 @@ gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
 gem 'bower-rails'
 gem 'devise'
+gem 'mongoid', '~> 4.0.0'
+gem 'bson_ext'
 gem 'rails-assets-bootstrap'
 gem 'rails-assets-angularjs'
 
@@ -55,3 +57,8 @@ group :test do
   gem 'launchy'
   gem 'selenium-webdriver'
 end
+
+gem "uuidtools"
+gem 'hatiocore', path: 'vendor/bundles/hatiocore'
+gem 'base', path: 'vendor/bundles/base'
+gem 'trkvue', path: 'vendor/bundles/trkvue'
