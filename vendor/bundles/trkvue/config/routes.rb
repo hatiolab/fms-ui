@@ -1,7 +1,5 @@
 Trkvue::Engine.routes.draw do
   
-  get "#{GlobalConfig.ops_name}" => "controltower#index"
-  
   # RESOURCES BEGIN BLOCK DON'T REMOVE
 	resources :simulators do
 		collection do

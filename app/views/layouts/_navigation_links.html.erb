@@ -16,14 +16,15 @@
 	</li>
 
 	<li class="dropdown">
-		<a href="#" class="dropdown-toggle user" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">user@trackvue.com <span class="caret"></span></a>
+		<%= link_to 'Sign out', destroy_user_session_path, :method=>'delete' %>
+		<!--a href="<%= destroy_user_session_path %>" class="dropdown-toggle user" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">user@trackvue.com <span class="caret"></span></a>
 		<ul class="dropdown-menu">
 			<li><a href="#">english</a></li>
 			<li><a href="#">spanish</a></li>
 			<li><a href="#">french</a></li>
 			<li role="separator" class="divider"></li>
 			<li><a href="#">logout</a></li>
-		</ul>
+		</ul-->
 	</li>
 <% else %>
 	<li><%= link_to 'Sign in', new_user_session_path %></li>

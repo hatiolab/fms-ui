@@ -17,8 +17,10 @@ private
   end
 
   def current_domain
+    debug_print "CURRENT DOMAIN CALLED"
     @current_domain ||= Domain.find_by_subdomain!(request.subdomain.empty? ? 'system' : request.subdomain)
   end
+  
   helper_method :current_domain
   
   def scope_current_domain(&block)

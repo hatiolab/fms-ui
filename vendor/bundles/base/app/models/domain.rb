@@ -15,7 +15,7 @@ class Domain < ActiveRecord::Base
   end
 
   #
-  # Pluggable model dinamic loading
+  # Pluggable model dynamic loading
   #
   Hatio::PluggableSpot::DOMAIN_MODEL_PLUGGABLES.each do |pluggable_code|
     self.class_eval &pluggable_code
@@ -27,7 +27,7 @@ class Domain < ActiveRecord::Base
     end
 
     def current_domain
-      Thread.current[:current_domain]
+      Thread.current[:current_domain] ? Thread.current[:current_domain] : Domain.system_domain
     end
   end  
 end

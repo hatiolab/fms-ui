@@ -1,13 +1,9 @@
 class WelcomeController < ApplicationController
   
-  layout false
+  #layout false
   
   def index
-    if current_user.operator_flag
-      redirect_to :action => 'ops'
-    else
-      redirect_to :action => 'std'
-    end
+    render :layout => true
   end
   
   def std
@@ -17,5 +13,5 @@ class WelcomeController < ApplicationController
       render :layout => false
     end
   end
-  
+
 end

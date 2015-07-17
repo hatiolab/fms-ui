@@ -58,7 +58,9 @@ group :test do
   gem 'selenium-webdriver'
 end
 
-gem "uuidtools"
+gem 'inherited_resources'
+gem 'carrierwave'
+gem 'uuidtools'
 gem 'hatiocore', path: 'vendor/bundles/hatiocore'
 gem 'base', path: 'vendor/bundles/base'
 gem 'trkvue', path: 'vendor/bundles/trkvue'
