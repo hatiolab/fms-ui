@@ -5,7 +5,7 @@ fmsApp.config(function($stateProvider, $urlRouterProvider) {
 
 	// monitor	
 	.state('monitor', {
-		url: '/monitor',
+		url: '/',
 		views: {
 			'sidebar-view': {
 				templateUrl: '/assets/views/monitor/monitor-sidebar.html'
