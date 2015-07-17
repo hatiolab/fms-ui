@@ -7,6 +7,23 @@
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
     <%= csrf_meta_tags %>
+
+    <% if user_signed_in? %>
+    <script type="text/javascript">
+      var login = <%=raw current_user.to_json %>;
+      var currentDomain = <%= Domain.current_domain %>;
+      login.current_domain_id = currentDomain.id;
+      login.current_domain_name = currentDomain.name;
+
+      LOCALE_RESOURCE = <%=raw Terminology.to_resource(cookies[:locale] || current_user.locale) %>;
+      BRAND_NAME = currentDomain.brand_name;
+      BRAND_IMAGE_URL = currentDomain.brand_image;
+      CONTENT_IMAGE_URL = currentDomain.content_image;
+      CONTENT_BASE_URL = '<%= GlobalConfig.content_base_url %>';
+      DEFAULT_LAT = <%= GlobalConfig.default_lat %>;
+      DEFAULT_LNG = <%= GlobalConfig.default_lng %>;
+    </script>
+    <% end %>
   </head>
   <body>
     <header>
