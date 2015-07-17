@@ -119,6 +119,10 @@ th{background:url(/assets/bg-th.png) 0 100% repeat-x;color:#8a95a5;border:1px so
 	max-width: none;
 }
 
-/*.angular-google-map {
-	top: 80px;
-}*/
+#modal-playback{}
+.backward-layer{width:430px;}
+.forward-layer{width:180px;position:absolute;top:0px;left:263px;
+-webkit-box-shadow: -5px 6px 5px 0px rgba(0,0,0,0.2);-moz-box-shadow: -5px 6px 5px 0px rgba(0,0,0,0.2);box-shadow: -5px 6px 5px 0px rgba(0,0,0,0.2);}
+.modal-btn-trip{background-image:url(/assets/icon-modal.png);background-position:145% 7px;position:absolute;right:23px;padding:5px 15px 4px 10px !important;}
+.modal-btn-trip:hover{background-image:url(/assets/icon-modal.png);}
+.detail-time strong{display:block;}

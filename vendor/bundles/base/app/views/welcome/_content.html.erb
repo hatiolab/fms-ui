@@ -4,14 +4,16 @@
 				<ui-gmap-google-map center='mapOption.center' zoom='mapOption.zoom' id="mapCanvas">
 
 					<ui-gmap-window id="alertWindow" coords="markers[0].coords" show="winShowInfo.show1" closeClick="closeClick()">
-						<div>
-          		<div>Occurred at <strong>Fri May 29 2015 14:37:46 GMT-0800</strong></div>
-          		<div class="detail-address">Address : 152-198 West 32nd Street, New York, NY 10001, USA</div>
+						<div id="modal-playback">
         			<div class="pip-container">
           			<video src="/assets/video/video1.mp4" controls xmediagroup="pip" class="backward-layer"></video>
           			<video src="/assets/video/video2.mp4" xmediagroup="pip" class="forward-layer"></video>
           			<audio src="/assets/audio/audio1.mp3" xmediagroup="pip" hidden></audio>
           		</div>
+          		<button class="btn btn-success btn-sm modal-btn-trip">trip</button>
+							<div class="detail-time">Occurred at <strong>Fri May 29 2015 14:37:46 GMT-0800</strong></div>
+          		<div class="detail-address">Address : 152-198 West 32nd Street, New York, NY 10001, USA</div>
+							
         		</div>
 					</ui-gmap-window>
 
