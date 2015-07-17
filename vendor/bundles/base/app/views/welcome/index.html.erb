@@ -1,7 +1,13 @@
-<div class="height-full">
+<div class="height-full" ng-controller='MonitorCtrl'>
 	
-	<%= render 'welcome/sidebar' %>
+	<sidebar></sidebar>
 
-	<%= render 'welcome/content' %>
+	<div class="col-xs-8 col-md-8 content padding-clear">
+
+			<div class="height-full"><monitor-map></monitor-map></div>
+
+			<infobar></infobar>
+
+  </div>
 	
 </div>
