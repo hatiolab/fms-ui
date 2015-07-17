@@ -15,7 +15,8 @@ class MongoController < ActionController::Base
     
     where_params.each do |n, v| 
       where_conds[n.split("-")[0]] = v if (n.index("-") && !v.empty?)
-    end
+    end if(where_params)
+    
     skip = (params[:page].to_i - 1) * params[:limit].to_i
     
     unless(where_conds.empty?)
