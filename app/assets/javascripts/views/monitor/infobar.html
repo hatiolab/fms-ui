@@ -1,0 +1,30 @@
+				<!-- info & list begin -->
+				<div class="infolist-panel col-md-12 padding-clear">
+
+					  <!-- Nav tabs -->
+					  <ul class="nav nav-tabs" role="tablist">
+					    <li role="presentation" class="active"><a href="#info" aria-controls="home" role="tab" data-toggle="tab">information</a></li>
+					    <li role="presentation"><a href="#alert-list" aria-controls="profile" role="tab" data-toggle="tab">alert list</a></li>
+					    <li role="presentation"><a href="#trip-list" aria-controls="messages" role="tab" data-toggle="tab">trip list</a></li>
+							<button type="button" class="btn btn-default icon-infolist panel-toggle pull-right"></button>
+					  </ul>
+
+					  <!-- Tab panes -->
+					  <div class="tab-content">
+					    <!-- info tab content begin -->
+							<div role="tabpanel" class="tab-pane active" id="info">
+								<monitor-info></monitor-info>
+							</div>
+							
+							<!-- alert-list tab content begin -->
+					    <div role="tabpanel" class="tab-pane" id="alert-list">
+					    	<monitor-info-alerts></monitor-info-alerts>
+							</div>
+							
+							<!-- trip-list tab content begin -->
+					    <div role="tabpanel" class="tab-pane" id="trip-list">
+								<monitor-info-trips></monitor-info-trips>	
+							</div>
+					  </div>
+				</div>
+				<!-- info & list end -->
