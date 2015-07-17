@@ -2,9 +2,67 @@
 			
 			<div ng-controller="MapCtrl">
 				<ui-gmap-google-map center='mapOption.center' zoom='mapOption.zoom' id="mapCanvas">
-					<ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id"/>
+
+					<ui-gmap-window id="alertWindow" coords="markers[0].coords" show="winShowInfo.show1" closeClick="closeClick()">
+						<div>
+          		<div>Occurred at <strong>Fri May 29 2015 14:37:46 GMT-0800</strong></div>
+          		<div class="detail-address">Address : 152-198 West 32nd Street, New York, NY 10001, USA</div>
+        			<div class="pip-container">
+          			<video src="/assets/video/video1.mp4" controls xmediagroup="pip" class="backward-layer"></video>
+          			<video src="/assets/video/video2.mp4" xmediagroup="pip" class="forward-layer"></video>
+          			<audio src="/assets/audio/audio1.mp3" xmediagroup="pip" hidden></audio>
+          		</div>
+        		</div>
+					</ui-gmap-window>
+
+					<ui-gmap-window id="trackWindow" coords="markers[1].coords" show="winShowInfo.show2" closeClick="closeClick()">
+						<div>
+      				<div>Recorded at <strong>Fri May 29 2015 14:37:46 GMT-0800</strong></div>
+      				<div>Trip Started at Fri May 29 2015 14:37:46 GMT-0800</div>
+        			<div class="pip-container">
+          			<img src="/assets/images/front.jpg" class="backward-layer"></img>
+          			<img src="/assets/images/rear.jpg" class="forward-layer"></img>
+        			</div>
+        		</div>
+					</ui-gmap-window>
+
+					<ui-gmap-window id="fleetWindow" coords="markers[2].coords" show="winShowInfo.show3" closeClick="closeClick()">
+						<div>
+      				<div class="photos">
+      					<img src="/assets/images/front.jpg"/>
+      					<img src="/assets/images/rear.jpg" hidden/>
+      					<img src="assets/ph_car.png"/>
+      					<img src="assets/ph_user.png" hidden/>
+      				</div>
+      				<div><button>toggle photo</button></div>
+      				<div style="overflow: auto;">
+        				<strong>Fleet : F100001</strong>
+        				<span>Model : K1</span>
+        				<span>Car No. : UFD1242</span>
+        				<span>Drivers : Tom Cruise</span>
+        				<span>Location : 152-198 West 32nd Street, New York, NY 10001, USA</span>
+      				</div>
+        		</div>
+					</ui-gmap-window>
+
+					<ui-gmap-window id="infoWindow" coords="markers[3].coords" show="winShowInfo.show4" closeClick="closeClick()">
+						<div>
+      				<div>Recorded at <strong>Fri May 29 2015 14:37:46 GMT-0800</strong></div>
+      				<div>Trip Started at Fri May 29 2015 14:37:46 GMT-0800</div>
+        		</div>
+					</ui-gmap-window>
+
+					<ui-gmap-marker coords="markers[0].coords" options="markers[0].options" events="markers[0].events" idkey="markers[0].id"/>
+
+					<ui-gmap-marker coords="markers[1].coords" options="markers[1].options" events="markers[1].events" idkey="markers[1].id"/>
+
+					<ui-gmap-marker coords="markers[2].coords" options="markers[2].options" events="markers[2].events" idkey="markers[2].id"/>
+
+					<ui-gmap-marker coords="markers[3].coords" options="markers[3].options" events="markers[3].events" idkey="markers[3].id"/>
 				</ui-gmap-google-map>
 			</div>
+
+			<!--monitor-map></monitor-map-->
 
 			<%= render 'welcome/south' %>
 		</div>
