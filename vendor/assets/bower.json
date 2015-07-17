@@ -4,6 +4,7 @@
     "angular": "latest",
     "bootstrap-sass-official": "latest",
     "angular-ui-router": "latest",
-    "angular-google-maps": "latest"
+    "angular-google-maps": "latest",
+    "angular-resource": "latest"
   }
 }

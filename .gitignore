@@ -87,3 +87,5 @@ Gemfile.lock
 /vendor/assets/bower_components
 
 *.lock
+
+Gemfile.lock
