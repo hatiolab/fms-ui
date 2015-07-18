@@ -12,69 +12,38 @@ fmsApp.directive('monitorSideFleets', function() {
 		}
 	};
 })
-.controller('sideFleetsCtrl', function($rootScope, $scope, $resource, $element) {
 
-    $scope.gridOptionsForFleets = {
-        paginationPageSizes: [25, 50, 75],
-        paginationPageSize: 25,
-        columnDefs: [
-            { name: 'driver' },
-            { name: 'vehicle' },
-            { name: 'speed' },
-            { name: 'trip' }
-        ]
-    };
+.controller('sideFleetsCtrl', function($rootScope, $scope, $resource, $element, RestApi) {
 
-	$scope.findGroups = function(params) {
-		var Groups = $resource('/fleet_groups.json', {});
-		Groups.get({}, function(groups, response) {
-			$scope.groups = {
-				items : groups.items,
-				total : groups.total,
-				// FIXME
-				page : 1,
-				start : 0,
-				limit : 30,
-				total_page : 1
-			};
+  $scope.gridOptionsForFleets = {
+      paginationPageSizes: [25, 50, 75],
+      paginationPageSize: 25,
+      columnDefs: [
+          { name: 'driver' },
+          { name: 'vehicle' },
+          { name: 'speed' },
+          { name: 'trip' }
+      ]
+  };
 
+  this.searchGroups = function(params) {
+		RestApi.search('/fleet_groups.json', params, function(dataSet) {
+			$scope.groups = dataSet;
 			console.log($scope.groups);
 		});
-	};
+  };
 
-	$scope.findFleets = function(params) {
-		var Fleets = $resource('/fleets.json', {});
-		Fleets.get({}, function(fleets, response) {
-			$scope.fleets = {
-				items : fleets.items,
-				total : fleets.total,
-				// FIXME
-				page : 1,
-				start : 0,
-				limit : 30,
-				total_page : 1
-			};
+	$scope.findGroups = this.searchGroups;
 
-			$scope.speedRangeSummaries = {
-				speed_off : 0,
-				speed_idle : 1,
-				speed_slow : 2,
-				speed_normal : 3,
-				speed_high : 3,
-				speed_over : 2
-			};
-
-            $scope.gridOptionsForFleets.data = $scope.fleets.items;
+	this.searchFleets = function(params) {
+		RestApi.search('/fleets.json', params, function(dataSet) {
+			$scope.fleets = dataSet;
+			$scope.gridOptionsForFleets.data = $scope.fleets.items;
+			console.log($scope.fleets);
 		});
 	};
 
-	/*console.log('Side Fleets Element');
-	console.log($element);
-
-	$scope.$on('searchFleetEvent', function(e) {
-		alert('Monitor Side Fleets Directive Received SearchFleetEvent');
-		$scope.findFleets({});
-	});*/
+	$scope.findFleets = this.searchFleets;
 
 	$scope.init = function() {
 		$scope.findGroups({});

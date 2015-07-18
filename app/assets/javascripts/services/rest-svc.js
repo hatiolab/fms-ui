@@ -1,34 +1,74 @@
-'use strict';
+fmsApp.factory('RestApi', function($resource) {
+	
+	return {
 
-fmsApp.factory('TrkvueApi', ['$resource', function ($resource) {
-	
-	/**
-	 * Restful API version. it must be attached the called url.
-	 */
-	var prefixUrl = '/';
-	
-	/**
-	 * @domain : biz object ex) person
-	 * @key : biz object id ex) persion id is 123
-	 * @action : server action name. if it exist, you can define or not.
-	 * ex) http://www.bennadel.com/blog/2433-Using-RESTful-Controllers-In-An-AngularJS-Resource.htm
-	 * 
-	 * add a update action for method of PUT
-	 */
-	return $resource( 
-		// 호출하는 url 형식
-	  prefixUrl + '/:domain/:key/:action',
-		// 호출 url 형식의 :domain :key :action 에 동적으로 받게 되는 파라미터
-	  {
-	  	domain: "@domain",
-	  	key: "@key",
-	  	action: "@action"
-	  },
-		// 추가 action들 one, all, update 
-	  {
-	    one: { method: 'GET', isArray: false },
-	    all: { method: 'GET', isArray: true },
-	    update: { method:'PUT' }
-	  }
-	);
-}]);
+		/**
+		 * search list for pagination
+		 *
+		 * @url
+		 * @params
+		 * @callback
+		 */
+		search : function(url, params, callback) {
+			if(params) {
+				params.page = params.page ? params.page : 0;
+				params.start = params.start ? params.start : 0;
+				params.limit = params.limit ? params.limit : 30;
+			}
+
+			var rsc = $resource(url, params);
+
+			rsc.get(function(dataSet, response) {
+				dataSet.start = params.start;
+				dataSet.limit = params.limit;
+				dataSet.page = params.page;
+				dataSet.total_page = (params.total > params.limit) ? Math.ceil(params.total / params.limit) : 1;
+				callback(dataSet); 
+			});
+		},
+
+		/**
+		 * find list
+		 *
+		 * @url
+		 * @params
+		 * @callback
+		 */
+		list : function(url, params, callback) {
+			var rsc = $resource(url, params);
+
+			rsc.get(function(dataSet, response) {
+				callback(dataSet.items);
+			});
+		},
+		
+		/**
+		 * find only one
+		 *
+		 * @url
+		 * @params
+		 * @callback
+		 */
+		get : function(url, params, callback) {
+			var rsc = $resource(url, params);
+			rsc.get(function(data, response) {
+				callback(data);
+			});
+		},
+
+		/**
+		 * find only one by name
+		 *
+		 * @url
+		 * @params
+		 * @callback
+		 */
+		getByName : function(url, params, callback) {
+			var rsc = $resource(url, params);
+			rsc.get(function(data, response) {
+				callback(data);
+			});
+		}
+
+	};
+});

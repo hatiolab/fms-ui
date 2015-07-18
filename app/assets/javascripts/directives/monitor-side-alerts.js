@@ -6,57 +6,45 @@ fmsApp.directive('monitorSideAlerts', function() {
 		scope: {}
 	};
 })
-.controller('sideAlertsCtrl', function($rootScope, $scope, $resource, $element) {
 
-    $scope.gridOptionsForAlerts = {
-        paginationPageSizes: [25, 50, 75],
-        paginationPageSize: 25,
-        columnDefs: [
-            { name: 'vehicle' },
-            { name: 'datetime' },
-            { name: 'type' },
-            { name: 'trip' }
-        ]
-    };
+.controller('sideAlertsCtrl', function($rootScope, $scope, $resource, $element, RestApi) {
 
-	$scope.findGroups = function(params) {
-		var Groups = $resource('/fleet_groups.json', {});
-		Groups.get({}, function(groups, response) {
-			$scope.groups = {
-				items : groups.items,
-				total : groups.total,
-				// FIXME
-				page : 1,
-				start : 0,
-				limit : 30,
-				total_page : 1
-			};
+  $scope.gridOptionsForAlerts = {
+      paginationPageSizes: [25, 50, 75],
+      paginationPageSize: 25,
+      columnDefs: [
+          { name: 'vehicle' },
+          { name: 'datetime' },
+          { name: 'type' },
+          { name: 'trip' }
+      ]
+  };
+
+  this.searchGroups = function(params) {
+		RestApi.search('/fleet_groups.json', params, function(dataSet) {
+			$scope.groups = dataSet;
+			console.log($scope.groups);
 		});
-	};
+  };
 
-	$scope.findAlerts = function(params) {
-		var Events = $resource('/events.json', {});
-		Events.get({}, function(events, response) {
-			$scope.alerts = {
-				items : events.items,
-				total : events.total,
-				// FIXME
-				page : 1,
-				start : 0,
-				limit : 30,
-				total_page : 1
-			};
+	$scope.findGroups = this.searchGroups;
 
+	this.searchAlerts = function(params) {
+		RestApi.search('/events.json', params, function(dataSet) {
+			$scope.alerts = dataSet;
 			$scope.alertTypeSummaries = {
 				geofence : 27,
 				impact : 18,
 				overspeed : 38,
 				emergency : 5
 			};
-
-            $scope.gridOptionsForAlerts.data = $scope.alerts.items;
+			
+			$scope.gridOptionsForAlerts.data = $scope.alerts.items;
+			console.log($scope.alerts);
 		});
 	};
+
+	$scope.findAlerts = this.searchAlerts;
 
 	$scope.init = function() {
 		$scope.findGroups({});
@@ -64,4 +52,5 @@ fmsApp.directive('monitorSideAlerts', function() {
 	};
 
 	$scope.init();
+
 });
