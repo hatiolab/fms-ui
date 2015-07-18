@@ -9,21 +9,9 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 
 .controller('sideAlertsCtrl', function($rootScope, $scope, $resource, $element, RestApi) {
 
-  $scope.gridOptionsForAlerts = {
-      paginationPageSizes: [25, 50, 75],
-      paginationPageSize: 25,
-      columnDefs: [
-          { name: 'vehicle' },
-          { name: 'datetime' },
-          { name: 'type' },
-          { name: 'trip' }
-      ]
-  };
-
   this.searchGroups = function(params) {
 		RestApi.search('/fleet_groups.json', params, function(dataSet) {
 			$scope.groups = dataSet;
-			console.log($scope.groups);
 		});
   };
 
@@ -32,15 +20,13 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	this.searchAlerts = function(params) {
 		RestApi.search('/events.json', params, function(dataSet) {
 			$scope.alerts = dataSet;
+			$scope.alertItems = dataSet.items;
 			$scope.alertTypeSummaries = {
 				geofence : 27,
 				impact : 18,
 				overspeed : 38,
 				emergency : 5
 			};
-			
-			$scope.gridOptionsForAlerts.data = $scope.alerts.items;
-			console.log($scope.alerts);
 		});
 	};
 

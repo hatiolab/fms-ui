@@ -15,21 +15,9 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 
 .controller('sideFleetsCtrl', function($rootScope, $scope, $resource, $element, RestApi) {
 
-  $scope.gridOptionsForFleets = {
-      paginationPageSizes: [25, 50, 75],
-      paginationPageSize: 25,
-      columnDefs: [
-          { name: 'driver' },
-          { name: 'vehicle' },
-          { name: 'speed' },
-          { name: 'trip' }
-      ]
-  };
-
   this.searchGroups = function(params) {
 		RestApi.search('/fleet_groups.json', params, function(dataSet) {
 			$scope.groups = dataSet;
-			console.log($scope.groups);
 		});
   };
 
@@ -38,8 +26,15 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	this.searchFleets = function(params) {
 		RestApi.search('/fleets.json', params, function(dataSet) {
 			$scope.fleets = dataSet;
-			$scope.gridOptionsForFleets.data = $scope.fleets.items;
-			console.log($scope.fleets);
+			$scope.fleetItems = dataSet.items;
+			$scope.speedRangeSummaries = {
+				speed_off : 1,
+				speed_idle : 3,
+				speed_slow : 2,
+				speed_normal : 4,
+				speed_high : 3,
+				speed_over : 1
+			};
 		});
 	};
 

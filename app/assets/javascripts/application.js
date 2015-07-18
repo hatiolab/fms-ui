@@ -18,6 +18,7 @@
 //= require angular-resource/angular-resource.min
 //= require angular-ui-router/release/angular-ui-router.min
 //= require angular-ui-grid/ui-grid
+//= require angular-smart-table/dist/smart-table.min
 //= require angular-google-maps/dist/angular-google-maps.min
 //= require lodash/lodash.min
 //= require_tree .

@@ -1,5 +1,5 @@
 // 1. core module
-angular.module('fmsCore', ['ui.router', 'ngResource', 'ui.grid', 'uiGmapgoogle-maps']);
+angular.module('fmsCore', ['ui.router', 'ngResource', 'smart-table', 'uiGmapgoogle-maps']);
 // 2. settings module
 angular.module('fmsSettings', ['fmsCore']);
 // 3. monitor module

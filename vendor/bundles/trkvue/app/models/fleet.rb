@@ -12,4 +12,6 @@ class Fleet < ActiveRecord::Base
   
   belongs_to :fleet_group
 
+  belongs_to :driver
+
 end
