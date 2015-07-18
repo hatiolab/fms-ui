@@ -8,10 +8,10 @@ angular.module('fmsSettings').config(function($stateProvider, $urlRouterProvider
 		url: '/settings',
 		views: {
 			'sidebar-view': {
-				templateUrl: '/assets/views/settings/setting-sidebar.html'
+				templateUrl: '/assets/settings/views/setting-sidebar.html'
 			},
 			'content-view' : {
-				templateUrl: '/assets/views/settings/setting-content.html'
+				templateUrl: '/assets/settings/views/setting-content.html'
 			}
 		}
 	});
