@@ -64,7 +64,7 @@ fmsApp.directive('monitorSideFleets', function() {
 				speed_over : 2
 			};
 
-            $scope.gridOptionsForFleets.data = $scope.fleets;
+            $scope.gridOptionsForFleets.data = $scope.fleets.items;
 		});
 	};
 

@@ -54,7 +54,7 @@ fmsApp.directive('monitorSideAlerts', function() {
 				emergency : 5
 			};
 
-            $scope.gridOptionsForAlerts.data = $scope.alerts;
+            $scope.gridOptionsForAlerts.data = $scope.alerts.items;
 		});
 	};
 
