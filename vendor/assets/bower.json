@@ -5,6 +5,10 @@
     "bootstrap-sass-official": "latest",
     "angular-ui-router": "latest",
     "angular-google-maps": "latest",
-    "angular-resource": "latest"
+    "angular-resource": "latest",
+    "angular-ui-grid": "latest"
+  },
+  "resolutions": {
+    "angular": "1.4.3"
   }
 }
