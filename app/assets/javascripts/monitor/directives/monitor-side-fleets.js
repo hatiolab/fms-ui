@@ -4,11 +4,11 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 		controller: 'sideFleetsCtrl',
 		templateUrl: '/assets/monitor/views/sidebar/monitor-side-fleets.html',
 		scope: {},
-		link : function($rootScope, $scope, $element) {
-			var refreshButton = angular.element('.panel-refresh');
+		link : function($rootScope, $scope, $element, sideFleetsCtrl) {
+			/*var refreshButton = angular.element('.panel-refresh');
 			refreshButton.bind("click", function() {
-				alert('refresh clicked');
-      });
+				sideFleetsCtrl.searchFleets({});
+      });*/
 		}
 	};
 })
@@ -16,7 +16,7 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 .controller('sideFleetsCtrl', function($rootScope, $scope, $resource, $element, RestApi) {
 
   this.searchGroups = function(params) {
-		RestApi.search('/fleet_groups.json', params, function(dataSet) {
+		RestApi.list('/fleet_groups.json', params, function(dataSet) {
 			$scope.groups = dataSet;
 		});
   };

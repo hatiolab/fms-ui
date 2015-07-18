@@ -10,7 +10,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 .controller('sideAlertsCtrl', function($rootScope, $scope, $resource, $element, RestApi) {
 
   this.searchGroups = function(params) {
-		RestApi.search('/fleet_groups.json', params, function(dataSet) {
+		RestApi.list('/fleet_groups.json', params, function(dataSet) {
 			$scope.groups = dataSet;
 		});
   };
