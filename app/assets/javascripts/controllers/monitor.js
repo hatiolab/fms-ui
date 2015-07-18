@@ -1,11 +1,5 @@
 fmsApp.controller('MonitorCtrl', function($scope) {
 
-	$scope.groups = {};
-	$scope.fleets = {};
-	$scope.alerts = {};
-	$scope.speedRangeSummaries = {};
-	$scope.alertTypeSummaries = {};
-
 	$scope.findGroups = function(params) {
 		$scope.groups = {"items":[{"id":1,"domain_id":1,"name":"Group-A","description":"그룹 A","creator_id":1,"updater_id":1,"created_at":"2015-06-20T07:56:16.455Z","updated_at":"2015-06-20T07:56:16.455Z","creator":{"id":1,"name":"Admin"},"updater":{"id":1,"name":"Admin"}},{"id":2,"domain_id":1,"name":"Group-B","description":"그룹 B","creator_id":1,"updater_id":1,"created_at":"2015-06-20T07:56:16.476Z","updated_at":"2015-06-20T07:56:16.476Z","creator":{"id":1,"name":"Admin"},"updater":{"id":1,"name":"Admin"}},{"id":3,"domain_id":1,"name":"Group-C","description":"그룹 C","creator_id":1,"updater_id":1,"created_at":"2015-06-20T07:56:16.480Z","updated_at":"2015-06-20T07:56:16.480Z","creator":{"id":1,"name":"Admin"},"updater":{"id":1,"name":"Admin"}}],"total":3,"success":true,"page":1,"start":0,"limit":30,"total_page":1};
 	},
@@ -30,6 +24,10 @@ fmsApp.controller('MonitorCtrl', function($scope) {
 			overspeed : 38,
 			emergency : 5
 		};		
-	}
+	},
+
+	$scope.findGroups({});
+	$scope.findFleets({});
+	$scope.findAlerts({});
 
 });
