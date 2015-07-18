@@ -1,8 +1,8 @@
-fmsApp.directive('monitorInfo', function() { 
+angular.module('fmsMonitor').directive('monitorInfo', function() { 
 	return { 
 		restrict: 'E',
 		controller: 'monitorInfoCtrl',
-		templateUrl: '/assets/views/monitor/monitor-info.html',
+		templateUrl: '/assets/monitor/views/infobar/monitor-info.html',
 		scope: {}
 	}; 
 })

@@ -1,4 +1,4 @@
-fmsApp.config(function($stateProvider, $urlRouterProvider) {
+angular.module('fmsSettings').config(function($stateProvider, $urlRouterProvider) {
 
 	// Each tab has its own nav history stack:
 	$stateProvider

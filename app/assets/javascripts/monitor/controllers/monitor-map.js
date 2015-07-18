@@ -1,4 +1,4 @@
-fmsApp.controller('MonitorMapCtrl', function($scope) {
+angular.module('fmsMonitor').controller('MonitorMapCtrl', function($scope) {
 	
 	$scope.markers = [ {
 		id: 0,

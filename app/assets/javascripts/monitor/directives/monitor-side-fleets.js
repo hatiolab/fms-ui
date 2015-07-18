@@ -1,8 +1,8 @@
-fmsApp.directive('monitorSideFleets', function() {
+angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	return {
 		restrict: 'E',
 		controller: 'sideFleetsCtrl',
-		templateUrl: '/assets/views/monitor/monitor-side-fleets.html',
+		templateUrl: '/assets/monitor/views/sidebar/monitor-side-fleets.html',
 		scope: {},
 		link : function($rootScope, $scope, $element) {
 			var refreshButton = angular.element('.panel-refresh');

@@ -1,4 +1,4 @@
-fmsApp.factory('RestApi', function($resource) {
+angular.module('fmsCore').factory('RestApi', function($resource) {
 	
 	return {
 
@@ -11,7 +11,7 @@ fmsApp.factory('RestApi', function($resource) {
 		 */
 		search : function(url, params, callback) {
 			if(params) {
-				params.page = params.page ? params.page : 0;
+				params.page = params.page ? params.page : 1;
 				params.start = params.start ? params.start : 0;
 				params.limit = params.limit ? params.limit : 30;
 			}

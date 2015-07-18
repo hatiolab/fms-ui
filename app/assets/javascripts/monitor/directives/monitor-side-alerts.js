@@ -1,8 +1,8 @@
-fmsApp.directive('monitorSideAlerts', function() {
+angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	return {
 		restrict: 'E',
 		controller: 'sideAlertsCtrl',
-		templateUrl: '/assets/views/monitor/monitor-side-alerts.html',
+		templateUrl: '/assets/monitor/views/sidebar/monitor-side-alerts.html',
 		scope: {}
 	};
 })

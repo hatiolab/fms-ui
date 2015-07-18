@@ -1,8 +1,8 @@
-fmsApp.directive('monitorInfoTrips', function() { 
+angular.module('fmsMonitor').directive('monitorInfoTrips', function() { 
 	return { 
 		restrict: 'E',
 		controller: 'monitorTripsCtrl',
-		templateUrl: '/assets/views/monitor/monitor-info-trips.html',
+		templateUrl: '/assets/monitor/views/infobar/monitor-info-trips.html',
 		scope: {}
 	}; 
 })
