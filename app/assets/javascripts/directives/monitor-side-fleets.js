@@ -1,7 +1,8 @@
 fmsApp.directive('monitorSideFleets', function() { 
 	return { 
 		restrict: 'E',
-		//scope: {}, 		
+		controller: 'MonitorCtrl',
+		//scope: {},
 		templateUrl: '/assets/views/monitor/monitor-side-fleets.html'
 	}; 
 });
