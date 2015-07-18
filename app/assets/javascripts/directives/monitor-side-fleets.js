@@ -1,5 +1,5 @@
-fmsApp.directive('monitorSideFleets', function() { 
-	return { 
+fmsApp.directive('monitorSideFleets', function() {
+	return {
 		restrict: 'E',
 		controller: 'sideFleetsCtrl',
 		templateUrl: '/assets/views/monitor/monitor-side-fleets.html',
@@ -10,9 +10,20 @@ fmsApp.directive('monitorSideFleets', function() {
 				alert('refresh clicked');
       });
 		}
-	}; 
+	};
 })
 .controller('sideFleetsCtrl', function($rootScope, $scope, $resource, $element) {
+
+    $scope.gridOptionsForFleets = {
+        paginationPageSizes: [25, 50, 75],
+        paginationPageSize: 25,
+        columnDefs: [
+            { name: 'driver' },
+            { name: 'vehicle' },
+            { name: 'speed' },
+            { name: 'trip' }
+        ]
+    };
 
 	$scope.findGroups = function(params) {
 		var Groups = $resource('/fleet_groups.json', {});
@@ -52,6 +63,8 @@ fmsApp.directive('monitorSideFleets', function() {
 				speed_high : 3,
 				speed_over : 2
 			};
+
+            $scope.gridOptionsForFleets.data = $scope.fleets;
 		});
 	};
 

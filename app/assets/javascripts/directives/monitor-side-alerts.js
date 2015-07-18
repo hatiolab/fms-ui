@@ -1,12 +1,23 @@
-fmsApp.directive('monitorSideAlerts', function() { 
-	return { 
+fmsApp.directive('monitorSideAlerts', function() {
+	return {
 		restrict: 'E',
 		controller: 'sideAlertsCtrl',
 		templateUrl: '/assets/views/monitor/monitor-side-alerts.html',
 		scope: {}
-	}; 
+	};
 })
 .controller('sideAlertsCtrl', function($rootScope, $scope, $resource, $element) {
+
+    $scope.gridOptionsForAlerts = {
+        paginationPageSizes: [25, 50, 75],
+        paginationPageSize: 25,
+        columnDefs: [
+            { name: 'vehicle' },
+            { name: 'datetime' },
+            { name: 'type' },
+            { name: 'trip' }
+        ]
+    };
 
 	$scope.findGroups = function(params) {
 		var Groups = $resource('/fleet_groups.json', {});
@@ -35,13 +46,15 @@ fmsApp.directive('monitorSideAlerts', function() {
 				limit : 30,
 				total_page : 1
 			};
-			
+
 			$scope.alertTypeSummaries = {
 				geofence : 27,
 				impact : 18,
 				overspeed : 38,
 				emergency : 5
 			};
+
+            $scope.gridOptionsForAlerts.data = $scope.alerts;
 		});
 	};
 
