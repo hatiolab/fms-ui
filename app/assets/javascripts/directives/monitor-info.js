@@ -1,8 +1,11 @@
 fmsApp.directive('monitorInfo', function() { 
 	return { 
 		restrict: 'E',
-		controller: 'MonitorCtrl',
-		//scope: {}, 		
-		templateUrl: '/assets/views/monitor/monitor-info.html'
+		controller: 'monitorInfoCtrl',
+		templateUrl: '/assets/views/monitor/monitor-info.html',
+		scope: {}
 	}; 
+})
+.controller('monitorInfoCtrl', function($rootScope, $scope, $resource, $element) {
+
 });
