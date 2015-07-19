@@ -1,13 +1,9 @@
 angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $scope) {
 	
 	/**
-	 * center position of the map
-	 */
-	$scope.center = { latitude: DEFAULT_LAT, longitude: DEFAULT_LNG };
-	/**
 	 * map option
 	 */
-	$scope.mapOption = { center: $scope.center, zoom: 9 };
+	$scope.mapOption = { center: { latitude: DEFAULT_LAT, longitude: DEFAULT_LNG }, zoom: 9 };
 	/**
 	 * map markers for fleets
 	 */
@@ -26,21 +22,36 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 */
 	$scope.refreshFleetMarkers = function(fleets) {
 		$scope.markers = [];
-
 		for(var i = 0 ; i < fleets.length ; i++) {
-			var fleet = fleets[i];
-			fleet.latitude = fleets[i].lat;
-			fleet.longitude = fleets[i].lng;
-			fleet.events = {
+			var marker = $scope.fleetToMarker(fleets[i]);
+			$scope.markers.push(marker);
+		}
+	};
+
+	/**
+	 * convert fleet to marker
+	 */
+	$scope.fleetToMarker = function(fleet) {
+			var marker = fleet;
+			marker.latitude = fleet.lat;
+			marker.longitude = fleet.lng;
+			marker.events = {
 					click : function(e) {
 						$scope.selectedMarker = e.model;
 						$scope.windowSwitch.showFleetInfo = true;
 						$scope.getAddress($scope.selectedMarker);
 					}
 			};
-			
-			$scope.markers.push(fleet);
-		}
+			return marker;
+	};
+
+	/**
+	 * show fleet information window
+	 */
+	$scope.showFleetInfo = function(fleet) {
+		$scope.selectedMarker = fleet;
+		$scope.windowSwitch.showFleetInfo = true;
+		$scope.getAddress($scope.selectedMarker);
 	};
 
 	/**
@@ -63,15 +74,41 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	};
 
 	/**
+	 * 지도 초기화 
+	 */
+	$scope.clearAll = function(center) {
+		$scope.markers = [];
+		if(center) {
+			$scope.mapOption.center = center;
+		}
+	};
+
+	/**
+	 * fleet info window
+	 */
+	$scope.showFleetInfo = function(fleet) {
+		$scope.selectedMarker = $scope.fleetToMarker(fleet);
+		$scope.windowSwitch.showFleetInfo = true;
+		$scope.getAddress($scope.selectedMarker);
+	};
+
+	/**
 	 * Move to trip of fleet
 	 */
-	$scope.goTrip = function(fleetId, tripId) {
-		if(!tripId) {
+	$scope.goTrip = function() {
+		var fleet = $scope.selectedMarker;
+		if(!fleet.trip_id) {
 			alert('This car has no trip information!');
+			return;
 		}
 
-		// TODO go trip
-		
+		// 0. call trip information
+
+		// callback
+		// 1. marker clear all
+		$scope.clearAll({latitude : fleet.lat, longitude : fleet.lng});
+
+		// 2. trip 그리기 
 	};
 
 	/**
@@ -86,10 +123,18 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	/**
 	 * Fleet 하나 선택시 이벤트 리슨
 	 */
-	$rootScope.$on('monitor-fleet-change', function(evt, fleet) {
+	$rootScope.$on('monitor-fleet-trip-change', function(evt, fleet) {
 		if(fleet.id && fleet.trip_id) {
-			$scope.goTrip(fleet.id, fleet.trip_id);
+			$scope.selectedMarker = $scope.fleetToMarker(fleet);
+			$scope.goTrip();
 		}
+	});
+
+	/**
+	 * Fleet 하나 선택시 이벤트 리슨
+	 */
+	$rootScope.$on('monitor-fleet-info-change', function(evt, fleet) {
+		$scope.showFleetInfo(fleet);
 	});
 
 });

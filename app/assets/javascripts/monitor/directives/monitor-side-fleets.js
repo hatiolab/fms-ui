@@ -83,6 +83,20 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	$scope.findFleets = this.searchFleets;
 
 	/**
+	 * show fleet info window to map
+	 */
+	$scope.showFleetInfo = function(fleet) {
+		$scope.$emit('monitor-fleet-info-change', fleet);
+	};
+
+	/**
+	 * show trip to map
+	 */
+	$scope.showTrip = function(fleet) {
+		$scope.$emit('monitor-fleet-trip-change', fleet);
+	};
+
+	/**
 	 * 초기화 함수 
 	 */
 	$scope.init = function() {

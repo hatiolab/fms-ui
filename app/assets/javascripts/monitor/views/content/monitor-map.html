@@ -23,7 +23,7 @@
           <span>Location : {{selectedMarker.address}}</span>
         </div>
         <div ng-show="'{{selectedMarker.trip_id}}' != ''">
-          <button ng-click="$parent.goTrip('{{selectedMarker.id}}', '{{selectedMarker.trip_id}}')">Go Trip</button>
+          <button ng-click="$parent.goTrip()">Go Trip</button>
         </div>
       </div>
 		</ui-gmap-window>

@@ -61,11 +61,13 @@
 			<th>Speed</th>
 			<th>Trip</th>
 		</tr>
-		<tr ng-repeat="fleet in fleetItems">
+		<tr ng-repeat="fleet in fleetItems" ng-click="showFleetInfo(fleet)">
 			<td>{{fleet.driver.name}}</td>
 			<td>{{fleet.car_no}}</td>
 			<td><span class="status-box green"></span>{{fleet.velocity}}km/h</td>
-			<td class="icon-td align-center"><span class="icon-trip"></span></td>
+			<td class="icon-td align-center" ng-click="showTrip(fleet)">
+					<span class="icon-trip"></span>
+			</td>
 		</tr>
 		<tfoot>
 			<tr>
