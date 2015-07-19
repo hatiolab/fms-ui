@@ -1,10 +1,11 @@
-<form class="form-horizontal">
+<form name="fleetForm" class="form-horizontal">
 	<!-- group begin -->
 	<div class="form-group">
-	    <label class="col-xs-12 col-sm-3 col-md-2 control-label">group</label>
+	    <label class="col-xs-12 col-sm-3 col-md-2 control-label">Group</label>
 	    <div class="col-xs-11 col-sm-7 col-md-6 padding-clear">
-	      <select name="group" class="form-control" ng-model="group" ng-init="selected=''"
+	      <select name="group" class="form-control" ng-model="fleetSearchParams.group" ng-init="selected=''"
 	       ng-options="group.name for group in groups" >
+	      	<option></option>
 				</select>
 	    </div>
 	</div>
@@ -12,14 +13,26 @@
 
 	<!-- speed begin -->
 	<div class="form-group">
-	    <label class="col-xs-12 col-sm-3 col-md-2 control-label">speed</label>
+	    <label class="col-xs-12 col-sm-3 col-md-2 control-label">Speed</label>
 			<div class="col-xs-11 col-sm-9 col-md-10 padding-clear">
-				<label class="col-sm-4 padding-clear"><input type="checkbox" class="status-check gray">off</label>
-				<label class="col-sm-4 padding-clear"><input type="checkbox" class="status-check dark">idle</label>
-				<label class="col-sm-4 padding-clear"><input type="checkbox" class="status-check blue">slow</label>
-				<label class="col-sm-4 padding-clear"><input type="checkbox" class="status-check green">normal</label>
-				<label class="col-sm-4 padding-clear"><input type="checkbox" class="status-check orange">fast</label>
-				<label class="col-sm-4 padding-clear"><input type="checkbox" class="status-check red">speeding</label>
+				<label class="col-sm-4 padding-clear">
+					<input ng-model="fleetSearchParams.speed_off" type="checkbox" class="status-check gray">off
+				</label>
+				<label name="speedLevel" class="col-sm-4 padding-clear">
+					<input ng-model="fleetSearchParams.speed_idle" type="checkbox" class="status-check dark">idle
+				</label>
+				<label name="speedLevel" class="col-sm-4 padding-clear">
+					<input ng-model="fleetSearchParams.speed_slow" type="checkbox" class="status-check blue">slow
+				</label>
+				<label name="speedLevel" class="col-sm-4 padding-clear">
+					<input ng-model="fleetSearchParams.speed_normal" type="checkbox" class="status-check green">normal
+				</label>
+				<label name="speedLevel" class="col-sm-4 padding-clear">
+					<input ng-model="fleetSearchParams.speed_high" type="checkbox" class="status-check orange">high
+				</label>
+				<label name="speedLevel" class="col-sm-4 padding-clear">
+					<input ng-model="fleetSearchParams.speed_over" type="checkbox" class="status-check red">over
+				</label>
 			</div>
 	</div>
 	<!-- speed end -->
@@ -27,7 +40,7 @@
 
 <!-- status begin -->
 <div class="status">
-	<div class="pull-left col-xs-12 col-sm-4 col-md-4">total : <strong>{{fleets.total}}</strong></div>
+	<div class="pull-left col-xs-12 col-sm-4 col-md-4">Total : <strong>{{fleets.total}}</strong></div>
 	<div class="pull-right col-xs-12 col-sm-8 col-md-8">
 		<div class="col-xs-2 col-md-2 status-box gray padding-clear">{{speedRangeSummaries.speed_off}}</div>
 		<div class="col-xs-2 col-md-2 status-box dark padding-clear">{{speedRangeSummaries.speed_idle}}</div>
