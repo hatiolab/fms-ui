@@ -1,63 +1,5 @@
 angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $scope) {
 	
-	/*$scope.markers = [ {
-		id: 0,
-		coords: { latitude: DEFAULT_LAT, longitude: DEFAULT_LNG },
-		options: { draggable: true },
-		events: {
-			click : function(e) {
-				$scope.winShowInfo.show1 = true;
-				$scope.winShowInfo.show2 = false;
-				$scope.winShowInfo.show3 = false;
-				$scope.winShowInfo.show4 = false;
-			}
-		}
-	}, {
-		id: 1,
-		coords: { latitude: DEFAULT_LAT + 0.3, longitude: DEFAULT_LNG + 0.3 },
-		options: { draggable: true },
-		events: {
-			click : function(e) {
-				$scope.winShowInfo.show1 = false;
-				$scope.winShowInfo.show2 = true;
-				$scope.winShowInfo.show3 = false;
-				$scope.winShowInfo.show4 = false;
-			}
-		}
-	}, {
-		id: 2,
-		coords: { latitude: DEFAULT_LAT + 0.6, longitude: DEFAULT_LNG + 0.6 },
-		options: { draggable: true },
-		events: {
-			click : function(e) {
-				$scope.winShowInfo.show1 = false;
-				$scope.winShowInfo.show2 = false;
-				$scope.winShowInfo.show3 = true;
-				$scope.winShowInfo.show4 = false;
-			}
-		}
-	}, {
-		id: 3,
-		coords: { latitude: DEFAULT_LAT + 0.9, longitude: DEFAULT_LNG + 0.9 },
-		options: { draggable: true },
-		events: {
-			click : function(e) {
-				$scope.winShowInfo.show1 = false;
-				$scope.winShowInfo.show2 = false;
-				$scope.winShowInfo.show3 = false;
-				$scope.winShowInfo.show4 = true;
-			}
-		}
-	} ];
-
-	$scope.winShowInfo = {
-		show1 : false,
-		show2 : false,
-		show3 : false,
-		show4 : false
-	};
-	*/
-	
 	/**
 	 * center position of the map
 	 */
@@ -67,21 +9,54 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 */
 	$scope.mapOption = { center: $scope.center, zoom: 9 };
 	/**
-	 * map markers
+	 * map markers for fleets
 	 */
 	$scope.markers = [];
+	/**
+	 * window show / hide switch
+	 */
+	$scope.windowSwitch = { showFleetInfo : false };
+	/**
+	 * 선택된 마커 
+	 */
+	$scope.selectedMarker = null;
 
 	/**
-	 * 마커 찍기 ...
+	 * Refresh Fleet Markers
 	 */
-	$scope.drawMarkers = function(fleets) {
+	$scope.refreshFleetMarkers = function(fleets) {
+		$scope.markers = [];
+
 		for(var i = 0 ; i < fleets.length ; i++) {
-			$scope.markers.push({
-				id: fleets[i].id,
-				latitude : fleets[i].lat,
-				longitude : fleets[i].lng
-			});
+			var fleet = fleets[i];
+			fleet.latitude = fleets[i].lat;
+			fleet.longitude = fleets[i].lng;
+			fleet.events = {
+					click : function(e) {
+						$scope.selectedMarker = e.model;
+						$scope.windowSwitch.showFleetInfo = true;
+						$scope.getAddress($scope.selectedMarker);
+					}
+			};
+			
+			$scope.markers.push(fleet);
 		}
+	};
+
+	$scope.getAddress = function(marker) {
+    var geocoder = new google.maps.Geocoder();
+    var latlng = new google.maps.LatLng(marker.latitude, marker.longitude);
+    geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            if (results[1]) {
+                $scope.selectedMarker.address = results[1].formatted_address;
+            } else {
+                $scope.selectedMarker.address = 'Location not found';
+            }
+        } else {
+            $scope.selectedMarker.address = 'Geocoder failed due to: ' + status;
+        }
+    });
 	};
 
 	/**
@@ -89,7 +64,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 */
 	$rootScope.$on('monitor-fleet-list-change', function(evt, fleetDataSet) {
 		if(fleetDataSet && fleetDataSet.items) {
-			$scope.drawMarkers(fleetDataSet.items);
+			$scope.refreshFleetMarkers(fleetDataSet.items);
 		}
 	});
 
