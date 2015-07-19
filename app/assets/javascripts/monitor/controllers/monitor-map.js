@@ -43,6 +43,9 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		}
 	};
 
+	/**
+	 * get address from lat, lng
+	 */
 	$scope.getAddress = function(marker) {
     var geocoder = new google.maps.Geocoder();
     var latlng = new google.maps.LatLng(marker.latitude, marker.longitude);
@@ -60,11 +63,32 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	};
 
 	/**
+	 * Move to trip of fleet
+	 */
+	$scope.goTrip = function(fleetId, tripId) {
+		if(!tripId) {
+			alert('This car has no trip information!');
+		}
+
+		// TODO go trip
+		
+	};
+
+	/**
 	 * Fleet 조회시 이벤트 리슨
 	 */
 	$rootScope.$on('monitor-fleet-list-change', function(evt, fleetDataSet) {
 		if(fleetDataSet && fleetDataSet.items) {
 			$scope.refreshFleetMarkers(fleetDataSet.items);
+		}
+	});
+
+	/**
+	 * Fleet 하나 선택시 이벤트 리슨
+	 */
+	$rootScope.$on('monitor-fleet-change', function(evt, fleet) {
+		if(fleet.id && fleet.trip_id) {
+			$scope.goTrip(fleet.id, fleet.trip_id);
 		}
 	});
 

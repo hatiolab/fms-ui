@@ -5,19 +5,25 @@
 		<ui-gmap-markers models="markers" coords="'self'" idKey="'id'" events="'events'"></ui-gmap-markers>
 
 		<!-- markers window -->
-    <ui-gmap-window id="fleetWindow" coords="selectedMarker" show="windowSwitch.showFleetInfo" closeClick="closeClick()">
+    <ui-gmap-window id="fleetWindow" coords="selectedMarker" 
+      show="windowSwitch.showFleetInfo" closeClick="closeClick()">
 			<div>
         <div class="photos">
-            <img src="/assets/ph_car.png"/>
-            <img src="/assets/ph_user.png" hidden/>
+          <img src="/assets/ph_car.png"/>
+          <img src="/assets/ph_user.png" hidden/>
         </div>
-        <div><button>toggle photo</button></div>
+        <div>
+            <button>Toggle photo</button>
+        </div>
         <div style="overflow: auto;">
-            <strong>Fleet : {{selectedMarker.name}}</strong>
-            <span>Model : {{selectedMarker.car_model}}</span>
-            <span>Car No. : {{selectedMarker.car_no}}</span>
-            <span>Drivers : {{selectedMarker.driver.name}}</span>
-            <span>Location : {{selectedMarker.address}}</span>
+          <strong>Fleet : {{selectedMarker.name}}</strong>
+          <span>Model : {{selectedMarker.car_model}}</span>
+          <span>Car No. : {{selectedMarker.car_no}}</span>
+          <span>Drivers : {{selectedMarker.driver.name}}</span>
+          <span>Location : {{selectedMarker.address}}</span>
+        </div>
+        <div ng-show="'{{selectedMarker.trip_id}}' != ''">
+          <button ng-click="$parent.goTrip('{{selectedMarker.id}}', '{{selectedMarker.trip_id}}')">Go Trip</button>
         </div>
       </div>
 		</ui-gmap-window>
