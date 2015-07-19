@@ -19,7 +19,7 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	};
 })
 
-.controller('sideFleetsCtrl', function($scope, $resource, $element, RestApi) {
+.controller('sideFleetsCtrl', function($rootScope, $scope, $resource, $element, RestApi) {
 
 	/**
 	 * 폼 모델 초기화 
@@ -63,7 +63,13 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	 * Search Fleets
 	 */
 	this.searchFleets = function(params) {
-		var searchParams = $scope.normalizeSearchParams(params);
+		var searchParams = params;
+		if(!params || params == {}) {
+			searchParams = angular.copy($scope.fleetSearchParams);
+			searchParams.fleet_group_id = searchParams.group ? searchParams.group.id : '';
+		}
+
+		searchParams = $scope.normalizeSearchParams(searchParams);
 		RestApi.search('/fleets.json', searchParams, function(dataSet) {
 			$scope.fleets = dataSet;
 			$scope.fleetItems = dataSet.items;
@@ -97,11 +103,18 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	};
 
 	/**
+	 * map refresh 
+	 */	
+	$rootScope.$on('monitor-refresh-fleet', function(evt, value) {
+		$scope.findFleets(null);
+	});
+
+	/**
 	 * 초기화 함수 
 	 */
 	$scope.init = function() {
-		$scope.findGroups({});
-		$scope.findFleets({});
+		$scope.findGroups(null);
+		$scope.findFleets(null);
 	};
 
 	$scope.init();

@@ -90,6 +90,9 @@ Trkvue::Engine.routes.draw do
 			get :show_by_name
 			get :export
 		end
+		member do
+			get :trip
+		end
 	end
 
 	resources :trips do

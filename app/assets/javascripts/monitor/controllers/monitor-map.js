@@ -1,4 +1,4 @@
-angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $scope) {
+angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $scope, $timeout, $interval, RestApi) {
 	
 	/**
 	 * map option
@@ -97,18 +97,20 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 */
 	$scope.goTrip = function() {
 		var fleet = $scope.selectedMarker;
+
 		if(!fleet.trip_id) {
 			alert('This car has no trip information!');
 			return;
 		}
 
-		// 0. call trip information
-
-		// callback
-		// 1. marker clear all
-		$scope.clearAll({latitude : fleet.lat, longitude : fleet.lng});
-
-		// 2. trip 그리기 
+		// 1. invoke rest api
+		RestApi.get('/fleets/' + fleet.id + '/trip.json', {}, function(dataSet) {
+			console.log(dataSet);
+			// 2. map 초기화 
+			$scope.clearAll({latitude : fleet.lat, longitude : fleet.lng});
+			// 3. trip 그리기 
+			// TODO
+		});
 	};
 
 	/**
@@ -136,5 +138,51 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	$rootScope.$on('monitor-fleet-info-change', function(evt, fleet) {
 		$scope.showFleetInfo(fleet);
 	});
+
+	/**
+	 * Scope destroy시 timeout 제거 
+	 */
+	$scope.$on('$destroy', function(event) {
+		$interval.cancel();
+	});
+
+	/**
+	 * Refresh 설정이 변경된 경우 
+	 */	
+	$scope.$on('setting-map_refresh-change', function(evt, value) {
+		$scope.refreshTimer();
+	});
+
+	/**
+	 * Refresh Interval 설정이 변경된 경우 
+	 */	
+	$scope.$on('setting-map_refresh_interval-change', function(evt, value) {
+		$scope.refreshTimer();
+	});
+
+	/**
+	 * Refresh timer를 시작 
+	 */
+	$scope.refreshTimer = function() {
+		$interval.cancel();
+		var refresh = $rootScope.getSetting('map_refresh');
+		var interval = $rootScope.getIntSetting('map_refresh_interval');
+
+		if(refresh == 'Y' && interval && interval >= 1) {
+			$interval($scope.refreshMap, interval * 1000);
+		}
+	};
+
+	/**
+	 * map을 refresh
+	 */
+	$scope.refreshMap = function() {
+		$scope.$emit('monitor-refresh-fleet', 1);
+	};
+
+	/**
+	 * start timer
+	 */
+	$scope.refreshTimer();
 
 });
