@@ -4,7 +4,10 @@
 		<!-- markers -->
 		<ui-gmap-markers models="markers" coords="'self'" idKey="'id'" events="'events'"></ui-gmap-markers>
 
-		<!-- markers window -->
+    <!-- lines -->
+    <ui-gmap-polylines models="polylines" path="path" stroke="stroke" visible="visible" geodesic="geodesic"></ui-gmap-polylines>
+
+		<!-- fleet marker window -->
     <ui-gmap-window id="fleetWindow" coords="selectedMarker" 
       show="windowSwitch.showFleetInfo" closeClick="closeClick()">
 			<div>
@@ -27,6 +30,49 @@
         </div>
       </div>
 		</ui-gmap-window>
+
+    <!-- trip marker window -->
+    <ui-gmap-window id="tripWindow" coords="selectedMarker" 
+      show="windowSwitch.showTripInfo" closeClick="closeClick()">
+      <div>
+        <div>Recorded at <strong>Fri May 29 2015 14:37:46 GMT-0800</strong></div>
+        <div>Trip Started at Fri May 29 2015 14:37:46 GMT-0800</div>
+      </div>
+    </ui-gmap-window>
+
+    <!-- batch marker window -->
+    <ui-gmap-window id="batchWindow" coords="selectedMarker" 
+      show="windowSwitch.showBatchInfo" closeClick="closeClick()">
+      <div>
+        <div>Recorded at <strong>Fri May 29 2015 14:37:46 GMT-0800</strong></div>
+        <div>Trip Started at Fri May 29 2015 14:37:46 GMT-0800</div>
+      </div>
+    </ui-gmap-window>
+
+    <!-- track marker window -->
+    <ui-gmap-window id="trackWindow" coords="selectedMarker" 
+      show="windowSwitch.showTrackInfo" closeClick="closeClick()">
+      <div>
+        <div>Recorded at <strong>Fri May 29 2015 14:37:46 GMT-0800</strong></div>
+        <div>Trip Started at Fri May 29 2015 14:37:46 GMT-0800</div>
+        <pip-image front-image-url="/assets/images/front.jpg"
+            rear-image-url="/assets/images/rear.jpg">
+        </pip-image>
+      </div>
+    </ui-gmap-window>
+
+    <!-- alert marker window -->
+    <ui-gmap-window id="alertWindow" coords="selectedMarker" 
+      show="windowSwitch.showAlertInfo" closeClick="closeClick()">
+      <div>
+        <div>Occurred at <strong>Fri May 29 2015 14:37:46 GMT-0800</strong></div>
+        <div class="detail-address">Address : 152-198 West 32nd Street, New York, NY 10001, USA</div>
+        <pip-video front-video-url="/assets/video/video1.mp4"
+            rear-video-url="/assets/video/video2.mp4"
+            audio-url="/assets/audio/audio1.mp3">
+        </pip-video>
+      </div>
+    </ui-gmap-window>
 
 	</ui-gmap-google-map>
 </div>

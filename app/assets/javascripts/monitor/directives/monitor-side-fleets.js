@@ -10,10 +10,7 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 			// TODO side-fleets 탭이 액티브 된 경우만 호출하도록 변경 ...
 			var refreshButton = angular.element('.panel-refresh');
 			refreshButton.bind("click", function() {
-				var fleetParams = angular.copy(scope.fleetSearchParams);
-				var groupId = fleetParams.group ? fleetParams.group.id : '';
-				fleetParams.fleet_group_id = groupId;
-				sideFleetsCtrl.searchFleets(fleetParams);
+				sideFleetsCtrl.searchFleets(null);
       });
 		}
 	};
@@ -70,6 +67,7 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 		}
 
 		searchParams = $scope.normalizeSearchParams(searchParams);
+
 		RestApi.search('/fleets.json', searchParams, function(dataSet) {
 			$scope.fleets = dataSet;
 			$scope.fleetItems = dataSet.items;
