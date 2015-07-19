@@ -1,5 +1,6 @@
 <div ng-controller='MonitorMapCtrl'>
 	<ui-gmap-google-map center='mapOption.center' zoom='mapOption.zoom' id='mapCanvas'>
-		<ui-gmap-marker coords='marker.coords' options='marker.options' events='marker.events' idkey='marker.id'/> 
+		<!--ui-gmap-marker coords='marker.coords' options='marker.options' events='marker.events' idkey='marker.id'/--> 
+		<ui-gmap-markers models="markers" coords="'self'" idKey="'id'"></ui-gmap-markers>
 	</ui-gmap-google-map>
 </div>

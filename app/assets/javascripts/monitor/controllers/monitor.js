@@ -1,3 +1,3 @@
-angular.module('fmsMonitor').controller('MonitorCtrl', function($scope, $resource) {
-
+angular.module('fmsMonitor').controller('MonitorCtrl', function($rootScope, $scope, $resource) {
+	
 });

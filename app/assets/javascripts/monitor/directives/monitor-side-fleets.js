@@ -75,6 +75,8 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 				speed_high : 3,
 				speed_over : 1
 			};
+
+			$scope.$emit('monitor-fleet-list-change', $scope.fleets);
 		});
 	};
 

@@ -1,6 +1,6 @@
-angular.module('fmsMonitor').controller('MonitorMapCtrl', function($scope) {
+angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $scope) {
 	
-	$scope.markers = [ {
+	/*$scope.markers = [ {
 		id: 0,
 		coords: { latitude: DEFAULT_LAT, longitude: DEFAULT_LNG },
 		options: { draggable: true },
@@ -49,8 +49,6 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($scope) {
 			}
 		}
 	} ];
-	
-	$scope.mapOption = { center: { latitude: DEFAULT_LAT, longitude: DEFAULT_LNG }, zoom: 9 };
 
 	$scope.winShowInfo = {
 		show1 : false,
@@ -58,5 +56,41 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($scope) {
 		show3 : false,
 		show4 : false
 	};
+	*/
+	
+	/**
+	 * center position of the map
+	 */
+	$scope.center = { latitude: DEFAULT_LAT, longitude: DEFAULT_LNG };
+	/**
+	 * map option
+	 */
+	$scope.mapOption = { center: $scope.center, zoom: 9 };
+	/**
+	 * map markers
+	 */
+	$scope.markers = [];
+
+	/**
+	 * 마커 찍기 ...
+	 */
+	$scope.drawMarkers = function(fleets) {
+		for(var i = 0 ; i < fleets.length ; i++) {
+			$scope.markers.push({
+				id: fleets[i].id,
+				latitude : fleets[i].lat,
+				longitude : fleets[i].lng
+			});
+		}
+	};
+
+	/**
+	 * Fleet 조회시 이벤트 리슨
+	 */
+	$rootScope.$on('monitor-fleet-list-change', function(evt, fleetDataSet) {
+		if(fleetDataSet && fleetDataSet.items) {
+			$scope.drawMarkers(fleetDataSet.items);
+		}
+	});
 
 });
