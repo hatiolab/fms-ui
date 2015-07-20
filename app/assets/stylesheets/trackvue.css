@@ -1,6 +1,7 @@
 /*  layout */
 html,body{height:100%;}
-.height-full{height:95%;}
+button:focus,.form-control:focus{box-shadow:none;}
+.height-full{height:97%;}
 .padding-clear{padding:0 !important;}
 label input[type="checkbox"]{margin-right:5px;}
 .status-check{background:url(/assets/icon-status-check.png) no-repeat !important;border:none;width:14px;height:14px;}
@@ -20,6 +21,7 @@ th{background:url(/assets/bg-th.png) 0 100% repeat-x;color:#8a95a5;border:1px so
 .align-right{text-align:right !important;}
 .margin-t5{margin-top:5px;}
 .margin-t7{margin-top:7px;}
+.margin-t20{margin-top:20px;}
 .padding-rl7{padding-left:7px;padding-right:7px;}
 .border-rl-lightgray{border:1px solid #d7d7d8;border-width:0 1px;}
 .type-icon{background:url(/assets/icon-type.png) no-repeat;display:inline-block;width:16px;height:16px;margin-right:4px;vertical-align:middle;}
@@ -59,14 +61,14 @@ th{background:url(/assets/bg-th.png) 0 100% repeat-x;color:#8a95a5;border:1px so
 .side-panel .status .pull-left{padding-left:10px;color:#fff;line-height:2.2;}
 .side-panel .status .pull-right{padding-left:0px;padding-right:5px;}
 .panel-toggle{background:url(/assets/icon-sidepanel.png) 6px 10px no-repeat;border:none;width:20px;height:24px;}
-.panel-refresh{background:url(/assets/icon-sidepanel.png) 6px -40px no-repeat;border:none;width:20px;height:24px;position:absolute;right:0;margin:28px 7px 0 0;}
+.panel-refresh{background:url(/assets/icon-sidepanel.png) 6px -40px no-repeat !important;border:none;width:20px;height:24px;position:absolute;right:0;margin:28px 7px 0 0;}
 .panel-toggle:hover,.panel-refresh:hover{background-color:transparent;}
 .input-append.date .add-on i, .input-prepend.date .add-on i{right:3px;position:absolute;margin-top:-21px;}
 .bootstrap-datetimepicker-widget ul{-webkit-padding-start:0px;padding:0;}
 .icon-calendar{background:url(/assets/icon-sidepanel.png) 0px -100px no-repeat;}
 
 .search-table .table{margin-bottom:0;}
-.search-table .status-box,.infolist-panel .speed-status .status-box{width:10px;height:10px;display:inline-block;-webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;margin:2px 4px 0 0;}
+.search-table .status-box,.infolist-panel .speed-status .status-box,.detail-item  .status-box{width:10px;height:10px;display:inline-block;-webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;margin:2px 4px 0 0;}
 .table td{padding:5px 8px !important;vertical-align:middle;}
 .table td.icon-td{padding:4px 5px 0 5px !important;}
 .pagecontainer{background:url(/assets/bg-pagination.png) repeat-x;position:absolute;bottom:0;width:100%;border-top:solid 1px #d7d8d9;height:25px;}
@@ -112,7 +114,7 @@ th{background:url(/assets/bg-th.png) 0 100% repeat-x;color:#8a95a5;border:1px so
 .navbar-default .navbar-toggle{border-color:#535F71;margin-top:2px;padding:5px 6px;}
 .navbar-default .navbar-toggle:hover{background-color:#33363A;}
 
-.content,.content .ng-scope,.content #mapCanvas,.content .angular-google-map,.content .angular-google-map-container{height:100%;}
+.content,.content .height-full .ng-scope,.content #mapCanvas,.content .angular-google-map,.content .angular-google-map-container{height:100%;}
 
 /* fix for Twitter Bootstrap handling of responsive images */
 .angular-google-map img {
@@ -121,7 +123,16 @@ th{background:url(/assets/bg-th.png) 0 100% repeat-x;color:#8a95a5;border:1px so
 
 .backward-layer{width:430px;}
 .forward-layer{width:180px;position:absolute;top:0px;left:263px;
--webkit-box-shadow: -5px 6px 5px 0px rgba(0,0,0,0.2);-moz-box-shadow: -5px 6px 5px 0px rgba(0,0,0,0.2);box-shadow: -5px 6px 5px 0px rgba(0,0,0,0.2);}
-.modal-btn-trip{background-image:url(/assets/icon-modal.png);background-position:145% 7px;position:absolute;right:23px;padding:5px 15px 4px 10px !important;}
+-webkit-box-shadow: -5px 6px 5px 0px rgba(0,0,0,0.2);-moz-box-shadow: -5px 6px 5px 0px rgba(0,0,0,0.2);box-shadow: -5px 6px 5px 0px rgba(0,0,0,0.2);z-index:1000;}
+.modal-btn-trip{background-image:url(/assets/icon-modal.png);background-position:112% 7px;padding:5px 15px 4px 10px !important;}
 .modal-btn-trip:hover{background-image:url(/assets/icon-modal.png);}
 .detail-time strong{display:block;}
+.detail-address{font-size:11px;color:#666;}
+.detail-info-table td{border-bottom:1px solid #efefef;}
+
+th.modal-icon,.modal-icon{background:url(/assets/icon-modal.png) no-repeat !important;}
+th.modal-icon.dot-gray{background-position:0 -42px !important;border:none;padding:1px 5px 1px 7px !important;font-weight:normal;}
+.detail-item .modal-icon{background-position:0 -44px !important;padding:0 0 0 7px !important;margin-right:5px;}
+.detail-item strong{margin-right:40px;}
+.photos{width:150px;}
+.photos img{width:135px;}

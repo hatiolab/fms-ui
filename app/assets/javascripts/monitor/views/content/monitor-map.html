@@ -11,22 +11,36 @@
     <ui-gmap-window id="fleetWindow" coords="selectedMarker" 
       show="windowSwitch.showFleetInfo" closeClick="closeClick()">
 			<div>
-        <div class="photos">
+        <div class="photos pull-left">
           <img src="/assets/ph_car.png"/>
           <img src="/assets/ph_user.png" hidden/>
+					<button>Toggle photo</button>
         </div>
-        <div>
-            <button>Toggle photo</button>
+        <div class="pull-left">
+	        <table class="detail-info-table">
+	          <tr>
+	            <th class="modal-icon dot-gray">Fleet</th>
+	            <td>{{selectedMarker.name}}</td>
+	          </tr>
+	          <tr>
+	            <th class="modal-icon dot-gray">Model</th>
+	            <td>{{selectedMarker.car_model}}</td>
+	          </tr>
+	          <tr>
+	            <th class="modal-icon dot-gray">Car No.</th>
+	            <td>{{selectedMarker.car_no}}</td>
+	          </tr>
+	          <tr>
+	            <th class="modal-icon dot-gray">Drivers</th>
+	            <td>{{selectedMarker.driver.name}}</td>
+	          </tr>
+					</table>
         </div>
-        <div style="overflow: auto;">
-          <strong>Fleet : {{selectedMarker.name}}</strong>
-          <span>Model : {{selectedMarker.car_model}}</span>
-          <span>Car No. : {{selectedMarker.car_no}}</span>
-          <span>Drivers : {{selectedMarker.driver.name}}</span>
-          <span>Location : {{selectedMarker.address}}</span>
-        </div>
-        <div ng-show="'{{selectedMarker.trip_id}}' != ''">
-          <button ng-click="$parent.goTrip()">Go Trip</button>
+				<div class="col-xs-12 padding-clear">
+					Location {{selectedMarker.address}}
+				</div>
+        <div ng-show="'{{selectedMarker.trip_id}}' != ''" class="col-xs-12 padding-clear">
+          <button ng-click="$parent.goTrip()" class="btn modal-btn-trip btn-success btn-sm">Go Trip</button>
         </div>
       </div>
 		</ui-gmap-window>
@@ -77,28 +91,18 @@
         </pip-video> 
         <div class="detial-time">Occurred at <strong>{{selectedMarker.etm | date:'medium'}}</strong></div>
         <div class="detail-address">{{selectedMarker.address}}</div>
-        <table class="detail-info-table">
-          <tr>
-            <th>Speed</th>
-            <td>{{selectedMarker.vlc}}</td>
-          </tr>
-          <tr>
-            <th>Event ID</th>
-            <td>{{selectedMarker.event_id}}</strong>/<strong>{{selectedMarker.typ}}</td>
-          </tr>
-          <tr>
-            <th>G-X</th>
-            <td>{{selectedMarker.gx}}</td>
-          </tr>
-          <tr>
-            <th>G-Y</th>
-            <td>{{selectedMarker.gy}}</td>
-          </tr>
-          <tr>
-            <th>G-Z</th>
-            <td>{{selectedMarker.gz}}</td>
-          </tr>
-        </table>
+				<div class="detail-item margin-t20">
+					<span class="modal-icon dot-gray">Speed</span>
+					<span class="status-box red"></span> {{selectedMarker.vlc}}
+				</div>
+				<div class="detail-item">
+					<span class="modal-icon dot-gray">G-X</span>
+					<strong>{{selectedMarker.gx}}</strong>
+					<span class="modal-icon dot-gray">G-Y</span>
+					<strong>{{selectedMarker.gy}}</strong>
+					<span class="modal-icon dot-gray">G-Z</span>
+					<strong>{{selectedMarker.gz}}</strong>
+				</div>
       </div>
     </ui-gmap-window>
 
