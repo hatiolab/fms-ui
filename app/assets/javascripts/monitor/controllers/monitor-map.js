@@ -15,7 +15,8 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		showFleetInfo : false,
 		showTripInfo : false,
 		showBatchInfo : false,
-		showTrackInfo : false
+		showTrackInfo : false,
+		showEventInfo : false
 	};
 
 	/**
@@ -146,6 +147,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		var trip = tripDataSet.trip;
 		var batches = tripDataSet.batches;
 		var tracks = tripDataSet.tracks;
+		var events = tripDataSet.events;
 		var path = [];
 
 		var gmap = $scope.mapControl.getGMap();
@@ -155,16 +157,23 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		// 1. trip
 		$scope.markers.push($scope.tripToMarker(trip, 'start'));
 
-		// 2. batch
+		// 2. batches
 		for(var i = 0 ; i < batches.length ; i++) {
 			$scope.markers.push($scope.batchToMarker(batches[i], 'start'));
 		}
 
-		// 3. track
+		// 3. tracks
 		for(var i = 0 ; i < tracks.length ; i++) {
 			$scope.markers.push($scope.trackToMarker(tracks[i]));
 			path.push({latitude : tracks[i].lat, longitude : tracks[i].lng});
 			bounds.extend(new google.maps.LatLng(tracks[i].lat, tracks[i].lng));
+		}
+
+		// 4. events
+		for(var i = 0 ; i < events.length ; i++) {
+			$scope.markers.push($scope.eventToMarker(events[i]));
+			path.push({latitude : events[i].lat, longitude : events[i].lng});
+			bounds.extend(new google.maps.LatLng(events[i].lat, events[i].lng));
 		}
 
 		gmap.setCenter(bounds.getCenter());
@@ -225,7 +234,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	};
 
 	/**
-	 * convert batch to marker
+	 * convert track to marker
 	 */
 	$scope.trackToMarker = function(track) {
 		var marker = track;
@@ -243,6 +252,27 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		marker.events = {
 			click : function(e) {
 				$scope.addMarkerClickEvent(e, 'showTrackInfo');
+			}
+		};
+		return marker;
+	};
+
+	/**
+	 * convert event to marker
+	 */
+	$scope.eventToMarker = function(evt) {
+		var marker = evt;
+		marker.latitude = evt.lat;
+		marker.longitude = evt.lng;
+		marker.icon = $scope.getEventMarkerIcon(evt);
+		marker.stroke = {
+			strokeColor: '#FF0000',
+			strokeOpacity: 1.0,
+			strokeWeight: 2
+		},
+		marker.events = {
+			click : function(e) {
+				$scope.addMarkerClickEvent(e, 'showEventInfo');
 			}
 		};
 		return marker;
@@ -270,6 +300,30 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 */
 	$scope.getBatchMarkerIcon = function(batch, type) {
 		return '/assets/batch' + type + '.png';
+	};
+
+	/**
+	 * Event Marker Icon
+	 */
+	$scope.getEventMarkerIcon = function(evt) {
+		var icon = 'assets/event_';
+		if(evt.typ == 'B') {
+			icon += 'emergency.png';
+
+		} else if(evt.typ == 'G') {
+			icon += 'g_sensor.png';
+
+		} else if(evt.typ == 'I') {
+			icon += 'geofence_in.png';
+
+		} else if(evt.typ == 'O') {
+			icon += 'geofence_out.png';
+
+		} else if(evt.typ == 'V') {
+			icon += 'overspeed.png';
+		}
+
+		return icon;
 	};
 
 	/**
