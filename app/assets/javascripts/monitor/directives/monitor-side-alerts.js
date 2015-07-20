@@ -20,6 +20,10 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 
 .controller('sideAlertsCtrl', function($rootScope, $scope, $resource, $element, RestApi) {
 
+	$(function() {
+		$('.input-append.date').datetimepicker();
+	});
+
 	/**
 	 * 폼 모델 초기화 
 	 */

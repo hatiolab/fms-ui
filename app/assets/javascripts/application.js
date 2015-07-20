@@ -20,3 +20,4 @@
 //= require angular-google-maps/dist/angular-google-maps.min
 //= require lodash/lodash.min
 //= require_tree .
+//= require_self
