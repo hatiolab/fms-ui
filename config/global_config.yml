@@ -16,5 +16,5 @@ std_name : std
 ops_name : ctl
 default_lat : 37.381
 default_lng : 127.11846
-content_base_url : https://104.131.91.143/
+content_base_url : https://169.53.135.8/
 #content_base_url : https://127.0.0.1/
