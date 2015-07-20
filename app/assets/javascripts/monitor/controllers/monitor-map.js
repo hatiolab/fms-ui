@@ -140,10 +140,10 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		var tracks = tripDataSet.tracks;
 		var path = [];
 
-		$scope.markers.push($scope.tripToMarker(trip));
+		$scope.markers.push($scope.tripToMarker(trip, 'start'));
 
 		for(var i = 0 ; i < batches.length ; i++) {
-			$scope.markers.push($scope.batchToMarker(batches[i]));
+			$scope.markers.push($scope.batchToMarker(batches[i], 'start'));
 		}
 
 		for(var i = 0 ; i < tracks.length ; i++) {
@@ -176,10 +176,11 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	/**
 	 * convert trip to marker
 	 */
-	$scope.tripToMarker = function(trip) {
+	$scope.tripToMarker = function(trip, type) {
 		var marker = trip;
-		marker.latitude = trip.lat;
-		marker.longitude = trip.lng;
+		marker.latitude = (type == 'start') ? trip.s_lat : trip.lat;
+		marker.longitude = (type == 'start') ? trip.s_lng : trip.lng;
+		marker.icon = $scope.getTripMarkerIcon(trip, type);
 		marker.events = {
 			click : function(e) {
 				$scope.addMarkerClickEvent(e, 'showTripInfo');
@@ -191,10 +192,11 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	/**
 	 * convert batch to marker
 	 */
-	$scope.batchToMarker = function(batch) {
+	$scope.batchToMarker = function(batch, type) {
 		var marker = batch;
-		marker.latitude = batch.lat;
-		marker.longitude = batch.lng;
+		marker.latitude = (type == 'start') ? batch.s_lat : batch.lat;
+		marker.longitude = (type == 'start') ? batch.s_lng : batch.lng;
+		marker.icon = $scope.getBatchMarkerIcon(batch, type);
 		marker.events = {
 			click : function(e) {
 				$scope.addMarkerClickEvent(e, 'showBatchInfo');
@@ -213,6 +215,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		marker.ctm = parseInt(track.ctm);
 		marker.utm = parseInt(track.utm);
 		marker.ttm = parseInt(track.ttm);
+		marker.icon = $scope.getTrackMarkerIcon(track);
 		marker.stroke = {
 			strokeColor: '#FF0000',
 			strokeOpacity: 1.0,
@@ -237,10 +240,31 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	};
 
 	/**
-	 * Marker Icon
+	 * Trip Marker Icon
 	 */
-	$scope.getMarkerIcon = function(type) {
-		return '/assets/' + type + '.png';
+	$scope.getTripMarkerIcon = function(trip, type) {
+		return '/assets/trip' + type + '.png';
+	};
+
+	/**
+	 * Batch Marker Icon
+	 */
+	$scope.getBatchMarkerIcon = function(batch, type) {
+		return '/assets/batch' + type + '.png';
+	};
+
+	/**
+	 * Track Marker Icon
+	 */
+	$scope.getTrackMarkerIcon = function(track) {
+		var icon = null, status = track.status;
+		var prefix = 'assets/track_';
+		if(track.f_img || track.r_img)
+			prefix += 'i_';
+
+		var speedLevel = $rootScope.getSpeedLevel(track.vlc);
+		prefix += speedLevel.split('_')[1];
+		return prefix + '.png';
 	};
 
 	/**
@@ -263,10 +287,12 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	});
 
 	/**
-	 * Fleet 하나 선택시 이벤트 리슨
+	 * Grid에서 Fleet 선택시 이벤트 리슨
 	 */
 	$rootScope.$on('monitor-fleet-info-change', function(evt, fleet) {
-		//$scope.showFleetInfo(fleet);
+		// $scope.showFleetInfo(fleet);
+		// TODO 1. center 이동 
+		// 2. 마커 아이콘 변경 
 	});
 
 	/**

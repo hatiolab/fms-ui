@@ -110,9 +110,9 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	/**
 	 * settings data all ready 
 	 */
-	$scope.$on('settings-all-ready', function(evt, value) {
-		// $scope.init();
-	});
+	//$scope.$on('settings-all-ready', function(evt, value) {
+	//	$scope.init();
+	//});
 
 	/**
 	 * 초기화 함수 
