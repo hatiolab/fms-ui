@@ -1,8 +1,8 @@
 <div ng-controller='MonitorMapCtrl'>
-	<ui-gmap-google-map center='mapOption.center' zoom='mapOption.zoom' id='mapCanvas'>
+	<ui-gmap-google-map id='mapCanvas' center='mapOption.center' zoom='mapOption.zoom' control="mapControl">
 
 		<!-- markers -->
-		<ui-gmap-markers models="markers" coords="'self'" idKey="'id'" events="'events'" icon="'icon'"></ui-gmap-markers>
+		<ui-gmap-markers models="markers" coords="'self'" idKey="'id'" events="'events'" icon="'icon'" control="mapControl"></ui-gmap-markers>
 
     <!-- lines -->
     <ui-gmap-polylines models="polylines" path="'path'" stroke="'stroke'" visible="'visible'" geodesic="'geodesic'" static='true'></ui-gmap-polylines>

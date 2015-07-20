@@ -5,9 +5,9 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 */
 	$scope.mapOption = { center: { latitude: DEFAULT_LAT, longitude: DEFAULT_LNG }, zoom: 9 };
 	/**
-	 * map marker models for fleets, map polyline model for tracks, currently selected marker
+	 * map marker models for fleets, map polyline model for tracks, currently selected marker, map control
 	 */
-	$scope.markers = [], $scope.polylines = [], $scope.selectedMarker = null;
+	$scope.markers = [], $scope.polylines = [], $scope.selectedMarker = null; $scope.mapControl = {};
 	/**
 	 * window show / hide switch model
 	 */
@@ -45,26 +45,33 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 */
 	$scope.refreshFleets = function(fleets) {
 		$scope.clearAll({ latitude: DEFAULT_LAT, longitude: DEFAULT_LNG });
+		var gmap = $scope.mapControl.getGMap();
+		var bounds = gmap.getBounds();
+
 		for(var i = 0 ; i < fleets.length ; i++) {
 			var marker = $scope.fleetToMarker(fleets[i]);
 			$scope.markers.push(marker);
+			bounds.extend(new google.maps.LatLng(marker.latitude, marker.longitude));
 		}
+
+		gmap.setCenter(bounds.getCenter());
+		gmap.fitBounds(bounds);
 	};
 
 	/**
 	 * convert fleet to marker
 	 */
 	$scope.fleetToMarker = function(fleet) {
-			var marker = fleet;
-			marker.latitude = fleet.lat;
-			marker.longitude = fleet.lng;
-			marker.icon = $scope.getFleetMarkerIcon(fleet);
-			marker.events = {
-					click : function(e) {
-						$scope.addMarkerClickEvent(e, 'showFleetInfo');
-					}
-			};
-			return marker;
+		var marker = fleet;
+		marker.latitude = fleet.lat;
+		marker.longitude = fleet.lng;
+		marker.icon = $scope.getFleetMarkerIcon(fleet);
+		marker.events = {
+			click : function(e) {
+				$scope.addMarkerClickEvent(e, 'showFleetInfo');
+			}
+		};
+		return marker;
 	};
 
 	/**
@@ -83,15 +90,15 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
     var geocoder = new google.maps.Geocoder();
     var latlng = new google.maps.LatLng(marker.latitude, marker.longitude);
     geocoder.geocode({ 'latLng': latlng }, function (results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-            if (results[1]) {
-                $scope.selectedMarker.address = results[1].formatted_address;
-            } else {
-                $scope.selectedMarker.address = 'Location not found';
-            }
+      if (status == google.maps.GeocoderStatus.OK) {
+        if (results[1]) {
+            $scope.selectedMarker.address = results[1].formatted_address;
         } else {
-            $scope.selectedMarker.address = 'Geocoder failed due to: ' + status;
+            $scope.selectedMarker.address = 'Location not found';
         }
+      } else {
+        $scope.selectedMarker.address = 'Geocoder failed due to: ' + status;
+      }
     });
 	};
 
@@ -140,16 +147,27 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		var tracks = tripDataSet.tracks;
 		var path = [];
 
+		var gmap = $scope.mapControl.getGMap();
+		var startPoint = new google.maps.LatLng(trip.s_lat, trip.s_lng);
+		var bounds = new google.maps.LatLngBounds(startPoint, startPoint);
+
+		// 1. trip
 		$scope.markers.push($scope.tripToMarker(trip, 'start'));
 
+		// 2. batch
 		for(var i = 0 ; i < batches.length ; i++) {
 			$scope.markers.push($scope.batchToMarker(batches[i], 'start'));
 		}
 
+		// 3. track
 		for(var i = 0 ; i < tracks.length ; i++) {
 			$scope.markers.push($scope.trackToMarker(tracks[i]));
 			path.push({latitude : tracks[i].lat, longitude : tracks[i].lng});
+			bounds.extend(new google.maps.LatLng(tracks[i].lat, tracks[i].lng));
 		}
+
+		gmap.setCenter(bounds.getCenter());
+		gmap.fitBounds(bounds);
 
 		$scope.polylines.push({
 			id : trip.id,
