@@ -2,7 +2,8 @@ class FleetsController < ResourceMultiUpdateController
   
 public 
 	def trip
-		fleet = Fleet.find(params[:id])
+		fleet = Fleet.where(:id => params[:id]).first
+		fleet = Fleet.where(:name => params[:id]).first unless fleet
 		# 1. trip
 		trip = Trip.find(fleet.trip_id)
 		# 2. batches

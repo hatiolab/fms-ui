@@ -90,9 +90,36 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	};
 
 	/**
+	 * Refresh Event Markers
+	 */
+	$scope.refreshEvents = function(eventDataList) {
+		if(!eventDataList && eventDataList.length == 0) {
+			return;
+		}
+
+		var firstEvent = eventDataList[0];
+		$scope.clearAll({ latitude: firstEvent.lat, longitude: firstEvent.lng });
+		var gmap = $scope.mapControl.getGMap();
+		var startPoint = new google.maps.LatLng(firstEvent.lat, firstEvent.lng);
+		var bounds = new google.maps.LatLngBounds(startPoint, startPoint);
+		var markerId = 1;
+
+		for(var i = 0 ; i < eventDataList.length ; i++) {
+			var eventData = eventDataList[i];
+			var marker = $scope.eventToMarker(eventData);
+			markerId = $scope.addMarker(markerId, marker);
+			bounds.extend(new google.maps.LatLng(marker.latitude, marker.longitude));
+		}
+
+		gmap.setCenter(bounds.getCenter());
+		gmap.fitBounds(bounds);
+	};	
+
+	/**
 	 * 지도 초기화 
 	 */
 	$scope.clearAll = function(center) {
+		$scope.markers = null;
 		$scope.markers = [];
 		$scope.polylines = [];
 		$scope.selectedMarker = null;
@@ -106,7 +133,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	/**
 	 * Move to trip of fleet
 	 */
-	$scope.goTrip = function() {
+	$scope.goTripByFleet = function() {
 		var fleet = $scope.selectedMarker;
 
 		if(!fleet.trip_id) {
@@ -120,6 +147,28 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 			$scope.windowSwitch.showFleetInfo = false;
 			// 2. map 초기화 
 			$scope.clearAll({latitude : fleet.lat, longitude : fleet.lng});
+			// 3. trip 그리기 
+			$scope.showTrip(dataSet);
+		});
+	};
+
+	/**
+	 * Move to trip of fleet
+	 */
+	$scope.goTripByEvent = function() {
+		var eventData = $scope.selectedMarker;
+
+		if(!eventData.tid) {
+			alert('This car has no trip information!');
+			return;
+		}
+
+		// 1. invoke rest api
+		RestApi.get('/fleets/' + eventData.fid + '/trip.json', {}, function(dataSet) {
+			// 1. window 닫기.
+			$scope.windowSwitch.showEventInfo = false;
+			// 2. map 초기화 
+			$scope.clearAll({latitude : eventData.lat, longitude : eventData.lng});
 			// 3. trip 그리기 
 			$scope.showTrip(dataSet);
 		});
@@ -277,11 +326,11 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		marker.ctm = parseInt(track.ctm);
 		marker.utm = parseInt(track.utm);
 		marker.ttm = parseInt(track.ttm);
-		if(marker.f_img && marker.f_img != '') {
+		if(marker.f_img && marker.f_img != '' && marker.f_img.indexOf('http') < 0) {
 			marker.f_img = CONTENT_BASE_URL + marker.f_img;
 		}
 		
-		if(marker.r_img && marker.r_img != '') {
+		if(marker.r_img && marker.r_img != '' && marker.r_img.indexOf('http') < 0) {
 			marker.r_img = CONTENT_BASE_URL + marker.r_img;
 		}
 		marker.icon = $scope.getTrackMarkerIcon(track);
@@ -302,19 +351,19 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		marker.latitude = evt.lat;
 		marker.longitude = evt.lng;
 		
-		if(marker.vdo && marker.vdo != '') {
+		if(marker.vdo && marker.vdo != '' && marker.vdo.indexOf('http') < 0) {
 			marker.vdo = CONTENT_BASE_URL + marker.vdo;
 		}
 		
-		if(marker.f_vdo && marker.f_vdo != '') {
+		if(marker.f_vdo && marker.f_vdo != '' && marker.f_vdo.indexOf('http') < 0) {
 			marker.f_vdo = CONTENT_BASE_URL + marker.f_vdo;
 		}
 
-		if(marker.r_vdo && marker.r_vdo != '') {
+		if(marker.r_vdo && marker.r_vdo != '' && marker.r_vdo.indexOf('http') < 0) {
 			marker.r_vdo = CONTENT_BASE_URL + marker.r_vdo;
 		}
 
-		if(marker.ado && marker.ado != '') {
+		if(marker.ado && marker.ado != '' && marker.ado.indexOf('http') < 0) {
 			marker.ado = CONTENT_BASE_URL + marker.ado;
 		}
 
@@ -390,7 +439,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	};
 
 	/**
-	 * Fleet 조회시 이벤트 리슨
+	 * Fleet 조회시
 	 */
 	$rootScope.$on('monitor-fleet-list-change', function(evt, fleetDataSet) {
 		if(fleetDataSet && fleetDataSet.items) {
@@ -399,20 +448,49 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	});
 
 	/**
-	 * Fleet 하나 선택시 이벤트 리슨
+	 * Fleet Trip 버튼 클릭시
 	 */
 	$rootScope.$on('monitor-fleet-trip-change', function(evt, fleet) {
 		if(fleet.id && fleet.trip_id) {
 			$scope.selectedMarker = $scope.fleetToMarker(fleet);
-			$scope.goTrip();
+			$scope.goTripByFleet();
 		}
 	});
 
 	/**
-	 * Grid에서 Fleet 선택시 이벤트 리슨
+	 * Grid에서 Fleet 선택시
 	 */
 	$rootScope.$on('monitor-fleet-info-change', function(evt, fleet) {
 		// $scope.showFleetInfo(fleet);
+		// TODO 1. center 이동 
+		// 2. 마커 아이콘 변경 
+	});
+
+	/**
+	 * Event 조회시
+	 */
+	$rootScope.$on('monitor-event-list-change', function(evt, eventDataSet) {
+		if(eventDataSet && eventDataSet.items) {
+			$scope.refreshEvents(eventDataSet.items);
+		}
+	});
+
+	/**
+	 * Event Trip 버튼 클릭시
+	 */
+	$rootScope.$on('monitor-event-trip-change', function(evt, eventData) {
+		alert(eventData._id);
+		if(eventData._id && eventData.tid) {
+			$scope.selectedMarker = $scope.eventToMarker(eventData);
+			$scope.goTripByEvent();
+		}
+	});
+
+	/**
+	 * Grid에서 Event 선택시
+	 */
+	$rootScope.$on('monitor-event-info-change', function(evt, eventData) {
+		// $scope.showEventInfo(eventData);
 		// TODO 1. center 이동 
 		// 2. 마커 아이콘 변경 
 	});

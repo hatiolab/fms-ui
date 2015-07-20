@@ -14,18 +14,29 @@ class MongoController < ActionController::Base
     sort_str = sorts ? sorts.join(',') : 'id desc'
     
     where_params.each do |n, v| 
-      where_conds[n.split("-")[0]] = v if (n.index("-") && !v.empty?)
+      next if(v.empty?)
+      cond_arr = n.split('-')
+      cond_name, cond_opr = cond_arr[0], cond_arr[1]
+
+      # 일단 in만 처리 ...
+      if(cond_opr == 'in') 
+        val = (v.class.name == 'String') ? v.split(',') : v
+        where_conds[cond_name] = { '$in' => val }
+      else
+        where_conds[cond_name] = v
+      end
     end if(where_params)
-    
+
     skip = (params[:page].to_i - 1) * params[:limit].to_i
     
     unless(where_conds.empty?)
+      total_count = entity.all_of(where_conds).count
       items = entity.all_of(where_conds).order(sort_str).skip(skip).limit(params[:limit].to_i)
     else
+      total_count = entity.count
       items = entity.order(sort_str).skip(skip).limit(params[:limit].to_i)
     end
 
-    total_count = entity.count
     return {:items => items, :total => total_count, :success => true}
   end
   

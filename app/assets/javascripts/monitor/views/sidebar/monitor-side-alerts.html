@@ -3,8 +3,9 @@
 	<div class="form-group">
 	    <label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">group</label>
 	    <div class="col-xs-11 col-sm-7 col-md-6 padding-clear">
-	      <select name="group" class="form-control" ng-model="group" ng-init="selected=''"
+	      <select name="group" class="form-control" ng-model="eventSearchParams.group" ng-init="selected=''"
 	       ng-options="group.name for group in groups" >
+	       	<option></option>
 				</select>
 	    </div>
 	</div>
@@ -15,7 +16,7 @@
 	    <label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">period</label>
 	    <div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
 				 <div id="datetimepicker1" class="input-append date">
-				     <input data-format="dd/MM/yyyy" type="text" class="form-control" placeholder="from"></input>
+				     <input data-format="yyyy-MM-dd" type="text" class="form-control" ng-model="eventSearchParams.from_date"placeholder="from"></input>
 				     <span class="add-on">
 				       <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
 				     </span>
@@ -24,7 +25,7 @@
 			<span class="col-xs-1 col-sm-1 col-md-1 padding-clear align-center margin-t7">~</span>
 	    <div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
 				 <div id="datetimepicker1" class="input-append date">
-				     <input data-format="dd/MM/yyyy" type="text" class="form-control" placeholder="to"></input>
+				     <input data-format="yyyy-MM-dd" type="text" class="form-control" ng-model="eventSearchParams.to_date"placeholder="to"></input>
 				     <span class="add-on">
 				       <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
 				     </span>
@@ -37,39 +38,54 @@
 	<div class="form-group">
 	  <label class="col-xs-12 col-sm-3 col-md-2 control-label">type</label>
 		<div class="col-xs-11 col-sm-9 col-md-10 padding-clear">
-			<div class="checkbox"><label><input type="checkbox"><span class="type-icon impact"></span>impact</label></div>
-			<div class="checkbox"><label><input type="checkbox"><span class="type-icon overspeed"></span>over speed</label></div>
-			<div class="checkbox"><label><input type="checkbox"><span class="type-icon geofence"></span>geofence</label></div>
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" ng-model="eventSearchParams.typ[0]" ng-true-value="'G'">
+						<span class="type-icon impact"></span>impact
+				</label>
+			</div>
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" ng-model="eventSearchParams.typ[1]" ng-true-value="'V'">
+						<span class="type-icon overspeed"></span>over speed
+				</label>
+			</div>
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" ng-model="eventSearchParams.typ[2]" ng-true-value="'I'">
+						<span class="type-icon geofence"></span>geofence
+				</label>
+			</div>
 		</div>
 	</div>
 	<!-- type begin -->
 
 	<!-- severity begin -->
-	<div class="form-group">
+	<!--div class="form-group">
 	  <label class="col-xs-12 col-sm-3 col-md-2 control-label">severity</label>
 		<div class="col-xs-11 col-sm-9 col-md-10 padding-clear">
 			<label class="col-sm-4 padding-clear"><input type="checkbox" class="status-check gray">green</label>
 			<label class="col-sm-4 padding-clear"><input type="checkbox" class="status-check gray">blue</label>
 			<label class="col-sm-4 padding-clear"><input type="checkbox" class="status-check gray">red</label>
 		</div>
-	</div>
+	</div-->
 	<!-- severity begin -->
 </form>
 
 <!-- status begin -->
 <div class="status">
-	<div class="pull-left col-xs-12 col-sm-5 col-md-5">total : <strong>{{alerts.total}}</strong></div>
+	<div class="pull-left col-xs-12 col-sm-5 col-md-5">total : <strong>{{events.total}}</strong></div>
 	<div class="pull-right col-xs-12 col-sm-7 col-md-7 align-right">
-		<span class="type-icon impact-white"></span>{{alertTypeSummaries.impact}}
-		<span class="type-icon overspeed-white"></span>{{alertTypeSummaries.overspeed}}
-		<span class="type-icon geofence-white"></span>{{alertTypeSummaries.geofence}}
+		<span class="type-icon impact-white"></span>{{eventTypeSummaries.impact}}
+		<span class="type-icon overspeed-white"></span>{{eventTypeSummaries.overspeed}}
+		<span class="type-icon geofence-white"></span>{{eventTypeSummaries.geofence}}
 	</div>
 </div>
 <!-- status end -->
 
 <!-- table begin -->
 <div class="search-table">
-	<table st-table="alertItems" class="table table-striped table-hover">
+	<table st-table="eventItems" class="table table-striped table-hover">
 		<tr>
 			<th></th>
 			<th>Vehicle / Driver</th>
@@ -77,12 +93,14 @@
 			<th>Type</th>
 			<th>Trip</th>
 		</tr>
-		<tr ng-repeat="alert in alertItems">
+		<tr ng-repeat="eventItem in eventItems">
 			<td></td>
-			<td>{{alert.fid}} / {{alert.did}}</td>
-			<td>{{alert.etm}}</td>
+			<td>{{eventItem.fid}} / {{eventItem.did}}</td>
+			<td>{{eventItem.etm | date:'medium'}}</td>
 			<td class="icon-td align-center"><span class="type-icon impact-red"></span></td>
-			<td class="icon-td align-center"><span class="icon-trip"></span></td>
+			<td class="icon-td align-center" ng-click="showTrip(eventItem)">
+					<span class="icon-trip"></span>
+			</td>
 		</tr>
 		<tfoot>
 			<tr>

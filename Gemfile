@@ -12,15 +12,15 @@ gem 'bower-rails'
 gem 'devise'
 gem 'mongoid', '~> 4.0.0'
 gem 'bson_ext'
-gem 'rails-assets-bootstrap'
-gem 'rails-assets-angularjs'
+#gem 'rails-assets-bootstrap'
+#gem 'rails-assets-angularjs'
 
 group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'
   gem 'spring'
 end
-gem 'bootstrap-sass'
+#gem 'bootstrap-sass'
 gem 'high_voltage'
 gem 'pg'
 gem 'simple_form'
