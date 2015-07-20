@@ -6,7 +6,6 @@
     "angular-ui-router": "latest",
     "angular-google-maps": "latest",
     "angular-resource": "latest",
-    "angular-ui-grid": "latest",
     "angular-smart-table": "latest"
   }
 }
