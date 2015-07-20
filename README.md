@@ -37,8 +37,14 @@ Getting Started
 
 3. Copy database.yml.sample to database.yml and set the database config
 
-4. Start Appllication
+4. Start Appllication - Development mode
 - rails s
+
+5. Asset compile
+- bundle exec rake assets:precompile
+
+6. Start Appllication - Production mode
+- bundle exec unicorn -E production -c config/unicorn.rb
 
 Documentation and Support
 -------------------------
