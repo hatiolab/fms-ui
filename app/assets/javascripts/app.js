@@ -10,8 +10,18 @@ angular.module('fmsCore', ['ui.router', 'ngResource', 'smart-table', 'uiGmapgoog
 
 // 2. settings module
 angular.module('fmsSettings', ['fmsCore']);
+
 // 3. monitor module
-angular.module('fmsMonitor', ['fmsCore', 'pip']);
+angular.module('fmsMonitor', ['fmsCore', 'pip'])
+.config(function($sceDelegateProvider) {
+	$sceDelegateProvider.resourceUrlWhitelist([
+	    // Allow same origin resource loads.
+	    'self',
+	    // Allow loading from our assets domain.  Notice the difference between * and **.
+	    CONTENT_BASE_URL + '**'
+	  ]);
+});
+
 // 4. main module
 angular.module('fmsApp', ['fmsCore', 'fmsSettings', 'fmsMonitor'])
 .config(function($stateProvider, $urlRouterProvider) {

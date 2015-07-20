@@ -277,6 +277,13 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		marker.ctm = parseInt(track.ctm);
 		marker.utm = parseInt(track.utm);
 		marker.ttm = parseInt(track.ttm);
+		if(marker.f_img && marker.f_img != '') {
+			marker.f_img = CONTENT_BASE_URL + marker.f_img;
+		}
+		
+		if(marker.r_img && marker.r_img != '') {
+			marker.r_img = CONTENT_BASE_URL + marker.r_img;
+		}
 		marker.icon = $scope.getTrackMarkerIcon(track);
 		marker.events = {
 			click : function(e) {
@@ -294,6 +301,25 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		marker.event_id = evt.id;
 		marker.latitude = evt.lat;
 		marker.longitude = evt.lng;
+		
+		if(marker.vdo && marker.vdo != '') {
+			marker.vdo = CONTENT_BASE_URL + marker.vdo;
+		}
+		
+		if(marker.f_vdo && marker.f_vdo != '') {
+			marker.f_vdo = CONTENT_BASE_URL + marker.f_vdo;
+		}
+
+		if(marker.r_vdo && marker.r_vdo != '') {
+			marker.r_vdo = CONTENT_BASE_URL + marker.r_vdo;
+		}
+
+		if(marker.ado && marker.ado != '') {
+			marker.ado = CONTENT_BASE_URL + marker.ado;
+		}
+
+		console.log(marker.f_vdo);
+
 		marker.icon = $scope.getEventMarkerIcon(evt);
 		marker.events = {
 			click : function(e) {
