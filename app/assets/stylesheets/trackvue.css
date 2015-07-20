@@ -119,7 +119,6 @@ th{background:url(/assets/bg-th.png) 0 100% repeat-x;color:#8a95a5;border:1px so
 	max-width: none;
 }
 
-#modal-playback{}
 .backward-layer{width:430px;}
 .forward-layer{width:180px;position:absolute;top:0px;left:263px;
 -webkit-box-shadow: -5px 6px 5px 0px rgba(0,0,0,0.2);-moz-box-shadow: -5px 6px 5px 0px rgba(0,0,0,0.2);box-shadow: -5px 6px 5px 0px rgba(0,0,0,0.2);}

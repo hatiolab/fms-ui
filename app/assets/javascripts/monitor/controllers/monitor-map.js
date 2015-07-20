@@ -318,8 +318,6 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 			marker.ado = CONTENT_BASE_URL + marker.ado;
 		}
 
-		console.log(marker.f_vdo);
-
 		marker.icon = $scope.getEventMarkerIcon(evt);
 		marker.events = {
 			click : function(e) {

@@ -71,17 +71,34 @@
     <ui-gmap-window id="eventWindow" coords="selectedMarker" 
       show="windowSwitch.showEventInfo" closeClick="closeClick()">
       <div>
-        <div>Occurred at <strong>{{selectedMarker.etm | date:'medium'}}</strong></div>
-        <div>Speed <strong>{{selectedMarker.vlc}}</strong></div>
-        <div>Event ID <strong>{{selectedMarker.event_id}}</strong>/<strong>{{selectedMarker.typ}}</strong></div>
-        <div>G-X <strong>{{selectedMarker.gx}}</strong></div>
-        <div>G-Y <strong>{{selectedMarker.gy}}</strong></div>
-        <div>G-Z <strong>{{selectedMarker.gz}}</strong></div>        
-        <div class="detail-address">{{selectedMarker.address}}</div>
         <pip-video front-video-url="{{selectedMarker.f_vdo}}"
             rear-video-url="{{selectedMarker.r_vdo}}"
             audio-url="{{selectedMarker.ado}}">
-        </pip-video>
+        </pip-video> 
+        <div class="detial-time">Occurred at <strong>{{selectedMarker.etm | date:'medium'}}</strong></div>
+        <div class="detail-address">{{selectedMarker.address}}</div>
+        <table class="detail-info-table">
+          <tr>
+            <th>Speed</th>
+            <td>{{selectedMarker.vlc}}</td>
+          </tr>
+          <tr>
+            <th>Event ID</th>
+            <td>{{selectedMarker.event_id}}</strong>/<strong>{{selectedMarker.typ}}</td>
+          </tr>
+          <tr>
+            <th>G-X</th>
+            <td>{{selectedMarker.gx}}</td>
+          </tr>
+          <tr>
+            <th>G-Y</th>
+            <td>{{selectedMarker.gy}}</td>
+          </tr>
+          <tr>
+            <th>G-Z</th>
+            <td>{{selectedMarker.gz}}</td>
+          </tr>
+        </table>
       </div>
     </ui-gmap-window>
 
