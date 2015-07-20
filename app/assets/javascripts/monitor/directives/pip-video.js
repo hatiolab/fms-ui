@@ -10,7 +10,7 @@ angular.module('pip', [])
                 scope.audioUrl = a.audioUrl;
             },
             template: '' +
-                '<div class="pip-container" ng-if="frontVideoUrl != null">' +
+                '<div class="pip-container" ng-if="frontVideoUrl != null && frontVideoUrl != \'\'">' +
                 '   <video ng-attr-src="{{ frontVideoUrl }}" controls xmediagroup="pip" class="backward-layer"></video>' +
                 '   <video ng-attr-src="{{ rearVideoUrl }}" xmediagroup="pip" class="forward-layer"></video>' +
                 '   <audio ng-attr-src="{{ audioUrl }}" xmediagroup="pip" hidden></audio>' +
@@ -27,7 +27,7 @@ angular.module('pip', [])
                 scope.rearImageUrl = a.rearImageUrl;
             },
             template: '' +
-                '<div class="pip-container" ng-if="frontImageUrl != null">' +
+                '<div class="pip-container" ng-if="frontImageUrl != null && frontImageUrl != \'\'">' +
                 '   <img ng-attr-src="{{ frontImageUrl }}" class="backward-layer"></img>' +
                 '   <img ng-attr-src="{{ rearImageUrl }}" class="forward-layer"></img>' +
                 '</div>'

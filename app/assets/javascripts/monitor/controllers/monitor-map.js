@@ -223,7 +223,8 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 
 			// 2.4 events
 			for(var k = 0 ; k < events.length ; k++) {
-				if(events[k].bid == batch.id) {
+				//if(events[k].bid == batch.id && events[k].typ != 'V') {
+					if(events[k].bid == batch.id) {
 					markerId = $scope.addMarker(markerId, $scope.eventToMarker(events[k]));
 					bounds.extend(new google.maps.LatLng(events[k].lat, events[k].lng));
 				}
@@ -306,7 +307,6 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 */
 	$scope.batchToMarker = function(batch, type) {
 		var marker = angular.copy(batch);
-		console.log(marker);
 		marker.batch_id = batch.id;
 		marker.latitude = (type == 'start') ? batch.s_lat : batch.lat;
 		marker.longitude = (type == 'start') ? batch.s_lng : batch.lng;
@@ -325,7 +325,6 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 */
 	$scope.trackToMarker = function(track) {
 		var marker = angular.copy(track);
-		console.log(marker);
 		marker.track_id = track.id;
 		marker.latitude = track.lat;
 		marker.longitude = track.lng;
