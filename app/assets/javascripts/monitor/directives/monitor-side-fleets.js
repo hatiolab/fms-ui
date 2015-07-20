@@ -108,6 +108,13 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	});
 
 	/**
+	 * settings data all ready 
+	 */
+	$scope.$on('settings-all-ready', function(evt, value) {
+		// $scope.init();
+	});
+
+	/**
 	 * 초기화 함수 
 	 */
 	$scope.init = function() {
@@ -116,4 +123,5 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	};
 
 	$scope.init();
+
 });

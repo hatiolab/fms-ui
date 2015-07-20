@@ -1,4 +1,4 @@
-angular.module('fmsCore').controller('CoreCtrl', function($rootScope, $scope, RestApi) {
+angular.module('fmsCore').controller('CoreCtrl', function($rootScope, $scope, ConstantSpeed, RestApi) {
 
 	/**
 	 * Inject to rootScope : Refresh Settings
@@ -11,6 +11,8 @@ angular.module('fmsCore').controller('CoreCtrl', function($rootScope, $scope, Re
 			for(var i = 0 ; i < settings.length ; i++) {
 				$rootScope.setSetting(settings[i].name, settings[i].value);
 			}
+
+			$rootScope.$broadcast('settings-all-ready');
 		});
 	};
 
@@ -35,6 +37,27 @@ angular.module('fmsCore').controller('CoreCtrl', function($rootScope, $scope, Re
 		$rootScope.settings[name] = value;
 		var eventName = 'setting-' + name + '-change';
 		$rootScope.$broadcast(eventName, value);
+	};
+
+	/**
+	 * Get speed level by setting
+	 */	
+	$rootScope.getSpeedLevel = function(speed) {
+		if(speed == 0) {
+			return ConstantSpeed.SPEED_IDLE;
+			
+		} else if(speed >= $rootScope.getIntSetting(ConstantSpeed.SPEED_OVER)) {
+			return ConstantSpeed.SPEED_OVER;
+			
+		} else if(speed > $rootScope.getIntSetting(ConstantSpeed.SPEED_NORMAL)) {
+			return ConstantSpeed.SPEED_HIGH;
+			
+		} else if(speed > $rootScope.getIntSetting(ConstantSpeed.SPEED_SLOW)) {
+			return ConstantSpeed.SPEED_NORMAL;
+			
+		} else {
+			return ConstantSpeed.SPEED_SLOW;
+		}
 	};
 
 	/**

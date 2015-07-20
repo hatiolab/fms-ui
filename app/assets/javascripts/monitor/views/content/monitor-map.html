@@ -2,7 +2,7 @@
 	<ui-gmap-google-map center='mapOption.center' zoom='mapOption.zoom' id='mapCanvas'>
 
 		<!-- markers -->
-		<ui-gmap-markers models="markers" coords="'self'" idKey="'id'" events="'events'"></ui-gmap-markers>
+		<ui-gmap-markers models="markers" coords="'self'" idKey="'id'" events="'events'" icon="'icon'"></ui-gmap-markers>
 
     <!-- lines -->
     <ui-gmap-polylines models="polylines" path="'path'" stroke="'stroke'" visible="'visible'" geodesic="'geodesic'" static='true'></ui-gmap-polylines>
@@ -45,7 +45,7 @@
       show="windowSwitch.showBatchInfo" closeClick="closeClick()">
       <div>
         <div>Recorded at <strong>Fri May 29 2015 14:37:46 GMT-0800</strong></div>
-        <div>Trip Started at Fri May 29 2015 14:37:46 GMT-0800</div>
+        <div>Batch Started at Fri May 29 2015 14:37:46 GMT-0800</div>
       </div>
     </ui-gmap-window>
 
@@ -53,8 +53,8 @@
     <ui-gmap-window id="trackWindow" coords="selectedMarker" 
       show="windowSwitch.showTrackInfo" closeClick="closeClick()">
       <div>
-        <div>Recorded at <strong>Fri May 29 2015 14:37:46 GMT-0800</strong></div>
-        <div>Trip Started at Fri May 29 2015 14:37:46 GMT-0800</div>
+        <div>Recorded at <strong>{{selectedMarker.ctm | date:'medium'}}</strong></div>
+        <div>Track Started at {{selectedMarker.ttm | date:'medium'}}</div>
         <pip-image front-image-url="/assets/images/front.jpg"
             rear-image-url="/assets/images/rear.jpg">
         </pip-image>

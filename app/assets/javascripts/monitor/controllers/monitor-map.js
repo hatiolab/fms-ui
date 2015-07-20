@@ -32,10 +32,19 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	};
 
 	/**
+	 * window information switch off all
+	 */
+	$scope.switchOffAll = function() {
+		for (property in $scope.windowSwitch) {
+			$scope.windowSwitch[property] = false;
+		}		
+	};
+
+	/**
 	 * Refresh Fleet Markers
 	 */
-	$scope.refreshFleetMarkers = function(fleets) {
-		$scope.markers = [];
+	$scope.refreshFleets = function(fleets) {
+		$scope.clearAll({ latitude: DEFAULT_LAT, longitude: DEFAULT_LNG });
 		for(var i = 0 ; i < fleets.length ; i++) {
 			var marker = $scope.fleetToMarker(fleets[i]);
 			$scope.markers.push(marker);
@@ -49,11 +58,10 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 			var marker = fleet;
 			marker.latitude = fleet.lat;
 			marker.longitude = fleet.lng;
+			marker.icon = $scope.getFleetMarkerIcon(fleet);
 			marker.events = {
 					click : function(e) {
-						$scope.selectedMarker = e.model;
-						$scope.switchOn('showFleetInfo');
-						$scope.getAddress($scope.selectedMarker);
+						$scope.addMarkerClickEvent(e, 'showFleetInfo');
 					}
 			};
 			return marker;
@@ -93,6 +101,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	$scope.clearAll = function(center) {
 		$scope.markers = [];
 		$scope.polylines = [];
+		$scope.switchOffAll();
 
 		if(center) {
 			$scope.mapOption.center = center;
@@ -160,7 +169,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 */
 	$scope.addMarkerClickEvent = function(e, switchName) {
 		$scope.selectedMarker = e.model;
-		$scope.switchOn('showTripInfo');
+		$scope.switchOn(switchName);
 		$scope.getAddress($scope.selectedMarker);
 	}
 
@@ -201,6 +210,9 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		var marker = track;
 		marker.latitude = track.lat;
 		marker.longitude = track.lng;
+		marker.ctm = parseInt(track.ctm);
+		marker.utm = parseInt(track.utm);
+		marker.ttm = parseInt(track.ttm);
 		marker.stroke = {
 			strokeColor: '#FF0000',
 			strokeOpacity: 1.0,
@@ -215,11 +227,28 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	};
 
 	/**
+	 * Fleet Marker Icon
+	 */
+	$scope.getFleetMarkerIcon = function(fleet) {
+		var velocity = fleet.velocity;
+		var speedLevel = $rootScope.getSpeedLevel(velocity);
+		var level = speedLevel.split('_')[1];
+		return '/assets/fleet_' + level + '.png';
+	};
+
+	/**
+	 * Marker Icon
+	 */
+	$scope.getMarkerIcon = function(type) {
+		return '/assets/' + type + '.png';
+	};
+
+	/**
 	 * Fleet 조회시 이벤트 리슨
 	 */
 	$rootScope.$on('monitor-fleet-list-change', function(evt, fleetDataSet) {
 		if(fleetDataSet && fleetDataSet.items) {
-			$scope.refreshFleetMarkers(fleetDataSet.items);
+			$scope.refreshFleets(fleetDataSet.items);
 		}
 	});
 
@@ -237,7 +266,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * Fleet 하나 선택시 이벤트 리슨
 	 */
 	$rootScope.$on('monitor-fleet-info-change', function(evt, fleet) {
-		$scope.showFleetInfo(fleet);
+		//$scope.showFleetInfo(fleet);
 	});
 
 	/**
