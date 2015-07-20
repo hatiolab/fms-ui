@@ -46,7 +46,8 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	$scope.refreshFleets = function(fleets) {
 		$scope.clearAll({ latitude: DEFAULT_LAT, longitude: DEFAULT_LNG });
 		var gmap = $scope.mapControl.getGMap();
-		var bounds = gmap.getBounds();
+		var startPoint = new google.maps.LatLng(fleets[0].lat, fleets[0].lng);
+		var bounds = new google.maps.LatLngBounds(startPoint, startPoint);
 
 		for(var i = 0 ; i < fleets.length ; i++) {
 			var marker = $scope.fleetToMarker(fleets[i]);
