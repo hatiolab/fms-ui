@@ -35,8 +35,8 @@
     <ui-gmap-window id="tripWindow" coords="selectedMarker" 
       show="windowSwitch.showTripInfo" closeClick="closeClick()">
       <div>
-        <div>Recorded at <strong>Fri May 29 2015 14:37:46 GMT-0800</strong></div>
-        <div>Trip Started at Fri May 29 2015 14:37:46 GMT-0800</div>
+        <div>Recorded at <strong>{{selectedMarker.stm | date:'medium'}}</strong></div>
+        <div>Trip Started at {{selectedMarker.stm | date:'medium'}}</div>
       </div>
     </ui-gmap-window>
 
@@ -44,8 +44,8 @@
     <ui-gmap-window id="batchWindow" coords="selectedMarker" 
       show="windowSwitch.showBatchInfo" closeClick="closeClick()">
       <div>
-        <div>Recorded at <strong>Fri May 29 2015 14:37:46 GMT-0800</strong></div>
-        <div>Batch Started at Fri May 29 2015 14:37:46 GMT-0800</div>
+        <div>Recorded at <strong>{{selectedMarker.utm | date:'medium'}}</strong></div>
+        <div>Batch Started at {{selectedMarker.stm | date:'medium'}}</div>
       </div>
     </ui-gmap-window>
 
