@@ -5,15 +5,11 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 */
 	$scope.mapOption = { center: { latitude: DEFAULT_LAT, longitude: DEFAULT_LNG }, zoom: 9 };
 	/**
-	 * map markers for fleets
+	 * map marker models for fleets, map polyline model for tracks, currently selected marker
 	 */
-	$scope.markers = [];
+	$scope.markers = [], $scope.polylines = [], $scope.selectedMarker = null;
 	/**
-	 * 선택된 마커 
-	 */
-	$scope.selectedMarker = null;
-	/**
-	 * window show / hide switch
+	 * window show / hide switch model
 	 */
 	$scope.windowSwitch = { 
 		showFleetInfo : false,
@@ -22,30 +18,16 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		showTrackInfo : false
 	};
 
-	$scope.switchOn = function(infoName) {
-		if(infoName == 'fleet') {
-			$scope.windowSwitch.showFleetInfo = true;
-			$scope.windowSwitch.showTripInfo = false;
-			$scope.windowSwitch.showBatchInfo = false;
-			$scope.windowSwitch.showTrackInfo = false;
-
-		} else if(infoName == 'trip') {
-			$scope.windowSwitch.showFleetInfo = false;
-			$scope.windowSwitch.showTripInfo = true;
-			$scope.windowSwitch.showBatchInfo = false;
-			$scope.windowSwitch.showTrackInfo = false;
-
-		} else if(infoName == 'batch') {
-			$scope.windowSwitch.showFleetInfo = false;
-			$scope.windowSwitch.showTripInfo = false;
-			$scope.windowSwitch.showBatchInfo = true;
-			$scope.windowSwitch.showTrackInfo = false;
-
-		} else if(infoName == 'track') {
-			$scope.windowSwitch.showFleetInfo = false;
-			$scope.windowSwitch.showTripInfo = false;
-			$scope.windowSwitch.showBatchInfo = false;
-			$scope.windowSwitch.showTrackInfo = true;
+	/**
+	 * window information switch on
+	 */
+	$scope.switchOn = function(switchName) {
+		for (property in $scope.windowSwitch) {
+			if(property == switchName) {
+				$scope.windowSwitch[property] = true;	
+			} else {
+				$scope.windowSwitch[property] = false;	
+			}
 		}
 	};
 
@@ -70,7 +52,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 			marker.events = {
 					click : function(e) {
 						$scope.selectedMarker = e.model;
-						$scope.switchOn('fleet');
+						$scope.switchOn('showFleetInfo');
 						$scope.getAddress($scope.selectedMarker);
 					}
 			};
@@ -161,19 +143,26 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		}
 
 		$scope.polylines.push({
-			id : 1,
+			id : trip.id,
 			path : path,
 			stroke : {
-				strokeColor: '#FF0000',
-				strokeOpacity: 1.0,
-				strokeWeight: 2
+				color: '#FF0000',
+				opacity: 1.0,
+				weight: 2
 			},
 			geodesic : true,
 			visible : true
 		});
-
-		console.log($scope.polylines);
 	};
+
+	/**
+	 * add marker click event
+	 */
+	$scope.addMarkerClickEvent = function(e, switchName) {
+		$scope.selectedMarker = e.model;
+		$scope.switchOn('showTripInfo');
+		$scope.getAddress($scope.selectedMarker);
+	}
 
 	/**
 	 * convert trip to marker
@@ -184,9 +173,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		marker.longitude = trip.lng;
 		marker.events = {
 			click : function(e) {
-				$scope.selectedMarker = e.model;
-				$scope.switchOn('trip');
-				$scope.getAddress($scope.selectedMarker);
+				$scope.addMarkerClickEvent(e, 'showTripInfo');
 			}
 		};
 		return marker;
@@ -201,9 +188,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		marker.longitude = batch.lng;
 		marker.events = {
 			click : function(e) {
-				$scope.selectedMarker = e.model;
-				$scope.switchOn('batch');
-				$scope.getAddress($scope.selectedMarker);
+				$scope.addMarkerClickEvent(e, 'showBatchInfo');
 			}
 		};
 		return marker;
@@ -223,9 +208,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		},
 		marker.events = {
 			click : function(e) {
-				$scope.selectedMarker = e.model;
-				$scope.switchOn('track');
-				$scope.getAddress($scope.selectedMarker);
+				$scope.addMarkerClickEvent(e, 'showTrackInfo');
 			}
 		};
 		return marker;
