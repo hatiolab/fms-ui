@@ -66,25 +66,27 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 */
 	$scope.showFleetInfo = function(fleet) {
 		$scope.selectedMarker = $scope.fleetToMarker(fleet);
-		$scope.windowSwitch.showFleetInfo = true;
-		$scope.getAddress($scope.selectedMarker);
+		$scope.switchOn('showFleetInfo');
+		if(!fleet.address) {
+			$scope.getAddress(fleet, 'showFleetInfo');
+		}
 	};
 
 	/**
 	 * get address from lat, lng
 	 */
-	$scope.getAddress = function(marker) {
+	$scope.getAddress = function(marker, switchName) {
     var geocoder = new google.maps.Geocoder();
     var latlng = new google.maps.LatLng(marker.latitude, marker.longitude);
     geocoder.geocode({ 'latLng': latlng }, function (results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
         if (results[1]) {
-            $scope.selectedMarker.address = results[1].formatted_address;
+            marker.address = results[1].formatted_address;
         } else {
-            $scope.selectedMarker.address = 'Location not found';
+            marker.address = 'Location not found';
         }
       } else {
-        $scope.selectedMarker.address = 'Geocoder failed due to: ' + status;
+        marker.address = 'Geocoder failed due to: ' + status;
       }
     });
 	};
@@ -212,7 +214,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 
 			// 2.3 tracks
 			for(var j = 0 ; j < tracks.length ; j++) {
-				if(tracks[j].bid == batch.batch_id) {
+				if(tracks[j].bid == batch.id) {
 					markerId = $scope.addMarker(markerId, $scope.trackToMarker(tracks[j]));
 					batchline.path.push({latitude : tracks[j].lat, longitude : tracks[j].lng});
 					bounds.extend(new google.maps.LatLng(tracks[j].lat, tracks[j].lng));
@@ -221,7 +223,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 
 			// 2.4 events
 			for(var k = 0 ; k < events.length ; k++) {
-				if(events[k].bid == batch.batch_id) {
+				if(events[k].bid == batch.id) {
 					markerId = $scope.addMarker(markerId, $scope.eventToMarker(events[k]));
 					bounds.extend(new google.maps.LatLng(events[k].lat, events[k].lng));
 				}
@@ -257,16 +259,18 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * add marker click event
 	 */
 	$scope.addMarkerClickEvent = function(e, switchName) {
-		$scope.selectedMarker = e.model;
 		$scope.switchOn(switchName);
-		$scope.getAddress($scope.selectedMarker);
+		$scope.selectedMarker = e.model;
+		if(!e.model.address) {
+			$scope.getAddress(e.model, switchName);
+		}
 	}
 
 	/**
 	 * convert fleet to marker
 	 */
 	$scope.fleetToMarker = function(fleet) {
-		var marker = fleet;
+		var marker = angular.copy(fleet);
 		marker.fleet_id = fleet.id;
 		marker.latitude = fleet.lat;
 		marker.longitude = fleet.lng;
@@ -283,7 +287,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * convert trip to marker
 	 */
 	$scope.tripToMarker = function(trip, type) {
-		var marker = trip;
+		var marker = angular.copy(trip);
 		marker.trip_id = trip.id;
 		marker.latitude = (type == 'start') ? trip.s_lat : trip.lat;
 		marker.longitude = (type == 'start') ? trip.s_lng : trip.lng;
@@ -301,7 +305,8 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * convert batch to marker
 	 */
 	$scope.batchToMarker = function(batch, type) {
-		var marker = batch;
+		var marker = angular.copy(batch);
+		console.log(marker);
 		marker.batch_id = batch.id;
 		marker.latitude = (type == 'start') ? batch.s_lat : batch.lat;
 		marker.longitude = (type == 'start') ? batch.s_lng : batch.lng;
@@ -319,13 +324,15 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * convert track to marker
 	 */
 	$scope.trackToMarker = function(track) {
-		var marker = track;
+		var marker = angular.copy(track);
+		console.log(marker);
 		marker.track_id = track.id;
 		marker.latitude = track.lat;
 		marker.longitude = track.lng;
 		marker.ctm = parseInt(track.ctm);
 		marker.utm = parseInt(track.utm);
 		marker.ttm = parseInt(track.ttm);
+
 		if(marker.f_img && marker.f_img != '' && marker.f_img.indexOf('http') < 0) {
 			marker.f_img = CONTENT_BASE_URL + marker.f_img;
 		}
@@ -333,6 +340,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		if(marker.r_img && marker.r_img != '' && marker.r_img.indexOf('http') < 0) {
 			marker.r_img = CONTENT_BASE_URL + marker.r_img;
 		}
+		
 		marker.icon = $scope.getTrackMarkerIcon(track);
 		marker.events = {
 			click : function(e) {
@@ -346,7 +354,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * convert event to marker
 	 */
 	$scope.eventToMarker = function(evt) {
-		var marker = evt;
+		var marker = angular.copy(evt);
 		marker.event_id = evt.id;
 		marker.latitude = evt.lat;
 		marker.longitude = evt.lng;

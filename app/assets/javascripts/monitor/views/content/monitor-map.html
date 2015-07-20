@@ -2,7 +2,7 @@
 	<ui-gmap-google-map id='mapCanvas' center='mapOption.center' zoom='mapOption.zoom' control="mapControl">
 
 		<!-- markers -->
-		<ui-gmap-markers models="markers" coords="'self'" idKey="'id'" events="'events'" icon="'icon'" control="mapControl"></ui-gmap-markers>
+		<ui-gmap-markers models="markers" coords="'self'" idKey="'id'" events="'events'" icon="'icon'"></ui-gmap-markers>
 
     <!-- lines -->
     <ui-gmap-polylines models="polylines" path="'path'" stroke="'stroke'" visible="'visible'" geodesic="'geodesic'" static='true'></ui-gmap-polylines>
@@ -40,7 +40,7 @@
 					Location {{selectedMarker.address}}
 				</div>
         <div ng-show="'{{selectedMarker.trip_id}}' != ''" class="col-xs-12 padding-clear">
-          <button ng-click="$parent.goTrip()" class="btn modal-btn-trip btn-success btn-sm">Go Trip</button>
+          <button ng-click="$parent.goTripByFleet()" class="btn modal-btn-trip btn-success btn-sm">Go Trip</button>
         </div>
       </div>
 		</ui-gmap-window>
@@ -85,6 +85,7 @@
     <ui-gmap-window id="eventWindow" coords="selectedMarker" 
       show="windowSwitch.showEventInfo" closeClick="closeClick()">
       <div>
+        <div>Event ID <strong>{{selectedMarker._id}}</strong></div>
         <pip-video front-video-url="{{selectedMarker.f_vdo}}"
             rear-video-url="{{selectedMarker.r_vdo}}"
             audio-url="{{selectedMarker.ado}}">

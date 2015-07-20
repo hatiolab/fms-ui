@@ -12,10 +12,10 @@ angular.module('fmsMonitor').config(function($stateProvider, $urlRouterProvider)
 			},
 			'content-view' : {
 				templateUrl: '/assets/monitor/views/content/monitor-map.html'
-			}/* TODO Style Check,
+			},
 			'infobar-view' : {
 				templateUrl: '/assets/monitor/views/infobar/infobar.html'
-			}*/
+			}
 		}
 	});
 

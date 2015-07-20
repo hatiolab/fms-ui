@@ -5,6 +5,11 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 		templateUrl: '/assets/monitor/views/sidebar/monitor-side-alerts.html',
 		scope: {},
 		link : function(scope, element, attr, sideAlertsCtrl) {
+			$(function() {
+				// TODO auto close
+				$('.input-append.date').datetimepicker();
+			});
+
 			// 버튼이 Directive Element 바깥쪽에 있어서 버튼 클릭함수를 이용 ...
 			var refreshButton = angular.element('.panel-refresh');
 			refreshButton.bind("click", function() {
@@ -19,11 +24,6 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 })
 
 .controller('sideAlertsCtrl', function($rootScope, $scope, $resource, $element, RestApi) {
-
-	$(function() {
-		$('.input-append.date').datetimepicker();
-	});
-
 	/**
 	 * 폼 모델 초기화 
 	 */
