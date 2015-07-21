@@ -104,11 +104,10 @@
     <ui-gmap-window id="trackWindow" coords="selectedMarker" 
       show="windowSwitch.showTrackInfo" closeClick="switchOffAll()">
       <div>
-        <div class="detail-item">
-					<span class="modal-icon dot-gray">Track ID</span>
-					<strong>{{selectedMarker.id}}</strong>
-				</div>
-        <div class="detail-item">
+        <div>Track ID<strong>{{selectedMarker.id}}</strong></div>
+        <pip-image front-image-url="{{selectedMarker.f_img}}" rear-image-url="{{selectedMarker.r_img}}">
+        </pip-image>
+        <div class="detail-item margin-t10">
 					<span class="modal-icon dot-gray min-w100">Recorded at</span>
 					{{selectedMarker.ctm | date:'medium'}}
 				</div>
@@ -129,8 +128,7 @@
 					<span class="modal-icon dot-gray">G-Z</span>
 					<strong>{{selectedMarker.gz}}</strong>
 				</div>	
-        <pip-image front-image-url="{{selectedMarker.f_img}}" rear-image-url="{{selectedMarker.r_img}}">
-        </pip-image>
+        
       </div>
     </ui-gmap-window>
 
