@@ -1,30 +1,30 @@
 								<table class="info-table">
 									<tr>
-										<td class="info-label">Started at / Till</td>
-										<td class="info-value">Fri May 29 2015 22:38:11 GMT-0800 / Fri May 29 2015 14:37:46 GMT-0800</td>
+										<td class="info-label">Fleet / Started at / Till</td>
+										<td class="info-value">{{trip.fid}} / {{trip.stm | date:'medium'}} / {{trip.etm | date :'medium'}}</td>
 									</tr>
-									<tr>
+									<!--tr>
 										<td class="info-label">Duration / Distance</td>
 										<td class="info-value">0 h 0 m 0 s / 0 Km</td>
-									</tr>
+									</tr-->
 									<tr>
 										<td class="info-label">Last Speed (Avg.)</td>
-										<td class="info-value speed-status"><span class="status-box orange"></span><strong>111 Km/h</strong> (Avg: 41)</td>
+										<td class="info-value speed-status"><span class="{{trip.typeClass}}"></span><strong>{{trip.vlc}} Km/h</strong> (Avg: 41)</td>
 									</tr>
 									<tr>
 										<td class="info-label">Speeds</td>
 										<td class="info-value">
-											<div class="col-xs-2 col-md-1 status-box gray padding-clear">0</div>
-											<div class="col-xs-2 col-md-1 status-box dark padding-clear">1</div>
-											<div class="col-xs-2 col-md-1 status-box blue padding-clear">3</div>
-											<div class="col-xs-2 col-md-1 status-box green padding-clear">5</div>
-											<div class="col-xs-2 col-md-1 status-box orange padding-clear">3</div>
-											<div class="col-xs-2 col-md-1 status-box red padding-clear">0</div>
+											<div class="col-xs-2 col-md-1 status-box gray padding-clear">{{trip.c_off}}</div>
+											<div class="col-xs-2 col-md-1 status-box dark padding-clear">{{trip.c_idl}}</div>
+											<div class="col-xs-2 col-md-1 status-box blue padding-clear">{{trip.c_low}}</div>
+											<div class="col-xs-2 col-md-1 status-box green padding-clear">{{trip.c_nml}}</div>
+											<div class="col-xs-2 col-md-1 status-box orange padding-clear">{{trip.c_hgh}}</div>
+											<div class="col-xs-2 col-md-1 status-box red padding-clear">{{trip.c_ovr}}</div>
 										</td>
 									</tr>
 									<tr>
 										<td class="info-label">From</td>
-										<td class="info-value">152-198 West 32nd Street, New York, NY 10001, USA</td>
+										<td class="info-value">{{trip.fromAddress}}</td>
 									</tr>
 								</table>
 								<!-- pagination begin -->

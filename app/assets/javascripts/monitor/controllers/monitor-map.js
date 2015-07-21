@@ -1,4 +1,4 @@
-angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $scope, $timeout, $interval, RestApi) {
+angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $scope, $timeout, $interval, ConstantSpeed, RestApi) {
 	
 	/**
 	 * map option
@@ -73,25 +73,27 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		$scope.selectedMarker = $scope.fleetToMarker(fleet);
 		$scope.switchOn('showFleetInfo');
 		if(!$scope.selectedMarker.address) {
-			$scope.getAddress($scope.selectedMarker);
+			$scope.getAddress($scope.selectedMarker, 'address');
 		}
 	};
 
 	/**
 	 * get address from lat, lng
 	 */
-	$scope.getAddress = function(marker) {
+	$scope.getAddress = function(marker, addressField, lat, lng) {
+		var latitude = lat ? lat : marker.lat;
+		var longitude = lng ? lng : marker.lng;
     var geocoder = new google.maps.Geocoder();
-    var latlng = new google.maps.LatLng(marker.latitude, marker.longitude);
+    var latlng = new google.maps.LatLng(latitude, longitude);
     geocoder.geocode({ 'latLng': latlng }, function (results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
         if (results[1]) {
-            marker.address = results[1].formatted_address;
+            marker[addressField] = results[1].formatted_address;
         } else {
-            marker.address = 'Location not found';
+            marker[addressField] = 'Location not found';
         }
       } else {
-        marker.address = 'Geocoder failed due to: ' + status;
+        marker[addressField] = 'Geocoder failed due to: ' + status;
       }
     });
 	};
@@ -180,8 +182,10 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * Show Trip
 	 */
 	$scope.showTrip = function(tripDataSet) {
-		var fleet = tripDataSet.fleet;
 		var trip = tripDataSet.trip;
+		$scope.getAddress(trip, 'fromAddress', trip.s_lat, trip.s_lng);
+
+		var fleet = tripDataSet.fleet;
 		var batches = tripDataSet.batches;
 		var tracks = tripDataSet.tracks;
 		var events = tripDataSet.events;
@@ -244,6 +248,29 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 
 		gmap.setCenter(bounds.getCenter());
 		gmap.fitBounds(bounds);
+
+		var speedLevel = $rootScope.getSpeedLevel(trip.vlc);
+		if(speedLevel == ConstantSpeed.SPEED_IDLE) {
+			trip.typeClass = 'status-box dark';
+
+		} else if(speedLevel == ConstantSpeed.SPEED_SLOW) {
+			trip.typeClass = 'status-box blue';
+
+		} else if(speedLevel == ConstantSpeed.SPEED_NORMAL) {
+			trip.typeClass = 'status-box green';
+
+		} else if(speedLevel == ConstantSpeed.SPEED_HIGH) {
+			trip.typeClass = 'status-box orange';
+
+		} else if(speedLevel == ConstantSpeed.SPEED_OVER) {
+			trip.typeClass = 'status-box red';
+
+		} else {
+			trip.typeClass = 'status-box gray';
+		}
+
+		// send trip information to infobar
+		$rootScope.$broadcast('monitor-trip-info-change', trip);
 	};
 
 	/**
@@ -262,7 +289,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		$scope.selectedMarker = e.model;
 		$scope.switchOn(switchName);
 		if(!$scope.selectedMarker.address) {
-			$scope.getAddress(e.model);
+			$scope.getAddress(e.model, 'address');
 		}
 	}
 
@@ -483,7 +510,6 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * Event Trip 버튼 클릭시
 	 */
 	$rootScope.$on('monitor-event-trip-change', function(evt, eventData) {
-		console.log(eventData);
 		$scope.selectedMarker = $scope.eventToMarker(eventData);
 		$scope.goTripByEvent();
 	});

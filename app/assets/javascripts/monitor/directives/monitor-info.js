@@ -8,4 +8,14 @@ angular.module('fmsMonitor').directive('monitorInfo', function() {
 })
 .controller('monitorInfoCtrl', function($rootScope, $scope, $resource, $element) {
 
+	$element.hide();
+
+	/**
+	 * Trip 선택 조회시
+	 */
+	$scope.$on('monitor-trip-info-change', function(evt, tripData) {
+		$scope.trip = tripData;
+		$element.show();
+	});
+
 });
