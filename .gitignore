@@ -90,5 +90,3 @@ Gemfile.lock
 *.lock
 
 Gemfile.lock
-
-db/schema.rb
