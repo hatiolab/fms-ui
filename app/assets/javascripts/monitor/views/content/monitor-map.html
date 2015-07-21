@@ -9,7 +9,7 @@
 
 		<!-- fleet marker window -->
     <ui-gmap-window id="fleetWindow" coords="selectedMarker" 
-      show="windowSwitch.showFleetInfo" closeClick="closeClick()">
+      show="windowSwitch.showFleetInfo" closeClick="switchOffAll()">
 			<div>
         <div class="photos pull-left">
           <img src="/assets/ph_car.png"/>
@@ -47,7 +47,7 @@
 
     <!-- trip marker window -->
     <ui-gmap-window id="tripWindow" coords="selectedMarker" 
-      show="windowSwitch.showTripInfo" closeClick="closeClick()">
+      show="windowSwitch.showTripInfo" closeClick="switchOffAll()">
       <div>
         <div>Trip ID <strong>{{selectedMarker.id}}</strong>/<strong>{{selectedMarker.type}}</strong></div>
         <div>Recorded at <strong>{{selectedMarker.stm | date:'medium'}}</strong></div>
@@ -57,7 +57,7 @@
 
     <!-- batch marker window -->
     <ui-gmap-window id="batchWindow" coords="selectedMarker" 
-      show="windowSwitch.showBatchInfo" closeClick="closeClick()">
+      show="windowSwitch.showBatchInfo" closeClick="switchOffAll()">
       <div>
         <div>Batch ID <strong>{{selectedMarker.id}}</strong>/<strong>{{selectedMarker.type}}</strong></div>
         <div>Recorded at <strong>{{selectedMarker.utm | date:'medium'}}</strong></div>
@@ -67,7 +67,7 @@
 
     <!-- track marker window -->
     <ui-gmap-window id="trackWindow" coords="selectedMarker" 
-      show="windowSwitch.showTrackInfo" closeClick="closeClick()">
+      show="windowSwitch.showTrackInfo" closeClick="switchOffAll()">
       <div>
         <div>Track ID <strong>{{selectedMarker.id}}</strong></div>
         <div>Recorded at <strong>{{selectedMarker.ctm | date:'medium'}}</strong></div>
@@ -83,7 +83,7 @@
 
     <!-- event marker window -->
     <ui-gmap-window id="eventWindow" coords="selectedMarker" 
-      show="windowSwitch.showEventInfo" closeClick="closeClick()">
+      show="windowSwitch.showEventInfo" closeClick="switchOffAll()">
       <div>
         <div>Event ID <strong>{{selectedMarker.id}}</strong></div>
         <pip-video front-video-url="{{selectedMarker.f_vdo}}"
