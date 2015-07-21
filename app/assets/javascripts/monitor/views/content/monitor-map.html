@@ -66,9 +66,18 @@
     <ui-gmap-window id="tripWindow" coords="selectedMarker" 
       show="windowSwitch.showTripInfo" closeClick="switchOffAll()">
       <div>
-        <div>Trip ID <strong>{{selectedMarker.id}}</strong>/<strong>{{selectedMarker.type}}</strong></div>
-        <div>Recorded at <strong>{{selectedMarker.stm | date:'medium'}}</strong></div>
-        <div>Trip Started at {{selectedMarker.stm | date:'medium'}}</div>
+        <div class="detail-item">
+					<span class="modal-icon dot-gray">Trip ID</span>
+					<strong>{{selectedMarker.id}}</strong>/<strong>{{selectedMarker.type}}</strong>
+				</div>
+        <div class="detail-item">
+					<span class="modal-icon dot-gray min-w100">Recorded at</span>
+					{{selectedMarker.stm | date:'medium'}}
+				</div>
+        <div class="detail-item">
+					<span class="modal-icon dot-gray min-w100">Trip Started at</span>
+					{{selectedMarker.stm | date:'medium'}}
+				</div>
       </div>
     </ui-gmap-window>
 
@@ -76,9 +85,18 @@
     <ui-gmap-window id="batchWindow" coords="selectedMarker" 
       show="windowSwitch.showBatchInfo" closeClick="switchOffAll()">
       <div>
-        <div>Batch ID <strong>{{selectedMarker.id}}</strong>/<strong>{{selectedMarker.type}}</strong></div>
-        <div>Recorded at <strong>{{selectedMarker.utm | date:'medium'}}</strong></div>
-        <div>Batch Started at {{selectedMarker.stm | date:'medium'}}</div>
+        <div class="detail-item">
+					<span class="modal-icon dot-gray">Batch ID</span>
+					<strong>{{selectedMarker.id}}</strong>/<strong>{{selectedMarker.type}}</strong>
+				</div>
+        <div class="detail-item">
+					<span class="modal-icon dot-gray min-w100">Recorded at</span>
+					{{selectedMarker.utm | date:'medium'}}
+				</div>
+        <div class="detail-item">
+					<span class="modal-icon dot-gray min-w100">Batch Started at</span>
+					{{selectedMarker.stm | date:'medium'}}
+				</div>
       </div>
     </ui-gmap-window>
 
@@ -86,13 +104,31 @@
     <ui-gmap-window id="trackWindow" coords="selectedMarker" 
       show="windowSwitch.showTrackInfo" closeClick="switchOffAll()">
       <div>
-        <div>Track ID <strong>{{selectedMarker.id}}</strong></div>
-        <div>Recorded at <strong>{{selectedMarker.ctm | date:'medium'}}</strong></div>
-        <div>Track Started at {{selectedMarker.ttm | date:'medium'}}</div>
-        <div>Speed <strong>{{selectedMarker.vlc}}</strong></div>
-        <div>G-X <strong>{{selectedMarker.gx}}</strong></div>
-        <div>G-Y <strong>{{selectedMarker.gy}}</strong></div>
-        <div>G-Z <strong>{{selectedMarker.gz}}</strong></div>
+        <div class="detail-item">
+					<span class="modal-icon dot-gray">Track ID</span>
+					<strong>{{selectedMarker.id}}</strong>
+				</div>
+        <div class="detail-item">
+					<span class="modal-icon dot-gray min-w100">Recorded at</span>
+					{{selectedMarker.ctm | date:'medium'}}
+				</div>
+        <div class="detail-item">
+					<span class="modal-icon dot-gray min-w100">Track Started at</span>
+					{{selectedMarker.ttm | date:'medium'}}
+				</div>
+        <div class="detail-item">
+					<span class="modal-icon dot-gray">Speed</span>
+					<span class="status-box blue"></span>{{selectedMarker.vlc}}
+				</div>
+				
+				<div class="detail-item">
+					<span class="modal-icon dot-gray">G-X</span>
+					<strong>{{selectedMarker.gx}}</strong>
+					<span class="modal-icon dot-gray">G-Y</span>
+					<strong>{{selectedMarker.gy}}</strong>
+					<span class="modal-icon dot-gray">G-Z</span>
+					<strong>{{selectedMarker.gz}}</strong>
+				</div>	
         <pip-image front-image-url="{{selectedMarker.f_img}}" rear-image-url="{{selectedMarker.r_img}}">
         </pip-image>
       </div>
@@ -109,7 +145,7 @@
         </pip-video> 
         <div class="detial-time">Occurred at <strong>{{selectedMarker.etm | date:'medium'}}</strong></div>
         <div class="detail-address">{{selectedMarker.address}}</div>
-				<div class="detail-item margin-t20">
+				<div class="detail-item margin-t10">
 					<span class="modal-icon dot-gray">Speed</span>
 					<span class="status-box red"></span> {{selectedMarker.vlc}}
 				</div>

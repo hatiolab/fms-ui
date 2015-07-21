@@ -1,7 +1,7 @@
 /*  layout */
 html,body{height:100%;}
 button:focus,.form-control:focus{box-shadow:none;}
-.height-full{height:97%;}
+.height-full{height:95%;}
 .padding-clear{padding:0 !important;}
 label input[type="checkbox"]{margin-right:5px;}
 .status-check{background:url(/assets/icon-status-check.png) no-repeat !important;border:none;width:14px;height:14px;}
@@ -14,14 +14,16 @@ label input[type="checkbox"]{margin-right:5px;}
 .status-box.orange{background-color:#ff9c01;}
 .status-box.red{background-color:#f03d01;
 -webkit-border-top-right-radius: 4px;-webkit-border-bottom-right-radius: 4px;-moz-border-radius-topright: 4px;-moz-border-radius-bottomright: 4px;border-top-right-radius: 4px;border-bottom-right-radius: 4px;}
-th{background:url(/assets/bg-th.png) 0 100% repeat-x;color:#8a95a5;border:1px solid #e9ebf0;border-width:0  1px;border-right-color:#bfcfda;border-bottom-color:#e9ebf0;border-left-color:#f4f5f8;padding:6px 8px !important;}
+.table th{background:url(/assets/bg-th.png) 0 100% repeat-x;color:#8a95a5;border:1px solid #e9ebf0;border-width:0  1px;border-right-color:#bfcfda;border-bottom-color:#e9ebf0;border-left-color:#f4f5f8;padding:6px 8px !important;}
 .icon-trip{background:url(/assets/icon-sidepanel.png) 0 -150px no-repeat;display:inline-block;width:15px;height:18px;cursor:pointer;}
 .align-left{text-align:left !important;}
 .align-center{text-align:center !important;}
 .align-right{text-align:right !important;}
 .margin-t5{margin-top:5px;}
 .margin-t7{margin-top:7px;}
+.margin-t10{margin-top:10px;}
 .margin-t20{margin-top:20px;}
+.min-w100{display:inline-block;width:100px;}
 .padding-rl7{padding-left:7px;padding-right:7px;}
 .border-rl-lightgray{border:1px solid #d7d7d8;border-width:0 1px;}
 .type-icon{background:url(/assets/icon-type.png) no-repeat;display:inline-block;width:16px;height:16px;margin-right:4px;vertical-align:middle;}
@@ -48,7 +50,7 @@ th{background:url(/assets/bg-th.png) 0 100% repeat-x;color:#8a95a5;border:1px so
 .navbar-nav .dropdown-menu>li>a:hover{background-color:#364256;border-left:3px solid #2F79A6;border-bottom:1px solid #2a3547;}
 .navbar-nav .dropdown-menu .divider{margin:0;background-color:#2F79A6;}
 
-.side-panel{border-right:1px solid #8292ad;padding:0;height:100%;}
+.side-panel{padding:0;height:100%;}
 .side-panel .nav-tabs{border-bottom:1px solid #c9ced1;}
 .side-panel .nav-tabs a{color:#8a95a5;}
 .side-panel .nav-tabs>li.active>a{color:#4e515e;border:none;border-bottom:2px solid #15a4fa;}
@@ -114,6 +116,7 @@ th{background:url(/assets/bg-th.png) 0 100% repeat-x;color:#8a95a5;border:1px so
 .navbar-default .navbar-toggle{border-color:#535F71;margin-top:2px;padding:5px 6px;}
 .navbar-default .navbar-toggle:hover{background-color:#33363A;}
 
+.content{border-left:1px solid #8292ad;}
 .content,.content .height-full .ng-scope,.content #mapCanvas,.content .angular-google-map,.content .angular-google-map-container{height:100%;}
 
 /* fix for Twitter Bootstrap handling of responsive images */
