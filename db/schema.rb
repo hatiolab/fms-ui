@@ -545,7 +545,7 @@ ActiveRecord::Schema.define(version: 20150712073535) do
     t.datetime "updated_at"
   end
 
-  add_index "movies", ["event_id"], name: "ix_movies_0", unique: true, using: :btree
+  add_index "movies", ["event_id"], name: "ix_movies_0", using: :btree
 
   create_table "permissions", force: :cascade do |t|
     t.integer  "role_id",                  null: false

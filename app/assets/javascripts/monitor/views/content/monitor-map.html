@@ -104,7 +104,7 @@
     <ui-gmap-window id="trackWindow" coords="selectedMarker" 
       show="windowSwitch.showTrackInfo" closeClick="switchOffAll()">
       <div>
-        <div>Track ID<strong>{{selectedMarker.id}}</strong></div>
+        <div>Track ID : <strong>{{selectedMarker.id}}</strong></div>
         <pip-image front-image-url="{{selectedMarker.f_img}}" rear-image-url="{{selectedMarker.r_img}}">
         </pip-image>
         <div class="detail-item margin-t10">
@@ -112,7 +112,7 @@
 					{{selectedMarker.ctm | date:'medium'}}
 				</div>
         <div class="detail-item">
-					<span class="modal-icon dot-gray min-w100">Track Started at</span>
+					<span class="modal-icon dot-gray min-w100">Started at</span>
 					{{selectedMarker.ttm | date:'medium'}}
 				</div>
         <div class="detail-item">

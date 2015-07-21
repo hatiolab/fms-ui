@@ -13,7 +13,7 @@ class CreateMovies < ActiveRecord::Migration
 			t.timestamps
 		end
 
-		add_index :movies, [:event_id], :unique => true, :name => :ix_movies_0
+		add_index :movies, [:event_id], :name => :ix_movies_0
 	end
 
 end

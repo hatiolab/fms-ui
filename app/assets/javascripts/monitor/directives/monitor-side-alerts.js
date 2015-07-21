@@ -6,7 +6,6 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 		scope: {},
 		link : function(scope, element, attr, sideAlertsCtrl) {
 			$(function() {
-				// TODO auto close
 				$('.input-append.date').datetimepicker();
 			});
 
@@ -23,7 +22,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	};
 })
 
-.controller('sideAlertsCtrl', function($rootScope, $scope, $resource, $element, RestApi) {
+.controller('sideAlertsCtrl', function($rootScope, $scope, $resource, $element, FmsUtils, RestApi) {
 	/**
 	 * 폼 모델 초기화 
 	 */
@@ -44,6 +43,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 			searchParams["_q[fleet_group_id-eq]"] = params.fleet_group_id;
 		}
 
+		// type
 		if(params.typ) {
 			var typeArr = [];
 
@@ -63,11 +63,23 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 			}
 		}
 
+		// date from ~ to
+		if(params.from_date) {
+			console.log(params.from_date);
+		}
+
+		if(params.to_date) {
+			console.log(params.to_date);
+		}
+
 		return searchParams;
 	};
 
 	$scope.normalizeSearchParams = this.convertSearchParams;
 
+	/**
+	 * find groups
+	 */
   this.searchGroups = function(params) {
 		RestApi.list('/fleet_groups.json', params, function(dataSet) {
 			$scope.groups = dataSet;
@@ -76,6 +88,9 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 
 	$scope.findGroups = this.searchGroups;
 
+	/**
+	 * find events
+	 */
 	this.searchEvents = function(params) {
 		var searchParams = params;
 		if(!params || params == {}) {
@@ -83,36 +98,12 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 			searchParams.fleet_group_id = searchParams.group ? searchParams.group.id : '';
 		}
 
-		searchParams = $scope.normalizeSearchParams(searchParams);		
+		searchParams = $scope.normalizeSearchParams(searchParams);
 		RestApi.search('/events.json', searchParams, function(dataSet) {
 			$scope.events = dataSet;
 			$scope.eventItems = dataSet.items;
-			for(var i = 0 ; i < $scope.eventItems.length ; i++) {
-				var eventItem = $scope.eventItems[i];
-				if(eventItem.typ == 'I') {
-					eventItem.typeClass = 'type-icon geofence-red';
-
-				} else if(eventItem.typ == 'O') {
-					eventItem.typeClass = 'type-icon geofence-red';
-
-				} else if(eventItem.typ == 'G') {
-					eventItem.typeClass = 'type-icon impact-red';
-
-				} else if(eventItem.typ == 'B') {
-					eventItem.typeClass = 'type-icon emergency-red';
-
-				} else if(eventItem.typ == 'V') {
-					eventItem.typeClass = 'type-icon overspeed-red';
-				}
-			};
-			
-			$scope.eventTypeSummaries = {
-				geofence : 27,
-				impact : 18,
-				overspeed : 38,
-				emergency : 5
-			};
-
+			FmsUtils.setEventTypeClasses($scope.eventItems);
+			$scope.eventTypeSummaries = FmsUtils.getEventTypeSummaries($scope.eventItems);
 			$scope.$emit('monitor-event-list-change', $scope.events);
 		});
 	};

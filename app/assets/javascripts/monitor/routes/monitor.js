@@ -8,7 +8,7 @@ angular.module('fmsMonitor').config(function($stateProvider, $urlRouterProvider)
 		url: '/',
 		views: {
 			'sidebar-view': {
-				templateUrl: '/assets/monitor/views/sidebar/monitor-sidebar.html'
+				templateUrl: '/assets/monitor/views/sidebar/sidebar.html'
 			},
 			'content-view' : {
 				templateUrl: '/assets/monitor/views/content/monitor-map.html'

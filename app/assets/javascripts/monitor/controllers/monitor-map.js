@@ -1,4 +1,4 @@
-angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $scope, $timeout, $interval, ConstantSpeed, RestApi) {
+angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $scope, $timeout, $interval, ConstantSpeed, FmsUtils, RestApi) {
 	
 	/**
 	 * map option
@@ -248,26 +248,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 
 		gmap.setCenter(bounds.getCenter());
 		gmap.fitBounds(bounds);
-
-		var speedLevel = $rootScope.getSpeedLevel(trip.vlc);
-		if(speedLevel == ConstantSpeed.SPEED_IDLE) {
-			trip.typeClass = 'status-box dark';
-
-		} else if(speedLevel == ConstantSpeed.SPEED_SLOW) {
-			trip.typeClass = 'status-box blue';
-
-		} else if(speedLevel == ConstantSpeed.SPEED_NORMAL) {
-			trip.typeClass = 'status-box green';
-
-		} else if(speedLevel == ConstantSpeed.SPEED_HIGH) {
-			trip.typeClass = 'status-box orange';
-
-		} else if(speedLevel == ConstantSpeed.SPEED_OVER) {
-			trip.typeClass = 'status-box red';
-
-		} else {
-			trip.typeClass = 'status-box gray';
-		}
+		FmsUtils.setSpeedClass(trip, trip.vlc);
 
 		// send trip information to infobar
 		$rootScope.$broadcast('monitor-trip-info-change', trip);

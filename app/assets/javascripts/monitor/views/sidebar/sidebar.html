@@ -1,6 +1,6 @@
 			<!-- side panel begin -->
-			<div class="col-xs-4 col-md-4 side-panel">
-				<div class="height-full">
+			<div class="col-xs-4 col-md-4 side-panel" ng-controller="SidebarCtrl" >
+				<div class="height-full" ng-show="isSidebarToggle">
 				  <!-- Nav tabs -->
 				  <ul class="nav nav-tabs" role="tablist">
 				    <li id="fleetTab" role="presentation" class="active">
@@ -13,6 +13,7 @@
 				    		<strong>Alerts</strong>
 				    	</a>
 				    </li>
+						<!--button type="button" class="btn btn-default panel-toggle pull-right" ng-click="isSidebarToggle = !isSidebarToggle"></button-->
 						<button type="button" class="btn btn-default panel-toggle pull-right"></button>
 						<button type="button" class="btn btn-default panel-refresh pull-right"></button>
 				  </ul>
