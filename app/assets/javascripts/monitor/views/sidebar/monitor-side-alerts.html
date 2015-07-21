@@ -95,9 +95,10 @@
 		</tr>
 		<tr ng-repeat="eventItem in eventItems">
 			<td></td>
-			<td>{{eventItem.fid}} / {{eventItem.did}}</td>
+			<td>{{eventItem.fid}} / {{eventItem.driver.name}}</td>
 			<td>{{eventItem.etm | date:'medium'}}</td>
-			<td class="icon-td align-center"><span class="type-icon impact-red"></span></td>
+			<!--td class="icon-td align-center"><span class="type-icon impact-red"></span></td-->
+			<td class="icon-td align-center"><span class="{{eventItem.typeClass}}"></span></td>
 			<td class="icon-td align-center" ng-click="showTrip(eventItem)">
 					<span class="icon-trip" ng-show="eventItem.tid != null && eventItem.tid != ''"></span>
 			</td>

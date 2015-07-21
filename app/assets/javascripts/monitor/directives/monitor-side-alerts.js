@@ -87,6 +87,27 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 		RestApi.search('/events.json', searchParams, function(dataSet) {
 			$scope.events = dataSet;
 			$scope.eventItems = dataSet.items;
+			for(var i = 0 ; i < $scope.eventItems.length ; i++) {
+				var eventItem = $scope.eventItems[i];
+
+				console.log(eventItem.typ);
+				
+				if(eventItem.typ == 'I') {
+					eventItem.typeClass = 'type-icon geofence';
+
+				} else if(eventItem.typ == 'O') {
+					eventItem.typeClass = 'type-icon geofence';
+
+				} else if(eventItem.typ == 'G') {
+					eventItem.typeClass = 'type-icon impact';
+
+				} else if(eventItem.typ == 'B') {
+					eventItem.typeClass = 'type-icon emergency';
+
+				} else if(eventItem.typ == 'V') {
+					eventItem.typeClass = 'type-icon overspeed';
+				}
+			}
 			$scope.eventTypeSummaries = {
 				geofence : 27,
 				impact : 18,

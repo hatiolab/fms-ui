@@ -11,10 +11,13 @@ class EventsController < MongoController
       end
     end
 
-    respond_to do |format|
-      format.xml { render :xml => searching(Event, params) } 
-      format.json { render :json => searching(Event, params) }
-    end
+    results = searching(Event, params)
+    @collection, @total_count = results[:items], results[:total]
+
+    # respond_to do |format|
+    #   format.xml { render :xml => events } 
+    #   format.json { render :json => events }
+    # end
   end
   
   def show

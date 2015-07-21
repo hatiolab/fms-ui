@@ -31,4 +31,13 @@ class Event
   field :r_vdo, type: String
   field :ado, type: String
 
+  def driver= (driver)
+    @driver = driver
+  end
+
+  def driver
+    @driver = Driver.where(:id => self.did).first unless @driver
+    @driver = Driver.new(:id => self.did, :code => self.did, :name => self.did) unless @driver
+    @driver
+  end
 end
