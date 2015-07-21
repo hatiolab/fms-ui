@@ -17,7 +17,7 @@ angular.module('fmsMonitor').directive('monitorInfoTrips', function() {
 	 */
 	$scope.$on('monitor-trip-info-change', function(evt, tripData) {
 		// alert list 조회 
-		RestApi.get('/trips.json', { '_q[fid-eq]' : tripData.fid }, function(dataSet) {
+		RestApi.get('/trips.json', { 'page' : 1, 'start' : 0, 'limit' : 3, '_q[fid-eq]' : tripData.fid }, function(dataSet) {
 			$scope.fleetTripDataSet = dataSet;
 			$scope.fleetTripItems = dataSet.items;
 		});

@@ -17,7 +17,7 @@ angular.module('fmsMonitor').directive('monitorInfoAlerts', function() {
 	 */
 	$scope.$on('monitor-trip-info-change', function(evt, tripData) {
 		// alert list 조회 
-		RestApi.get('/events.json', { '_q[tid-eq]' : tripData.id }, function(dataSet) {
+		RestApi.get('/events.json', { 'page' : 1, 'start' : 0, 'limit' : 3, '_q[tid-eq]' : tripData.id }, function(dataSet) {
 			$scope.tripAlertDataSet = dataSet;
 			$scope.tripAlertItems = dataSet.items;
 			FmsUtils.setEventTypeClasses($scope.tripAlertItems);
