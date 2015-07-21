@@ -117,9 +117,7 @@ th{background:url(/assets/bg-th.png) 0 100% repeat-x;color:#8a95a5;border:1px so
 .content,.content .height-full .ng-scope,.content #mapCanvas,.content .angular-google-map,.content .angular-google-map-container{height:100%;}
 
 /* fix for Twitter Bootstrap handling of responsive images */
-.angular-google-map img {
-	max-width: none;
-}
+.angular-google-map img {max-width: none;}
 
 .backward-layer{width:430px;}
 .forward-layer{width:180px;position:absolute;top:0px;left:263px;
@@ -128,13 +126,16 @@ th{background:url(/assets/bg-th.png) 0 100% repeat-x;color:#8a95a5;border:1px so
 .modal-btn-trip:hover{background-image:url(/assets/icon-modal.png);}
 .detail-time strong{display:block;}
 .detail-address{font-size:11px;color:#666;}
-.detail-info-table td{border-bottom:1px solid #efefef;}
+.detail-info-table{font-size:12px;}
 
 th.modal-icon,.modal-icon{background:url(/assets/icon-modal.png) no-repeat !important;}
-th.modal-icon.dot-gray{background-position:0 -42px !important;border:none;padding:1px 5px 1px 7px !important;font-weight:normal;}
+th.modal-icon.dot-gray{background-position:0 -39px !important;border:none;padding:5px 5px 3px 7px !important;font-weight:normal;}
 .detail-item .modal-icon{background-position:0 -44px !important;padding:0 0 0 7px !important;margin-right:5px;}
 .detail-item strong{margin-right:40px;}
-.photos{width:150px;}
-.photos img{width:135px;}
+.photos{width:155px;}
+.photos img{width:145px !important;height:95px !important;border:1px solid #c4c4c4;}
 
 .gm-style .gm-style-iw{width:400px !important;}
+.carousel-indicators{bottom:-5px;left:47%;}
+.carousel-indicators li{width:7px;height:7px;border:none;background-color:#c4c4c4;margin:0px;}
+.carousel-indicators .active{width:7px;height:7px;border:none;background-color:#999;margin:0px;}
