@@ -45,7 +45,12 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * Refresh Fleet Markers
 	 */
 	$scope.refreshFleets = function(fleets) {
-		$scope.clearAll({ latitude: DEFAULT_LAT, longitude: DEFAULT_LNG });
+		if(!fleets && fleets.length == 0) {
+			alert('Fleet does not exist!');
+			return;
+		}
+
+		$scope.clearAll(null);
 		var gmap = $scope.mapControl.getGMap();
 		var startPoint = new google.maps.LatLng(fleets[0].lat, fleets[0].lng);
 		var bounds = new google.maps.LatLngBounds(startPoint, startPoint);
@@ -96,11 +101,12 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 */
 	$scope.refreshEvents = function(eventDataList) {
 		if(!eventDataList && eventDataList.length == 0) {
+			alert('Alert does not exist!');
 			return;
 		}
 
+		$scope.clearAll(null);
 		var firstEvent = eventDataList[0];
-		$scope.clearAll({ latitude: firstEvent.lat, longitude: firstEvent.lng });
 		var gmap = $scope.mapControl.getGMap();
 		var startPoint = new google.maps.LatLng(firstEvent.lat, firstEvent.lng);
 		var bounds = new google.maps.LatLngBounds(startPoint, startPoint);
@@ -145,36 +151,27 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 			return;
 		}
 
-		var fleetId = $scope.selectedMarker.id;
-		// 1. invoke rest api
-		RestApi.get('/fleets/' + $scope.selectedMarker.id + '/trip.json', {}, function(dataSet) {
-			// 1. window 닫기.
-			$scope.switchOffAll();
-			// 2. map 초기화 
-			$scope.clearAll({latitude : $scope.selectedMarker.lat, longitude : $scope.selectedMarker.lng});
-			// 3. trip 그리기 
-			$scope.showTrip(dataSet);
-		});
+		$scope.getTripDataSet($scope.selectedMarker.id);
 	};
 
 	/**
 	 * Move to trip of fleet
 	 */
 	$scope.goTripByEvent = function() {
-		var eventData = $scope.selectedMarker;
-
-		if(!eventData.tid) {
-			alert('This car has no trip information!');
+		if(!$scope.selectedMarker.tid) {
+			alert('This event has no trip information!');
 			return;
 		}
 
+		$scope.getTripDataSet($scope.selectedMarker.fid);
+	};
+
+	$scope.getTripDataSet = function(fid) {
 		// 1. invoke rest api
-		RestApi.get('/fleets/' + eventData.fid + '/trip.json', {}, function(dataSet) {
-			// 1. window 닫기.
-			$scope.windowSwitch.showEventInfo = false;
-			// 2. map 초기화 
-			$scope.clearAll({latitude : eventData.lat, longitude : eventData.lng});
-			// 3. trip 그리기 
+		RestApi.get('/fleets/' + fid + '/trip.json', {}, function(dataSet) {
+			// 1. map 초기화 
+			$scope.clearAll(null);
+			// 2. trip 그리기 
 			$scope.showTrip(dataSet);
 		});
 	};
@@ -486,10 +483,9 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * Event Trip 버튼 클릭시
 	 */
 	$rootScope.$on('monitor-event-trip-change', function(evt, eventData) {
-		if(eventData._id && eventData.tid) {
-			$scope.selectedMarker = $scope.eventToMarker(eventData);
-			$scope.goTripByEvent();
-		}
+		console.log(eventData);
+		$scope.selectedMarker = $scope.eventToMarker(eventData);
+		$scope.goTripByEvent();
 	});
 
 	/**

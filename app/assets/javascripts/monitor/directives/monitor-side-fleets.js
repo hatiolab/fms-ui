@@ -18,7 +18,7 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	};
 })
 
-.controller('sideFleetsCtrl', function($rootScope, $scope, $resource, $element, RestApi) {
+.controller('sideFleetsCtrl', function($rootScope, $scope, $resource, $element, ConstantSpeed, RestApi) {
 
 	/**
 	 * 폼 모델 초기화 
@@ -73,6 +73,31 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 		RestApi.search('/fleets.json', searchParams, function(dataSet) {
 			$scope.fleets = dataSet;
 			$scope.fleetItems = dataSet.items;
+
+			for(var i = 0 ; i < $scope.fleetItems.length ; i++) {
+				var fleetItem = $scope.fleetItems[i];
+				var level = $rootScope.getSpeedLevel(fleetItem.velocity);
+
+				if(level == ConstantSpeed.SPEED_IDLE) {
+					fleetItem.typeClass = 'status-box dark';
+
+				} else if(level == ConstantSpeed.SPEED_SLOW) {
+					fleetItem.typeClass = 'status-box blue';
+
+				} else if(level == ConstantSpeed.SPEED_NORMAL) {
+					fleetItem.typeClass = 'status-box green';
+
+				} else if(level == ConstantSpeed.SPEED_HIGH) {
+					fleetItem.typeClass = 'status-box orange';
+
+				} else if(level == ConstantSpeed.SPEED_OVER) {
+					fleetItem.typeClass = 'status-box red';
+
+				} else {
+					fleetItem.typeClass = 'status-box gray';
+				}
+			};
+
 			$scope.speedRangeSummaries = {
 				speed_off : 1,
 				speed_idle : 3,

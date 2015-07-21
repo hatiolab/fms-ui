@@ -43,6 +43,10 @@ angular.module('fmsCore').controller('CoreCtrl', function($rootScope, $scope, Co
 	 * Get speed level by setting
 	 */	
 	$rootScope.getSpeedLevel = function(speed) {
+		if(!$rootScope.settings) {
+			return ConstantSpeed.SPEED_SLOW;
+		}
+
 		if(speed == 0) {
 			return ConstantSpeed.SPEED_IDLE;
 			
