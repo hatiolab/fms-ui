@@ -32,14 +32,16 @@
       <%= render 'layouts/navigation' %>
     </header>
 
-        <%= render 'layouts/messages' %>
-        <%= yield %>
+    <%= render 'layouts/messages' %>
+    <%= yield %>
 		
-		<div class="alert alert-popup" role="alert">
+		<div class="alert alert-popup" role="alert" ng-conroller="CoreCtrl" ng-show="alertItem.isShow">
 			<div class="type-icon overspeed-white"></div>
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		  <strong>R.soltys Ricardo</strong>2015-05-29 23:35:14
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close" 
+        ng-click="alertItem.isShow = false">
+        <span aria-hidden="true">&times;</span>
+      </button>
+		  <strong>{{alertItem.title}}</strong>{{alertItem.time | date : 'medium'}}
 		</div>
-		
   </body>
 </html>

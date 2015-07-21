@@ -109,6 +109,9 @@ Trkvue::Engine.routes.draw do
 			get :show_by_name
 			get :export
 		end
+		member do
+			get :latest_one
+		end
 	end
   
 	resources :tracks do

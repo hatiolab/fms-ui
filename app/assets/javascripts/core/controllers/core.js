@@ -69,4 +69,17 @@ angular.module('fmsCore').controller('CoreCtrl', function($rootScope, $scope, Co
 	 */
 	$rootScope.refreshSettings();
 
+	/**
+	 * Alert
+	 */
+	$scope.alertItem = { isShow : false, title : '', time : new Date() };
+	/**
+   * Alert 발생시 
+   */
+	$scope.$on('core-alert-occur', function(evt, alert) {
+		$scope.alertItem.title = alert.title;
+		$scope.alertItem.time = alert.time;
+		$scope.alertItem.isShow = true;
+	});
+
 });

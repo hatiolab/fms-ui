@@ -54,11 +54,10 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		var gmap = $scope.mapControl.getGMap();
 		var startPoint = new google.maps.LatLng(fleets[0].lat, fleets[0].lng);
 		var bounds = new google.maps.LatLngBounds(startPoint, startPoint);
-		var markerId = 1;
 
 		for(var i = 0 ; i < fleets.length ; i++) {
 			var marker = $scope.fleetToMarker(fleets[i]);
-			markerId = $scope.addMarker(markerId, marker);
+			$scope.addMarker(marker);
 			bounds.extend(new google.maps.LatLng(marker.latitude, marker.longitude));
 		}
 
@@ -112,12 +111,11 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		var gmap = $scope.mapControl.getGMap();
 		var startPoint = new google.maps.LatLng(firstEvent.lat, firstEvent.lng);
 		var bounds = new google.maps.LatLngBounds(startPoint, startPoint);
-		var markerId = 1;
 
 		for(var i = 0 ; i < eventDataList.length ; i++) {
 			var eventData = eventDataList[i];
 			var marker = $scope.eventToMarker(eventData);
-			markerId = $scope.addMarker(markerId, marker);
+			$scope.addMarker(marker);
 			bounds.extend(new google.maps.LatLng(marker.latitude, marker.longitude));
 		}
 
@@ -168,6 +166,9 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		$scope.getTripDataSet($scope.selectedMarker.fid);
 	};
 
+	/**
+	 * Get trip data set
+	 */
 	$scope.getTripDataSet = function(fid) {
 		// 1. invoke rest api
 		RestApi.get('/fleets/' + fid + '/trip.json', {}, function(dataSet) {
@@ -190,19 +191,18 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		var tracks = tripDataSet.tracks;
 		var events = tripDataSet.events;
 		var gmap = $scope.mapControl.getGMap();
-		var markerId = 10000;
 
 		// 1. trip
 		var startPoint = new google.maps.LatLng(trip.s_lat, trip.s_lng);
 		var bounds = new google.maps.LatLngBounds(startPoint, startPoint);
-		markerId = $scope.addMarker(markerId, $scope.tripToMarker(trip, 'start'));
+		$scope.addMarker($scope.tripToMarker(trip, 'start'));
 
 		// 2. batches
 		for(var i = 0 ; i < batches.length ; i++) {
 			var batch = batches[i];
 
 			// 2.1 batch start
-			markerId = $scope.addMarker(markerId, $scope.batchToMarker(batch, 'start'));
+			$scope.addMarker($scope.batchToMarker(batch, 'start'));
 			bounds.extend(new google.maps.LatLng(batch.s_lat, batch.s_lng));
 
 			// 2.2 batch polyline
@@ -219,7 +219,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 			// 2.3 tracks
 			for(var j = 0 ; j < tracks.length ; j++) {
 				if(tracks[j].bid == batch.id) {
-					markerId = $scope.addMarker(markerId, $scope.trackToMarker(tracks[j]));
+					$scope.addMarker($scope.trackToMarker(tracks[j]));
 					batchline.path.push({latitude : tracks[j].lat, longitude : tracks[j].lng});
 					bounds.extend(new google.maps.LatLng(tracks[j].lat, tracks[j].lng));
 				}
@@ -228,14 +228,14 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 			// 2.4 events
 			for(var k = 0 ; k < events.length ; k++) {
 				if(events[k].bid == batch.id && events[k].typ != 'V') {
-					markerId = $scope.addMarker(markerId, $scope.eventToMarker(events[k]));
+					$scope.addMarker($scope.eventToMarker(events[k]));
 					bounds.extend(new google.maps.LatLng(events[k].lat, events[k].lng));
 				}
 			}
 
 			// 2.5 batch end
 			if(batch.sts == '2') {
-				markerId = $scope.addMarker(markerId, $scope.batchToMarker(batch, 'end'));
+				$scope.addMarker($scope.batchToMarker(batch, 'end'));
 				batchline.path.push({latitude : batch.lat, longitude : batch.lng});
 				bounds.extend(new google.maps.LatLng(batch.lat, batch.lng));
 			}
@@ -243,7 +243,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 
 		// 3. trip end
 		if(trip.sts == '2') {
-			markerId = $scope.addMarker(markerId, $scope.tripToMarker(trip, 'end'));
+			$scope.addMarker($scope.tripToMarker(trip, 'end'));
 		}
 
 		gmap.setCenter(bounds.getCenter());
@@ -276,10 +276,8 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	/**
 	 * set marker unique id and add marker
 	 */
-	$scope.addMarker = function(markerIdx, marker) {
-		//marker.id = markerIdx;
+	$scope.addMarker = function(marker) {
 		$scope.markers.push(marker);
-		return markerIdx + 1;
 	};
 
 	/**
@@ -561,6 +559,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * map을 refresh
 	 */
 	$scope.refreshMap = function() {
+		// TODO 현재 맵 모드에 따라서 다른 서비스 호출 - fleet, trip, alert 세 가지 종류 
 		$scope.$emit('monitor-refresh-fleet', 1);
 	};
 

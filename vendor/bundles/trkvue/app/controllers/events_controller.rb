@@ -30,6 +30,17 @@ class EventsController < MongoController
       format.json { render :json => update_multiple_data(Event, params) }
     end
   end
+
+  def latest_one
+    lastCheckTime = params[:id]
+    alert = Event.all_of({'ctm' => {'$gte' => lastCheckTime}}).order('ctm asc').first
+    result = alert ? { :alert => alert, :driver => alert.driver } : {}
+
+    respond_to do |format|
+      format.xml { render :xml => result } 
+      format.json { render :json => result }
+    end
+  end
   
   private
   
