@@ -2,7 +2,7 @@
 	<ui-gmap-google-map id='mapCanvas' center='mapOption.center' zoom='mapOption.zoom' control="mapControl">
 
 		<!-- markers -->
-		<ui-gmap-markers models="markers" coords="'self'" idKey="'id'" events="'events'" icon="'icon'"></ui-gmap-markers>
+		<ui-gmap-markers models="markers" coords="'self'" idKey="'_id'" events="'events'" icon="'icon'"></ui-gmap-markers>
 
     <!-- lines -->
     <ui-gmap-polylines models="polylines" path="'path'" stroke="'stroke'" visible="'visible'" geodesic="'geodesic'" static='true'></ui-gmap-polylines>
@@ -49,9 +49,9 @@
     <ui-gmap-window id="tripWindow" coords="selectedMarker" 
       show="windowSwitch.showTripInfo" closeClick="closeClick()">
       <div>
+        <div>Trip ID <strong>{{selectedMarker.id}}</strong>/<strong>{{selectedMarker.type}}</strong></div>
         <div>Recorded at <strong>{{selectedMarker.stm | date:'medium'}}</strong></div>
         <div>Trip Started at {{selectedMarker.stm | date:'medium'}}</div>
-        <div>Trip ID <strong>{{selectedMarker.trip_id}}</strong>/<strong>{{selectedMarker.type}}</strong></div>
       </div>
     </ui-gmap-window>
 
@@ -59,9 +59,9 @@
     <ui-gmap-window id="batchWindow" coords="selectedMarker" 
       show="windowSwitch.showBatchInfo" closeClick="closeClick()">
       <div>
+        <div>Batch ID <strong>{{selectedMarker.id}}</strong>/<strong>{{selectedMarker.type}}</strong></div>
         <div>Recorded at <strong>{{selectedMarker.utm | date:'medium'}}</strong></div>
         <div>Batch Started at {{selectedMarker.stm | date:'medium'}}</div>
-        <div>Batch ID <strong>{{selectedMarker.batch_id}}</strong>/<strong>{{selectedMarker.type}}</strong></div>
       </div>
     </ui-gmap-window>
 
@@ -69,7 +69,7 @@
     <ui-gmap-window id="trackWindow" coords="selectedMarker" 
       show="windowSwitch.showTrackInfo" closeClick="closeClick()">
       <div>
-        <div>Track ID <strong>{{selectedMarker.track_id}}</strong></div>
+        <div>Track ID <strong>{{selectedMarker.id}}</strong></div>
         <div>Recorded at <strong>{{selectedMarker.ctm | date:'medium'}}</strong></div>
         <div>Track Started at {{selectedMarker.ttm | date:'medium'}}</div>
         <div>Speed <strong>{{selectedMarker.vlc}}</strong></div>
@@ -85,7 +85,7 @@
     <ui-gmap-window id="eventWindow" coords="selectedMarker" 
       show="windowSwitch.showEventInfo" closeClick="closeClick()">
       <div>
-        <div>Event ID <strong>{{selectedMarker._id}}</strong></div>
+        <div>Event ID <strong>{{selectedMarker.id}}</strong></div>
         <pip-video front-video-url="{{selectedMarker.f_vdo}}"
             rear-video-url="{{selectedMarker.r_vdo}}"
             audio-url="{{selectedMarker.ado}}">

@@ -124,7 +124,6 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 
 	$scope.init = function() {
 		$scope.findGroups({});
-		//$scope.findEvents({});
 	};
 
 	$scope.init();

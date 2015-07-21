@@ -67,15 +67,15 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	$scope.showFleetInfo = function(fleet) {
 		$scope.selectedMarker = $scope.fleetToMarker(fleet);
 		$scope.switchOn('showFleetInfo');
-		if(!fleet.address) {
-			$scope.getAddress(fleet, 'showFleetInfo');
+		if(!$scope.selectedMarker.address) {
+			$scope.getAddress($scope.selectedMarker);
 		}
 	};
 
 	/**
 	 * get address from lat, lng
 	 */
-	$scope.getAddress = function(marker, switchName) {
+	$scope.getAddress = function(marker) {
     var geocoder = new google.maps.Geocoder();
     var latlng = new google.maps.LatLng(marker.latitude, marker.longitude);
     geocoder.geocode({ 'latLng': latlng }, function (results, status) {
@@ -121,6 +121,10 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * 지도 초기화 
 	 */
 	$scope.clearAll = function(center) {
+		angular.forEach($scope.markers, function(marker) {
+			marker = null;
+		});
+
 		$scope.markers = null;
 		$scope.markers = [];
 		$scope.polylines = [];
@@ -136,19 +140,18 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * Move to trip of fleet
 	 */
 	$scope.goTripByFleet = function() {
-		var fleet = $scope.selectedMarker;
-
-		if(!fleet.trip_id) {
+		if(!$scope.selectedMarker.trip_id) {
 			alert('This car has no trip information!');
 			return;
 		}
 
+		var fleetId = $scope.selectedMarker.id;
 		// 1. invoke rest api
-		RestApi.get('/fleets/' + fleet.id + '/trip.json', {}, function(dataSet) {
+		RestApi.get('/fleets/' + $scope.selectedMarker.id + '/trip.json', {}, function(dataSet) {
 			// 1. window 닫기.
-			$scope.windowSwitch.showFleetInfo = false;
+			$scope.switchOffAll();
 			// 2. map 초기화 
-			$scope.clearAll({latitude : fleet.lat, longitude : fleet.lng});
+			$scope.clearAll({latitude : $scope.selectedMarker.lat, longitude : $scope.selectedMarker.lng});
 			// 3. trip 그리기 
 			$scope.showTrip(dataSet);
 		});
@@ -223,8 +226,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 
 			// 2.4 events
 			for(var k = 0 ; k < events.length ; k++) {
-				//if(events[k].bid == batch.id && events[k].typ != 'V') {
-					if(events[k].bid == batch.id) {
+				if(events[k].bid == batch.id && events[k].typ != 'V') {
 					markerId = $scope.addMarker(markerId, $scope.eventToMarker(events[k]));
 					bounds.extend(new google.maps.LatLng(events[k].lat, events[k].lng));
 				}
@@ -251,7 +253,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * set marker unique id and add marker
 	 */
 	$scope.addMarker = function(markerIdx, marker) {
-		marker.id = markerIdx;
+		//marker.id = markerIdx;
 		$scope.markers.push(marker);
 		return markerIdx + 1;
 	};
@@ -260,10 +262,10 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * add marker click event
 	 */
 	$scope.addMarkerClickEvent = function(e, switchName) {
-		$scope.switchOn(switchName);
 		$scope.selectedMarker = e.model;
-		if(!e.model.address) {
-			$scope.getAddress(e.model, switchName);
+		$scope.switchOn(switchName);
+		if(!$scope.selectedMarker.address) {
+			$scope.getAddress(e.model);
 		}
 	}
 
@@ -272,7 +274,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 */
 	$scope.fleetToMarker = function(fleet) {
 		var marker = angular.copy(fleet);
-		marker.fleet_id = fleet.id;
+		marker._id = fleet.id;
 		marker.latitude = fleet.lat;
 		marker.longitude = fleet.lng;
 		marker.icon = $scope.getFleetMarkerIcon(fleet);
@@ -289,7 +291,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 */
 	$scope.tripToMarker = function(trip, type) {
 		var marker = angular.copy(trip);
-		marker.trip_id = trip.id;
+		marker._id = 'trip-' + trip.id;
 		marker.latitude = (type == 'start') ? trip.s_lat : trip.lat;
 		marker.longitude = (type == 'start') ? trip.s_lng : trip.lng;
 		marker.icon = $scope.getTripMarkerIcon(trip, type);
@@ -307,7 +309,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 */
 	$scope.batchToMarker = function(batch, type) {
 		var marker = angular.copy(batch);
-		marker.batch_id = batch.id;
+		marker._id = batch.id + '-' + type;
 		marker.latitude = (type == 'start') ? batch.s_lat : batch.lat;
 		marker.longitude = (type == 'start') ? batch.s_lng : batch.lng;
 		marker.icon = $scope.getBatchMarkerIcon(batch, type);
@@ -325,7 +327,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 */
 	$scope.trackToMarker = function(track) {
 		var marker = angular.copy(track);
-		marker.track_id = track.id;
+		marker._id = 'track-' + track.id;
 		marker.latitude = track.lat;
 		marker.longitude = track.lng;
 		marker.ctm = parseInt(track.ctm);
@@ -354,7 +356,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 */
 	$scope.eventToMarker = function(evt) {
 		var marker = angular.copy(evt);
-		marker.event_id = evt.id;
+		marker._id = evt.id + '-' + evt.typ;
 		marker.latitude = evt.lat;
 		marker.longitude = evt.lng;
 		
@@ -458,10 +460,8 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * Fleet Trip 버튼 클릭시
 	 */
 	$rootScope.$on('monitor-fleet-trip-change', function(evt, fleet) {
-		if(fleet.id && fleet.trip_id) {
 			$scope.selectedMarker = $scope.fleetToMarker(fleet);
 			$scope.goTripByFleet();
-		}
 	});
 
 	/**
@@ -486,7 +486,6 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * Event Trip 버튼 클릭시
 	 */
 	$rootScope.$on('monitor-event-trip-change', function(evt, eventData) {
-		alert(eventData._id);
 		if(eventData._id && eventData.tid) {
 			$scope.selectedMarker = $scope.eventToMarker(eventData);
 			$scope.goTripByEvent();
