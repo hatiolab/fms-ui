@@ -65,7 +65,7 @@ th{background:url(/assets/bg-th.png) 0 100% repeat-x;color:#8a95a5;border:1px so
 .panel-toggle:hover,.panel-refresh:hover{background-color:transparent;}
 .input-append.date .add-on i, .input-prepend.date .add-on i{right:3px;position:absolute;margin-top:-21px;}
 .bootstrap-datetimepicker-widget ul{-webkit-padding-start:0px;padding:0;}
-.icon-calendar{background:url(/assets/icon-sidepanel.png) 0px -100px no-repeat;}
+.icon-calendar{background:url(/assets/icon-sidepanel.png) 0px -98px no-repeat;}
 
 .search-table .table{margin-bottom:0;}
 .search-table .status-box,.infolist-panel .speed-status .status-box,.detail-item  .status-box{width:10px;height:10px;display:inline-block;-webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;margin:2px 4px 0 0;}
@@ -139,3 +139,8 @@ th.modal-icon.dot-gray{background-position:0 -39px !important;border:none;paddin
 .carousel-indicators{bottom:-5px;left:47%;}
 .carousel-indicators li{width:7px;height:7px;border:none;background-color:#c4c4c4;margin:0px;}
 .carousel-indicators .active{width:7px;height:7px;border:none;background-color:#999;margin:0px;}
+
+/* login style */
+.authform{background:url(/assets/image-intro.png) no-repeat;width:700px;min-height:300px;margin:auto;margin-top:100px;}
+.authform form{margin-left:420px;padding-top:10px;}
+.authform h3{background:url(/assets/brand-black.png) 0 3px no-repeat;padding-top:1px;padding-left:140px;min-height:27px;font-size:18px;color:#585858;}
