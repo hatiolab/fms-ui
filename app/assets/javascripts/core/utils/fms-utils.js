@@ -129,10 +129,7 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, ConstantSpeed
 		 * @fleets
 		 */
 		setEventTypeClass : function(evt) {
-			if(evt.typ == 'I') {
-				evt.typeClass = 'type-icon geofence-red';
-
-			} else if(evt.typ == 'O') {
+			if(evt.typ == 'I' || evt.typ == 'O') {
 				evt.typeClass = 'type-icon geofence-red';
 
 			} else if(evt.typ == 'G') {

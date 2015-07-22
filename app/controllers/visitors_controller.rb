@@ -3,7 +3,7 @@ class VisitorsController < ApplicationController
 		if(user_signed_in?)
 			redirect_to :controller => 'welcome', :action => 'index'
 		else
-			render :layout => true
+			redirect_to new_user_session_path
 		end
 	end
 end

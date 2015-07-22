@@ -56,6 +56,12 @@
 						<span class="type-icon geofence"></span>geofence
 				</label>
 			</div>
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" ng-model="eventSearchParams.typ[3]" ng-true-value="'B'">
+						<span class="type-icon impact"></span>emergency
+				</label>
+			</div>
 		</div>
 	</div>
 	<!-- type begin -->
@@ -79,6 +85,7 @@
 		<span class="type-icon impact-white"></span>{{eventTypeSummaries.impact}}
 		<span class="type-icon overspeed-white"></span>{{eventTypeSummaries.overspeed}}
 		<span class="type-icon geofence-white"></span>{{eventTypeSummaries.geofence}}
+		<span class="type-icon emergency-white"></span>{{eventTypeSummaries.emergency}}
 	</div>
 </div>
 <!-- status end -->

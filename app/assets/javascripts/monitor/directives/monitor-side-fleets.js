@@ -69,6 +69,7 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 		}
 
 		searchParams = $scope.normalizeSearchParams(searchParams);
+		searchParams['_o[name]'] = 'asc';
 
 		RestApi.search('/fleets.json', searchParams, function(dataSet) {
 			$scope.fleets = dataSet;

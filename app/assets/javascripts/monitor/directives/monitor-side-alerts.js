@@ -47,7 +47,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 		if(params.typ) {
 			var typeArr = [];
 
-			for(var i = 0 ; i < 3 ; i++) {
+			for(var i = 0 ; i < 4 ; i++) {
 				if(params.typ[i]) {
 					typeArr.push(params.typ[i]);
 					if(params.typ[i] == 'I') {
