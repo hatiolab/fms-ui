@@ -86,7 +86,13 @@ T({
 		'movie_paths' : 'Movie Paths',
 		'path' : 'Path',
 		'interval' : 'Interval',
-		'refresh' : 'Refresh'
+		'refresh' : 'Refresh',
+		'total_size' : 'Total Size',
+		'start_byte' : 'Start Byte',
+		'chunk_size' : 'Chunk Size',
+		'chunk_count' : 'Chunk Count',
+		'chunk_index' : 'Chunk Index',
+		'file_path' : 'URL'
 	},
 	button : {
 		'stop' : 'Stop'
@@ -103,6 +109,7 @@ T({
 		'Batch' : 'Batch',
 		'Track' : 'Track',
 		'Event' : 'Event',
+		'Movie' : 'Movie',
 		'Simulator' : 'Simulator',
 		'SimulatorPath' : 'Routes'
 	},
