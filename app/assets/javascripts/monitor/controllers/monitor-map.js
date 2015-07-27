@@ -101,8 +101,8 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * Refresh Event Markers
 	 */
 	$scope.refreshEvents = function(eventDataList) {
-		if(!eventDataList && eventDataList.length == 0) {
-			alert('Alert does not exist!');
+		if(!eventDataList || eventDataList.length == 0) {
+			//alert('Alert does not exist!');
 			return;
 		}
 

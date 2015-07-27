@@ -1,6 +1,27 @@
-angular.module('fmsCore').factory('FmsUtils', function($rootScope, ConstantSpeed) {
+angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, ConstantSpeed) {
 	
 	return {
+
+		/**
+		 * date format change
+		 *
+		 * @date
+		 * @format
+		 */
+		formatDate : function(date, format) {
+			return $filter("date")(date, format); 
+		},
+
+		/**
+		 * month period
+		 *
+		 * @date
+		 * @format
+		 */
+		addDate : function(date, add) {
+			date.setDate(date.getDate() + add);
+			return date;
+		},
 
 		/**
 		 * set speed class to fleet object

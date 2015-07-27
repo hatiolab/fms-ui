@@ -4,7 +4,6 @@ class MongoController < ActionController::Base
   
   def searching(entity, params)
     where_params, where_conds, sorts = params["_q"], {}, []
-    debug_print params["_o"]
     params["_o"].each { |key, value| sorts << "#{key} #{value}" } if params["_o"]
     
     if params["sort"]
@@ -19,10 +18,17 @@ class MongoController < ActionController::Base
       cond_arr = n.split('-')
       cond_name, cond_opr = cond_arr[0], cond_arr[1]
 
-      # 일단 in만 처리 ...
+      # in
       if(cond_opr == 'in') 
         val = (v.class.name == 'String') ? v.split(',') : v
         where_conds[cond_name] = { '$in' => val }
+      # gte
+      elsif(cond_opr == 'gte')
+        where_conds[cond_name] = { '$gte' => v }
+      # lte
+      elsif(cond_opr == 'lte')
+        where_conds[cond_name] = { '$lte' => v }
+      # eq
       else
         where_conds[cond_name] = v
       end
