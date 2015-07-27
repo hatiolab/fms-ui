@@ -65,6 +65,30 @@ angular.module('fmsCore').controller('CoreCtrl', function($rootScope, $scope, Co
 	};
 
 	/**
+	 * speed level이 속하는 속도 구간을 리턴 
+	 */
+	$rootScope.getSpeedRange = function(level) {
+		if(ConstantSpeed.SPEED_OFF == level) {
+			return -1;
+
+		} else if(ConstantSpeed.SPEED_IDLE == level) {
+			return 0;
+			
+		} else if(ConstantSpeed.SPEED_SLOW == level) {
+			return [0, $rootScope.getIntSetting(level)];
+			
+		} else if(ConstantSpeed.SPEED_NORMAL == level) {
+			return [$rootScope.getIntSetting(ConstantSpeed.SPEED_SLOW), $rootScope.getIntSetting(level)];
+			
+		} else if(ConstantSpeed.SPEED_HIGH == level) {
+			return [$rootScope.getIntSetting(ConstantSpeed.SPEED_NORMAL), $rootScope.getIntSetting(level)];
+			
+		} else {
+			return $rootScope.getIntSetting(ConstantSpeed.SPEED_HIGH);
+		}		
+	};
+
+	/**
 	 * Setting값 초기화 
 	 */
 	$rootScope.refreshSettings();

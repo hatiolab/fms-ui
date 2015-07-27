@@ -45,8 +45,8 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * Refresh Fleet Markers
 	 */
 	$scope.refreshFleets = function(fleets) {
-		if(!fleets && fleets.length == 0) {
-			alert('Fleet does not exist!');
+		if(!fleets || fleets.length == 0) {
+			//alert('Fleet does not exist!');
 			return;
 		}
 

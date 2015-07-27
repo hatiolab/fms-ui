@@ -28,21 +28,19 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 
 	/**
 	 * Rails Server의 스펙에 맞도록 파라미터 변경 ...
-	 * TODO 폼 필드명을 직접 변경 ...
 	 */
 	this.convertSearchParams = function(params) {
 		var searchParams = {};
 
-		if(!params) {
+		if(!params || FmsUtils.isEmpty(params)) {
 			return searchParams;
-		}
+		} 
 
 		if(params.fleet_group_id) {
 			searchParams["_q[fleet_group_id-eq]"] = params.fleet_group_id;
 		}
 
-		// TODO Speed값 파라미터 변경 ...
-		
+		FmsUtils.getSpeedLangeCondition(params, searchParams);
 		searchParams['_o[name]'] = 'asc';
 		return searchParams;
 	};

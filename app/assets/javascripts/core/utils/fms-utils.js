@@ -3,6 +3,13 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 	return {
 
 		/**
+		 * isEmpty
+		 */
+		isEmpty : function(obj) {
+    	return !Object.keys(obj).length > 0;
+		},
+
+		/**
 		 * date format change
 		 *
 		 * @date
@@ -196,7 +203,58 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 			});
 
 			return evtTypeSum;
+		},
+
+		/**
+		 * Speed Range Condition
+		 */
+		getSpeedLangeCondition : function(speedRange, params) {
+
+			if(this.isEmpty(speedRange)) {
+				return params;
+			}
+
+			var idx = 0;
+
+			if(speedRange.speed_off) {
+				params["_q[or][" + idx + "][status-eq]"] = 'OFF';
+				idx += 1;
+			}
+
+			if(speedRange.speed_idle) {
+				params["_q[or][" + idx + "][velocity-eq]"] = 0;
+				idx += 1;
+			}
+
+			if(speedRange.speed_slow) {
+				var range = $rootScope.getSpeedRange(ConstantSpeed.SPEED_SLOW);
+				params["_q[or][" + idx + "][velocity-between]"] = range[0] + ',' + range[1];
+				//params["_q[or][" + idx + "][velocity-lte]"] = range[1];
+				idx += 1;
+			}
+
+			if(speedRange.speed_normal) {
+				var range = $rootScope.getSpeedRange(ConstantSpeed.SPEED_NORMAL);
+				params["_q[or][" + idx + "][velocity-between]"] = range[0] + ',' + range[1];
+				//params["_q[or][" + idx + "][velocity-lte]"] = range[1];
+				idx += 1;
+			}
+
+			if(speedRange.speed_high) {
+				var range = $rootScope.getSpeedRange(ConstantSpeed.SPEED_HIGH);
+				params["_q[or][" + idx + "][velocity-between]"] = range[0] + ',' + range[1];
+				//params["_q[or][" + idx + "][velocity-lte]"] = range[1];
+				idx += 1;
+			}
+
+			if(speedRange.speed_over) {
+				var range = $rootScope.getSpeedRange(ConstantSpeed.SPEED_OVER);
+				params["_q[or][" + idx + "][velocity-gt]"] = range;
+			}
+
+			return params;
 		}
 
+		//------------------------------- E N D ------------------------------------
 	};
 });
