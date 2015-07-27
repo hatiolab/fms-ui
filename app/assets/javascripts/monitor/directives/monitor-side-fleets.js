@@ -12,7 +12,7 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 				// side-fleets 탭이 액티브 된 경우만 호출하도록 변경 ...
 				if(fleetTab.hasClass('active')) {
 					//sideFleetsCtrl.searchFleets(null);
-					scope.fleetSearchParams(null);
+					scope.pageFleets(null);
 				}
       });
 		}
