@@ -15,7 +15,8 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 				var fleetTab = angular.element('#alertTab');
 				// side-fleets 탭이 액티브 된 경우만 호출하도록 변경 ...
 				if(fleetTab.hasClass('active')) {
-					sideAlertsCtrl.searchEvents(null);
+					//sideAlertsCtrl.searchEvents(null);
+					scope.pageEvents(null);
 				}
 			});
 		}
@@ -72,6 +73,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 			console.log(params.to_date);
 		}
 
+		searchParams['_o[etm]'] = 'desc';
 		return searchParams;
 	};
 
@@ -111,6 +113,38 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	$scope.findEvents = this.searchEvents;
 
 	/**
+	 * smart table object
+	 */
+	$scope.tablestate = null;
+	/**
+	 * call by pagination
+	 */
+	$scope.pageEvents = function(tablestate) {
+		if(tablestate) {
+			$scope.tablestate = tablestate;
+			if($scope.tablestate.pagination.number < 20) {
+				$scope.tablestate.pagination.number = 20;
+			}
+		}
+
+		var searchParams = angular.copy($scope.eventSearchParams);
+		searchParams.fleet_group_id = searchParams.group ? searchParams.group.id : '';
+		searchParams = $scope.normalizeSearchParams(searchParams);
+		searchParams.start = $scope.tablestate.pagination.start;
+		searchParams.limit = $scope.tablestate.pagination.number;
+
+		RestApi.search('/events.json', searchParams, function(dataSet) {
+			$scope.events = dataSet;
+			$scope.eventItems = dataSet.items;
+			FmsUtils.setEventTypeClasses($scope.eventItems);
+			$scope.eventTypeSummaries = FmsUtils.getEventTypeSummaries($scope.eventItems);
+			$scope.tablestate.pagination.totalItemCount = dataSet.total;
+			$scope.tablestate.pagination.numberOfPages = dataSet.total_page;
+			$scope.$emit('monitor-event-list-change', $scope.events);
+		});
+	};
+
+	/**
 	 * show event info window to map
 	 */
 	$scope.showEventInfo = function(fmsEvent) {
@@ -128,7 +162,8 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	 * map refresh 
 	 */	
 	$rootScope.$on('monitor-refresh-event', function(evt, value) {
-		$scope.findEvents(null);
+		//$scope.findEvents(null);
+		$scope.pageEvents(null);
 	});
 
 

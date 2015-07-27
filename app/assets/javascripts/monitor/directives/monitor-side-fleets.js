@@ -11,7 +11,8 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 				var fleetTab = angular.element('#fleetTab');
 				// side-fleets 탭이 액티브 된 경우만 호출하도록 변경 ...
 				if(fleetTab.hasClass('active')) {
-					sideFleetsCtrl.searchFleets(null);
+					//sideFleetsCtrl.searchFleets(null);
+					scope.fleetSearchParams(null);
 				}
       });
 		}
@@ -42,6 +43,7 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 
 		// TODO Speed값 파라미터 변경 ...
 		
+		searchParams['_o[name]'] = 'asc';
 		return searchParams;
 	};
 
@@ -69,8 +71,6 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 		}
 
 		searchParams = $scope.normalizeSearchParams(searchParams);
-		searchParams['_o[name]'] = 'asc';
-
 		RestApi.search('/fleets.json', searchParams, function(dataSet) {
 			$scope.fleets = dataSet;
 			$scope.fleetItems = dataSet.items;
@@ -81,6 +81,38 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	};
 
 	$scope.findFleets = this.searchFleets;
+
+	/**
+	 * smart table object
+	 */
+	$scope.tablestate = null;
+	/**
+	 * call by pagination
+	 */
+	$scope.pageFleets = function(tablestate) {
+		if(tablestate) {
+			$scope.tablestate = tablestate;
+			if($scope.tablestate.pagination.number < 20) {
+				$scope.tablestate.pagination.number = 20;
+			}
+		}
+
+		var searchParams = angular.copy($scope.fleetSearchParams);
+		searchParams.fleet_group_id = searchParams.group ? searchParams.group.id : '';
+		searchParams = $scope.normalizeSearchParams(searchParams);
+		searchParams.start = $scope.tablestate.pagination.start;
+		searchParams.limit = $scope.tablestate.pagination.number;
+
+		RestApi.search('/fleets.json', searchParams, function(dataSet) {
+			$scope.fleets = dataSet;
+			$scope.fleetItems = dataSet.items;
+			FmsUtils.setSpeedClasses($scope.fleetItems);
+			$scope.speedRangeSummaries = FmsUtils.getSpeedSummaries($scope.fleetItems);
+			$scope.tablestate.pagination.totalItemCount = dataSet.total;
+			$scope.tablestate.pagination.numberOfPages = dataSet.total_page;
+			$scope.$emit('monitor-fleet-list-change', $scope.fleets);
+		});
+	};
 
 	/**
 	 * show fleet info window to map
@@ -100,7 +132,8 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	 * map refresh 
 	 */	
 	$rootScope.$on('monitor-refresh-fleet', function(evt, value) {
-		$scope.findFleets(null);
+		//$scope.findFleets(null);
+		$scope.pageFleets(null);
 	});
 
 	/**
@@ -115,7 +148,7 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	 */
 	$scope.init = function() {
 		$scope.findGroups(null);
-		$scope.findFleets(null);
+		//$scope.findFleets(null);
 	};
 
 	$scope.init();

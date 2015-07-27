@@ -4,7 +4,8 @@ class MongoController < ActionController::Base
   
   def searching(entity, params)
     where_params, where_conds, sorts = params["_q"], {}, []
-    params["_o"].each { |ord| sorts << ord['name'] + " " + ord['direction'] } if params["_o"]
+    debug_print params["_o"]
+    params["_o"].each { |key, value| sorts << "#{key} #{value}" } if params["_o"]
     
     if params["sort"]
       sort_list = JSON.parse(params["sort"])
@@ -27,14 +28,12 @@ class MongoController < ActionController::Base
       end
     end if(where_params)
 
-    skip = (params[:page].to_i - 1) * params[:limit].to_i
-    
     unless(where_conds.empty?)
       total_count = entity.all_of(where_conds).count
-      items = entity.all_of(where_conds).order(sort_str).skip(skip).limit(params[:limit].to_i)
+      items = entity.all_of(where_conds).order(sort_str).skip(params[:start].to_i).limit(params[:limit].to_i)
     else
       total_count = entity.count
-      items = entity.order(sort_str).skip(skip).limit(params[:limit].to_i)
+      items = entity.order(sort_str).skip(params[:start].to_i).limit(params[:limit].to_i)
     end
 
     return {:items => items, :total => total_count, :success => true}

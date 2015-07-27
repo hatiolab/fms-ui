@@ -302,7 +302,7 @@ module Hatio
     def find_pagination_info
       page = (params[:page] || 1).to_i
       limit = (params[:limit] || GlobalConfig.default_page_size).to_i
-      offset = (page - 1) * limit
+      offset = params[:start] ? params[:start].to_i : (page - 1) * limit
       return page, limit, offset
     end
     

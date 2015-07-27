@@ -13,7 +13,7 @@ angular.module('fmsCore').factory('RestApi', function($resource) {
 			if(params) {
 				params.page = params.page ? params.page : 1;
 				params.start = params.start ? params.start : 0;
-				params.limit = params.limit ? params.limit : 30;
+				params.limit = params.limit ? params.limit : 20;
 			}
 
 			var rsc = $resource(url, params);
@@ -22,7 +22,8 @@ angular.module('fmsCore').factory('RestApi', function($resource) {
 				dataSet.start = params.start;
 				dataSet.limit = params.limit;
 				dataSet.page = params.page;
-				dataSet.total_page = (params.total > params.limit) ? Math.ceil(params.total / params.limit) : 1;
+				console.log(dataSet);
+				dataSet.total_page = (dataSet.total > params.limit) ? Math.ceil(dataSet.total / params.limit) : 1;
 				callback(dataSet); 
 			});
 		},

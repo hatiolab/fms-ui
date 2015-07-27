@@ -265,6 +265,9 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * add marker click event
 	 */
 	$scope.addMarkerClickEvent = function(e, switchName) {
+		if(!e.model.typeClass && e.model.vlc) {
+			FmsUtils.setSpeedClass(e.model, e.model.vlc);
+		}
 		$scope.selectedMarker = e.model;
 		$scope.switchOn(switchName);
 		if(!$scope.selectedMarker.address) {
