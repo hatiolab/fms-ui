@@ -158,9 +158,12 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 			$scope.tablestate = tablestate;
 			return;
 		}
-
+		
 		if(tablestate) {
 			$scope.tablestate = tablestate;
+		}
+
+		if($scope.tablestate) {
 			if($scope.tablestate.pagination.number < 20) {
 				$scope.tablestate.pagination.number = 20;
 			}
