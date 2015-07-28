@@ -11,12 +11,12 @@ angular.module('fmsMonitor').directive('monitorInfoTrips', function() {
 	 * 기본 날짜 검색일 설정 
 	 */
 	var toDateStr = FmsUtils.formatDate(new Date(), 'yyyy-MM-dd');
-	var fromDate = FmsUtils.addDate(new Date(), -2);
+	var fromDate = FmsUtils.addDate(new Date(), -3);
 	var fromDateStr = FmsUtils.formatDate(fromDate, 'yyyy-MM-dd');
 	/**
 	 * 폼 모델 초기화 
 	 */
-	$scope.tripSearchParams = { 'ctm_gte' : fromDateStr, 'ctm_lte' : toDateStr };
+	$scope.tripSearchParams = { 'etm_gte' : fromDateStr, 'etm_lte' : toDateStr };
 	/**
 	 * Fleet Trip Data Set
 	 */
@@ -43,7 +43,7 @@ angular.module('fmsMonitor').directive('monitorInfoTrips', function() {
 			pickTime : false,
 			autoclose : true
 		}).on('changeDate', function(fev) {
-			$scope.tripSearchParams.ctm_gte = FmsUtils.formatDate(fev.date, 'yyyy-MM-dd');
+			$scope.tripSearchParams.etm_gte = FmsUtils.formatDate(fev.date, 'yyyy-MM-dd');
 			fromDt.data('datetimepicker').hide();
 		});
 	});
@@ -55,7 +55,7 @@ angular.module('fmsMonitor').directive('monitorInfoTrips', function() {
 			autoclose : true
 		}).on('changeDate', function(tev) {
 			FmsUtils.addDate(tev.date, -1);
-			$scope.tripSearchParams.ctm_lte = FmsUtils.formatDate(tev.date, 'yyyy-MM-dd');
+			$scope.tripSearchParams.etm_lte = FmsUtils.formatDate(tev.date, 'yyyy-MM-dd');
 			toDt.data('datetimepicker').hide();
 		});
 	});
@@ -77,9 +77,9 @@ angular.module('fmsMonitor').directive('monitorInfoTrips', function() {
 
 		var searchParams = {
 			"_q[fid-eq]" : $scope.trip.fid,
-			"_q[ctm-gte]" : new Date($scope.tripSearchParams['ctm_gte']).getTime(),
-			"_q[ctm-lte]" : new Date($scope.tripSearchParams['ctm_lte']).getTime(),
-			"_o[ctm]" : "desc",
+			"_q[etm-gte]" : new Date($scope.tripSearchParams['etm_gte']).getTime(),
+			"_q[etm-lte]" : FmsUtils.addDate(new Date($scope.tripSearchParams['etm_lte']), 1).getTime(),
+			"_o[etm]" : "desc",
 			"start" : $scope.tablestate.pagination.start,
 			"limit" : $scope.tablestate.pagination.number
 		};

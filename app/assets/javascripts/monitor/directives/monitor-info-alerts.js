@@ -11,7 +11,7 @@ angular.module('fmsMonitor').directive('monitorInfoAlerts', function() {
 	 * 기본 날짜 검색일 설정 
 	 */
 	var toDateStr = FmsUtils.formatDate(new Date(), 'yyyy-MM-dd');
-	var fromDate = FmsUtils.addDate(new Date(), -2);
+	var fromDate = FmsUtils.addDate(new Date(), -3);
 	var fromDateStr = FmsUtils.formatDate(fromDate, 'yyyy-MM-dd');
 
 	/**
@@ -79,7 +79,7 @@ angular.module('fmsMonitor').directive('monitorInfoAlerts', function() {
 		var searchParams = {
 			"_q[tid-eq]" : $scope.tripId,
 			"_q[ctm-gte]" : new Date($scope.alertSearchParams['ctm_gte']).getTime(),
-			"_q[ctm-lte]" : new Date($scope.alertSearchParams['ctm_lte']).getTime(),
+			"_q[ctm-lte]" : FmsUtils.addDate(new Date($scope.alertSearchParams['ctm_lte']), 1).getTime(),
 			"_o[etm]" : "desc",
 			"start" : $scope.tablestate.pagination.start,
 			"limit" : $scope.tablestate.pagination.number
