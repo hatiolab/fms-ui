@@ -137,7 +137,9 @@
       show="windowSwitch.showEventInfo" closeClick="switchOffAll()">
       <div>
         <div>Event ID <strong>{{selectedMarker.id}}</strong></div>
-        <pip-video front-video-url="{{selectedMarker.f_vdo}}"
+        <pip-video 
+        		video-url="{{selectedMarker.vdo}}"
+        		front-video-url="{{selectedMarker.f_vdo}}"
             rear-video-url="{{selectedMarker.r_vdo}}"
             audio-url="{{selectedMarker.ado}}">
         </pip-video> 
@@ -155,7 +157,6 @@
 					<span class="modal-icon dot-gray">G-Z</span>
 					<strong>{{selectedMarker.gz}}</strong>
 				</div>
-				<div><a target="_self" href="{{selectedMarker.vdo}}" download="video.mp4">[Download]</a><div>
       </div>
     </ui-gmap-window>
 

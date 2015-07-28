@@ -5,6 +5,7 @@ angular.module('pip', [])
             scope: {},
             controller: 'pipVideoCtrl',
             link: function(scope, e, a) {
+                scope.videoUrl = a.videoUrl;
                 scope.frontVideoUrl = a.frontVideoUrl;
                 scope.rearVideoUrl = a.rearVideoUrl;
                 scope.audioUrl = a.audioUrl;
@@ -14,7 +15,12 @@ angular.module('pip', [])
                 '   <video ng-attr-src="{{ frontVideoUrl }}" controls xmediagroup="pip" class="backward-layer"></video>' +
                 '   <video ng-attr-src="{{ rearVideoUrl }}" xmediagroup="pip" class="forward-layer"></video>' +
                 '   <audio ng-attr-src="{{ audioUrl }}" xmediagroup="pip" hidden></audio>' +
-                '</div>'
+                '</div>' +
+                '<div ng-if="frontVideoUrl">' +
+                    '<a target="_self" href="{{ videoUrl }}" download="video.mp4">' +
+                        '[Download]' +
+                    '</a>' +
+                '<div>'
         };
     })
     .directive('pipImage', function() {
