@@ -167,11 +167,23 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	};
 
 	/**
+	 * Move to trip of fleet
+	 */
+	$scope.goTrip = function(trip) {
+		$scope.getTripDataSet(trip.fid, trip.id);
+	};	
+
+	/**
 	 * Get trip data set
 	 */
-	$scope.getTripDataSet = function(fid) {
+	$scope.getTripDataSet = function(fid, tripId) {
+		var params = {};
+		if(tripId) {
+			params.trip_id = tripId;
+		}
+
 		// 1. invoke rest api
-		RestApi.get('/fleets/' + fid + '/trip.json', {}, function(dataSet) {
+		RestApi.get('/fleets/' + fid + '/trip.json', params, function(dataSet) {
 			// 1. map 초기화 
 			$scope.clearAll(null);
 			// 2. trip 그리기 
@@ -477,6 +489,13 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		// $scope.showFleetInfo(fleet);
 		// TODO 1. center 이동 
 		// 2. 마커 아이콘 변경 
+	});
+
+	/**
+	 * Trip 선택시
+	 */
+	$rootScope.$on('monitor-info-trip-change', function(evt, trip) {
+			$scope.goTrip(trip);
 	});
 
 	/**

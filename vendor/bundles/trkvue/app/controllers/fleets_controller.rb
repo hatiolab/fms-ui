@@ -58,8 +58,13 @@ public
 	def trip
 		fleet = Fleet.where(:id => params[:id]).first
 		fleet = Fleet.where(:name => params[:id]).first unless fleet
-		# 1. trip
-		trip = Trip.find(fleet.trip_id)
+
+		if(params[:trip_id])
+			trip = Trip.find(params[:trip_id]) 
+		else
+			trip = Trip.find(fleet.trip_id)
+		end
+
 		# 2. batches
 		batches = Batch.all_of({'tid' => trip.id}).order("id asc")
 		# 3. tracks

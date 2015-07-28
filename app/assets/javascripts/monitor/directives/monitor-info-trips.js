@@ -100,4 +100,11 @@ angular.module('fmsMonitor').directive('monitorInfoTrips', function() {
 		$scope.pageTrips();
 	});
 
+	/**
+	 * Trip 선택시 
+	 */
+	$scope.goTrip = function(trip) {
+		$scope.$emit('monitor-info-trip-change', trip);
+	}
+
 });

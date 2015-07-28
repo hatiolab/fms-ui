@@ -105,4 +105,11 @@ angular.module('fmsMonitor').directive('monitorInfoAlerts', function() {
 		$scope.pageAlerts();
 	});
 
+	/**
+	 * Trip 선택시 
+	 */
+	$scope.goTrip = function(alert) {
+		$scope.$emit('monitor-event-trip-change', alert);
+	}	
+
 });

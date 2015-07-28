@@ -36,6 +36,7 @@
 											<th>Normal</th>
 											<th>High</th>
 											<th>Over</th>
+											<th>Trip</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -49,11 +50,14 @@
 											<td>{{fleetTrip.c_nml}}</td>
 											<td>{{fleetTrip.c_hgh}}</td>
 											<td>{{fleetTrip.c_ovr}}</td>
+											<td class="icon-td align-center" ng-click="goTrip(fleetTrip)">
+												<span class="icon-trip"></span>
+											</td>
 										</tr>
 									</tbody>
 									<tfoot>
 										<tr>
-											<td class="text-center" colspan="9">
+											<td class="text-center" colspan="10">
 												<div st-pagination="" 
 													st-items-by-page="fleetTripDataSet.limit" 
 													st-displayed-pages="fleetTripDataSet.total_page">
