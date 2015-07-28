@@ -36,14 +36,7 @@
     <%= yield %>
 		
     <% if user_signed_in? %>
-		<div class="alert alert-popup" role="alert" ng-conroller="CoreCtrl" ng-show="alertItem.isShow">
-			<div class="type-icon overspeed-white"></div>
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close" 
-        ng-click="alertItem.isShow = false">
-        <span aria-hidden="true">&times;</span>
-      </button>
-		  <strong>{{alertItem.title}}</strong>{{alertItem.time | date : 'medium'}}
-		</div>
+    <alert-popup></alert-popup>
     <% end %>
   </body>
 </html>

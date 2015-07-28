@@ -90,9 +90,7 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	$scope.pageFleets = function(tablestate) {
 		if(tablestate) {
 			$scope.tablestate = tablestate;
-			if($scope.tablestate.pagination.number < 20) {
-				$scope.tablestate.pagination.number = 20;
-			}
+			$scope.tablestate.pagination.number = 20;
 		}
 
 		var searchParams = angular.copy($scope.fleetSearchParams);

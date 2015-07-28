@@ -58,7 +58,6 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 
 	/**
 	 * Rails Server의 스펙에 맞도록 파라미터 변경 ...
-	 * TODO 폼 필드명을 직접 변경 ...
 	 */
 	this.convertSearchParams = function(params) {
 
@@ -156,17 +155,12 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 		if(!$scope.eventInit) {
 			$scope.eventInit = true;
 			$scope.tablestate = tablestate;
+			$scope.tablestate.pagination.number = 20;
 			return;
 		}
 		
 		if(tablestate) {
 			$scope.tablestate = tablestate;
-		}
-
-		if($scope.tablestate) {
-			if($scope.tablestate.pagination.number < 20) {
-				$scope.tablestate.pagination.number = 20;
-			}
 		}
 
 		var searchParams = angular.copy($scope.eventSearchParams);

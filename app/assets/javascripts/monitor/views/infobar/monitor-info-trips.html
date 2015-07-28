@@ -1,29 +1,31 @@
 								<form class="form-horizontal">
 									<!-- period begin -->
 									<div class="form-group">
-									    <label for="inputPassword" class="col-xs-2 col-sm-2 col-md-2 control-label">period</label>
-									    <div class="col-xs-3 col-sm-3 col-md-3 padding-clear">
-												 <div id="datetimepicker1" class="input-append date">
-												     <input data-format="dd/MM/yyyy" type="text" class="form-control" placeholder="from"></input>
-												     <span class="add-on">
-												       <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-												     </span>
-												</div>
-									    </div>
-											<span class="col-xs-1 col-sm-1 col-md-1 padding-clear align-center margin-t7">~</span>
-									    <div class="col-xs-3 col-sm-3 col-md-3 padding-clear">
-												 <div id="datetimepicker1" class="input-append date">
-												     <input data-format="dd/MM/yyyy" type="text" class="form-control" placeholder="to"></input>
-												     <span class="add-on">
-												       <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-												     </span>
-												</div>		 
-									    </div>
+								    <label for="inputPassword" class="col-xs-2 col-sm-2 col-md-2 control-label">period</label>
+								    <div class="col-xs-3 col-sm-3 col-md-3 padding-clear">
+											<div id="info_trip_datepicker1" class="input-append date">
+										    <input data-format="yyyy-MM-dd" type="text" ng-model="tripSearchParams.ctm_gte" placeholder="from"></input>
+										    <span class="add-on">
+										      <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+										    </span>
+											</div>
+								    </div>
+										<span class="col-xs-1 col-sm-1 col-md-1 padding-clear align-center margin-t7">~</span>
+								    <div class="col-xs-3 col-sm-3 col-md-3 padding-clear">
+											<div id="info_trip_datepicker2" class="input-append date">
+										    <input data-format="yyyy-MM-dd" type="text" ng-model="tripSearchParams.ctm_lte"placeholder="to"></input>
+										    <span class="add-on">
+										      <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+										    </span>
+											</div>		 
+								    </div>
 									</div>
 									<!-- period end -->
-								</form>	
-									<!-- table begin -->
-									<table class="table table-striped table-hover" st-table="fleetTripItems">
+								</form>
+
+								<!-- table begin -->
+								<table class="table table-striped table-hover" st-table="fleetTripItems" st-pipe="pageTrips">
+									<thead>
 									  <tr>
 											<th>ID</th>
 											<th>Start Time</th>
@@ -35,6 +37,8 @@
 											<th>High</th>
 											<th>Over</th>
 										</tr>
+									</thead>
+									<tbody>
 										<tr ng-repeat="fleetTrip in fleetTripItems">
 											<td class="align-center">{{fleetTrip.id}}</td>
 											<td>{{fleetTrip.stm | date : 'medium'}}</td>
@@ -46,28 +50,16 @@
 											<td>{{fleetTrip.c_hgh}}</td>
 											<td>{{fleetTrip.c_ovr}}</td>
 										</tr>
-									</table>
-									<!-- table end -->
-									
-									<!-- pagination begin -->
-									<!--div class="pagecontainer">
-										<nav class="pull-left padding-clear">
-									  	<ul class="pagination">
-									    <li>
-									      <a href="#" aria-label="Previous">
-									        <span aria-hidden="true">&laquo;</span>
-									      </a>
-									    </li>
-									    <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-									    <li><a href="#">2</a></li>
-									    <li><a href="#">3</a></li>
-									    <li>
-									      <a href="#" aria-label="Next">
-									        <span aria-hidden="true">&raquo;</span>
-									      </a>
-									    </li>
-									  </ul>
-										</nav>
-										<div class="pull-right"><strong>1-5</strong> of 19</div>
-									</div-->
-									<!-- pagination end -->
+									</tbody>
+									<tfoot>
+										<tr>
+											<td class="text-center" colspan="9">
+												<div st-pagination="" 
+													st-items-by-page="fleetTripDataSet.limit" 
+													st-displayed-pages="fleetTripDataSet.total_page">
+												</div>
+											</td>
+										</tr>
+									</tfoot>
+								</table>
+								<!-- table end -->

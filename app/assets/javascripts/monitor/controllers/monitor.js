@@ -17,8 +17,9 @@ angular.module('fmsMonitor').controller('MonitorCtrl', function($rootScope, $sco
 	$scope.searchNewAlert = function() {
 		RestApi.get('/events/' + $scope.lastSearchAlertTime + '/latest_one.json', {}, function(alert) {
 			if(alert && alert.driver) {
-				var alertData = { title : alert.driver.name, time : alert.alert.ctm };
+				var alertData = { id : alert.id, tripId : alert.tid, title : alert.driver.name, time : alert.alert.ctm };
 				$rootScope.$broadcast('core-alert-occur', alertData);
+				$scope.lastSearchAlertTime = alertData.time;
 			}
 		});
 
@@ -32,6 +33,6 @@ angular.module('fmsMonitor').controller('MonitorCtrl', function($rootScope, $sco
 		$interval.cancel();
 	});
 
-	$interval($scope.searchNewAlert, 15 * 1000);
+	$interval($scope.searchNewAlert, 10 * 1000);
 
 });

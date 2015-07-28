@@ -172,6 +172,26 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 		},
 
 		/**
+		 * set alert type class to event object
+
+		 * @fleets
+		 */
+		setAlertTypeClass : function(evt) {
+			if(evt.typ == 'I' || evt.typ == 'O') {
+				evt.typeClass = 'type-icon geofence-white';
+
+			} else if(evt.typ == 'G') {
+				evt.typeClass = 'type-icon impact-white';
+
+			} else if(evt.typ == 'B') {
+				evt.typeClass = 'type-icon emergency-white';
+
+			} else if(evt.typ == 'V') {
+				evt.typeClass = 'type-icon overspeed-white';
+			}
+		},
+
+		/**
 		 * get speed summaries
 		 *
 		 * @fleets
