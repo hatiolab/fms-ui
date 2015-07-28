@@ -163,7 +163,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 			return;
 		}
 
-		$scope.getTripDataSet($scope.selectedMarker.fid);
+		$scope.getTripDataSet($scope.selectedMarker.fid, $scope.selectedMarker.tid);
 	};
 
 	/**

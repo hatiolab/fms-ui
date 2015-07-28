@@ -4,7 +4,7 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
    * Alert 발생시 
    */
 	$scope.setAlert = function(alertData) {
-		$scope.lastSearchAlertTime = alertData.alert.ctm + 10;
+		$scope.lastSearchAlertTime = alertData.alert.ctm + 1000;
 		FmsUtils.setAlertTypeClass(alertData.alert);
 		var alert = {
 			id : alertData.alert.id,
@@ -49,13 +49,12 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 	 * Refresh timer를 시작 
 	 */
 	$scope.searchNewAlert = function() {
-		RestApi.get('/events/' + ($scope.lastSearchAlertTime + 10) + '/latest_one.json', {}, function(alert) {
+		RestApi.get('/events/' + $scope.lastSearchAlertTime + '/latest_one.json', {}, function(alert) {
+			$scope.lastSearchAlertTime = new Date().getTime();
 			if(alert && alert.driver) {
 				$scope.setAlert(alert);
 			}
 		});
-
-		$scope.lastSearchAlertTime = new Date().getTime();
 	};
 
 	/**
