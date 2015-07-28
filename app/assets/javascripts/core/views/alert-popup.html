@@ -1,8 +1,7 @@
-  		<div class="alert alert-popup" role="alert" ng-show="alertItem.isShow">
-        <div class="{{alertItem.typeClass}}"></div>
-  			<button type="button" class="close" data-dismiss="alert" aria-label="Close" 
-          ng-click="alertItem.isShow = false">
+  		<div class="alert alert-popup" role="alert" ng-show="{{isShow}}">
+        <div class="{{typeClass}}"></div>
+  			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-  		  <strong><button type="button" ng-click="alert('test')">{{alertItem.title}}</button></a></strong>{{alertItem.time | date : 'medium'}}
+  		  <strong><button type="button" ng-click="alert('test')">{{title}}</button></a></strong>{{time | date : 'medium'}}
   		</div>
