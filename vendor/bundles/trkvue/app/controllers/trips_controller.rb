@@ -39,6 +39,26 @@ class TripsController < MongoController
       format.json { render :json => result }
     end
   end
+
+  def prev_trip
+    trip = Trip.find(params[:id])
+    prevTrip = Trip.all_of({"fid" => trip.fid, "stm" => {"$lt" => trip.stm}}).order("stm desc").first
+
+    respond_to do |format|
+      format.xml { render :xml => prevTrip } 
+      format.json { render :json => prevTrip }
+    end
+  end
+
+  def next_trip
+    trip = Trip.find(params[:id])
+    nextTrip = Trip.all_of({"fid" => trip.fid, "stm" => {"$gt" => trip.stm}}).order("stm asc").first
+
+    respond_to do |format|
+      format.xml { render :xml => nextTrip } 
+      format.json { render :json => nextTrip }
+    end
+  end
   
   private
   

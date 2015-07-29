@@ -32,12 +32,34 @@ class EventsController < MongoController
 
   def latest_one
     lastCheckTime = params[:id]
-    alert = Event.all_of({'ctm' => {'$gte' => lastCheckTime}}).order('ctm asc').first
+    conds = {'ctm' => {'$gt' => lastCheckTime}}
+    conds['fid'] = params[:fid] if params[:fid]
+    alert = Event.all_of(conds).order('ctm asc').first
     result = alert ? { :alert => alert, :driver => alert.driver } : {}
 
     respond_to do |format|
       format.xml { render :xml => result } 
       format.json { render :json => result }
+    end
+  end
+
+  def prev_event
+    alert = Event.find(params[:id])
+    prevAlert = Event.all_of({"fid" => alert.fid, "ctm" => {"$lt" => alert.ctm}}).order("ctm desc").first
+
+    respond_to do |format|
+      format.xml { render :xml => prevAlert } 
+      format.json { render :json => prevAlert }
+    end
+  end
+
+  def next_event
+    alert = Event.find(params[:id])
+    nextAlert = Event.all_of({"fid" => alert.fid, "ctm" => {"$gt" => alert.ctm}}).order("ctm asc").first
+
+    respond_to do |format|
+      format.xml { render :xml => nextAlert } 
+      format.json { render :json => nextAlert }
     end
   end
   

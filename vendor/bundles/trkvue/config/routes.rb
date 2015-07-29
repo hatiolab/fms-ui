@@ -103,6 +103,8 @@ Trkvue::Engine.routes.draw do
 		end
 		member do
 			get :trip_set
+			get :prev_trip
+			get :next_trip
 		end
 	end
   
@@ -114,6 +116,8 @@ Trkvue::Engine.routes.draw do
 		end
 		member do
 			get :latest_one
+			get :prev_event
+			get :next_event
 		end
 	end
   

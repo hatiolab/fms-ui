@@ -22,13 +22,6 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 	 * alert popup을 띄운다.
 	 */
 	$scope.addAlertPopup = function(alert) {
-		/*var popupStr = "<div id='alert_" + $scope.alert.id + "' class='alert alert-popup' role='alert' ng-show='alert.isShow'>";
-		popupStr += "<div class='{{alert.typeClass}}'></div>";
-		popupStr += "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>";
-		popupStr += "<span aria-hidden='true'>&times;</span></button>";
-		popupStr += "<strong><button type='button' ng-click=\"goTrip('" + $scope.alert.id + "')\">{{alert.title}}</button></a></strong>{{alert.time | date : 'medium'}}";
-		popupStr += "</div>";*/
-
 		var popupStr = "<div id='alert_" + alert.id + "' class='alert alert-popup' role='alert' ng-show='true'>";
 		popupStr += "<div class='" + alert.typeClass + "'></div>";
 		popupStr += "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>";

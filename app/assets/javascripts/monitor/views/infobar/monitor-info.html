@@ -36,12 +36,20 @@
 									<nav class="pull-right padding-clear">
 								  	<ul class="pagination">
 								    <li class="padding-rl7 border-rl-lightgray" style="padding-top:3px;padding-bottom:8px">
-								      <button type="button" class="btn btn-in-pagination"><span class="icon-infolist arrow-left"></span>older trip</button>
-											<button type="button" class="btn btn-in-pagination">newer trip<span class="icon-infolist arrow-right"></span></button>
+								      <button type="button" class="btn btn-in-pagination" ng-click="goPrevTrip()">
+								      	<span class="icon-infolist arrow-left"></span>Older Trip
+								      </button>
+											<button type="button" class="btn btn-in-pagination" ng-click="goNextTrip()">Newer Trip
+												<span class="icon-infolist arrow-right"></span>
+											</button>
 								    </li>
 								    <li class="padding-rl7">
-								      <button type="button" class="btn btn-in-pagination"><span class="icon-infolist arrow-left"></span>older alert</button>
-											<button type="button" class="btn btn-in-pagination">newer alert<span class="icon-infolist arrow-right"></span></button>
+								      <button type="button" class="btn btn-in-pagination" ng-click="goPrevAlert()">
+								      	<span class="icon-infolist arrow-left"></span>Older Alert
+								      </button>
+											<button type="button" class="btn btn-in-pagination" ng-click="goNextAlert()">Newer Alert
+												<span class="icon-infolist arrow-right"></span>
+											</button>
 								    </li>
 								  </ul>
 									</nav>
