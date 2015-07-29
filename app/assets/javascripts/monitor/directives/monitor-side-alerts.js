@@ -71,6 +71,10 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 			searchParams["_q[fleet_group_id-eq]"] = params.fleet_group_id;
 		}
 
+		if(params.fleet_id) {
+			searchParams["_q[fid-eq]"] = params.fleet_id;
+		}
+
 		// type
 		if(params.typ) {
 			var typeArr = [];
@@ -119,6 +123,19 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	$scope.findGroups = this.searchGroups;
 
 	/**
+	 * find fleets
+	 */
+	this.searchFleets = function(params) {
+		params = params || {};
+		params["_o[name]"] = "asc";
+		RestApi.list('/fleets.json', params, function(dataSet) {
+			$scope.fleets = dataSet;
+		});
+	};
+
+	$scope.findFleets = this.searchFleets;
+
+	/**
 	 * find events
 	 */
 	this.searchEvents = function(params) {
@@ -126,6 +143,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 		if(!params || params == {}) {
 			searchParams = angular.copy($scope.eventSearchParams);
 			searchParams.fleet_group_id = searchParams.group ? searchParams.group.id : '';
+			searchParams.fleet_id = searchParams.fleet ? searchParams.fleet.name : '';
 		}
 
 		searchParams = $scope.normalizeSearchParams(searchParams);
@@ -165,6 +183,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 
 		var searchParams = angular.copy($scope.eventSearchParams);
 		searchParams.fleet_group_id = searchParams.group ? searchParams.group.id : '';
+		searchParams.fleet_id = searchParams.fleet ? searchParams.fleet.name : '';
 		searchParams = $scope.normalizeSearchParams(searchParams);
 		searchParams.start = $scope.tablestate.pagination.start;
 		searchParams.limit = $scope.tablestate.pagination.number;
@@ -205,6 +224,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 
 	$scope.init = function() {
 		$scope.findGroups({});
+		$scope.findFleets({});
 	};
 
 	$scope.init();

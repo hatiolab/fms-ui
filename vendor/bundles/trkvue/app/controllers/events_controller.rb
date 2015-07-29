@@ -4,20 +4,19 @@ class EventsController < MongoController
 
   def index
     if(params && params["_q"])
-      if(params["_q"]["fleet_group_id-eq"])
-        groupId = params["_q"].delete("fleet_group_id-eq")
-        fleetIds = Fleet.where("fleet_group_id = '#{groupId}'").collect { |fleet| fleet.name }
-        params["_q"]["fid-in"] = fleetIds
+      if(params["_q"]["fid-eq"])
+        params["_q"].delete("fleet_group_id-eq")
+      else
+        if(params["_q"]["fleet_group_id-eq"])
+          groupId = params["_q"].delete("fleet_group_id-eq")
+          fleetIds = Fleet.where("fleet_group_id = '#{groupId}'").collect { |fleet| fleet.name }
+          params["_q"]["fid-in"] = fleetIds
+        end
       end
     end
 
     results = searching(Event, params)
     @collection, @total_count = results[:items], results[:total]
-
-    # respond_to do |format|
-    #   format.xml { render :xml => events } 
-    #   format.json { render :json => events }
-    # end
   end
   
   def show

@@ -1,37 +1,49 @@
 <form class="form-horizontal">
 	<!-- group begin -->
 	<div class="form-group">
-	    <label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">group</label>
-	    <div class="col-xs-11 col-sm-7 col-md-6 padding-clear">
-	      <select name="group" class="form-control" ng-model="eventSearchParams.group" ng-init="selected=''"
-	       ng-options="group.name for group in groups" >
-	       	<option></option>
-				</select>
-	    </div>
+    <label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">group</label>
+    <div class="col-xs-11 col-sm-7 col-md-6 padding-clear">
+      <select name="group" class="form-control" ng-model="eventSearchParams.group" ng-init="selected=''"
+       ng-options="group.name for group in groups" >
+       	<option></option>
+			</select>
+    </div>
 	</div>
 	<!-- group end -->
 
+	<!-- vehicle begin -->
+	<div class="form-group">
+    <label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">vehicle</label>
+    <div class="col-xs-11 col-sm-7 col-md-6 padding-clear">
+      <select name="fleet" class="form-control" ng-model="eventSearchParams.fleet" ng-init="selected=''"
+       ng-options="fleet.name for fleet in fleets" >
+       	<option></option>
+			</select>
+    </div>
+	</div>
+	<!-- vehicle end -->
+
 	<!-- period begin -->
 	<div class="form-group">
-	    <label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">period</label>
-	    <div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
-				 <div id="datepicker1" class="input-append date">
-			     <input id="ctm_gte" data-format="yyyy-MM-dd" type="text" ng-model="eventSearchParams.ctm_gte" placeholder="from">
-			     </input>
-			     <span class="add-on">
-			       <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-			     </span>
-				</div>
-	    </div>
-			<span class="col-xs-1 col-sm-1 col-md-1 padding-clear align-center margin-t7">~</span>
-	    <div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
-				 <div id="datepicker2" class="input-append date">
-			     <input id="ctm_gte" data-format="yyyy-MM-dd" type="text" ng-model="eventSearchParams.ctm_lte" placeholder="to"></input>
-			     <span class="add-on">
-			       <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-			     </span>
-				</div>
-	    </div>
+    <label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">period</label>
+    <div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
+			<div id="datepicker1" class="input-append date">
+		    <input id="ctm_gte" data-format="yyyy-MM-dd" type="text" ng-model="eventSearchParams.ctm_gte" placeholder="from">
+		    </input>
+		    <span class="add-on">
+		      <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+		    </span>
+			</div>
+    </div>
+		<span class="col-xs-1 col-sm-1 col-md-1 padding-clear align-center margin-t7">~</span>
+    <div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
+			 <div id="datepicker2" class="input-append date">
+		     <input id="ctm_gte" data-format="yyyy-MM-dd" type="text" ng-model="eventSearchParams.ctm_lte" placeholder="to"></input>
+		     <span class="add-on">
+		       <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+		     </span>
+			</div>
+    </div>
 	</div>
 	<!-- period end -->
 
