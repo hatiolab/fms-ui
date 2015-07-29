@@ -6,7 +6,7 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 		 * isEmpty
 		 */
 		isEmpty : function(obj) {
-    	return !Object.keys(obj).length > 0;
+			return (obj == null || !obj) ? true : (!Object.keys(obj).length > 0);
 		},
 
 		/**

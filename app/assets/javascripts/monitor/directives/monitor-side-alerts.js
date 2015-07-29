@@ -39,7 +39,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 			pickTime : false,
 			autoclose : true
 		}).on('changeDate', function(fev) {
-			$scope.eventSearchParams.ctm_gte = FmsUtils.formatDate(fev.date, 'yyyy-MM-dd');
+			$scope.eventSearchParams["ctm_gte"] = FmsUtils.formatDate(fev.date, 'yyyy-MM-dd');
 			fromDt.data('datetimepicker').hide();
 		});
 	});
@@ -51,7 +51,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 			autoclose : true
 		}).on('changeDate', function(tev) {
 			FmsUtils.addDate(tev.date, -1);
-			$scope.eventSearchParams.ctm_lte = FmsUtils.formatDate(tev.date, 'yyyy-MM-dd');
+			$scope.eventSearchParams["ctm_lte"] = FmsUtils.formatDate(tev.date, 'yyyy-MM-dd');
 			toDt.data('datetimepicker').hide();
 		});
 	});
@@ -75,24 +75,30 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 			searchParams["_q[fid-eq]"] = params.fleet_id;
 		}
 
-		// type
-		if(params.typ) {
-			var typeArr = [];
+		var typeArr = [];
 
-			for(var i = 0 ; i < 4 ; i++) {
-				if(params.typ[i]) {
-					typeArr.push(params.typ[i]);
-					if(params.typ[i] == 'I') {
-						typeArr.push('O');
-					}
-				}
-			}
+		if(params['typ_impact']) {
+			typeArr.push(params['typ_impact']);
+		}
 
-			if(typeArr.length > 1) {
-				searchParams["_q[typ-in]"] = typeArr.join(',');
-			} else if(typeArr.length == 1) {
-				searchParams["_q[typ-eq]"] = typeArr[0];
-			}
+		if(params['typ_speed']) {
+			typeArr.push(params['typ_speed']);
+		}
+
+		if(params['typ_geofence']) {
+			typeArr.push('I');
+			typeArr.push('O');
+		}
+
+		if(params['typ_emergency']) {
+			typeArr.push(params['typ_emergency']);
+		}
+
+		if(typeArr.length == 1) {
+			searchParams["_q[typ-eq]"] = typeArr[0];
+
+		} else if(typeArr.length > 1) {
+			searchParams["_q[typ-in]"] = typeArr.join(',');
 		}
 
 		if(params['ctm_gte']) {
@@ -140,7 +146,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	 */
 	this.searchEvents = function(params) {
 		var searchParams = params;
-		if(!params || params == {}) {
+		if(FmsUtils.isEmpty(searchParams)) {
 			searchParams = angular.copy($scope.eventSearchParams);
 			searchParams.fleet_group_id = searchParams.group ? searchParams.group.id : '';
 			searchParams.fleet_id = searchParams.fleet ? searchParams.fleet.name : '';
@@ -221,6 +227,11 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 		$scope.pageEvents(null);
 	});
 
+	$scope.$watchCollection('eventSearchParams', function() {
+		if($scope.eventInit) {
+			$scope.pageEvents(null);
+		}
+	});
 
 	$scope.init = function() {
 		$scope.findGroups({});

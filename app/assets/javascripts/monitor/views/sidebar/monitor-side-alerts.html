@@ -1,4 +1,4 @@
-<form class="form-horizontal">
+<form class="form-horizontal" name="alertForm">
 	<!-- group begin -->
 	<div class="form-group">
     <label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">group</label>
@@ -28,7 +28,7 @@
     <label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">period</label>
     <div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
 			<div id="datepicker1" class="input-append date">
-		    <input id="ctm_gte" data-format="yyyy-MM-dd" type="text" ng-model="eventSearchParams.ctm_gte" placeholder="from">
+		    <input id="ctm_gte" name="ctm_gte" data-format="yyyy-MM-dd" type="text" ng-model="eventSearchParams.ctm_gte" placeholder="from">
 		    </input>
 		    <span class="add-on">
 		      <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
@@ -38,7 +38,7 @@
 		<span class="col-xs-1 col-sm-1 col-md-1 padding-clear align-center margin-t7">~</span>
     <div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
 			 <div id="datepicker2" class="input-append date">
-		     <input id="ctm_gte" data-format="yyyy-MM-dd" type="text" ng-model="eventSearchParams.ctm_lte" placeholder="to"></input>
+		     <input id="ctm_lte" name="ctm_lte" data-format="yyyy-MM-dd" type="text" ng-model="eventSearchParams.ctm_lte" placeholder="to"></input>
 		     <span class="add-on">
 		       <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
 		     </span>
@@ -53,42 +53,43 @@
 		<div class="col-xs-11 col-sm-9 col-md-10 padding-clear">
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" ng-model="eventSearchParams.typ[0]" ng-true-value="'G'">
+					<input type="checkbox" ng-model="eventSearchParams.typ_impact" ng-true-value="'G'">
 						<span class="type-icon impact"></span>impact
 				</label>
 			</div>
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" ng-model="eventSearchParams.typ[1]" ng-true-value="'V'">
+					<input type="checkbox" ng-model="eventSearchParams.typ_speed" ng-true-value="'V'">
 						<span class="type-icon overspeed"></span>over speed
 				</label>
 			</div>
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" ng-model="eventSearchParams.typ[2]" ng-true-value="'I'">
+					<input type="checkbox" ng-model="eventSearchParams.typ_geofence" ng-true-value="'I'">
 						<span class="type-icon geofence"></span>geofence
 				</label>
 			</div>
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" ng-model="eventSearchParams.typ[3]" ng-true-value="'B'">
+					<input type="checkbox" ng-model="eventSearchParams.typ_emergency" ng-true-value="'B'">
 						<span class="type-icon emergency"></span>emergency
 				</label>
 			</div>
 		</div>
 	</div>
-	<!-- type begin -->
+	<!-- type end -->
 
-	<!-- severity begin -->
-	<!--div class="form-group">
+	<!-- severity begin
+	<div class="form-group">
 	  <label class="col-xs-12 col-sm-3 col-md-2 control-label">severity</label>
 		<div class="col-xs-11 col-sm-9 col-md-10 padding-clear">
 			<label class="col-sm-4 padding-clear"><input type="checkbox" class="status-check gray">green</label>
 			<label class="col-sm-4 padding-clear"><input type="checkbox" class="status-check gray">blue</label>
 			<label class="col-sm-4 padding-clear"><input type="checkbox" class="status-check gray">red</label>
 		</div>
-	</div-->
-	<!-- severity begin -->
+	</div>
+	severity begin -->
+
 </form>
 
 <!-- status begin -->
