@@ -85,13 +85,21 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	 */
 	$scope.tablestate = null;
 	/**
+	 * 처음 전체 페이지 로딩시는 fleet data 자동조회 하지 않는다.
+	 */
+	$scope.fleetInit = false;
+	/**
 	 * call by pagination
 	 */
 	$scope.pageFleets = function(tablestate) {
+		if(!$scope.fleetInit){
+			$scope.fleetInit = true;
+			$scope.tablestate = tablestate;
+			$scope.tablestate.pagination.number = 20;
+		}
 
 		if(tablestate) {
 			$scope.tablestate = tablestate;
-			$scope.tablestate.pagination.number = 20;
 		}
 
 		var searchParams = angular.copy($scope.fleetSearchParams);
@@ -139,7 +147,9 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	 * @return null
 	 */
 	$scope.$watchCollection('fleetSearchParams', function() {
-		$scope.pageFleets(null);
+		if($scope.fleetInit){
+			$scope.pageFleets(null);
+		}
 	});
 
 	/**
