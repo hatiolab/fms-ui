@@ -82,7 +82,6 @@ angular.module('fmsMonitor').directive('monitorInfo', function() {
 	 */
 	$scope.getFirstAlert = function(callback) {
 		RestApi.get('/events/' + $scope.trip.stm + '/latest_one.json', {fid : $scope.trip.fid}, function(alert) {
-			console.log(alert);
 			if(alert && alert.alert && alert.alert.id) {
 				$scope.alert = alert.alert;
 				callback();
