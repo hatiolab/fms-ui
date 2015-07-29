@@ -80,12 +80,13 @@ angular.module('fmsMonitor').directive('monitorInfoAlerts', function() {
 
 		var searchParams = {
 			"_q[tid-eq]" : $scope.tripId,
-			"_q[ctm-gte]" : new Date($scope.alertSearchParams['ctm_gte']).getTime(),
-			"_q[ctm-lte]" : FmsUtils.addDate(new Date($scope.alertSearchParams['ctm_lte']), 1).getTime(),
 			"_o[etm]" : "desc",
 			"start" : $scope.tablestate.pagination.start,
 			"limit" : $scope.tablestate.pagination.number
 		};
+
+		// convert date to number
+		FmsUtils.buildDateConds(searchParams, 'ctm', $scope.alertSearchParams['ctm_gte'], $scope.alertSearchParams['ctm_lte']);
 
 		RestApi.search('/events.json', searchParams, function(dataSet) {
 			$scope.tripAlertDataSet = dataSet;

@@ -31,6 +31,52 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 		},
 
 		/**
+		 * convert date to number
+		 * 
+		 * @fromDateStr 2015-07-21
+		 * @toDateStr 2015-07-25
+		 */
+		dateToNumber : function(fromDateStr, toDateStr) {
+			var toNumber = [];
+
+			if(fromDateStr) {
+				toNumber.push(new Date(fromDateStr).getTime());
+			}
+
+			if(toDateStr) {
+				toNumber.push(this.addDate(new Date(toDateStr), 1).getTime());
+			} 
+
+			return toNumber;
+		},
+
+		/**
+		 * build date conditions
+		 * 
+		 * @params
+		 * @fieldName
+		 * @fromDateStr 2015-07-21
+		 * @toDateStr 2015-07-25
+		 */
+		buildDateConds : function(params, fieldName, fromDateStr, toDateStr) {
+			// convert date to number
+			var dateRange = this.dateToNumber(fromDateStr, toDateStr);
+
+			// from & to date
+			if(fromDateStr && toDateStr) {
+				params['_q[' + fieldName + '-between]'] = dateRange.join(',');
+
+			// from date
+			} else if(fromDateStr && !toDateStr) {
+				params['_q[' + fieldName + '-gte]'] = dateRange[0];
+
+			// to date
+			} else if(!fromDateStr && toDateStr) {
+				params['_q[' + fieldName + '-lte]'] = dateRange[0];
+			}
+		},
+
+		/**
 		 * set speed class to fleet object
 
 		 * @fleets

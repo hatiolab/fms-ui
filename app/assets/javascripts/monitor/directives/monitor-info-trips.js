@@ -55,7 +55,7 @@ angular.module('fmsMonitor').directive('monitorInfoTrips', function() {
 			pickTime : false,
 			autoclose : true
 		}).on('changeDate', function(tev) {
-			FmsUtils.addDate(tev.date, -1);
+			//FmsUtils.addDate(tev.date, -1);
 			$scope.tripSearchParams.etm_lte = FmsUtils.formatDate(tev.date, 'yyyy-MM-dd');
 			$scope.pageTrips(null);
 			toDt.data('datetimepicker').hide();
@@ -79,12 +79,13 @@ angular.module('fmsMonitor').directive('monitorInfoTrips', function() {
 
 		var searchParams = {
 			"_q[fid-eq]" : $scope.trip.fid,
-			"_q[etm-gte]" : new Date($scope.tripSearchParams['etm_gte']).getTime(),
-			"_q[etm-lte]" : FmsUtils.addDate(new Date($scope.tripSearchParams['etm_lte']), 1).getTime(),
 			"_o[etm]" : "desc",
 			"start" : $scope.tablestate.pagination.start,
 			"limit" : $scope.tablestate.pagination.number
 		};
+
+		// convert date to number
+		FmsUtils.buildDateConds(searchParams, 'etm', $scope.tripSearchParams['etm_gte'], $scope.tripSearchParams['etm_lte']);
 
 		RestApi.search('/trips.json', searchParams, function(dataSet) {
 			$scope.fleetTripDataSet = dataSet;

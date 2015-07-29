@@ -28,6 +28,10 @@ class MongoController < ActionController::Base
       # lte
       elsif(cond_opr == 'lte')
         where_conds[cond_name] = { '$lte' => v }
+      # between
+      elsif(cond_opr == 'between')
+        between_val_arr = v ? v.split(',') : ''
+        where_conds[cond_name] = { '$gte' => between_val_arr[0], '$lte' => between_val_arr[1] } if(between_val_arr && between_val_arr.length >= 2)
       # eq
       else
         where_conds[cond_name] = v

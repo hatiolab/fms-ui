@@ -50,7 +50,6 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 			pickTime : false,
 			autoclose : true
 		}).on('changeDate', function(tev) {
-			FmsUtils.addDate(tev.date, -1);
 			$scope.eventSearchParams["ctm_lte"] = FmsUtils.formatDate(tev.date, 'yyyy-MM-dd');
 			toDt.data('datetimepicker').hide();
 		});
@@ -101,17 +100,10 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 			searchParams["_q[typ-in]"] = typeArr.join(',');
 		}
 
-		if(params['ctm_gte']) {
-			var fromTime = new Date(params['ctm_gte']).getTime();
-			searchParams['_q[ctm-gte]'] = fromTime;
-		}
-
-		if(params['ctm_lte']) {
-			var toTime = FmsUtils.addDate(new Date(params['ctm_lte']), 1).getTime();
-			searchParams['_q[ctm-lte]'] = toTime;
-		}
-
-		searchParams['_o[etm]'] = 'desc';
+		// convert date to number
+		FmsUtils.buildDateConds(searchParams, 'ctm', params['ctm_gte'], params['ctm_lte']);
+		// sort
+		searchParams['_o[ctm]'] = 'desc';
 		return searchParams;
 	};
 
