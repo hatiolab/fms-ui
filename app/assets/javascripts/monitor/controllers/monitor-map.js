@@ -559,11 +559,21 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	};
 
 	/**
+	 * View Mode - FLEET, TRIP, ALERT
+	 */
+	$scope.viewMode = 'FLEET';
+
+	/**
 	 * map을 refresh
 	 */
 	$scope.refreshMap = function() {
-		// TODO 현재 맵 모드에 따라서 다른 서비스 호출 - fleet, trip, alert 세 가지 종류 
-		$scope.$emit('monitor-refresh-fleet', 1);
+		if(viewMode == 'FLEET') {
+			$scope.$emit('monitor-refresh-fleet', 1);
+		} else if(viewMode == 'TRIP') {
+			$scope.$emit('monitor-refresh-trip', 1);
+		} else if(viewMode == 'ALERT') {
+			$scope.$emit('monitor-refresh-alert', 1);
+		}
 	};
 
 	/**
