@@ -295,21 +295,18 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 			if(speedRange.speed_slow) {
 				var range = $rootScope.getSpeedRange(ConstantSpeed.SPEED_SLOW);
 				params["_q[or][" + idx + "][velocity-between]"] = range[0] + ',' + range[1];
-				//params["_q[or][" + idx + "][velocity-lte]"] = range[1];
 				idx += 1;
 			}
 
 			if(speedRange.speed_normal) {
 				var range = $rootScope.getSpeedRange(ConstantSpeed.SPEED_NORMAL);
 				params["_q[or][" + idx + "][velocity-between]"] = range[0] + ',' + range[1];
-				//params["_q[or][" + idx + "][velocity-lte]"] = range[1];
 				idx += 1;
 			}
 
 			if(speedRange.speed_high) {
 				var range = $rootScope.getSpeedRange(ConstantSpeed.SPEED_HIGH);
 				params["_q[or][" + idx + "][velocity-between]"] = range[0] + ',' + range[1];
-				//params["_q[or][" + idx + "][velocity-lte]"] = range[1];
 				idx += 1;
 			}
 
