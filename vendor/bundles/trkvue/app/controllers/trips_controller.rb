@@ -19,6 +19,26 @@ class TripsController < MongoController
       format.json { render :json => update_multiple_data(Trip, params) }
     end
   end
+
+  def trip_set
+    # 0. trip
+    trip = Trip.find(params[:id])
+    # 1. fleet
+    fleet = Fleet.find_by_name(trip.fid)
+    # 2. batches
+    batches = Batch.all_of({'tid' => trip.id}).order("id asc")
+    # 3. tracks
+    tracks = Track.all_of({'tid' => trip.id}).order("id asc")
+    # 4. events
+    events = Event.all_of({'tid' => trip.id}).order("id asc")
+    # 5. result
+    result = {:fleet => fleet, :trip => trip, :batches => batches, :tracks => tracks, :events => events, :success => true}
+
+    respond_to do |format|
+      format.xml { render :xml => result } 
+      format.json { render :json => result }
+    end
+  end
   
   private
   

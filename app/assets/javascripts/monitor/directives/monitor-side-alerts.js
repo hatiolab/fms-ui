@@ -227,6 +227,9 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 		$scope.pageEvents(null);
 	});
 
+	/**
+	 * form value 변화를 감지해서 자동 검색 
+	 */
 	$scope.$watchCollection('eventSearchParams', function() {
 		if($scope.eventInit) {
 			$scope.pageEvents(null);
