@@ -85,8 +85,12 @@ pickle-email-*.html
 
 Gemfile.lock
 
-#/vendor/assets/bower_components
+/vendor/cache
 
 *.lock
 
 Gemfile.lock
+
+.ruby-version
+
+*.xlsx
