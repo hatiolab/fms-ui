@@ -82,14 +82,33 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	};
 
 	/**
-	 * fleet info window
+	 * Show fleet info window
 	 */
 	$scope.showFleetInfo = function(fleet) {
-		$scope.selectedMarker = $scope.fleetToMarker(fleet);
-		$scope.switchOn('showFleetInfo');
-		if(!$scope.selectedMarker.address) {
-			$scope.getAddress($scope.selectedMarker, 'address');
-		}
+		$scope.showMapWindow(fleet, 'showFleetInfo');
+	};
+
+	/**
+	 * Show event info window
+	 */
+	$scope.showEventWindow = function(eventData) {
+		$scope.showMapWindow(eventData, 'showEventInfo');
+	};
+
+	/**
+	 * Show map Window
+	 */
+	$scope.showMapWindow = function(data, switchName) {
+		angular.forEach($scope.markers, function(marker) {
+			if(marker.id == data.id) {
+				$scope.selectedMarker = marker;
+				$scope.switchOn(switchName);
+				if(!marker.address) {
+					$scope.getAddress(marker, 'address');
+				}
+				return;
+			}
+		});
 	};
 
 	/**
@@ -489,7 +508,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * Sidebar Fleet 그리드의 Fleet 클릭시
 	 */
 	$rootScope.$on('monitor-fleet-info-change', function(evt, fleet) {
-		// $scope.showFleetInfo(fleet);
+		$scope.showFleetInfo(fleet);
 	});
 
 	/**
@@ -522,7 +541,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * Sidebar Event 그리드의 Event 선택시
 	 */
 	$rootScope.$on('monitor-event-info-change', function(evt, eventData) {
-		// $scope.showEventInfo(eventData);
+		$scope.showEventWindow(eventData);
 	});
 
 	/**

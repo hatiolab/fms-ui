@@ -99,13 +99,15 @@ angular.module('fmsMonitor').directive('monitorInfoAlerts', function() {
 	};
 
 	/**
-	 * Trip 선택 조회시
+	 * Sidebar에서 Trip 선택시 이벤트 
 	 */
 	$scope.$on('monitor-trip-info-change', function(evt, tripData) {
-		$scope.tripId = tripData.id;
-		$scope.tablestate.pagination.start = 0;
-		$scope.tablestate.pagination.number = 3;
-		$scope.pageAlerts();
+		if(!tripData.from || tripData.from != 'infobar') {
+			$scope.tripId = tripData.id;
+			$scope.tablestate.pagination.start = 0;
+			$scope.tablestate.pagination.number = 3;
+			$scope.pageAlerts();
+		}
 	});
 
 	/**
@@ -113,6 +115,14 @@ angular.module('fmsMonitor').directive('monitorInfoAlerts', function() {
 	 */
 	$scope.goTrip = function(alert) {
 		$scope.$emit('monitor-event-trip-change', alert);
-	}	
+	};
+
+	/**
+	 * Alert 선택시 
+	 */
+	$scope.showAlertWindow = function(alert) {
+		alert.from = 'infobar';
+		$rootScope.$broadcast('monitor-event-info-change', alert);
+	};
 
 });

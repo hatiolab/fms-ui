@@ -27,25 +27,24 @@
 								<table class="table table-striped table-hover" st-table="tripAlertItems" st-pipe="pageAlerts">
 									<thead>
 									  <tr>
-									  	<th>Trip</th>
-											<th>Alert No.</th>
-											<th>Occurred Time</th>
+											<th></th>
 											<th>Alert Type</th>
+											<th>Alert No.</th>
 											<th>Driver</th>
+											<th>Velocity</th>
+											<th>Occurred Time</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr ng-repeat="tripAlert in tripAlertItems">
-											<td class="icon-td align-center" ng-click="goTrip(tripAlert)">
-												<span class="icon-trip"></span>
-											</td>
-											<td class="align-center">{{tripAlert.id}}</td>
-											<td>{{tripAlert.etm | date : 'medium'}}</td>
-											<td class="icon-td">
+											<td class="icon-td align-center" ng-click="showAlertWindow(tripAlert)">
 												<span class="{{tripAlert.typeClass}}"></span>
-												{{tripAlert.eventType}}
 											</td>
-											<td>{{tripAlert.driver.name}}</td>											
+											<td class="icon-td">{{tripAlert.eventType}}</td>
+											<td class="align-center">{{tripAlert.id}}</td>
+											<td>{{tripAlert.driver.name}}</td>
+											<td>{{tripAlert.vlc}}</td>
+											<td>{{tripAlert.etm | date : 'medium'}}</td>
 										</tr>
 									</tbody>
 									<tfoot>

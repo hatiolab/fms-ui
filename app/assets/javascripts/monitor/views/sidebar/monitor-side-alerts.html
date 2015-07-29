@@ -122,9 +122,11 @@ severity begin -->
 				<td>{{eventItem.fid}}</td>
 				<td>{{eventItem.driver.name}}</td>
 				<td>{{eventItem.etm | date:'medium'}}</td>
-				<td class="icon-td align-center"><span class="{{eventItem.typeClass}}"></span></td>
+				<td class="icon-td align-center" ng-click="showEventInfo(eventItem)">
+					<span class="{{eventItem.typeClass}}"></span>
+				</td>
 				<td class="icon-td align-center" ng-click="showTrip(eventItem)">
-						<span class="icon-trip" ng-show="eventItem.tid != null && eventItem.tid != ''"></span>
+					<span class="icon-trip" ng-show="eventItem.tid != null && eventItem.tid != ''"></span>
 				</td>
 			</tr>
 		</tbody>

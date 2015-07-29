@@ -1,7 +1,11 @@
 								<table class="info-table">
 									<tr>
-										<td class="info-label">Fleet / Started at / Till</td>
-										<td class="info-value">{{trip.fid}} / {{trip.stm | date:'medium'}} / {{trip.etm | date :'medium'}}</td>
+										<td class="info-label"><strong>Fleet</strong> / Trip ID</td>
+										<td class="info-value"><strong>{{trip.fid}}</strong> / {{trip.id}}</td>
+									</tr>
+									<tr>
+										<td class="info-label">Started at / Till</td>
+										<td class="info-value">{{trip.stm | date:'medium'}} / {{trip.etm | date :'medium'}}</td>
 									</tr>
 									<!--tr>
 										<td class="info-label">Duration / Distance</td>
@@ -12,7 +16,7 @@
 										<td class="info-value speed-status"><span class="{{trip.typeClass}}"></span><strong>{{trip.vlc}} Km/h</strong> (Avg: 41)</td>
 									</tr>
 									<tr>
-										<td class="info-label">Speeds</td>
+										<td class="info-label">Vehicle Status</td>
 										<td class="info-value">
 											<div class="col-xs-2 col-md-1 status-box gray padding-clear">{{trip.c_off}}</div>
 											<div class="col-xs-2 col-md-1 status-box dark padding-clear">{{trip.c_idl}}</div>

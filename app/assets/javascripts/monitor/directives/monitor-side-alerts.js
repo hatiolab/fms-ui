@@ -205,7 +205,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	};
 
 	/**
-	 * show event to map
+	 * send show event to map
 	 */
 	$scope.showTrip = function(fmsEvent) {
 		$scope.$emit('monitor-event-trip-change', fmsEvent);

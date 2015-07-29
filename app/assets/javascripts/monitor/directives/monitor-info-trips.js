@@ -99,8 +99,10 @@ angular.module('fmsMonitor').directive('monitorInfoTrips', function() {
 	 * Trip 선택 조회시
 	 */
 	$scope.$on('monitor-trip-info-change', function(evt, tripData) {
-		$scope.trip = tripData;
-		$scope.pageTrips();
+		if(!tripData.from || tripData.from != 'infobar') {
+			$scope.trip = tripData;
+			$scope.pageTrips();
+		}
 	});
 
 	/**
