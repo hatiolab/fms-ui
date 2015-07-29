@@ -45,7 +45,7 @@ angular.module('fmsMonitor').directive('monitorInfoAlerts', function() {
 			autoclose : true
 		}).on('changeDate', function(fev) {
 			$scope.alertSearchParams.ctm_gte = FmsUtils.formatDate(fev.date, 'yyyy-MM-dd');
-			$scope.pageTrips(null);
+			$scope.pageAlerts(null);
 			fromDt.data('datetimepicker').hide();
 		});
 	});
@@ -58,7 +58,7 @@ angular.module('fmsMonitor').directive('monitorInfoAlerts', function() {
 		}).on('changeDate', function(tev) {
 			FmsUtils.addDate(tev.date, -1);
 			$scope.alertSearchParams.ctm_lte = FmsUtils.formatDate(tev.date, 'yyyy-MM-dd');
-			$scope.pageTrips(null);
+			$scope.pageAlerts(null);
 			toDt.data('datetimepicker').hide();
 		});
 	});
