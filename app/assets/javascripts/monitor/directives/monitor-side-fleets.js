@@ -50,11 +50,11 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	/**
 	 * Search Fleet Groups
 	 */
-  this.searchGroups = function(params) {
+	this.searchGroups = function(params) {
 		RestApi.list('/fleet_groups.json', params, function(dataSet) {
 			$scope.groups = dataSet;
 		});
-  };
+	};
 
 	$scope.findGroups = this.searchGroups;
 
@@ -88,6 +88,7 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	 * call by pagination
 	 */
 	$scope.pageFleets = function(tablestate) {
+
 		if(tablestate) {
 			$scope.tablestate = tablestate;
 			$scope.tablestate.pagination.number = 20;
@@ -129,6 +130,15 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	 */	
 	$rootScope.$on('monitor-refresh-fleet', function(evt, value) {
 		//$scope.findFleets(null);
+		$scope.pageFleets(null);
+	});
+
+	/**
+	 * [watch fleetSearchParams in page scope, if changed trigger pageFleets in same scope]
+	 * @param  $scope.fleetSearchParams
+	 * @return null
+	 */
+	$scope.$watchCollection('fleetSearchParams', function() {
 		$scope.pageFleets(null);
 	});
 
