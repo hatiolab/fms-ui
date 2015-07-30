@@ -11,8 +11,8 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 				var fleetTab = angular.element('#alertTab');
 				// side-fleets 탭이 액티브 된 경우만 호출하도록 변경 ...
 				if(fleetTab.hasClass('active')) {
-					//sideAlertsCtrl.searchEvents(null);
-					scope.pageEvents(null);
+					scope.findEvents(null);
+					//scope.pageEvents(null);
 				}
 			});
 		}
@@ -145,12 +145,19 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 		}
 
 		searchParams = $scope.normalizeSearchParams(searchParams);
+		searchParams.start = 0;
+		searchParams.limit = 100;
+
 		RestApi.search('/events.json', searchParams, function(dataSet) {
 			$scope.events = dataSet;
 			$scope.eventItems = dataSet.items;
 			FmsUtils.setEventTypeClasses($scope.eventItems);
 			$scope.eventTypeSummaries = FmsUtils.getEventTypeSummaries($scope.eventItems);
 			$scope.$emit('monitor-event-list-change', $scope.events);
+
+			// TODO 전체 윈도우 Height에서 테이블 제외 Height를 뺀 Height를 설정해준다.
+			var height = $(window).height() - 300;
+			angular.element('#monitor-alert-table-container').height(height);
 		});
 	};
 
@@ -171,7 +178,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 		if(!$scope.eventInit) {
 			$scope.eventInit = true;
 			$scope.tablestate = tablestate;
-			$scope.tablestate.pagination.number = 20;
+			$scope.tablestate.pagination.number = 100;
 			return;
 		}
 		

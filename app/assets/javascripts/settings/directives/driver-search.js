@@ -8,7 +8,7 @@ angular.module('fmsSettings').directive('driverSearch', function() {
 			// 버튼이 Directive Element 바깥쪽에 있어서 버튼 클릭함수를 이용 ...
 			var refreshButton = angular.element('#btnSearchDriver');
 			refreshButton.bind("click", function() {
-				scope.searchDrivers(null);
+				scope.searchDrivers();
 			});
 		}
 	}; 
@@ -29,16 +29,9 @@ angular.module('fmsSettings').directive('driverSearch', function() {
 	$scope.tablestate = null;
 
 	/**
-	 * Call by pagination
+	 * Smart Table - Call by pagination
 	 */
-	$scope.searchDrivers = function(tablestate) {
-		/*if(!$scope.eventInit) {
-			$scope.eventInit = true;
-			$scope.tablestate = tablestate;
-			$scope.tablestate.pagination.number = 3;
-			return;
-		}*/
-		
+	/*$scope.searchDrivers = function(tablestate) {
 		if(tablestate) {
 			$scope.tablestate = tablestate;
 		}
@@ -46,6 +39,23 @@ angular.module('fmsSettings').directive('driverSearch', function() {
 		var searchParams = {
 			"start" : $scope.tablestate.pagination.start,
 			"limit" : $scope.tablestate.pagination.number
+		};
+
+		RestApi.search('/drivers.json', searchParams, function(dataSet) {
+			$scope.drivers = dataSet;
+			$scope.driverItems = dataSet.items;
+			$scope.tablestate.pagination.totalItemCount = dataSet.total;
+			$scope.tablestate.pagination.numberOfPages = dataSet.total_page;
+		});
+	};*/
+
+	/**
+	 * Smart Table - Call by pagination
+	 */
+	$scope.searchDrivers = function() {
+		var searchParams = {
+			"start" : 0,
+			"limit" : 20
 		};
 
 		RestApi.search('/drivers.json', searchParams, function(dataSet) {
