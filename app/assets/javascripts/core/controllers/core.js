@@ -92,4 +92,19 @@ angular.module('fmsCore').controller('CoreCtrl', function($rootScope, $scope, Co
 	 * Setting값 초기화 
 	 */
 	$rootScope.refreshSettings();
+
+	/**
+	 * Window Resize 시 모든 그리드 켄테이너의 Height 조정 
+	 */
+  $(window).on("resize.doResize", function () {
+  	FmsUtils.resetAllGridContainerHeight();
+  });
+
+	/**
+	 * Destroy hook
+	 */
+  $scope.$on("$destroy",function () {
+    $(window).off("resize.doResize");
+  });
+
 });

@@ -3,6 +3,41 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 	return {
 
 		/**
+		 * grid container height
+		 * 전체 윈도우 Height에서 테이블 제외 Height를 뺀 Height를 설정해준다.
+		 */		
+		resetAllGridContainerHeight : function() {
+			var gridContainers = ['monitor-alert-table-container', 'monitor-fleet-table-container'];
+			var me = this;
+			angular.forEach(gridContainers, function(gridContainerId) {
+				me.setGridContainerHieght(gridContainerId)
+			});
+		},
+
+		/**
+		 * grid container height
+		 * 전체 윈도우 Height에서 테이블 제외 Height를 뺀 Height를 설정해준다.
+		 */
+		setGridContainerHieght : function(gridContainerId) {
+			var newHeight = $(window).height();
+			var gridContainer = angular.element('#' + gridContainerId);
+			if(!gridContainer) {
+				return;
+			}
+
+			if(gridContainerId == 'monitor-alert-table-container') {
+				newHeight = newHeight - 300;
+
+			} else if(gridContainerId == 'monitor-fleet-table-container') {
+				newHeight = newHeight - 190;
+			}
+
+			if(newHeight > 10) {
+				gridContainer.height(newHeight);
+			}
+		},
+
+		/**
 		 * isEmpty
 		 */
 		isEmpty : function(obj) {

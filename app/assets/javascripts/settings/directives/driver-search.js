@@ -6,7 +6,7 @@ angular.module('fmsSettings').directive('driverSearch', function() {
 		scope: {},
 		link : function(scope, element, attr, driverSearchCtrl) {
 			// 버튼이 Directive Element 바깥쪽에 있어서 버튼 클릭함수를 이용 ...
-			var refreshButton = angular.element('#btnSearchDriver');
+			var refreshButton = angular.element('button');
 			refreshButton.bind("click", function() {
 				scope.searchDrivers();
 			});

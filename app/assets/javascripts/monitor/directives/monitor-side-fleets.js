@@ -11,8 +11,8 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 				var fleetTab = angular.element('#fleetTab');
 				// side-fleets 탭이 액티브 된 경우만 호출하도록 변경 ...
 				if(fleetTab.hasClass('active')) {
-					//sideFleetsCtrl.searchFleets(null);
-					scope.pageFleets(null);
+					scope.findFleets(null);
+					//scope.pageFleets(null);
 				}
       });
 		}
@@ -75,6 +75,8 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 			FmsUtils.setSpeedClasses($scope.fleetItems);
 			$scope.speedRangeSummaries = FmsUtils.getSpeedSummaries($scope.fleetItems);
 			$scope.$emit('monitor-fleet-list-change', $scope.fleets);
+			// grid container를 새로 설정한다.
+			FmsUtils.setGridContainerHieght('monitor-fleet-table-container');
 		});
 	};
 
@@ -116,6 +118,8 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 			$scope.tablestate.pagination.totalItemCount = dataSet.total;
 			$scope.tablestate.pagination.numberOfPages = dataSet.total_page;
 			$scope.$emit('monitor-fleet-list-change', $scope.fleets);
+			// grid container를 새로 설정한다.
+			FmsUtils.setGridContainerHieght('monitor-fleet-table-container');
 		});
 	};
 

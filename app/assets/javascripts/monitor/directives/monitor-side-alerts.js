@@ -12,7 +12,6 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 				// side-fleets 탭이 액티브 된 경우만 호출하도록 변경 ...
 				if(fleetTab.hasClass('active')) {
 					scope.findEvents(null);
-					//scope.pageEvents(null);
 				}
 			});
 		}
@@ -34,7 +33,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	$scope.eventSearchParams = {'ctm_gte' : fromDateStr, 'ctm_lte' : toDateStr};
 
 	$(function() {
-		var fromDt = $('#datepicker1').datetimepicker({
+		var fromDt = $('#monitor-side-alert-datepicker1').datetimepicker({
 			language : 'en',
 			pickTime : false,
 			autoclose : true
@@ -45,7 +44,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	});
 
 	$(function() {
-		var toDt = $('#datepicker2').datetimepicker({
+		var toDt = $('#monitor-side-alert-datepicker2').datetimepicker({
 			language : 'en',
 			pickTime : false,
 			autoclose : true
@@ -154,10 +153,8 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 			FmsUtils.setEventTypeClasses($scope.eventItems);
 			$scope.eventTypeSummaries = FmsUtils.getEventTypeSummaries($scope.eventItems);
 			$scope.$emit('monitor-event-list-change', $scope.events);
-
-			// TODO 전체 윈도우 Height에서 테이블 제외 Height를 뺀 Height를 설정해준다.
-			var height = $(window).height() - 300;
-			angular.element('#monitor-alert-table-container').height(height);
+			// grid container를 새로 설정한다.
+			FmsUtils.setGridContainerHieght('monitor-alert-table-container');
 		});
 	};
 
@@ -201,6 +198,8 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 			$scope.tablestate.pagination.totalItemCount = dataSet.total;
 			$scope.tablestate.pagination.numberOfPages = dataSet.total_page;
 			$scope.$emit('monitor-event-list-change', $scope.events);
+			// grid container를 새로 설정한다.
+			FmsUtils.setGridContainerHieght('monitor-alert-table-container');
 		});
 	};
 

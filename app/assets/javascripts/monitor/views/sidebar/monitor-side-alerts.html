@@ -28,7 +28,7 @@
 	<div class="form-group">
     <label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">period</label>
     <div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
-			<div id="datepicker1" class="input-append date">
+			<div id="monitor-side-alert-datepicker1" class="input-append date">
 		    <input id="ctm_gte" name="ctm_gte" data-format="yyyy-MM-dd" type="text" ng-model="eventSearchParams.ctm_gte" placeholder="from">
 		    </input>
 		    <span class="add-on">
@@ -38,7 +38,7 @@
     </div>
 		<span class="col-xs-1 col-sm-1 col-md-1 padding-clear align-center margin-t7">~</span>
     <div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
-			 <div id="datepicker2" class="input-append date">
+			 <div id="monitor-side-alert-datepicker2" class="input-append date">
 		     <input id="ctm_lte" name="ctm_lte" data-format="yyyy-MM-dd" type="text" ng-model="eventSearchParams.ctm_lte" placeholder="to"></input>
 		     <span class="add-on">
 		       <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
@@ -95,7 +95,9 @@ severity begin -->
 
 <!-- status begin -->
 <div class="status">
-	<div class="pull-left col-xs-12 col-sm-5 col-md-5">total : <strong>{{events.total}}</strong></div>
+	<div class="pull-left col-xs-12 col-sm-5 col-md-5">
+		total : <strong>{{events.total}}</strong>
+	</div>
 	<div class="pull-right col-xs-12 col-sm-7 col-md-7 align-right">
 		<span class="type-icon impact-white"></span>{{eventTypeSummaries.impact}}
 		<span class="type-icon overspeed-white"></span>{{eventTypeSummaries.overspeed}}
