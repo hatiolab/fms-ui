@@ -8,11 +8,11 @@ angular.module('fmsGeofence').config(function($stateProvider, $urlRouterProvider
 		url: '/geofence',
 		views: {
 			'sidebar-view': {
-				controller: 'GeofenceCtrl',
+				controller: 'Geofences',
 				templateUrl: '/assets/geofence/views/sidebar.html'
 			},
 			'content-view' : {
-				controller: 'GeofenceCtrl',
+				controller: 'GeofenceItem',
 				templateUrl: '/assets/geofence/views/geofence.html'
 			}
 		}
