@@ -12,7 +12,7 @@ angular.module('fmsCore', ['ui.router', 'ngResource', 'smart-table', 'uiGmapgoog
 angular.module('fmsSettings', ['fmsCore']);
 
 // 3. settings geofence
-//angular.module('fmsGeofence', ['fmsCore']);
+angular.module('fmsGeofence', ['fmsCore']);
 
 // 4. monitor module
 angular.module('fmsMonitor', ['fmsCore', 'pip'])
@@ -26,7 +26,7 @@ angular.module('fmsMonitor', ['fmsCore', 'pip'])
 });
 
 // 4. main module
-angular.module('fmsApp', ['fmsCore', 'fmsSettings', 'fmsMonitor'])
+angular.module('fmsApp', ['fmsCore', 'fmsSettings', 'fmsGeofence', 'fmsMonitor'])
 .config(function($stateProvider, $urlRouterProvider) {
 	// if none of the above states are matched, use this as the fallback
 	$urlRouterProvider.otherwise('/');

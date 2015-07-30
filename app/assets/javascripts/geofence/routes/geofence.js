@@ -1,19 +1,21 @@
-// angular.module('fmsGeofence').config(function($stateProvider, $urlRouterProvider) {
+angular.module('fmsGeofence').config(function($stateProvider, $urlRouterProvider) {
 
-// 	// Each tab has its own nav history stack:
-// 	$stateProvider
+	// Each tab has its own nav history stack:
+	$stateProvider
 
-// 	// monitor	
-// 	.state('geofence', {
-// 		url: '/',
-// 		views: {
-// 			'sidebar-view': {
-// 				templateUrl: '/assets/geofence/views/sidebar.html'
-// 			},
-// 			'content-view' : {
-// 				templateUrl: '/assets/geofence/views/geofence.html'
-// 			}
-// 		}
-// 	});
+	// geofence	
+	.state('geofence', {
+		url: '/geofence',
+		views: {
+			'sidebar-view': {
+				controller: 'GeofenceCtrl',
+				templateUrl: '/assets/geofence/views/sidebar.html'
+			},
+			'content-view' : {
+				controller: 'GeofenceCtrl',
+				templateUrl: '/assets/geofence/views/geofence.html'
+			}
+		}
+	});
 
-// });
+});
