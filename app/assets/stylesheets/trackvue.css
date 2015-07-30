@@ -73,6 +73,7 @@ label input[type="checkbox"]{margin-right:5px;}
 .bootstrap-datetimepicker-widget ul{-webkit-padding-start:0px;padding:0;}
 .icon-calendar{background:url(/assets/icon-sidepanel.png) 0px -98px no-repeat;}
 
+.search-table{overflow-x:hidden;overflow-y:auto;}
 .search-table .table{margin-bottom:0;}
 .search-table .status-box,.infolist-panel .speed-status .status-box,.detail-item  .status-box{width:10px;height:10px;display:inline-block;-webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;margin:2px 4px 0 0;}
 .table td{padding:5px 8px !important;vertical-align:middle;}
@@ -162,3 +163,26 @@ font-size:11px;color:#666;}
 .alert-popup .type-icon{position:absolute;left:-20px;}
 .alert-popup strong{display:block;font-size:12px;color:#333;}
 .alert-popup .close{line-height:0.7;}
+
+/* setting layout */
+.setting-sidemenu{list-style:none;padding:0;margin:0;}
+.setting-sidemenu li{border-bottom:1px solid #43536c;background-color:#4d5f7d;}
+.setting-sidemenu li .menu-icon{background:url(/assets/icon-setting-menu.png) 10px 6px no-repeat #4d5f7d;width:100%;display:block;padding:7px 0 5px 33px;border:3px solid #4d5f7d;border-width:0 0 0 3px;color:#fff;cursor:pointer;}
+.setting-sidemenu li .menu-icon.preferences{background-position:10px 6px;}
+.setting-sidemenu li .menu-icon.driver{background-position:10px -94px;}
+.setting-sidemenu li .menu-icon.fleets{background-position:10px -194px;}
+.setting-sidemenu li .menu-icon.group{background-position:10px -294px;}
+.setting-sidemenu li .menu-icon.geofence{background-position:10px -394px;}
+.setting-sidemenu li .menu-icon.active{background:url(/assets/icon-setting-menu.png) -790px 6px no-repeat #ecf2f6;border-color:#7ea8dd;position:relative;z-index:10000;margin-left:1px;color:#4d5f7d;font-weight:bold;}
+.setting-sidemenu li .menu-icon.active.preferences{background-position:-790px 6px;}
+.setting-sidemenu li .menu-icon.active.driver{background-position:-790px -94px;}
+.setting-sidemenu li .menu-icon.active.fleets{background-position:-790px -194px;}
+.setting-sidemenu li .menu-icon.active.group{background-position:-790px -294px;}
+.setting-sidemenu li .menu-icon.active.geofence{background-position:-790px -394px;}
+.setting-sidemenu .panel-refresh{margin:0 9px 0 0;}
+.setting-sidemenu+form{background-color:#cedde7;padding:10px 0 4px 0;}
+.setting-content{padding-top:25px;}
+.setting-content .photo-driver{background:url(/assets/ph_user.png) 50% 50% no-repeat #fff;background-size:100%;width:100%;min-height:150px;border:1px solid #ccc;}
+.setting-content .control-label{color:#4d5f7d}
+.setting-content .line-infos .form-group{border-bottom:1px solid #efefef;overflow:hidden;margin-bottom:5px;padding:7px 0 5px 0;}
+.setting-content .bg-white{background-color:#fff;margin-top:15px;padding:10px 0;border-top:1px solid #d4d9dd;}
