@@ -1,10 +1,10 @@
 angular.module('fmsGeofence',['uiGmapgoogle-maps'])
 .controller('Geofences', function($rootScope, $scope, $resource, $element, ConstantSpeed, FmsUtils, RestApi) {
 	
-	//alert('Geofences');
-	
+	/**
+	 * 사이드 바 토글 변수
+	 */
 	$scope.isSidebarToggle = true;
-
 	/**
 	 * 폼 모델 초기화 
 	 */
@@ -95,7 +95,7 @@ angular.module('fmsGeofence',['uiGmapgoogle-maps'])
 	 * @param  {[object]} geofence [call geofence information one by one]
 	 * @return N/A
 	 */
-	$scope.showgeofenceInfo = function(geofence) {
+	$scope.goGeofence = function(geofence) {
 		$scope.$emit('monitor-geofence-info-change', geofence);
 	};
 
@@ -105,7 +105,7 @@ angular.module('fmsGeofence',['uiGmapgoogle-maps'])
 	 * @return null
 	 */
 	$scope.$watchCollection('geofenceSearchParams', function() {
-		if($scope.geofenceInit){
+		if($scope.geofenceInit) {
 			$scope.pageGeofences(null);
 		}
 	});

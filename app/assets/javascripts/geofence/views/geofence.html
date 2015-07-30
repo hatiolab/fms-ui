@@ -1,23 +1,11 @@
 <div ng-controller='GeofenceItem'>
-	<form name="fleetForm" class="form-horizontal">
-		<div class="form-group">
-			<label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">Name</label>
-			<div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
-				<input id="geofenceName" name="geofenceName" type="text" ng-model="geofenceSearchParams.name" placeholder="geofence Name"></input>
-			</div>
-			<label class="col-xs-12 col-sm-3 col-md-2 control-label">Description</label>
-			<div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
-				<input id="geofenceDesc" name="geofenceDesc" type="text" ng-model="geofenceSearchParams.description" placeholder="geofence Description"></input>
-			</div>
-		</div>
-	</form>
-	<ui-gmap-google-map id='mapCanvas' center='mapOption.center' zoom='mapOption.zoom' control="mapOption.control">
-	<!-- markers -->
-	<!--ui-gmap-markers models="markers" coords="'self'" idKey="'_id'" events="'events'" icon="'icon'"></ui-gmap-markers-->
-	<!-- lines -->
-	<!-- <ui-gmap-polylines models="polylines" path="'path'" stroke="'stroke'" visible="'visible'" geodesic="'geodesic'" static='true'></ui-gmap-polylines> -->
-	<ui-gmap-drawing-manager options="drawingManagerOptions" control="drawingManagerControl" events="drawingManagerEvent"></ui-gmap-drawing-manager>
-	<!-- 	<ui-gmap-polygon
+
+	<ui-gmap-google-map id='geofenceCanvas' center='mapOption.center' zoom='mapOption.zoom' control="mapOption.control">
+
+		<ui-gmap-drawing-manager options="drawingManagerOptions" control="drawingManagerControl" events="drawingManagerEvent">
+		</ui-gmap-drawing-manager>
+			
+		<!--ui-gmap-polygon
 			static="polygon.option.static"
 			ng-repeat="polygon in map.polygons track by polygon.id"
 			path="polygon.path"
@@ -27,7 +15,30 @@
 			fill="polygon.option.fill"
 			editable="polygon.option.editable"
 			draggable="polygon.option.draggable"
-			ng-cloak=""> -->
-		</ui-gmap-polygon>
+			ng-cloak="">
+		</ui-gmap-polygon-->
+
 	</ui-gmap-google-map>
+
+	<div class="setting-content">
+		<div class="line-infos bg-white col-xs-12">
+			<div class="form-group">
+			 	<label class="col-xs-12 col-sm-3 col-md-3 control-label">Name</label>
+			 	<div class="col-xs-12 col-sm-5 col-md-5">
+			 	 <input type="text" class="form-control" name="name"></input>
+			 	</div>
+			</div>
+			
+			<div class="form-group">
+			 	<label class="col-xs-12 col-sm-3 col-md-3 control-label">Description</label>
+			 	<div class="col-xs-12 col-sm-9 col-md-9">
+			 	 <input type="text" class="form-control" name="description"></input>
+			 	</div>
+			</div>
+					
+			<button type="button" class="btn btn-default margin-t7 pull-left">Reset</button>
+			<button type="button" class="btn btn-default margin-t7 pull-right">delete</button>
+			<button type="button" class="btn btn-default margin-t7 pull-right btn-success margin-r7">Save</button>
+		</div>
+	</div>
 </div>
