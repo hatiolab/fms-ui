@@ -11,7 +11,10 @@ angular.module('fmsCore', ['ui.router', 'ngResource', 'smart-table', 'uiGmapgoog
 // 2. settings module
 angular.module('fmsSettings', ['fmsCore']);
 
-// 3. monitor module
+// 3. settings module
+angular.module('fmsGeofence', ['fmsCore']);
+
+// 4. monitor module
 angular.module('fmsMonitor', ['fmsCore', 'pip'])
 .config(function($sceDelegateProvider) {
 	$sceDelegateProvider.resourceUrlWhitelist([
@@ -23,7 +26,7 @@ angular.module('fmsMonitor', ['fmsCore', 'pip'])
 });
 
 // 4. main module
-angular.module('fmsApp', ['fmsCore', 'fmsSettings', 'fmsMonitor'])
+angular.module('fmsApp', ['fmsCore', 'fmsSettings', 'fmsGeofence', 'fmsMonitor'])
 .config(function($stateProvider, $urlRouterProvider) {
 	// if none of the above states are matched, use this as the fallback
 	$urlRouterProvider.otherwise('/');
