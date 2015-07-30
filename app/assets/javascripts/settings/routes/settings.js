@@ -19,10 +19,11 @@ angular.module('fmsSettings').config(function($stateProvider, $urlRouterProvider
 	.state('settings.drivers', {
 		url: '/drivers',
 		views: {
-			'sidebar-view': {
+			'sidebar-view@': {
 				templateUrl: '/assets/settings/views/sidebars/drivers.html'
 			},
-			'content-view' : {
+			'content-view@' : {
+				controller : 'DriversCtrl',
 				templateUrl: '/assets/settings/views/contents/drivers.html'
 			}
 		}
@@ -31,10 +32,10 @@ angular.module('fmsSettings').config(function($stateProvider, $urlRouterProvider
 	.state('settings.fleets', {
 		url: '/fleets',
 		views: {
-			'sidebar-view': {
+			'sidebar-view@': {
 				templateUrl: '/assets/settings/views/sidebars/fleets.html'
 			},
-			'content-view' : {
+			'content-view@' : {
 				templateUrl: '/assets/settings/views/contents/fleets.html'
 			}
 		}
@@ -43,10 +44,10 @@ angular.module('fmsSettings').config(function($stateProvider, $urlRouterProvider
 	.state('settings.groups', {
 		url: '/groups',
 		views: {
-			'sidebar-view': {
+			'sidebar-view@': {
 				templateUrl: '/assets/settings/views/sidebars/groups.html'
 			},
-			'content-view' : {
+			'content-view@' : {
 				templateUrl: '/assets/settings/views/contents/groups.html'
 			}
 		}
@@ -55,14 +56,13 @@ angular.module('fmsSettings').config(function($stateProvider, $urlRouterProvider
 	.state('settings.preferences', {
 		url: '/preferences',
 		views: {
-			'sidebar-view': {
+			'sidebar-view@': {
 				templateUrl: '/assets/settings/views/sidebars/preferences.html'
 			},
-			'content-view' : {
+			'content-view@' : {
 				templateUrl: '/assets/settings/views/contents/preferences.html'
 			}
 		}
 	});
-
 
 });
