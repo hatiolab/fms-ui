@@ -24,6 +24,7 @@ label input[type="checkbox"]{margin-right:5px;}
 .margin-t7{margin-top:7px;}
 .margin-t10{margin-top:10px;}
 .margin-t20{margin-top:20px;}
+.margin-r7{margin-right:7px;}
 .min-w100{display:inline-block;width:100px;}
 .padding-rl7{padding-left:7px;padding-right:7px;}
 .border-rl-lightgray{border:1px solid #d7d7d8;border-width:0 1px;}
@@ -182,7 +183,7 @@ font-size:11px;color:#666;}
 .setting-sidemenu .panel-refresh{margin:0 9px 0 0;}
 .setting-sidemenu+form{background-color:#cedde7;padding:10px 0 4px 0;}
 .setting-content{padding-top:25px;}
-.setting-content .photo-driver{background:url(/assets/ph_user.png) 50% 50% no-repeat #fff;background-size:100%;width:100%;min-height:150px;border:1px solid #ccc;}
+.setting-content .photo-driver{background:url(/assets/ph_user.png) 50% 50% no-repeat #fff;width:100%;min-height:150px;border:1px solid #ccc;}
 .setting-content .control-label{color:#4d5f7d}
 .setting-content .line-infos .form-group{border-bottom:1px solid #efefef;overflow:hidden;margin-bottom:5px;padding:7px 0 5px 0;}
-.setting-content .bg-white{background-color:#fff;margin-top:15px;padding:10px 0;border-top:1px solid #d4d9dd;}
+.setting-content .bg-white{background-color:#fff;margin-top:15px;padding:15px;border-top:1px solid #d4d9dd;}
