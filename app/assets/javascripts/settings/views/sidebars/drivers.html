@@ -44,11 +44,13 @@
 					      </tr>
 					    </thead>
 							<tbody>
-								<tr ng-repeat="driver in driverItems" ng-click="goDriver(driver)">
-									<td>{{driver.code}}</td>
-									<td>{{driver.name}}</td>
-									<td>{{driver.division}}</td>
-								</tr>
+							 	<!-- <div infinite-scroll='driverItems.nextPage()' infinite-scroll-disabled='driverItems.busy' infinite-scroll-distance='1'> -->
+									<tr ng-repeat="driver in driverItems" ng-click="goDriver(driver)">
+										<td>{{driver.code}}</td>
+										<td>{{driver.name}}</td>
+										<td>{{driver.division}}</td>
+									</tr>
+							  	<!-- </div> -->
 							</tbody>
 						</table>
 					</div>

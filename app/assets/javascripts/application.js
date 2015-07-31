@@ -12,12 +12,12 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require bs
 //= require angular/angular
 //= require angular-resource/angular-resource.min
 //= require angular-ui-router/release/angular-ui-router.min
 //= require angular-smart-table/dist/smart-table.min
 //= require angular-google-maps/dist/angular-google-maps.min
 //= require lodash/lodash.min
+//= require bs
 //= require_tree .
 //= require_self

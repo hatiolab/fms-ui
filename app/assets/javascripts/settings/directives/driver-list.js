@@ -6,11 +6,12 @@ angular.module('fmsSettings').directive('driverList', function() {
 		scope: {},
 		link : function(scope, element, attr, driverListCtrl) {
 			// 버튼이 Directive Element 바깥쪽에 있어서 버튼 클릭함수를 이용 ...
-			scope.findDrivers();
+			// scope.findDrivers();
+			scope.pageDrivers(null);
 			var refreshButton = angular.element('button');
 			refreshButton.bind("click", function() {
-				scope.findDrivers();
-				//scope.pageDrivers(null);
+				// scope.findDrivers();
+				scope.pageDrivers(null);
 			});
 		}
 	}; 
@@ -104,7 +105,7 @@ angular.module('fmsSettings').directive('driverList', function() {
 		if(!$scope.driverInit){
 			$scope.driverInit = true;
 			$scope.tablestate = tablestate;
-			$scope.tablestate.pagination.number = 20;
+			$scope.tablestate.pagination.number = 3;
 		}
 
 		if(tablestate) {
@@ -119,6 +120,7 @@ angular.module('fmsSettings').directive('driverList', function() {
 		RestApi.search('/drivers.json', searchParams, function(dataSet) {
 			$scope.drivers = dataSet;
 			$scope.driverItems = dataSet.items;
+			console.log($scope.driverItems);
 			$scope.tablestate.pagination.totalItemCount = dataSet.total;
 			$scope.tablestate.pagination.numberOfPages = dataSet.total_page;
 			$scope.$emit('monitor-driver-list-change', $scope.fleets);
@@ -141,7 +143,8 @@ angular.module('fmsSettings').directive('driverList', function() {
 	 */
 	$scope.$watchCollection('driverSearchParams', function() {
 		if($scope.driverInit) {
-			$scope.findDrivers(null);
+			//$scope.findDrivers(null);
+			$scope.pageDrivers(null);
 		}
 	});
 

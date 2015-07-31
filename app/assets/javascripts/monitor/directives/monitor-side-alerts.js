@@ -145,10 +145,12 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 
 		searchParams = $scope.normalizeSearchParams(searchParams);
 		searchParams.start = 0;
-		searchParams.limit = 100;
-
+		searchParams.limit = 20;
+		$scope.lastStart = 0;
+		$scope.itemNo=1;
 		RestApi.search('/events.json', searchParams, function(dataSet) {
 			$scope.events = dataSet;
+			$scope.itemNumbering(dataSet.items);
 			$scope.eventItems = dataSet.items;
 			FmsUtils.setEventTypeClasses($scope.eventItems);
 			$scope.eventTypeSummaries = FmsUtils.getEventTypeSummaries($scope.eventItems);
@@ -156,6 +158,24 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 			// grid container를 새로 설정한다.
 			FmsUtils.setGridContainerHieght('monitor-alert-table-container');
 		});
+	};
+
+	$scope.itemNumbering = function(items) {
+		var no = 1;
+		
+		if($scope.eventItems && $scope.eventItems.length > 0) {
+
+			if($scope.scrollUpFlag) {
+				no = $scope.eventItems[0].no - 20;
+			} else {
+				no = $scope.eventItems[$scope.eventItems.length - 1].no + 1;
+			}
+		}
+
+		for(var i = 0 ; i < items.length ; i++) {
+			items[i].no = no++;
+		}
+
 	};
 
 	$scope.findEvents = this.searchEvents;
@@ -168,6 +188,11 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	 * 처음 전체 페이지 로딩시는 event data 자동조회 하지 않는다.
 	 */
 	$scope.eventInit = false;
+	$scope.lastStart = 0;
+	$scope.maxItems = 100;
+	$scope.itemNo = 1;
+	$scope.scrollUpFlag = false;
+
 	/**
 	 * call by pagination
 	 */
@@ -175,7 +200,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 		if(!$scope.eventInit) {
 			$scope.eventInit = true;
 			$scope.tablestate = tablestate;
-			$scope.tablestate.pagination.number = 100;
+			$scope.tablestate.pagination.number = 20;
 			return;
 		}
 		
@@ -190,15 +215,43 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 		searchParams.start = $scope.tablestate.pagination.start;
 		searchParams.limit = $scope.tablestate.pagination.number;
 
+		if(!$scope.scrollUpFlag && $scope.eventItems[$scope.eventItems.length - 1].no >= $scope.events.total) {
+			return;
+		}else if($scope.scrollUpFlag && $scope.eventItems[0].no == 1) {
+			return;
+		}
+
 		RestApi.search('/events.json', searchParams, function(dataSet) {
 			$scope.events = dataSet;
-			$scope.eventItems = dataSet.items;
 			FmsUtils.setEventTypeClasses($scope.eventItems);
 			$scope.eventTypeSummaries = FmsUtils.getEventTypeSummaries($scope.eventItems);
 			$scope.tablestate.pagination.totalItemCount = dataSet.total;
 			$scope.tablestate.pagination.numberOfPages = dataSet.total_page;
+
+			$scope.itemNumbering(dataSet.items);
+			if(!$scope.scrollUpFlag)
+			{
+	            $scope.eventItems = $scope.eventItems.concat(dataSet.items);
+
+	            //remove first nodes if needed
+	            if ($scope.lastStart < $scope.tablestate.pagination.start && $scope.eventItems.length > $scope.maxItems) {
+	                //remove the first nodes
+	                $scope.eventItems.splice(0, 20);
+	            }
+	            $scope.lastStart = $scope.tablestate.pagination.start;
+            }else{
+	           $scope.eventItems = dataSet.items.concat($scope.eventItems);
+
+	            //remove first nodes if needed
+	            if ($scope.eventItems.length > $scope.maxItems) {
+	                //remove the first nodes
+	                $scope.eventItems.splice($scope.eventItems.length-20, 20);
+	            }
+            }
+
 			$scope.$emit('monitor-event-list-change', $scope.events);
 			// grid container를 새로 설정한다.
+			console.log('service');
 			FmsUtils.setGridContainerHieght('monitor-alert-table-container');
 		});
 	};
