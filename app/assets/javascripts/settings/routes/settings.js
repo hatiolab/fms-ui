@@ -20,7 +20,7 @@ angular.module('fmsSettings').config(function($stateProvider, $urlRouterProvider
 		url: '/drivers',
 		views: {
 			'sidebar-view@': {
-				templateUrl: '/assets/settings/views/sidebars/drivers.html'
+				template: '<driver-list></driver-list>'
 			},
 			'content-view@' : {
 				templateUrl: '/assets/settings/views/contents/drivers.html'

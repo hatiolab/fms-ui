@@ -1,8 +1,8 @@
-angular.module('fmsSettings').directive('driverSearch', function() {
+angular.module('fmsSettings').directive('driverList', function() {
 	return { 
 		restrict: 'E',
-		controller: 'driverSearchCtrl',
-		templateUrl: '/assets/settings/views/sidebars/driver-search.html',
+		controller: 'driverListCtrl',
+		templateUrl: '/assets/settings/views/sidebars/drivers.html',
 		scope: {},
 		link : function(scope, element, attr, driverSearchCtrl) {
 			// 버튼이 Directive Element 바깥쪽에 있어서 버튼 클릭함수를 이용 ...
@@ -13,7 +13,7 @@ angular.module('fmsSettings').directive('driverSearch', function() {
 		}
 	}; 
 })
-.controller('driverSearchCtrl', function($rootScope, $scope, $resource, $element, RestApi) {
+.controller('driverListCtrl', function($rootScope, $scope, $resource, $element, RestApi) {
 
 	/**
 	 * Drivers Data Set 

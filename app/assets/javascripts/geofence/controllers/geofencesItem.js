@@ -6,25 +6,25 @@ angular.module('fmsGeofence')
 		 */
 		$scope.isSidebarToggle = true;
 		/**
-		 * polygon object
-		 */
-		$scope.polygonPath = [
-			{ latitude: DEFAULT_LAT, longitude: DEFAULT_LNG }, 
-			{ latitude: DEFAULT_LAT + 0.1, longitude: DEFAULT_LNG + 0.1 },
-			{ latitude: DEFAULT_LAT + 0.2, longitude: DEFAULT_LNG + 0.2 },
-			{ latitude: DEFAULT_LAT + 0.3, longitude: DEFAULT_LNG + 0.3 }
-		];
-		/**
 		 * polygon option
 		 */
-		$scope.polygonOption = {
-			static : true,
-			stroke : { color : '#ff0000', weight : 5 },
-			visible : true,
-			geodesic : false,
-			fill : { color : '#ff00000', opacity : 1 },
-			editable : false,
-			draggable : true
+		$scope.polygon = {
+			id : 1,
+			option : {
+				static : true,
+				stroke : { color : '#ff0000', weight : 5 },
+				visible : true,
+				geodesic : false,
+				fill : { color : '#ff00000', opacity : 1 },
+				editable : false,
+				draggable : true,
+			},
+			path : [
+				{ latitude: DEFAULT_LAT,       longitude: DEFAULT_LNG }, 
+				{ latitude: DEFAULT_LAT + 0.1, longitude: DEFAULT_LNG + 0.1 },
+				{ latitude: DEFAULT_LAT + 0.2, longitude: DEFAULT_LNG + 0.2 },
+				{ latitude: DEFAULT_LAT + 0.3, longitude: DEFAULT_LNG + 0.3 }
+			]
 		};
 		/**
 		 * map option
