@@ -1,22 +1,21 @@
 <div ng-controller='GeofenceItem'>
 
-	<ui-gmap-google-map id='geofenceCanvas' center='mapOption.center' zoom='mapOption.zoom' control="mapOption.control">
+	<ui-gmap-google-map id='geofenceCanvas' center='mapOption.center' zoom='mapOption.zoom'>
 
-		<ui-gmap-drawing-manager options="drawingManagerOptions" control="drawingManagerControl" events="drawingManagerEvent">
+		<ui-gmap-drawing-manager options="drawingManagerOptions" control="drawingManagerControl" events="drawingManagerEvents">
 		</ui-gmap-drawing-manager>
 			
-		<!--ui-gmap-polygon
-			static="polygon.option.static"
-			ng-repeat="polygon in map.polygons track by polygon.id"
-			path="polygon.path"
-			stroke="polygon.option.stroke"
-			visible="polygon.option.visible"
-			geodesic="polygon.option.geodesic"
-			fill="polygon.option.fill"
-			editable="polygon.option.editable"
-			draggable="polygon.option.draggable"
+		<ui-gmap-polygon
+			static="polygonOption.static"
+			path="polygonPath"
+			stroke="polygonOption.stroke"
+			visible="polygonOption.visible"
+			geodesic="polygonOption.geodesic"
+			fill="polygonOption.fill"
+			editable="polygonOption.editable"
+			draggable="polygonOption.draggable"
 			ng-cloak="">
-		</ui-gmap-polygon-->
+		</ui-gmap-polygon>
 
 	</ui-gmap-google-map>
 

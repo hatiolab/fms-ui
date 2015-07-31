@@ -1,29 +1,38 @@
 angular.module('fmsGeofence')
 	.controller('GeofenceItem', function($rootScope, $scope, $resource, $element, $interval, uiGmapIsReady, ConstantSpeed, FmsUtils, RestApi) {
 
-		//alert('Geofence Item');
-
-		$scope.isSidebarToggle = true;
-
 		/**
-		 * 현재 선택된 Trip ID
+		 * sidebar toggle
 		 */
-		$scope.currentTripId = null;
+		$scope.isSidebarToggle = true;
+		/**
+		 * polygon object
+		 */
+		$scope.polygonPath = [
+			{ latitude: DEFAULT_LAT, longitude: DEFAULT_LNG }, 
+			{ latitude: DEFAULT_LAT + 0.1, longitude: DEFAULT_LNG + 0.1 },
+			{ latitude: DEFAULT_LAT + 0.2, longitude: DEFAULT_LNG + 0.2 },
+			{ latitude: DEFAULT_LAT + 0.3, longitude: DEFAULT_LNG + 0.3 }
+		];
+		/**
+		 * polygon option
+		 */
+		$scope.polygonOption = {
+			static : true,
+			stroke : { color : '#ff0000', weight : 5 },
+			visible : true,
+			geodesic : false,
+			fill : { color : '#ff00000', opacity : 1 },
+			editable : false,
+			draggable : true
+		};
 		/**
 		 * map option
 		 */
 		$scope.mapOption = {
-			center: {
-				latitude: DEFAULT_LAT,
-				longitude: DEFAULT_LNG
-			},
+			center: { latitude: DEFAULT_LAT, longitude: DEFAULT_LNG },
 			zoom: 9
 		};
-		/**
-		 * map marker models for fleets, map polyline model for tracks, currently selected marker, map control
-		 */
-		$scope.markers = [], $scope.polylines = [], $scope.selectedMarker = null;
-		$scope.mapControl = {};
 
 		$scope.drawingManagerOptions = {
 			drawingMode: google.maps.drawing.OverlayType.POLYGON,
@@ -31,15 +40,15 @@ angular.module('fmsGeofence')
 			drawingControlOptions: {
 				position: google.maps.ControlPosition.TOP_CENTER,
 				drawingModes: [
+					google.maps.drawing.OverlayType.POLYGON
 					//google.maps.drawing.OverlayType.MARKER,
 					//google.maps.drawing.OverlayType.CIRCLE,
-					google.maps.drawing.OverlayType.POLYGON
 					//google.maps.drawing.OverlayType.POLYLINE,
 					//google.maps.drawing.OverlayType.RECTANGLE
 				]
 			},
-			circleOptions: {
-				fillColor: '#ffff00',
+			polygonOptions: {
+				fillColor: '#ff0000',
 				fillOpacity: 1,
 				strokeWeight: 5,
 				clickable: false,
@@ -48,18 +57,15 @@ angular.module('fmsGeofence')
 			}
 		};
 
-		uiGmapIsReady.promise()
-			.then(function(map_instances) {
-				// var map1 = $scope.mapOption.control.getGMap();    // get map object through $scope.map.control getGMap() function
-				if (map_instances) {
-					console.log(map_instances);
-				}
-			});
+		uiGmapIsReady.promise().then(function(map_instances) {
+				// Draw Polygon if data exist
+		});
 
 		$scope.drawingManagerEvents = {
 			polygoncomplete: function(drawingManager, eventName, scope, args) {
 				var polygon = args[0];
 				var path = polygon.getPath();
+				console.log(path);
 				var coords = [];
 				for (var i = 0; i < path.length; i++) {
 					coords.push({
@@ -67,8 +73,8 @@ angular.module('fmsGeofence')
 						longitude: path.getAt(i).lng()
 					});
 				}
+				console.log(coords);
 			}
 		};
-		console.log($scope.drawingManagerOptions);
 
 	});
