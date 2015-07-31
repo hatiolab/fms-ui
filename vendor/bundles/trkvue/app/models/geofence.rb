@@ -17,5 +17,11 @@ class Geofence < ActiveRecord::Base
   has_and_belongs_to_many :fleet_groups, :join_table => "geofence_groups"
   
   has_many :polygons
+
+  before_destroy do
+    conds = "geofence_id = '#{self.id}'"
+    Polygon.delete_all(conds)
+    GeofenceGroup.delete_all(conds)
+  end
   
 end

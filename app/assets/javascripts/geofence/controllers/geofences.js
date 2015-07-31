@@ -9,6 +9,21 @@ angular.module('fmsGeofence',['uiGmapgoogle-maps'])
 	 * 폼 모델 초기화 
 	 */
 	$scope.geofenceSearchParams = {};
+	/**
+	 * [tablestate smart table object]
+	 * @type {[object]}
+	 */
+	$scope.tablestate = null;
+	/**
+	 * [fleetInit 처음 전체 페이지 로딩시는 fleet data 자동조회 하지 않는다.]
+	 * @type {Boolean}
+	 */
+	$scope.geofenceInit = false;
+	/**
+	 * 선택된 Geofence
+	 * @type {object}
+	 */
+	$scope.geofence = {id : '', name : '', description : ''};
 
 	/**
 	 * Rails Server의 스펙에 맞도록 파라미터 변경 ...
@@ -50,17 +65,6 @@ angular.module('fmsGeofence',['uiGmapgoogle-maps'])
 	$scope.findgeofences = this.searchgeofences;
 
 	/**
-	 * [tablestate smart table object]
-	 * @type {[object]}
-	 */
-	$scope.tablestate = null;
-	/**
-	 * [fleetInit 처음 전체 페이지 로딩시는 fleet data 자동조회 하지 않는다.]
-	 * @type {Boolean}
-	 */
-	$scope.geofenceInit = false;
-
-	/**
 	 * [pagegeofences call search by pagenation]
 	 * @param  {[object]} tablestate [smart table object]
 	 * @return N/A
@@ -96,7 +100,55 @@ angular.module('fmsGeofence',['uiGmapgoogle-maps'])
 	 * @return N/A
 	 */
 	$scope.goGeofence = function(geofence) {
-		$scope.$emit('monitor-geofence-info-change', geofence);
+		if(geofence) {
+			$scope.geofence = geofence;
+			$scope.$emit('geofence-item-selected', geofence);
+		}
+	};
+
+	/**
+	 * geofence item selected
+	 * 
+	 * @param  {eventName}
+	 * @param  handler function
+	 */
+	$rootScope.$on('geofence-items-change', function(event, geofence) {
+		$scope.pageGeofences(null);
+	});
+
+	/**
+	 * save polygon
+	 * 
+	 * @return {[type]}
+	 */
+	$scope.savePolygon = function() {
+		// TODO item으로 이벤트 전달해서 그 쪽에서 전달 
+	};
+
+	/**
+	 * delete polygon
+	 * 
+	 * @return {[type]}
+	 */
+	$scope.deletePolygon = function() {
+		if($scope.polygon.id && $scope.polygon.id != '') {
+			RestApi.delete('/polygons/' + $scope.polygon.id + '.json', {}, function(result) {
+				$scope.resetPolygon();
+				$scope.$emit('geofence-items-change', null);
+			});
+		}
+	};
+
+	/**
+	 * reset polygon
+	 * 
+	 * @return {[type]}
+	 */
+	$scope.resetPolygon = function() {
+		$scope.clearPolygon();
+		$scope.polygon.id = '';
+		$scope.polygon.name = '';
+		$scope.polygon.description = '';
 	};
 
 	/**
@@ -110,13 +162,4 @@ angular.module('fmsGeofence',['uiGmapgoogle-maps'])
 		}
 	});
 
-
-	/**
-	 * 초기화 함수 
-	 */
-	$scope.init = function() {
-		
-	};
-
-	$scope.init();
 });

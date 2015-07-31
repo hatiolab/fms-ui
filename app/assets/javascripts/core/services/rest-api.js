@@ -68,7 +68,47 @@ angular.module('fmsCore').factory('RestApi', function($resource) {
 			rsc.get(function(data, response) {
 				callback(data);
 			});
+		},
+
+		/**
+		 * create resource
+		 * 
+		 * @param  {string}
+		 * @param  {object}
+		 * @param  {Function}
+		 * @return N/A
+		 */
+		create : function(url, params, entity, callback) {
+			var rsc = $resource(url, params);
+			rsc.save(entity, function(savedEntity) {
+    		console.log(savedEntity);
+  		});
+		},
+
+		/**
+		 * update resource
+		 * 
+		 * @param  {string}
+		 * @param  {object}
+		 * @param  {Function}
+		 * @return N/A
+		 */
+		update : function(url, params, callback) {
+			var rsc = $resource(url, params);
+		},
+
+		/**
+		 * delete resource
+		 * 
+		 * @param  {string}
+		 * @param  {object}
+		 * @param  {Function}
+		 * @return N/A
+		 */
+		delete : function(url, params, callback) {
+			var rsc = $resource(url, params);
 		}
 
+		//------------------------- E N D ---------------------------------
 	};
 });
