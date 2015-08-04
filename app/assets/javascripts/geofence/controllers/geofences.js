@@ -29,7 +29,7 @@ angular.module('fmsGeofence',['uiGmapgoogle-maps'])
 	 * Rails Server의 스펙에 맞도록 파라미터 변경 ...
 	 */
 	this.convertSearchParams = function(params) {
-		var searchParams = {};
+		var searchParams = {'_o[name]' : 'asc'};
 
 		if(!params || FmsUtils.isEmpty(params)) {
 			return searchParams;
@@ -37,7 +37,6 @@ angular.module('fmsGeofence',['uiGmapgoogle-maps'])
 
 		searchParams['_q[name-like]'] = params.name;
 		searchParams['_q[description-like]'] = params.description;
-		searchParams['_o[name]'] = 'asc';
 		return searchParams;
 	};
 
