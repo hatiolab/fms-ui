@@ -1,90 +1,158 @@
 <div class="setting-content">
-	<!-- driver photo & info begin -->
-	<div class="col-xs-12 col-sm-5 col-md-5 align-center">
-		<img src="" class="photo-driver"/>
-		<button type="button" class="btn btn-default btn-sm margin-t7">file upload</button>
-	</div>
-
-	<div class="col-xs-12 col-sm-7 col-md-7">
-		<form class="form-horizontal">
-			<div class="form-group">
-			 	<label class="col-xs-12 col-sm-3 col-md-3 control-label">ID</label>
-			 	<div class="col-xs-11 col-sm-9 col-md-9">
-			 	 <input type="text" class="form-control"></input>
-			 	</div>
-			</div>
-			
-			<div class="form-group">
-			 	<label class="col-xs-12 col-sm-3 col-md-3 control-label">Name</label>
-			 	<div class="col-xs-11 col-sm-9 col-md-9">
-			 	 <input type="text" class="form-control"></input>
-			 	</div>
-			</div>
-			
-			<div class="form-group">
-			 	<label class="col-xs-12 col-sm-3 col-md-3 control-label">E-mail</label>
-			 	<div class="col-xs-11 col-sm-9 col-md-9">
-			 	 <input type="text" class="form-control"></input>
-			 	</div>
-			</div>
-			
-			<div class="form-group">
-			 	<label class="col-xs-12 col-sm-3 col-md-3 control-label">Division</label>
-				<div class="col-xs-11 col-sm-9 col-md-9">
+	<form class="form-horizontal">
+		<!-- interval fieldset begin -->
+		<fieldset>
+			<legend>Interval</legend>
+			<div class="form-group col-xs-12 col-sm-6">
+			 	<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">Batch Interval</label>
+				<div class="col-xs-7 col-sm-8 col-md-8">
 					<select class="form-control">
-						<option>select Division</option>
-						<option>Division 1</option>
+						<option>select ..</option>
 					</select>	
 				</div>
 			</div>
-		</form>
-	</div>
-	<!-- driver photo & info end -->
-	
-	<!-- driver infos begin -->
-	<div class="line-infos bg-white col-xs-12">
-		<div class="form-group">
-		 	<label class="col-xs-12 col-sm-3 col-md-3 control-label">Social-ID</label>
-		 	<div class="col-xs-12 col-sm-5 col-md-5">
-		 	 <input type="text" class="form-control"></input>
-		 	</div>
-		</div>
-
-		<div class="form-group">
-		 	<label class="col-xs-12 col-sm-3 col-md-3 control-label">Title</label>
-		 	<div class="col-xs-12 col-sm-5 col-md-5">
-		 	 <input type="text" class="form-control"></input>
-		 	</div>
-		</div>
-				
-		<div class="form-group">
-		 	<label class="col-xs-12 col-sm-3 col-md-3 control-label">Register Date</label>
-		 	<div class="col-xs-12 col-sm-5 col-md-5">
-		 	 <input type="text" class="form-control"></input>
-		 	</div>
-		</div>
+			
+			<div class="form-group col-xs-12 col-sm-6">
+			 	<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">Trip Interval</label>
+				<div class="col-xs-7 col-sm-8 col-md-8">
+					<select class="form-control">
+						<option>select ..</option>
+					</select>	
+				</div>
+			</div>
+			
+			<div class="form-group col-xs-12 col-sm-6">
+			 	<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">GPS Interval</label>
+				<div class="col-xs-7 col-sm-8 col-md-8">
+					<select class="form-control">
+						<option>select ..</option>
+					</select>	
+				</div>
+			</div>
+			
+			<div class="form-group col-xs-12 col-sm-6">
+			 	<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">Stillcut Interval</label>
+				<div class="col-xs-7 col-sm-8 col-md-8">
+					<select class="form-control">
+						<option>select ..</option>
+					</select>	
+				</div>
+			</div>
+	  </fieldset>
+		<!-- interval fieldset end -->
 		
-		<div class="form-group">
-		 	<label class="col-xs-12 col-sm-3 col-md-3 control-label">Mobile</label>
-		 	<div class="col-xs-12 col-sm-5 col-md-5">
-		 	 <input type="text" class="form-control"></input>
-		 	</div>
-		</div>
-
-		<div class="form-group">
-		 	<label class="col-xs-12 col-sm-3 col-md-3 control-label">Address</label>
-		 	<div class="col-xs-12 col-sm-9 col-md-9">
-		 	 <input type="text" class="form-control"></input>
-		 	</div>
-		</div>
+		<!-- distance & speed unit begin -->
+		<fieldset>
+			<legend>Distance & Speed Unit</legend>
+			<div class="radio col-xs-6 col-sm-4 col-md-4">
+			  <label>
+			    <input type="radio" name="dns" id="optionsRadios1" value="option1" checked>
+			    Miles
+			  </label>
+			</div>
+			<div class="radio col-xs-6 col-sm-4 col-md-4">
+			  <label>
+			    <input type="radio" name="dns" id="optionsRadios2" value="option2">
+			    Kilometers
+			  </label>
+			</div>
+		</fieldset>
+		<!-- distance & speed unit end -->
+		
+		<!-- date time format begin -->
+		<fieldset>
+			<legend>Data & Time format</legend>
+			<label class="control-label col-xs-2 col-sm-1 col-md-1 padding-clear align-left">Date</label>
+			<div class="radio col-xs-5 col-sm-3 col-md-3">
+			  <label>
+			    <input type="radio" name="dnt-d" id="optionsRadios1" value="option1" checked>
+			    MM/DD/YYYY
+			  </label>
+			</div>
+			<div class="radio col-xs-5 col-sm-3 col-md-3">
+			  <label>
+			    <input type="radio" name="dnt-d" id="optionsRadios2" value="option2">
+			    DD/MM/YYYY
+			  </label>
+			</div>
+			<div class="col-xs-12"></div>
+			<label class="control-label col-xs-2 col-sm-1 col-md-1 padding-clear align-left">Time</label>
+			<div class="radio col-xs-5 col-sm-3 col-md-3">
+			  <label>
+			    <input type="radio" name="dnt-t" id="optionsRadios1" value="option1" checked>
+			    AM/PM
+			  </label>
+			</div>
+			<div class="radio col-xs-5 col-sm-3 col-md-3">
+			  <label>
+			    <input type="radio" name="dnt-t" id="optionsRadios2" value="option2">
+			    24HR
+			  </label>
+			</div>
+		</fieldset>
+		<!-- date time format end -->
+		
+		<!-- speed range begin -->
+		<fieldset class="form-inline col-xs-12 col-sm-5 col-md-5">
+			<legend>Speed Range</legend>
+			<label class="control-label col-xs-3 padding-clear align-left padding-t4">Slow</label>
+	    <input type="text" class="form-control max-w60 pull-left"></input>
+			<span class="pull-left padding-rl7 padding-t4">~</span>
+			<input type="text" class="form-control max-w60 pull-left"></input>
+			
+			<div class="col-xs-12 float-clear margin-b7"></div>
+			
+			<label class="control-label col-xs-3 padding-clear align-left padding-t4">Normal</label>
+	    <input type="text" class="form-control max-w60 pull-left"></input>
+			<span class="pull-left padding-rl7 padding-t4">~</span>
+			<input type="text" class="form-control max-w60 pull-left"></input>
+			
+			<div class="col-xs-12 float-clear margin-b7"></div>
+			
+			<label class="control-label col-xs-3 padding-clear align-left padding-t4">Fast</label>
+	    <input type="text" class="form-control max-w60 pull-left"></input>
+			<span class="pull-left padding-rl7 padding-t4">~</span>
+			<input type="text" class="form-control max-w60 pull-left"></input>
+			
+			<div class="col-xs-12 float-clear margin-b7"></div>
+			
+			<label class="control-label col-xs-3 padding-clear align-left padding-t4">Speeding</label>
+	    <input type="text" class="form-control max-w60 pull-left"></input>
+			<span class="pull-left padding-rl7 padding-t4">~</span>
+			<input type="text" class="form-control max-w60 pull-left"></input>
+			
+			<div class="col-xs-12 float-clear margin-b5"></div>
+			
+		</fieldset>
+		<!-- speed range end -->
+		
+		<!-- alarm begin -->
+		<fieldset class="col-xs-12 col-sm-6 col-md-6 pull-right">
+			<legend>Alarm</legend>
+			<div class="checkbox">
+				<label><input type="checkbox"> Emergency Button</label>
+			</div>
+			
+			<div class="checkbox">
+				<label><input type="checkbox"> Externam Emergency Button</label>
+			</div>
+			
+			<div class="checkbox">
+				<label><input type="checkbox"> G sensor</label>
+			</div>
+			
+			<div class="checkbox">
+				<label><input type="checkbox"> Over Speed</label>
+			</div>
+			
+			<div class="checkbox">
+				<label><input type="checkbox"> Geofence Activation</label>
+			</div>
+		</fieldset>
+		<!-- alarm range end -->
 		
 		<!-- buttons begin -->
-		<button type="button" class="btn btn-default margin-t7 pull-left">Reset</button>
-		<button type="button" class="btn btn-default margin-t7 pull-right">delete</button>
-		<button type="button" class="btn btn-default margin-t7 pull-right btn-success margin-r7">Save</button>
+		<button type="button" class="btn btn-default pull-right btn-success margin-r15 margin-b5 float-clear">Save</button>
 		<!-- buttons end -->
-		
-	</div>
-	<!-- driver infos end -->
-	
+ 	</form>
 </div>
