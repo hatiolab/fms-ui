@@ -10,13 +10,19 @@ public
   # POST /domains/:domain_id/geofences/:id/update_multiple_polygons
   # 
   def update_multiple_polygons
+    debug_print params
     geofence, success, msg = Geofence.find(params[:id]), true, "success"
     
     if(geofence)
       Polygon.destroy_all(:geofence_id => params[:id])
-      polygons = JSON.parse(params[:multiple_data])
-      polygons.each do |polygon|
-        Polygon.create!(polygon)
+      if(params[:multiple_data] && params[:multiple_data].class.name == 'string')
+        polygons = JSON.parse(params[:multiple_data])
+      else
+        polygons = params[:multiple_data]
+      end
+
+      polygons.each do |polygon| 
+        Polygon.create! :geofence_id => polygon[:geofence_id], :lat => polygon[:lat], :lng => polygon[:lng]
       end
     else
       sucess, msg = false, "Invalid geofence id"

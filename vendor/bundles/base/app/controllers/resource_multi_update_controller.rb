@@ -1,6 +1,49 @@
 class ResourceMultiUpdateController < DomainResourcesController
   
   public
+
+  # 임시 코드 - TODO 에러 원인 파악 
+  def create(options={}, &block)
+    object = build_resource
+
+    if create_resource(object)
+      options[:location] ||= smart_resource_url
+    end
+
+    #respond_with_dual_blocks(object, options, &block)
+    respond_to do |format|
+      format.xml  { render :xml => object }
+      format.json { render :json => object }
+    end
+  end
+
+  # 임시 코드 - TODO 에러 원인 파악 
+  def update(options={}, &block)
+    object = resource
+
+    if update_resource(object, resource_params)
+      options[:location] ||= smart_resource_url
+    end
+
+    # respond_with_dual_blocks(object, options, &block)
+    respond_to do |format|
+      format.xml  { render :xml => object }
+      format.json { render :json => object }
+    end
+  end
+
+  # 임시 코드 - TODO 에러 원인 파악 
+  def destroy(options={}, &block)
+    object = resource
+    options[:location] ||= smart_collection_url
+
+    destroy_resource(object)
+    #respond_with_dual_blocks(object, options, &block)
+    respond_to do |format|
+      format.xml  { render :xml => { :success => true } }
+      format.json { render :json => { :success => true } }
+    end
+  end
     
   def update_multiple
     correspond_class = resource_class

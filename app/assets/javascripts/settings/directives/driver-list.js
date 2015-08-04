@@ -105,7 +105,7 @@ angular.module('fmsSettings').directive('driverList', function() {
 		if(!$scope.driverInit){
 			$scope.driverInit = true;
 			$scope.tablestate = tablestate;
-			$scope.tablestate.pagination.number = 3;
+			$scope.tablestate.pagination.number = 20;
 		}
 
 		if(tablestate) {

@@ -1,6 +1,6 @@
-<div ng-controller='GeofenceItem'>
+<div ng-controller='GeofenceItemCtrl'>
 
-	<ui-gmap-google-map id='geofenceCanvas' center='mapOption.center' zoom='mapOption.zoom'>
+	<ui-gmap-google-map id='geofenceCanvas' center='mapOption.center' zoom='mapOption.zoom' control='mapControl'>
 
 		<ui-gmap-drawing-manager options="drawingManagerOptions" control="drawingManagerControl" events="drawingManagerEvents">
 		</ui-gmap-drawing-manager>
@@ -18,31 +18,5 @@
 		</ui-gmap-polygon>
 
 	</ui-gmap-google-map>
-
-	<div class="setting-content">
-		<div class="line-infos bg-white col-xs-12">
-			<div class="form-group">
-			 	<label class="col-xs-12 col-sm-3 col-md-3 control-label">Name</label>
-			 	<div class="col-xs-12 col-sm-5 col-md-5">
-			 	 <input type="text" class="form-control" name="name" ng-model="polygon.name"></input>
-			 	</div>
-			</div>
-			
-			<div class="form-group">
-			 	<label class="col-xs-12 col-sm-3 col-md-3 control-label">Description</label>
-			 	<div class="col-xs-12 col-sm-9 col-md-9">
-			 	 <input type="text" class="form-control" name="description" ng-model="polygon.description"></input>
-			 	</div>
-			</div>
-					
-			<button type="button" ng-click="resetPolygon()" class="btn btn-default margin-t7 pull-left">
-				Reset
-			</button>
-			<button type="button" ng-click="deletePolygon()" class="btn btn-default margin-t7 pull-right">		Delete
-			</button>
-			<button type="button" ng-click="savePolygon()" class="btn btn-default margin-t7 pull-right btn-success margin-r7">
-				Save
-			</button>
-		</div>
-	</div>
+	
 </div>

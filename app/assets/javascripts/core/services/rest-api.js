@@ -75,14 +75,22 @@ angular.module('fmsCore').factory('RestApi', function($resource) {
 		 * 
 		 * @param  {string}
 		 * @param  {object}
-		 * @param  {Function}
+		 * @param  {object}
 		 * @return N/A
 		 */
-		create : function(url, params, entity, callback) {
-			var rsc = $resource(url, params);
-			rsc.save(entity, function(savedEntity) {
-    		console.log(savedEntity);
-  		});
+		create : function(url, params, entity) {
+			var rsc = $resource(url, params, {
+  			create: {
+  				method: 'POST',
+					headers: { "Accept" : "*/*", "Content-Type": "application/json" },
+  				transformRequest: function(data, headers) {
+          	headers = angular.extend({}, headers, {'Accept' : '*/*', 'Content-Type': 'application/json'});
+          	return angular.toJson(entity);
+        	}
+        }
+			});
+
+  		return rsc.create();
 		},
 
 		/**
@@ -90,11 +98,45 @@ angular.module('fmsCore').factory('RestApi', function($resource) {
 		 * 
 		 * @param  {string}
 		 * @param  {object}
-		 * @param  {Function}
+		 * @param  {object}
 		 * @return N/A
 		 */
-		update : function(url, params, callback) {
-			var rsc = $resource(url, params);
+		update : function(url, params, entity) {
+			var rsc = $resource(url, params, {
+  			update: {
+  				method: 'PUT',
+					headers: { "Accept" : "*/*", "Content-Type": "application/json" },
+  				transformRequest: function(data, headers) {
+          	headers = angular.extend({}, headers, {'Accept' : '*/*', 'Content-Type': 'application/json'});
+          	return angular.toJson(entity);
+        	}
+        }
+			});
+
+  		return rsc.update();
+		},
+
+		/**
+		 * update multiple resource
+		 * 
+		 * @param  {string}
+		 * @param  {object}
+		 * @param  {object}
+		 * @return N/A
+		 */
+		updateMultiple : function(url, params, entityList) {
+			var rsc = $resource(url, params, {
+  			updateMultiple: {
+  				method: 'POST',
+					headers: { "Accept" : "*/*", "Content-Type": "application/json" },
+  				transformRequest: function(data, headers) {
+          	headers = angular.extend({}, headers, {'Accept' : '*/*', 'Content-Type': 'application/json'});
+          	return angular.toJson({ multiple_data : entityList });
+        	}
+        }
+			});
+
+  		return rsc.updateMultiple();
 		},
 
 		/**
@@ -102,11 +144,17 @@ angular.module('fmsCore').factory('RestApi', function($resource) {
 		 * 
 		 * @param  {string}
 		 * @param  {object}
-		 * @param  {Function}
 		 * @return N/A
 		 */
-		delete : function(url, params, callback) {
-			var rsc = $resource(url, params);
+		delete : function(url, params) {
+			var rsc = $resource(url, {}, {
+  			delete: {
+  				method: 'DELETE',
+					headers: { "Accept" : "*/*", "Content-Type": "application/json" }
+        }
+			});
+
+  		return rsc.delete();
 		}
 
 		//------------------------- E N D ---------------------------------

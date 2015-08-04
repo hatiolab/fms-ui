@@ -1,5 +1,5 @@
 angular.module('fmsGeofence',['uiGmapgoogle-maps'])
-.controller('Geofences', function($rootScope, $scope, $resource, $element, ConstantSpeed, FmsUtils, RestApi) {
+.controller('GeofenceCtrl', function($rootScope, $scope, $resource, $element, ConstantSpeed, FmsUtils, RestApi) {
 	
 	/**
 	 * 사이드 바 토글 변수
@@ -15,7 +15,7 @@ angular.module('fmsGeofence',['uiGmapgoogle-maps'])
 	 */
 	$scope.tablestate = null;
 	/**
-	 * [fleetInit 처음 전체 페이지 로딩시는 fleet data 자동조회 하지 않는다.]
+	 * [처음 전체 페이지 로딩시는 자동조회 하지 않는다.]
 	 * @type {Boolean}
 	 */
 	$scope.geofenceInit = false;
@@ -23,7 +23,7 @@ angular.module('fmsGeofence',['uiGmapgoogle-maps'])
 	 * 선택된 Geofence
 	 * @type {object}
 	 */
-	$scope.geofence = {id : '', name : '', description : ''};
+	$scope.geofence = { id : '', name : '', description : '' };
 
 	/**
 	 * Rails Server의 스펙에 맞도록 파라미터 변경 ...
@@ -48,7 +48,7 @@ angular.module('fmsGeofence',['uiGmapgoogle-maps'])
 	 * @param  {[object]} params [searchParams]
 	 * @return N/A
 	 */
-	this.searchgeofences = function(params) {
+	this.searchGeofences = function(params) {
 		var searchParams = params;
 		if(!params || params == {}) {
 			searchParams = angular.copy($scope.geofenceSearchParams);
@@ -58,11 +58,12 @@ angular.module('fmsGeofence',['uiGmapgoogle-maps'])
 		RestApi.search('/geofences.json', searchParams, function(dataSet) {
 			$scope.geofences = dataSet;
 			$scope.geofenceItems = dataSet.items;
+			FmsUtils.setGridContainerHieght('geofence-table-container');
 			$scope.$emit('monitor-geofence-list-change', $scope.geofences);
 		});
 	};
 
-	$scope.findgeofences = this.searchgeofences;
+	$scope.findGeofences = this.searchGeofences;
 
 	/**
 	 * [pagegeofences call search by pagenation]
@@ -70,14 +71,14 @@ angular.module('fmsGeofence',['uiGmapgoogle-maps'])
 	 * @return N/A
 	 */
 	$scope.pageGeofences = function(tablestate) {
-		if(!$scope.geofenceInit){
+		if(!$scope.geofenceInit) {
 			$scope.geofenceInit = true;
 			$scope.tablestate = tablestate;
-			$scope.tablestate.pagination.number = 20;
 		}
 
 		if(tablestate) {
 			$scope.tablestate = tablestate;
+			$scope.tablestate.pagination.number = 1000;
 		}
 
 		var searchParams = angular.copy($scope.geofenceSearchParams);
@@ -90,6 +91,7 @@ angular.module('fmsGeofence',['uiGmapgoogle-maps'])
 			$scope.geofenceItems = dataSet.items;
 			$scope.tablestate.pagination.totalItemCount = dataSet.total;
 			$scope.tablestate.pagination.numberOfPages = dataSet.total_page;
+			FmsUtils.setGridContainerHieght('geofence-table-container');
 			$scope.$emit('monitor-geofence-list-change', $scope.fleets);
 		});
 	};
@@ -101,7 +103,7 @@ angular.module('fmsGeofence',['uiGmapgoogle-maps'])
 	 */
 	$scope.goGeofence = function(geofence) {
 		if(geofence) {
-			$scope.geofence = geofence;
+			$scope.geofence = angular.copy(geofence);
 			$scope.$emit('geofence-item-selected', geofence);
 		}
 	};
@@ -113,6 +115,7 @@ angular.module('fmsGeofence',['uiGmapgoogle-maps'])
 	 * @param  handler function
 	 */
 	$rootScope.$on('geofence-items-change', function(event, geofence) {
+		$scope.resetGeofence();
 		$scope.pageGeofences(null);
 	});
 
@@ -121,8 +124,20 @@ angular.module('fmsGeofence',['uiGmapgoogle-maps'])
 	 * 
 	 * @return {[type]}
 	 */
-	$scope.savePolygon = function() {
-		// TODO item으로 이벤트 전달해서 그 쪽에서 전달 
+	$scope.saveGeofence = function() {
+		if($scope.geofence.id && $scope.geofence.id != '') {
+			var url = '/geofences/' + $scope.geofence.id + '.json';
+			var result = RestApi.update(url, null, {geofence : $scope.geofence});
+			result.$promise.then(function(data) {
+				$scope.refreshList();
+			});
+
+		} else {
+			var result = RestApi.create('/geofences.json', null, {geofence : $scope.geofence});
+			result.$promise.then(function(data) {
+				$scope.refreshList();
+			});				
+		}
 	};
 
 	/**
@@ -130,11 +145,12 @@ angular.module('fmsGeofence',['uiGmapgoogle-maps'])
 	 * 
 	 * @return {[type]}
 	 */
-	$scope.deletePolygon = function() {
-		if($scope.polygon.id && $scope.polygon.id != '') {
-			RestApi.delete('/polygons/' + $scope.polygon.id + '.json', {}, function(result) {
-				$scope.resetPolygon();
-				$scope.$emit('geofence-items-change', null);
+	$scope.deleteGeofence = function() {
+		if($scope.geofence.id && $scope.geofence.id != '') {
+			// TODO 사용자 확인 창 띄우기 
+			var result = RestApi.delete('/geofences/' + $scope.geofence.id + '.json', null);
+			result.$promise.then(function(data) {
+				$scope.refreshList();
 			});
 		}
 	};
@@ -144,11 +160,18 @@ angular.module('fmsGeofence',['uiGmapgoogle-maps'])
 	 * 
 	 * @return {[type]}
 	 */
-	$scope.resetPolygon = function() {
-		$scope.clearPolygon();
-		$scope.polygon.id = '';
-		$scope.polygon.name = '';
-		$scope.polygon.description = '';
+	$scope.resetGeofence = function() {
+		$scope.geofence.id = '';
+		$scope.geofence.name = '';
+		$scope.geofence.description = '';
+	};
+
+	/**
+	 * @return {[type]}
+	 */
+	$scope.refreshList = function() {
+		$scope.resetGeofence();
+		$scope.pageGeofences(null);
 	};
 
 	/**
@@ -158,8 +181,14 @@ angular.module('fmsGeofence',['uiGmapgoogle-maps'])
 	 */
 	$scope.$watchCollection('geofenceSearchParams', function() {
 		if($scope.geofenceInit) {
-			$scope.pageGeofences(null);
+			$scope.refreshList();
 		}
+	});
+
+	var searchButton = $element.find('#searchGeofences');
+
+	searchButton.bind("click", function() {
+		$scope.pageGeofences(null);
 	});
 
 });

@@ -1,5 +1,5 @@
 angular.module('fmsGeofence')
-	.controller('GeofenceItem', function($rootScope, $scope, $resource, $element, $interval, uiGmapIsReady, ConstantSpeed, FmsUtils, RestApi) {
+	.controller('GeofenceItemCtrl', function($rootScope, $scope, $resource, $element, $interval, uiGmapIsReady, ConstantSpeed, FmsUtils, RestApi) {
 
 		/**
 		 * sidebar toggle
@@ -10,12 +10,20 @@ angular.module('fmsGeofence')
 		 */
 		$scope.mapOption = { center: { latitude: DEFAULT_LAT, longitude: DEFAULT_LNG }, zoom: 9 };
 		/**
+		 * map control
+		 * @type {Object}
+		 */
+		$scope.mapControl = {};
+		/**
+		 * selected geofence
+		 * 
+		 * @type {Object}
+		 */
+		$scope.geofence = {id : '', name : '', description : ''};
+		/**
 		 * polygon option
 		 */
 		$scope.polygon = {
-			id : '',
-			name : '',
-			description : '',
 			path : [],
 			option : {
 				static : true,
@@ -73,6 +81,9 @@ angular.module('fmsGeofence')
 
 				// remove original polygon
 				polygon.setMap(null);
+
+				// Save Polygon 
+				$scope.savePolygon();
 			}
 		};
 
@@ -102,46 +113,60 @@ angular.module('fmsGeofence')
 		$scope.setPolygon = function(paths) {
 			$scope.clearPolygon();
 
-			angular.forEach(paths, function(path) {
-				$scope.polygon.path.push({ latitude : path.lat, longitude : path.lng });
-			});
+			if(!paths || paths.length == 0) {
+				$scope.mapOption.center.latitude = DEFAULT_LAT;
+				$scope.mapOption.center.longitude = DEFAULT_LNG;
+
+			} else {
+				var startPoint = new google.maps.LatLng(paths[0].lat, paths[0].lng);
+				var bounds = new google.maps.LatLngBounds(startPoint, startPoint);
+
+				angular.forEach(paths, function(path) {
+					$scope.polygon.path.push({ latitude : path.lat, longitude : path.lng });
+					bounds.extend(new google.maps.LatLng(path.lat, path.lng));
+				});
+
+				var center = bounds.getCenter();
+				$scope.mapOption.center.latitude = center.lat();
+				$scope.mapOption.center.longitude = center.lng();				
+			}
 		};
 
 		/**
 		 * geofence item selected
 		 * 
-		 * @param  {eventName}
+		 * @param  {string}
 		 * @param  handler function
 		 */
 		$rootScope.$on('geofence-item-selected', function(event, geofence) {
-			$scope.polygon.id = geofence.id;
-			$scope.polygon.name = geofence.name;
-			$scope.polygon.description = geofence.description;
+			$scope.geofence = geofence;
+			$scope.resetPolygon();
 
 			RestApi.get('/polygons.json', { '_q[geofence_id-eq]' : geofence.id }, function(dataSet) {
-				if(dataSet.items && dataSet.items.length > 0) {
-					$scope.setPolygon(dataSet.items);
-				}
+				$scope.setPolygon(dataSet.items);
 			});
 		});
 
 		/**
 		 * save polygon
 		 * 
-		 * @return {[type]}
+		 * @return {object}
 		 */
 		$scope.savePolygon = function() {
-			if($scope.polygon.id && $scope.polygon.id != '') {
-				RestApi.update('/polygons/' + $scope.polygon.id + '.json', {}, function(result) {
-					// TODO
-					$scope.$emit('geofence-items-change', null);
-				});
-			} else if(!$scope.polygon.id || $scope.polygon.id == '') {
-				RestApi.create('/polygons/' + $scope.polygon.id + '.json', {}, function(result) {
-					// TODO
-					$scope.$emit('geofence-items-change', null);
+			var multipleData = [], paths = $scope.polygon.path;
+			for (var i = 0 ; i < paths.length ; i++) {
+				multipleData.push({
+					id : '',
+					geofence_id : $scope.geofence.id,
+					lat : paths[i].latitude,
+					lng : paths[i].longitude
 				});
 			}
+
+			var result = RestApi.updateMultiple('/geofences/' + $scope.geofence.id + '/update_multiple_polygons.json', null, multipleData);
+			result.$promise.then(function(data) {
+				// TODO success or failure popup
+			});
 		};
 
 		/**

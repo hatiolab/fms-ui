@@ -27,7 +27,9 @@ angular.module('fmsMonitor', ['fmsCore', 'pip'])
 
 // 4. main module
 angular.module('fmsApp', ['fmsCore', 'fmsSettings', 'fmsGeofence', 'fmsMonitor'])
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
+	// CSRF Token
+	$httpProvider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content');
 	// if none of the above states are matched, use this as the fallback
 	$urlRouterProvider.otherwise('/');
 });
