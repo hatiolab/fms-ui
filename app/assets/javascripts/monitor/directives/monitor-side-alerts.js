@@ -37,12 +37,20 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	 * @type {Object}
 	 */
 	 $scope.items = [];
-	 /**
-	  * Page Information - Total Record Count & Total Page
-	  * 
-	  * @type {Object}
-	  */
-	 $scope.pageInfo = { total : 0, total_page : 0, current_page : 0};
+	/**
+	 * Page Information - Total Record Count & Total Page
+	 * 
+	 * @type {Object}
+	 */
+	 $scope.pageInfo = { total : 0, total_page : 0, current_page : 0 };
+	/**
+	 * smart table object
+	 */
+	 $scope.tablestate = null;
+	/**
+	 * 처음 전체 페이지 로딩시는 event data 자동조회 하지 않는다.
+	 */
+	 $scope.eventInit = false;
 
 	 /**
 	  * Date Picker Handling
@@ -147,118 +155,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	/**
 	 * search events
 	 */
-	 $scope.searchEvents = function(params) {
-	 	var searchParams = params;
-	 	if(FmsUtils.isEmpty(searchParams)) {
-	 		searchParams = angular.copy($scope.searchParams);
-	 		searchParams.fleet_group_id = searchParams.group ? searchParams.group.id : '';
-	 		searchParams.fleet_id = searchParams.fleet ? searchParams.fleet.name : '';
-	 	}
-
-	 	searchParams = $scope.normalizeSearchParams(searchParams);
-		$scope.setPageQueryInfo(0, 20);
-
-	 	RestApi.search('/events.json', searchParams, function(dataSet) {
-	 		FmsUtils.setEventTypeClasses(dataSet.items);
-	 		$scope.eventTypeSummaries = FmsUtils.getEventTypeSummaries(dataSet.items);
-	 		$scope.numbering(dataSet.items);
-			$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
-	 		$scope.items = dataSet.items;
-	 		$scope.$emit('monitor-event-list-change', dataSet.items);
-			// grid container를 새로 설정한다.
-			FmsUtils.setGridContainerHieght('monitor-alert-table-container');
-		});
-	 };
-
-	/**
-	 * Items Numbering from 1
-	 * 
-	 * @param  {Array}
-	 * @return N/A
-	 */
-	 $scope.numbering = function(items) {
-	 	for(var i = 0 ; i < items.length ; i++) {
-	 		items[i].no = i + 1;
-	 	}
-	 };
-
-	/**
-	 * Items Numbering
-	 * 
-	 * @param  {Array}
-	 * @return N/A
-	 */
-	 $scope.itemNumbering = function(items) {
-	 	var startNo = 1;
-
- 		if($scope.items && $scope.items.length > 0) {
- 			if($scope.scrollUpFlag) {
- 				startNo = $scope.items[0].no - 20;
- 			} else {
- 				startNo = $scope.items[$scope.items.length - 1].no + 1;
- 			}
- 		}
-
-	 	for(var i = 0 ; i < items.length ; i++) {
-	 		items[i].no = startNo++;
-	 	}
-	 };
-
-	/**
-	 * smart table object
-	 */
-	 $scope.tablestate = null;
-	/**
-	 * 처음 전체 페이지 로딩시는 event data 자동조회 하지 않는다.
-	 */
-	 $scope.eventInit = false;
-	 /**
-	  * 그리드가 가질 수 있는 최대 버퍼 사이즈 
-	  * 
-	  * @type {Number}
-	  */
-	 $scope.maxItems = 100;
-	 /**
-	  * 스크롤 업인지 스크롤 다운인지 플래그 
-	  * 
-	  * @type {Boolean}
-	  */
-	 $scope.scrollUpFlag = false;
-
-	 /**
-	  * 페이지네이션 검색 정보를 설정한다. 
-	  * 
-	  * @param {Number}
-	  * @param {Number}
-	  */
-	 $scope.setPageQueryInfo = function(start, limit) {
-	 	$scope.tablestate.pagination.start = start;
-	 	$scope.tablestate.pagination.number = limit;
-	 }
-
-	 /**
-	  * 페이지네이션 결과 정보를 설정한다. 
-	  * 
-	  * @param {Number}
-	  * @param {Number}
-	  * @param {Number}
-	  */
-	 $scope.setPageReultInfo = function(total_count, total_page, current_page) {
-	 		$scope.pageInfo.total = total_count;
-	 		$scope.pageInfo.total_page = total_page;
-	 		$scope.pageInfo.current_page = current_page;
-
-	 		if($scope.tablestate && $scope.tablestate.pagination) {
-	 			$scope.tablestate.pagination.totalItemCount = total_count;
-	 			$scope.tablestate.pagination.numberOfPages = total_page;
-	 			$scope.tablestate.pagination.currentPage = current_page;
-	 		}
-	 };
-
-	/**
-	 * call by pagination
-	 */
-	 $scope.pageEvents = function(tablestate) {
+	 $scope.searchEvents = function(tablestate) {
 	 	if(!$scope.eventInit) {
 	 		$scope.eventInit = true;
 	 		$scope.tablestate = tablestate;
@@ -270,45 +167,103 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	 		$scope.tablestate = tablestate;
 	 	}
 
+ 		var searchParams = $scope.beforeSearch();
+		$scope.setPageQueryInfo(searchParams, $scope.tablestate.pagination, 0, 20);
+
+    $scope.doSearch(searchParams, function(dataSet) {
+      $scope.numbering(dataSet.items, 1);
+      $scope.items = dataSet.items;
+      scope.afterSearch(dataSet);
+    });
+	 };
+
+	/**
+	 * Items Numbering
+	 * 
+	 * @param  {Array}
+	 * @param  {Number}
+	 * @return N/A
+	 */
+	 $scope.numbering = function(items, startNo) {
+	 	for(var i = 0 ; i < items.length ; i++) {
+	 		items[i].no = i + 1;
+	 	}
+	 };
+
+	 /**
+	  * 페이지네이션 검색 정보를 설정한다. 
+	  *
+	  * @param {Object}
+	  * @param {Object}
+	  * @param {Number}
+	  * @param {Number}
+	  */
+	 $scope.setPageQueryInfo = function(searchParams, pagination, start, limit) {
+	 	searchParams.start = start;
+	 	searchParams.limit = limit;
+	 	pagination.start = start;
+	 	pagination.number = limit;
+	 }
+
+	 /**
+	  * 페이지네이션 결과 정보를 설정한다. 
+	  * 
+	  * @param {Number}
+	  * @param {Number}
+	  * @param {Number}
+	  */
+	 $scope.setPageReultInfo = function(total_count, total_page, current_page) {
+ 		$scope.pageInfo.total = total_count;
+ 		$scope.pageInfo.total_page = total_page;
+ 		$scope.pageInfo.current_page = current_page;
+
+ 		if($scope.tablestate && $scope.tablestate.pagination) {
+ 			$scope.tablestate.pagination.totalItemCount = total_count;
+ 			$scope.tablestate.pagination.numberOfPages = total_page;
+ 			$scope.tablestate.pagination.currentPage = current_page;
+ 		}
+	 };
+
+	 /**
+	  * infinite scorll directive에서 호출 
+	  * 
+	  * @return {Object}
+	  */
+	 $scope.beforeSearch = function() {
 	 	var searchParams = angular.copy($scope.searchParams);
 	 	searchParams.fleet_group_id = searchParams.group ? searchParams.group.id : '';
 	 	searchParams.fleet_id = searchParams.fleet ? searchParams.fleet.name : '';
-	 	searchParams = $scope.normalizeSearchParams(searchParams);
-	 	searchParams.start = $scope.tablestate.pagination.start;
-	 	searchParams.limit = $scope.tablestate.pagination.number;
+	 	return $scope.normalizeSearchParams(searchParams);
+	 };
 
-	 	if(!$scope.scrollUpFlag && ($scope.items.length == 0 || $scope.items[$scope.items.length - 1].no >= $scope.pageInfo.total)) {
-	 		return;
-	 	} else if($scope.scrollUpFlag && ($scope.items.length == 0 || $scope.items[0].no == 1)) {
-	 		return;
-	 	}
+	 /**
+	  * infinite scorll directive에서 호출 
+	  * 
+	  * @param  {Object}
+	  * @param  {Function}
+	  * @return N/A
+	  */
+	 $scope.doSearch = function(params, callback) {
+	 	RestApi.search('/events.json', params, function(dataSet) {
+	 		callback(dataSet);
+	 	});
+	 };
 
-	 	RestApi.search('/events.json', searchParams, function(dataSet) {
-	 		FmsUtils.setEventTypeClasses(dataSet.items);
-	 		$scope.eventTypeSummaries = FmsUtils.getEventTypeSummaries(dataSet.items);
-	 		$scope.itemNumbering(dataSet.items);
-	 		$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
-
-	 		if(!$scope.scrollUpFlag) {
-	 			$scope.items = $scope.items.concat(dataSet.items);
-				if ($scope.items.length > $scope.maxItems) {
-					// buffer 개수가 max buffer 이상이면 앞에서 부터 한 페이지 개수만큼 비운다.
-					$scope.items.splice(0, 20);
-				}
-			} else {
-				$scope.items = dataSet.items.concat($scope.items);
-				if ($scope.items.length > $scope.maxItems) {
-					var removeCount = $scope.items.length - $scope.maxItems;
-					// buffer 개수가 max buffer 이상이면 뒤에서 부터 한 페이지 개수만큼 비운다.
-					$scope.items.splice($scope.items.length - 20, 20);
-				}
-			}
-
-			$scope.$emit('monitor-event-list-change', $scope.items);
-			// grid container를 새로 설정한다.
-			FmsUtils.setGridContainerHieght('monitor-alert-table-container');
-		});
-	};
+	 /**
+	  * infinite scorll directive에서 호출 
+	  * 
+	  * @param  {Object}
+	  * @return N/A
+	  */
+	 $scope.afterSearch = function(dataSet) {
+	 	$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
+ 		FmsUtils.setEventTypeClasses($scope.items);
+ 		$scope.eventTypeSummaries = FmsUtils.getEventTypeSummaries($scope.items);
+ 		// Map에 정보를 전달하여 지도에 표시하게 한다.
+		$scope.$emit('monitor-event-list-change', $scope.items);
+		// grid container를 새로 설정한다.
+		FmsUtils.setGridContainerHieght('monitor-alert-table-container');
+	 };
 
 	/**
 	 * show event info window to map
@@ -328,7 +283,8 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	 * map refresh 
 	 */	
 	 $rootScope.$on('monitor-refresh-event', function(evt, value) {
-		$scope.pageEvents(null);
+		// TODO Refresh는 Items Start ~ End No.로 조회한다.
+		$scope.searchEvents(null);
 	});
 
 	/**

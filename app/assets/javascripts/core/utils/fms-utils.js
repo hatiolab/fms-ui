@@ -33,6 +33,9 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 
 			} else if(gridContainerId == 'geofence-table-container') {
 				newHeight = newHeight - 330;
+
+			} else if(gridContainerId == 'setting-driver-table-container') {
+				newHeight = newHeight - 270;
 			}
 
 			if(newHeight > 10) {

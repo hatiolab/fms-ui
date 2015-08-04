@@ -5,29 +5,113 @@
  .directive('stPaginationScroll', ['$timeout', function (timeout) {
 
   return {
+
     require: 'stTable',
 
     link: function (scope, element, attr, ctrl) {
+     /**
+      * 그리드가 가질 수 있는 최대 버퍼 사이즈 
+      * 
+      * @type {Number}
+      */
+      var gridBufferCount = 100;
       var itemByPage = 20;
-      var pagination = ctrl.tableState().pagination;
       var lengthThreshold = 20;
       var timeThreshold = 400;
+      var pagination = ctrl.tableState().pagination;
 
-      var prevPage = function () {
-        //call previous page
-        scope.scrollUpFlag = true;
-        var start = scope.items[0].no;        
-        if(start > itemByPage) {
-          ctrl.slice(start - itemByPage - 1, itemByPage);
+      /**
+       * Items Numbering
+       * 
+       * @param  {Array}
+       * @return N/A
+       */
+       var itemNumbering = function(scrollUp, items) {
+        var startNo = 1;
+
+        if($scope.items && $scope.items.length > 0) {
+          startNo = scrollUp ? ($scope.items[0].no - 20) : ($scope.items[$scope.items.length - 1].no + 1);
+        }
+
+        for(var i = 0 ; i < items.length ; i++) {
+          items[i].no = startNo++;
         }
       };
 
+      /**
+       * pagination search
+       * 
+       * @param  {Boolean}
+       * @param  {Start}
+       * @param  {Limit}
+       * @return N/A
+       */
+      var searchByPage = function(scrollUp, start, limit) {
+        if(!scrollUp && (scope.items.length == 0 || scope.items[scope.items.length - 1].no >= pagination.totalItemCount)) {
+          return;
+        } 
+
+        if(scrollUp && (scope.items.length == 0 || scope.items[0].no == 1)) {
+          return;
+        }
+
+        var searchParams = scope.beforeSearch();
+        scope.setPageQueryInfo(searchParams, pagination, start, limit);
+
+        scope.doSearch(searchParams, function(dataSet) {
+          itemNumbering(scrollUp, dataSet.items);
+
+          if(!scrollUp) {
+            scope.items = scope.items.concat(dataSet.items);
+            if (scope.items.length > gridBufferCount) {
+              // buffer 개수가 max buffer 이상이면 앞에서 부터 한 페이지 개수만큼 비운다.
+              scope.items.splice(0, 20);
+            }
+          } else {
+            scope.items = dataSet.items.concat(scope.items);
+            if (scope.items.length > gridBufferCount) {
+              var removeCount = scope.items.length - gridBufferCount;
+              // buffer 개수가 max buffer 이상이면 뒤에서 부터 한 페이지 개수만큼 비운다.
+              scope.items.splice(scope.items.length - 20, 20);
+            }
+          }
+
+          scope.afterSearch(dataSet);
+        });
+      };
+
+      /**
+       * 이전 페이지 검색 - Scroll Up
+       * 
+       * @return {[type]}
+       */
+      var prevPage = function () {
+        var start = (scope.items && scope.items.length > 0) ? scope.items[0].no : 0;
+        if(start > itemByPage) {
+          start = start - itemByPage - 1;
+          searchByPage(true, start, itemByPage);          
+        }
+
+        /*scope.scrollUpFlag = true;
+        var start = scope.items[0].no;        
+        if(start > itemByPage) {
+          ctrl.slice(start - itemByPage - 1, itemByPage);
+        }*/
+      };
+
+      /**
+       * 다음 페이지 검색 - Scroll Down
+       * 
+       * @return {[type]}
+       */
       var nextPage = function () {
-        //call next page
-        scope.scrollUpFlag = false;
+        var start = (scope.items && scope.items.length > 0) ? scope.items[scope.items.length - 1].no : 0;
+        searchByPage(false, start, itemByPage);
+
+        /*scope.scrollUpFlag = false;
         var start = scope.items[scope.items.length - 1].no;
         pagination.start = start;
-        ctrl.slice(pagination.start, itemByPage);
+        ctrl.slice(pagination.start, itemByPage);*/
       };
 
       var promise = null;
@@ -58,7 +142,7 @@
           }, timeThreshold);
 
         } else {
-          if(scope.items.length == 0 || scope.items[scope.items.length - 1].no >= scope.pageInfo.total) {
+          if(scope.items.length == 0 || scope.items[scope.items.length - 1].no >= pagination.totalItemCount) {
             return;
           }
 
