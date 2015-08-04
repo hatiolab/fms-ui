@@ -6,7 +6,7 @@
 						<li><a href="#/settings/fleets" class="menu-icon fleets">Fleets</a></li>
 						<li><a href="#/settings/groups" class="menu-icon group">Groups</a></li>
 						<li><a href="#/settings/preferences" class="menu-icon preferences">Preferences</a></li>
-						<button type="button" class="btn btn-default panel-refresh pull-right"></button>
+						<button id="searchDrivers" type="button" class="btn btn-default panel-refresh pull-right"></button>
 					</ul>
 					<!-- menu end -->
 						
@@ -14,28 +14,28 @@
 						<div class="form-group">
 					    <label class="col-xs-12 col-sm-3 col-md-2 control-label">ID</label>
 					    <div class="col-xs-11 col-sm-7 col-md-6 padding-clear">
-					    	<input type="text" name="code" ng-model="driverSearchParams.code" placeholder="ID"></input>
+					    	<input type="text" name="code" ng-model="searchParams.code" placeholder="ID"></input>
 					    </div>
 						</div>
 
 						<div class="form-group">
 					    <label class="col-xs-12 col-sm-3 col-md-2 control-label">Name</label>
 					    <div class="col-xs-11 col-sm-7 col-md-6 padding-clear">
-					    	<input type="text" name="name" ng-model="driverSearchParams.name" placeholder="Name"></input>
+					    	<input type="text" name="name" ng-model="searchParams.name" placeholder="Name"></input>
 					    </div>
 						</div>
 
 						<div class="form-group">
 					    <label class="col-xs-12 col-sm-3 col-md-2 control-label">Division</label>
 					    <div class="col-xs-11 col-sm-7 col-md-6 padding-clear">
-					    	<input type="text" name="division" ng-model="driverSearchParams.division" placeholder="Division"></input>
+					    	<input type="text" name="division" ng-model="searchParams.division" placeholder="Division"></input>
 					    </div>
 						</div>
 					</form>
 
 					<!-- table begin -->
 					<div class="search-table">
-						<table class="table table-striped table-hover" data-cache="false" data-height="299">
+						<table class="table table-striped table-hover" st-pagination-scroll st-table="items" st-pipe="pageDrivers">
 					    <thead>
 					      <tr>
 					        <th data-field="code">ID</th>
@@ -44,13 +44,11 @@
 					      </tr>
 					    </thead>
 							<tbody>
-							 	<!-- <div infinite-scroll='driverItems.nextPage()' infinite-scroll-disabled='driverItems.busy' infinite-scroll-distance='1'> -->
-									<tr ng-repeat="driver in driverItems" ng-click="goDriver(driver)">
-										<td>{{driver.code}}</td>
-										<td>{{driver.name}}</td>
-										<td>{{driver.division}}</td>
-									</tr>
-							  	<!-- </div> -->
+								<tr ng-repeat="driver in items" ng-click="goDriver(driver)">
+									<td>{{driver.code}}</td>
+									<td>{{driver.name}}</td>
+									<td>{{driver.division}}</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>

@@ -4,7 +4,7 @@
 	<div class="form-group">
     <label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">group</label>
     <div class="col-xs-11 col-sm-7 col-md-6 padding-clear">
-      <select name="group" class="form-control" ng-model="eventSearchParams.group" ng-init="selected=''"
+      <select name="group" class="form-control" ng-model="searchParams.group" ng-init="selected=''"
        ng-options="group.name for group in groups" >
        	<option></option>
 			</select>
@@ -16,7 +16,7 @@
 	<div class="form-group">
     <label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">vehicle</label>
     <div class="col-xs-11 col-sm-7 col-md-6 padding-clear">
-      <select name="fleet" class="form-control" ng-model="eventSearchParams.fleet" ng-init="selected=''"
+      <select name="fleet" class="form-control" ng-model="searchParams.fleet" ng-init="selected=''"
        ng-options="fleet.name for fleet in fleets" >
        	<option></option>
 			</select>
@@ -29,7 +29,7 @@
     <label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">period</label>
     <div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
 			<div id="monitor-side-alert-datepicker1" class="input-append date">
-		    <input id="ctm_gte" name="ctm_gte" data-format="yyyy-MM-dd" type="text" ng-model="eventSearchParams.ctm_gte" placeholder="from">
+		    <input id="ctm_gte" name="ctm_gte" data-format="yyyy-MM-dd" type="text" ng-model="searchParams.ctm_gte" placeholder="from">
 		    </input>
 		    <span class="add-on">
 		      <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
@@ -39,7 +39,7 @@
 		<span class="col-xs-1 col-sm-1 col-md-1 padding-clear align-center margin-t7">~</span>
     <div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
 			 <div id="monitor-side-alert-datepicker2" class="input-append date">
-		     <input id="ctm_lte" name="ctm_lte" data-format="yyyy-MM-dd" type="text" ng-model="eventSearchParams.ctm_lte" placeholder="to"></input>
+		     <input id="ctm_lte" name="ctm_lte" data-format="yyyy-MM-dd" type="text" ng-model="searchParams.ctm_lte" placeholder="to"></input>
 		     <span class="add-on">
 		       <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
 		     </span>
@@ -54,25 +54,25 @@
 		<div class="col-xs-11 col-sm-9 col-md-10 padding-clear">
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" ng-model="eventSearchParams.typ_impact" ng-true-value="'G'">
+					<input type="checkbox" ng-model="searchParams.typ_impact" ng-true-value="'G'">
 						<span class="type-icon impact"></span>impact
 				</label>
 			</div>
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" ng-model="eventSearchParams.typ_speed" ng-true-value="'V'">
+					<input type="checkbox" ng-model="searchParams.typ_speed" ng-true-value="'V'">
 						<span class="type-icon overspeed"></span>over speed
 				</label>
 			</div>
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" ng-model="eventSearchParams.typ_geofence" ng-true-value="'I'">
+					<input type="checkbox" ng-model="searchParams.typ_geofence" ng-true-value="'I'">
 						<span class="type-icon geofence"></span>geofence
 				</label>
 			</div>
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" ng-model="eventSearchParams.typ_emergency" ng-true-value="'B'">
+					<input type="checkbox" ng-model="searchParams.typ_emergency" ng-true-value="'B'">
 						<span class="type-icon emergency"></span>emergency
 				</label>
 			</div>
@@ -96,7 +96,9 @@ severity begin -->
 <!-- status begin -->
 <div class="status">
 	<div class="pull-left col-xs-12 col-sm-5 col-md-5">
-		total : <strong>{{events.total}}</strong>
+		total : <strong>{{tablestate.pagination.totalItemCount}}</strong>
+		start : <strong>{{tablestate.pagination.start}}</strong>
+		page : <strong>{{tablestate.pagination.currentPage}} / {{tablestate.pagination.numberOfPages}}</strong>
 	</div>
 	<div class="pull-right col-xs-12 col-sm-7 col-md-7 align-right">
 		<span class="type-icon impact-white"></span>{{eventTypeSummaries.impact}}
@@ -109,7 +111,7 @@ severity begin -->
 
 <!-- table begin -->
 <div id="monitor-alert-table-container" class="search-table">
-	<table class="table table-striped table-hover" st-pagination-scroll st-table="eventItems" st-pipe="pageEvents">
+	<table class="table table-striped table-hover" st-pagination-scroll st-table="items" st-pipe="pageEvents">
 		<thead>
 			<tr>
 				<th>#</th>
@@ -121,27 +123,19 @@ severity begin -->
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="eventItem in eventItems">
-				<td>{{eventItem.no}}</td>
-				<td>{{eventItem.fid}}</td>
-				<td>{{eventItem.driver.name}}</td>
-				<td>{{eventItem.etm | date:'medium'}}</td>
-				<td class="icon-td align-center" ng-click="showEventInfo(eventItem)">
-					<span class="{{eventItem.typeClass}}"></span>
+			<tr ng-repeat="item in items">
+				<td>{{item.no}}</td>
+				<td>{{item.fid}}</td>
+				<td>{{item.driver.name}}</td>
+				<td>{{item.etm | date:'medium'}}</td>
+				<td class="icon-td align-center" ng-click="showEventInfo(item)">
+					<span class="{{item.typeClass}}"></span>
 				</td>
-				<td class="icon-td align-center" ng-click="showTrip(eventItem)">
-					<span class="icon-trip" ng-show="eventItem.tid != null && eventItem.tid != ''"></span>
+				<td class="icon-td align-center" ng-click="showTrip(item)">
+					<span class="icon-trip" ng-show="item.tid != null && item.tid != ''"></span>
 				</td>
 			</tr>
 		</tbody>
-		<!--tfoot>
-			<tr>
-				<td class="text-center" colspan="5">
-					<div st-pagination="" st-items-by-page="events.limit" st-displayed-pages="events.total_page">
-					</div>
-				</td>
-			</tr>
-		</tfoot-->
 	</table>
 </div>
 <!-- table end -->

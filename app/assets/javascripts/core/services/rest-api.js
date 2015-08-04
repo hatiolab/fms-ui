@@ -21,7 +21,7 @@ angular.module('fmsCore').factory('RestApi', function($resource) {
 			rsc.get(function(dataSet, response) {
 				dataSet.start = params.start;
 				dataSet.limit = params.limit;
-				dataSet.page = params.page;
+				dataSet.page = Math.ceil(dataSet.start / dataSet.limit) + 1;
 				dataSet.total_page = (dataSet.total > params.limit) ? Math.ceil(dataSet.total / params.limit) : 1;
 				callback(dataSet); 
 			});

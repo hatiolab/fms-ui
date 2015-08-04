@@ -521,11 +521,11 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	/**
 	 * Sidebar에서 Event 조회시
 	 */
-	$rootScope.$on('monitor-event-list-change', function(evt, eventDataSet) {
+	$rootScope.$on('monitor-event-list-change', function(evt, eventItems) {
 		$scope.viewMode = 'EVENT';
 
-		if(eventDataSet && eventDataSet.items) {
-			$scope.refreshEvents(eventDataSet.items);
+		if(eventItems && eventItems.length > 0) {
+			$scope.refreshEvents(eventItems);
 		}
 	});
 

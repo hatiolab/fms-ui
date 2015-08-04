@@ -5,12 +5,9 @@ angular.module('fmsSettings').directive('driverList', function() {
 		templateUrl: '/assets/settings/views/sidebars/drivers.html',
 		scope: {},
 		link : function(scope, element, attr, driverListCtrl) {
-			// 버튼이 Directive Element 바깥쪽에 있어서 버튼 클릭함수를 이용 ...
-			// scope.findDrivers();
 			scope.pageDrivers(null);
 			var refreshButton = angular.element('button');
 			refreshButton.bind("click", function() {
-				// scope.findDrivers();
 				scope.pageDrivers(null);
 			});
 		}
@@ -39,7 +36,7 @@ angular.module('fmsSettings').directive('driverList', function() {
 	/**
 	 * 폼 모델 초기화 
 	 */
-	$scope.driverSearchParams = {};
+	$scope.searchParams = {};
 
 	/**
 	 * Rails Server의 스펙에 맞도록 파라미터 변경 ...
@@ -72,7 +69,7 @@ angular.module('fmsSettings').directive('driverList', function() {
 			$scope.driverInit = true;
 		}
 		if(!params || params == {}) {
-			searchParams = angular.copy($scope.driverSearchParams);
+			searchParams = angular.copy($scope.searchParams);
 		}
 
 		searchParams = $scope.normalizeSearchParams(searchParams);
@@ -112,7 +109,7 @@ angular.module('fmsSettings').directive('driverList', function() {
 			$scope.tablestate = tablestate;
 		}
 
-		var searchParams = angular.copy($scope.driverSearchParams);
+		var searchParams = angular.copy($scope.searchParams);
 		searchParams = $scope.normalizeSearchParams(searchParams);
 		searchParams.start = $scope.tablestate.pagination.start;
 		searchParams.limit = $scope.tablestate.pagination.number;
@@ -138,24 +135,13 @@ angular.module('fmsSettings').directive('driverList', function() {
 
 	/**
 	 * [watch drivers SearchParams in page scope, if changed trigger pageFleets in same scope]
-	 * @param  $scope.driverSearchParams
+	 * @param  $scope.searchParams
 	 * @return null
 	 */
-	$scope.$watchCollection('driverSearchParams', function() {
+	$scope.$watchCollection('searchParams', function() {
 		if($scope.driverInit) {
-			//$scope.findDrivers(null);
 			$scope.pageDrivers(null);
 		}
 	});
-
-
-	/**
-	 * 초기화 함수 
-	 */
-	$scope.init = function() {
-		
-	};
-
-	$scope.init();
 
 });
