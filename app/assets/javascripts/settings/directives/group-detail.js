@@ -6,7 +6,7 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 		scope: {}
 	}; 
 })
-.controller('groupDetailCtrl', function($rootScope, $scope, $resource, $element, ModalUtils, RestApi) {
+.controller('groupDetailCtrl', function($rootScope, $scope, $resource, $element, ModalUtils, FmsUtils, RestApi) {
 	/**
 	 * Selected Driver Item
 	 * 
@@ -20,8 +20,9 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 	 * @param  {String}
 	 * @param  handler function
 	 */
-	$rootScope.$on('setting-group-item-change', function(event, fleet) {
-		$scope.item = fleet;
+	$rootScope.$on('setting-group-item-change', function(event, group) {
+		$scope.item = group;
+		FmsUtils.setGridContainerHieght('setting-group-relation-table-container');
 	});
 
 	/**
