@@ -27,14 +27,14 @@ angular.module('fmsSettings').directive('driverList', function() {
 	 */
 	$scope.tablestate = null;
 	/**
-	 * 폼 모델 초기화 
+	 * 검색 조건 모델 
 	 */
 	$scope.searchParams = {};
 	/**
 	 * [drivers init 처음 전체 페이지 로딩시는 fleet data 자동조회 하지 않는다.]
 	 * @type {Boolean}
 	 */
-	$scope.driverInit = false;
+	$scope.searchEnabled = false;
 
 	/**
 	 * Rails Server의 스펙에 맞도록 파라미터 변경 ...
@@ -42,7 +42,7 @@ angular.module('fmsSettings').directive('driverList', function() {
 	 * @param  {Object}
 	 */
 	$scope.normalizeSearchParams = function(params) {
-		var searchParams = {};
+		var searchParams = {'_o[code]' : 'asc'};
 
 		if(!params || FmsUtils.isEmpty(params)) {
 			return searchParams;
@@ -51,7 +51,6 @@ angular.module('fmsSettings').directive('driverList', function() {
 		searchParams['_q[code-like]'] = params.code;
 		searchParams['_q[division-like]'] = params.division;
 		searchParams['_q[name-like]'] = params.name;
-		searchParams['_o[code]'] = 'asc';
 		return searchParams;
 	};
 
@@ -62,8 +61,8 @@ angular.module('fmsSettings').directive('driverList', function() {
 	 * @return N/A
 	 */
 	$scope.searchDrivers = function(tablestate) {
-		if(!$scope.driverInit) {
-			$scope.driverInit = true;
+		if(!$scope.searchEnabled) {
+			$scope.searchEnabled = true;
 			$scope.tablestate = tablestate;
 			$scope.tablestate.pagination.number = 20;
 		}
@@ -167,7 +166,7 @@ angular.module('fmsSettings').directive('driverList', function() {
 	 * @param  {Object}
 	 * @return N/A
 	 */
-	$scope.goDriver = function(driver) {
+	$scope.goItem = function(driver) {
 		$scope.$emit('setting-driver-item-change', driver);
 	};
 
@@ -187,7 +186,7 @@ angular.module('fmsSettings').directive('driverList', function() {
 	 * @return null
 	 */
 	$scope.$watchCollection('searchParams', function() {
-		if($scope.driverInit) {
+		if($scope.searchEnabled) {
 			$scope.searchDrivers(null);
 		}
 	});

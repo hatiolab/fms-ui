@@ -35,7 +35,7 @@ angular.module('fmsSettings').config(function($stateProvider, $urlRouterProvider
 				template: '<fleet-list></fleet-list>'
 			},
 			'content-view@' : {
-				templateUrl: '/assets/settings/views/contents/fleets.html'
+				template: '<fleet-detail></fleet-detail>'
 			}
 		}
 	})
@@ -47,7 +47,7 @@ angular.module('fmsSettings').config(function($stateProvider, $urlRouterProvider
 				template: '<group-list></group-list>'
 			},
 			'content-view@' : {
-				templateUrl: '/assets/settings/views/contents/groups.html'
+				template: '<group-detail></group-detail>'
 			}
 		}
 	})
@@ -59,7 +59,7 @@ angular.module('fmsSettings').config(function($stateProvider, $urlRouterProvider
 				template: '<preference-list></preference-list>'
 			},
 			'content-view@' : {
-				templateUrl: '/assets/settings/views/contents/preferences.html'
+				template: '<preference-detail></preference-detail>'
 			}
 		}
 	});

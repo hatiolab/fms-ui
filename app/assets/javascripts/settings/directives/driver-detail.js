@@ -49,7 +49,7 @@ angular.module('fmsSettings').directive('driverDetail', function() {
 	 * @return {Boolean}
 	 */
 	$scope.showAlerMsg = function(msg) {
-		ModalUtils.alert('sm', 'Alert', 'Name must not be empty!');
+		ModalUtils.alert('sm', 'Alert', msg);
 		return false;
 	};
 
