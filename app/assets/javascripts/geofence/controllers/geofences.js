@@ -163,6 +163,7 @@ angular.module('fmsGeofence',['uiGmapgoogle-maps'])
 		$scope.geofence.id = '';
 		$scope.geofence.name = '';
 		$scope.geofence.description = '';
+		$scope.$emit('geofence-item-new', $scope.geofence);
 	};
 
 	/**

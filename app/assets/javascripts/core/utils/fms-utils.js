@@ -7,7 +7,13 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 		 * 전체 윈도우 Height에서 테이블 제외 Height를 뺀 Height를 설정해준다.
 		 */		
 		resetAllGridContainerHeight : function() {
-			var gridContainers = ['monitor-alert-table-container', 'monitor-fleet-table-container'];
+			var gridContainers = [
+				'monitor-alert-table-container', 
+				'monitor-fleet-table-container',
+				'geofence-table-container',
+				'setting-driver-table-container'
+			];
+			
 			var me = this;
 			angular.forEach(gridContainers, function(gridContainerId) {
 				me.setGridContainerHieght(gridContainerId)

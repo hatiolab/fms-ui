@@ -6,22 +6,23 @@ angular.module('fmsGeofence')
 		 */
 		$scope.isSidebarToggle = true;
 		/**
+		 * selected geofence
+		 * 
+		 * @type {Object}
+		 */
+		$scope.geofence = { id : '', name : '', description : '' };
+		/**
 		 * map option
 		 */
 		$scope.mapOption = { center: { latitude: DEFAULT_LAT, longitude: DEFAULT_LNG }, zoom: 9 };
 		/**
 		 * map control
+		 * 
 		 * @type {Object}
 		 */
 		$scope.mapControl = {};
 		/**
-		 * selected geofence
-		 * 
-		 * @type {Object}
-		 */
-		$scope.geofence = {id : '', name : '', description : ''};
-		/**
-		 * polygon option
+		 * Polygon option
 		 */
 		$scope.polygon = {
 			path : [],
@@ -31,22 +32,23 @@ angular.module('fmsGeofence')
 				visible : true,
 				geodesic : false,
 				fill : { color : '#ff0000', opacity : 0.45 },
-				editable : true,
+				editable : false,
 				draggable : false,
 			}
 		};
 
 		/**
-		 * [drawingManagerOptions description]
+		 * DrawingManagerOptions Object
+		 * 
 		 * @type {Object}
 		 */
 		$scope.drawingManagerOptions = {
-			drawingMode: google.maps.drawing.OverlayType.POLYGON,
-			drawingControl: true,
+			drawingMode: null,
+			drawingControl: false,
 			drawingControlOptions: {
 				position: google.maps.ControlPosition.TOP_CENTER,
 				drawingModes: [
-					google.maps.drawing.OverlayType.POLYGON
+					//google.maps.drawing.OverlayType.POLYGON
 					//google.maps.drawing.OverlayType.MARKER,
 					//google.maps.drawing.OverlayType.CIRCLE,
 					//google.maps.drawing.OverlayType.POLYLINE,
@@ -58,13 +60,14 @@ angular.module('fmsGeofence')
 				fillOpacity: 1,
 				strokeWeight: 5,
 				clickable: false,
-				editable: true,
+				editable: false,
 				zIndex: 1
 			}
 		};
 
 		/**
-		 * [drawingManagerEvents description]
+		 * DrawingManagerEvents Object
+		 * 
 		 * @type {Object}
 		 */
 		$scope.drawingManagerEvents = {
@@ -96,7 +99,28 @@ angular.module('fmsGeofence')
 		});
 
 		/**
-		 * @return {[type]}
+		 * Set Polygon Drawing Mode
+		 * 
+		 * @param {Boolean}
+		 */
+		$scope.setDrawingMode = function(drawingFlag) {
+			$scope.drawingManagerOptions.drawingControl = drawingFlag;
+
+			if(drawingFlag) {
+				$scope.drawingManagerOptions.drawingMode = google.maps.drawing.OverlayType.POLYGON;
+				if($scope.drawingManagerOptions.drawingControlOptions.drawingModes.indexOf(google.maps.drawing.OverlayType.POLYGON) < 0)
+					$scope.drawingManagerOptions.drawingControlOptions.drawingModes.push(google.maps.drawing.OverlayType.POLYGON);
+
+			} else {
+				$scope.drawingManagerOptions.drawingMode = null;
+				$scope.drawingManagerOptions.drawingControlOptions.drawingModes.pop(google.maps.drawing.OverlayType.POLYGON);
+			}
+		};
+
+		/**
+		 * Clear Polygon
+		 * 
+		 * @return N/A
 		 */
 		$scope.clearPolygon = function() {
 			var polyPath = $scope.polygon.path;
@@ -108,7 +132,9 @@ angular.module('fmsGeofence')
 		};
 
 		/**
-		 * @param {[type]}
+		 * Set Polygon Type
+		 * 
+		 * @param {Object}
 		 */
 		$scope.setPolygon = function(paths) {
 			$scope.clearPolygon();
@@ -135,12 +161,13 @@ angular.module('fmsGeofence')
 		/**
 		 * geofence item selected
 		 * 
-		 * @param  {string}
+		 * @param  {String}
 		 * @param  handler function
 		 */
 		$rootScope.$on('geofence-item-selected', function(event, geofence) {
 			$scope.geofence = geofence;
 			$scope.resetPolygon();
+			$scope.setDrawingMode(true);
 
 			RestApi.get('/polygons.json', { '_q[geofence_id-eq]' : geofence.id }, function(dataSet) {
 				$scope.setPolygon(dataSet.items);
@@ -148,9 +175,21 @@ angular.module('fmsGeofence')
 		});
 
 		/**
+		 * geofence item new
+		 * 
+		 * @param  {Object}
+		 * @param  {Object}
+		 */
+		$rootScope.$on('geofence-item-new', function(event, emptyGeofence) {
+			$scope.geofence = emptyGeofence;
+			$scope.resetPolygon();
+			$scope.setDrawingMode(false);
+		});
+
+		/**
 		 * save polygon
 		 * 
-		 * @return {object}
+		 * @return {Object}
 		 */
 		$scope.savePolygon = function() {
 			var multipleData = [], paths = $scope.polygon.path;
@@ -163,16 +202,17 @@ angular.module('fmsGeofence')
 				});
 			}
 
-			var result = RestApi.updateMultiple('/geofences/' + $scope.geofence.id + '/update_multiple_polygons.json', null, multipleData);
+			var url = '/geofences/' + $scope.geofence.id + '/update_multiple_polygons.json';
+			var result = RestApi.updateMultiple(url, null, multipleData);
 			result.$promise.then(function(data) {
 				// TODO success or failure popup
 			});
 		};
 
 		/**
-		 * delete polygon
+		 * Delete polygon
 		 * 
-		 * @return {[type]}
+		 * @return N/A
 		 */
 		$scope.deletePolygon = function() {
 			if($scope.polygon.id && $scope.polygon.id != '') {
@@ -184,9 +224,9 @@ angular.module('fmsGeofence')
 		};
 
 		/**
-		 * reset polygon
+		 * Reset polygon
 		 * 
-		 * @return {[type]}
+		 * @return N/A
 		 */
 		$scope.resetPolygon = function() {
 			$scope.clearPolygon();
