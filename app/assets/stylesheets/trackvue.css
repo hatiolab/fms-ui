@@ -23,6 +23,7 @@ label input[type="checkbox"]{margin-right:5px;}
 .align-center{text-align:center !important;}
 .align-right{text-align:right !important;}
 .margin-t5{margin-top:5px;}
+.margin-r5{margin-right:5px;}
 .margin-b5{margin-bottom:5px !important;}
 .margin-t7{margin-top:7px;}
 .margin-r7{margin-right:7px;}
@@ -202,6 +203,8 @@ font-size:11px;color:#666;}
 .setting-content fieldset{margin:0 15px 25px 15px;padding-bottom:5px;border:1px solid #d1dae4;}
 .setting-content fieldset legend{margin-left:10px;margin-bottom:5px;padding:0 5px;border:none;width:initial !important;color:#6883ae;font-weight:normal;}
 .setting-content fieldset .form-group{margin-bottom:10px;}
+.setting-content button.photo-fleet{background:url(/assets/icon-setting-menu.png) -795px -197px no-repeat #fff;height:24px;width:27px;}
+.setting-content button.photo-driver{background:url(/assets/icon-setting-menu.png) -795px -97px no-repeat #fff;height:24px;width:27px;min-height:24px;}
 .form-horizontal .radio{padding-top:0;}
 .setting-content .form-horizontal input[type="radio"]{margin-top:0;}
 .setting-content fieldset .align-left{padding-left:15px !important;}
