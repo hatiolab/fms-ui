@@ -215,12 +215,14 @@ angular.module('fmsGeofence')
 		 * @return N/A
 		 */
 		$scope.deletePolygon = function() {
-			if($scope.polygon.id && $scope.polygon.id != '') {
-				RestApi.delete('/polygons/' + $scope.polygon.id + '.json', {}, function(result) {
-					$scope.resetPolygon();
-					$scope.$emit('geofence-items-change', null);
-				});
+			if(!$scope.polygon.id || $scope.polygon.id == '') {
+				return;
 			}
+
+			RestApi.delete('/polygons/' + $scope.polygon.id + '.json', {}, function(result) {
+				$scope.resetPolygon();
+				$scope.$emit('geofence-items-change', null);
+			});
 		};
 
 		/**

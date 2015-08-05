@@ -5,7 +5,7 @@ angular.module('fmsSettings').directive('driverList', function() {
 		templateUrl: '/assets/settings/views/sidebars/drivers.html',
 		scope: {},
 		link : function(scope, element, attr, driverListCtrl) {
-			var refreshButton = angular.element('button');
+			var refreshButton = element.find('#searchDrivers');
 			refreshButton.bind("click", function() {
 				scope.searchDrivers(scope.tablestate);
 			});
@@ -162,42 +162,24 @@ angular.module('fmsSettings').directive('driverList', function() {
 	 };
 
 	/**
-	 * [pagedrivers call search by pagenation]
-	 * @param  {[object]} tablestate [smart table object]
-	 * @return N/A
-	 */
-	/*$scope.pageDrivers = function(tablestate) {
-		if(!$scope.driverInit) {
-			$scope.driverInit = true;
-			$scope.tablestate = tablestate;
-			$scope.tablestate.pagination.number = 20;
-		}
-
-		if(tablestate) {
-			$scope.tablestate = tablestate;
-		}
-
-		var searchParams = angular.copy($scope.searchParams);
-		searchParams = $scope.normalizeSearchParams(searchParams);
-		searchParams.start = $scope.tablestate.pagination.start;
-		searchParams.limit = $scope.tablestate.pagination.number;
-
-		RestApi.search('/drivers.json', searchParams, function(dataSet) {
-			$scope.drivers = dataSet;
-			$scope.items = dataSet.items;
-			$scope.tablestate.pagination.totalItemCount = dataSet.total;
-			$scope.tablestate.pagination.numberOfPages = dataSet.total_page;
-		});
-	};*/
-
-	/**
 	 * Show driver info to contents
-	 * @param  {[object]} driver [call driver information one by one]
+	 * 
+	 * @param  {Object}
 	 * @return N/A
 	 */
 	$scope.goDriver = function(driver) {
 		$scope.$emit('setting-driver-item-change', driver);
 	};
+
+	/**
+	 * Driver items changed so the list must be refreshed
+	 * 
+	 * @param  {String}
+	 * @param  handler function
+	 */
+	$rootScope.$on('setting-driver-items-change', function(event) {
+		$scope.searchDrivers($scope.tablestate);
+	});
 
 	/**
 	 * [watch drivers SearchParams in page scope, if changed trigger pageFleets in same scope]

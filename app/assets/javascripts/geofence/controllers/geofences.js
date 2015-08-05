@@ -1,5 +1,5 @@
 angular.module('fmsGeofence',['uiGmapgoogle-maps'])
-.controller('GeofenceCtrl', function($rootScope, $scope, $resource, $element, ConstantSpeed, FmsUtils, RestApi) {
+.controller('GeofenceCtrl', function($rootScope, $scope, $resource, $element, ConstantSpeed, FmsUtils, ModalUtils, RestApi) {
 	
 	/**
 	 * 사이드 바 토글 변수
@@ -124,6 +124,10 @@ angular.module('fmsGeofence',['uiGmapgoogle-maps'])
 	 * @return {[type]}
 	 */
 	$scope.saveGeofence = function() {
+		if(!$scope.checkValidForm()) {
+			return;
+		}
+
 		if($scope.geofence.id && $scope.geofence.id != '') {
 			var url = '/geofences/' + $scope.geofence.id + '.json';
 			var result = RestApi.update(url, null, {geofence : $scope.geofence});
@@ -135,8 +139,22 @@ angular.module('fmsGeofence',['uiGmapgoogle-maps'])
 			var result = RestApi.create('/geofences.json', null, {geofence : $scope.geofence});
 			result.$promise.then(function(data) {
 				$scope.refreshList();
-			});				
+			});
 		}
+	};
+
+	/**
+	 * Check form validation
+	 * 
+	 * @return N/A
+	 */
+	$scope.checkValidForm = function() {
+		if(!$scope.geofence.name || $scope.geofence.name == '') {
+			ModalUtils.alert('sm', 'Alert', 'Name must not be empty!');
+			return false;
+		}
+
+		return true;
 	};
 
 	/**
@@ -145,13 +163,16 @@ angular.module('fmsGeofence',['uiGmapgoogle-maps'])
 	 * @return {[type]}
 	 */
 	$scope.deleteGeofence = function() {
-		if($scope.geofence.id && $scope.geofence.id != '') {
-			// TODO 사용자 확인 창 띄우기 
+		if(!$scope.geofence.id || $scope.geofence.id == '') {
+			return;
+		}
+
+		ModalUtils.confirm('sm', 'Confirmation', 'Are you sure to delete?', function() {
 			var result = RestApi.delete('/geofences/' + $scope.geofence.id + '.json', null);
 			result.$promise.then(function(data) {
 				$scope.refreshList();
 			});
-		}
+		});
 	};
 
 	/**

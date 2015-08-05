@@ -29,8 +29,8 @@
        var itemNumbering = function(scrollUp, items) {
         var startNo = 1;
 
-        if($scope.items && $scope.items.length > 0) {
-          startNo = scrollUp ? ($scope.items[0].no - 20) : ($scope.items[$scope.items.length - 1].no + 1);
+        if(scope.items && scope.items.length > 0) {
+          startNo = scrollUp ? (scope.items[0].no - 20) : (scope.items[scope.items.length - 1].no + 1);
         }
 
         for(var i = 0 ; i < items.length ; i++) {

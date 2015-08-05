@@ -173,7 +173,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
     $scope.doSearch(searchParams, function(dataSet) {
       $scope.numbering(dataSet.items, 1);
       $scope.items = dataSet.items;
-      scope.afterSearch(dataSet);
+      $scope.afterSearch(dataSet);
     });
 	 };
 

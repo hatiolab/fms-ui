@@ -18,6 +18,8 @@
 //= require angular-smart-table/dist/smart-table.min
 //= require angular-google-maps/dist/angular-google-maps.min
 //= require lodash/lodash.min
+//= require angular-bootstrap/ui-bootstrap.min
+//= require angular-bootstrap/ui-bootstrap-tpls.min
 //= require bs
 //= require_tree .
 //= require_self
