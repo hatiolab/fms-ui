@@ -38,6 +38,7 @@ label input[type="checkbox"]{margin-right:5px;}
 .padding-rl7{padding-left:7px;padding-right:7px;}
 .max-w60{max-width:60px;}
 .max-w100{max-width:100px;}
+.max-w200{max-width:200px;}
 
 .border-rl-lightgray{border:1px solid #d7d7d8;border-width:0 1px;}
 .type-icon{background:url(/assets/icon-type.png) no-repeat;display:inline-block;width:16px;height:16px;margin-right:4px;vertical-align:middle;}

@@ -4,57 +4,80 @@
 		<fieldset>
 			<legend>Interval</legend>
 			<div class="form-group col-xs-12 col-sm-6">
-			 	<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">Batch Interval</label>
+				<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">Batch Interval</label>
 				<div class="col-xs-7 col-sm-8 col-md-8">
-					<select class="form-control">
-						<option>select ..</option>
-					</select>	
+					<input type="number" min="1" class="form-control max-w200 pull-left" ng-model='settings.batch_interval'></input>
+					<span class="pull-left padding-rl7 padding-t4">Hour</span>
+<!-- 						<select class="form-control">
+								<option>select ..</option>
+							</select> -->
 				</div>
 			</div>
 			
 			<div class="form-group col-xs-12 col-sm-6">
-			 	<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">Trip Interval</label>
+				<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">Trip Interval</label>
 				<div class="col-xs-7 col-sm-8 col-md-8">
-					<select class="form-control">
+					<input type="number" min="1" class="form-control max-w200 pull-left" ng-model='settings.trip_interval'></input>
+					<span class="pull-left padding-rl7 padding-t4">Hour</span>
+<!-- 					<select class="form-control">
 						<option>select ..</option>
-					</select>	
+					</select> -->
 				</div>
 			</div>
 			
 			<div class="form-group col-xs-12 col-sm-6">
-			 	<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">GPS Interval</label>
+				<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">GPS Interval</label>
 				<div class="col-xs-7 col-sm-8 col-md-8">
-					<select class="form-control">
+					<input type="number" min="1" class="form-control max-w200 pull-left" ng-model='settings.gps_interval'></input>
+					<span class="pull-left padding-rl7 padding-t4">Minutes</span>
+<!-- 					<select class="form-control">
 						<option>select ..</option>
-					</select>	
+					</select> -->
 				</div>
 			</div>
 			
 			<div class="form-group col-xs-12 col-sm-6">
-			 	<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">Stillcut Interval</label>
+				<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">Stillcut Interval</label>
 				<div class="col-xs-7 col-sm-8 col-md-8">
-					<select class="form-control">
+					<input type="number" min="1" class="form-control max-w200 pull-left" ng-model='settings.stillcut_interval'></input>
+					<span class="pull-left padding-rl7 padding-t4">Minutes</span>
+<!-- 					<select class="form-control">
 						<option>select ..</option>
-					</select>	
+					</select> -->
 				</div>
 			</div>
-	  </fieldset>
+
+			<div class="form-group col-xs-12 col-sm-6">
+				<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">Map Refresh Interval</label>
+				<div class="col-xs-7 col-sm-8 col-md-8">
+					<input type="number" min="1" class="form-control max-w200 pull-left" ng-model='settings.map_refresh_interval'></input>
+					<span class="pull-left padding-rl7 padding-t4">Seconds</span>
+<!-- 					<select class="form-control">
+						<option>select ..</option>
+					</select> -->
+					<div class="checkbox" ng-model= 'setting.map_refresh'>
+						<label><input type="checkbox"> Map Refresh(Y/N)</label>
+					</div>
+				</div>
+			</div>
+
+		</fieldset>
 		<!-- interval fieldset end -->
 		
 		<!-- distance & speed unit begin -->
 		<fieldset>
 			<legend>Distance & Speed Unit</legend>
 			<div class="radio col-xs-6 col-sm-4 col-md-4">
-			  <label>
-			    <input type="radio" name="dns" id="optionsRadios1" value="option1" checked>
-			    Miles
-			  </label>
+				<label>
+					<input type="radio" name="dns" id="optionsRadios1" value="miles" ng-model="settings.distance_unit" checked>
+					Miles
+				</label>
 			</div>
 			<div class="radio col-xs-6 col-sm-4 col-md-4">
-			  <label>
-			    <input type="radio" name="dns" id="optionsRadios2" value="option2">
-			    Kilometers
-			  </label>
+				<label>
+					<input type="radio" name="dns" id="optionsRadios2" value="km" ng-model="settings.distance_unit">
+					Kilometers
+				</label>
 			</div>
 		</fieldset>
 		<!-- distance & speed unit end -->
@@ -64,30 +87,30 @@
 			<legend>Data & Time format</legend>
 			<label class="control-label col-xs-2 col-sm-1 col-md-1 padding-clear align-left">Date</label>
 			<div class="radio col-xs-5 col-sm-3 col-md-3">
-			  <label>
-			    <input type="radio" name="dnt-d" id="optionsRadios1" value="option1" checked>
-			    MM/DD/YYYY
-			  </label>
+				<label>
+					<input type="radio" name="dnt-d" id="optionsRadios1" value="option1" checked>
+					MM/DD/YYYY
+				</label>
 			</div>
 			<div class="radio col-xs-5 col-sm-3 col-md-3">
-			  <label>
-			    <input type="radio" name="dnt-d" id="optionsRadios2" value="option2">
-			    DD/MM/YYYY
-			  </label>
+				<label>
+					<input type="radio" name="dnt-d" id="optionsRadios2" value="option2">
+					DD/MM/YYYY
+				</label>
 			</div>
 			<div class="col-xs-12"></div>
 			<label class="control-label col-xs-2 col-sm-1 col-md-1 padding-clear align-left">Time</label>
 			<div class="radio col-xs-5 col-sm-3 col-md-3">
-			  <label>
-			    <input type="radio" name="dnt-t" id="optionsRadios1" value="option1" checked>
-			    AM/PM
-			  </label>
+				<label>
+					<input type="radio" name="dnt-t" id="optionsRadios1" value="option1" checked>
+					AM/PM
+				</label>
 			</div>
 			<div class="radio col-xs-5 col-sm-3 col-md-3">
-			  <label>
-			    <input type="radio" name="dnt-t" id="optionsRadios2" value="option2">
-			    24HR
-			  </label>
+				<label>
+					<input type="radio" name="dnt-t" id="optionsRadios2" value="option2">
+					24HR
+				</label>
 			</div>
 		</fieldset>
 		<!-- date time format end -->
@@ -96,31 +119,23 @@
 		<fieldset class="form-inline col-xs-12 col-sm-5 col-md-5">
 			<legend>Speed Range</legend>
 			<label class="control-label col-xs-3 padding-clear align-left padding-t4">Slow</label>
-	    <input type="text" class="form-control max-w60 pull-left"></input>
-			<span class="pull-left padding-rl7 padding-t4">~</span>
-			<input type="text" class="form-control max-w60 pull-left"></input>
-			
+			<input type="number" min="1" class="form-control max-w200 pull-left" ng-model='settings.speed_slow'></input>
+
 			<div class="col-xs-12 float-clear margin-b7"></div>
 			
 			<label class="control-label col-xs-3 padding-clear align-left padding-t4">Normal</label>
-	    <input type="text" class="form-control max-w60 pull-left"></input>
-			<span class="pull-left padding-rl7 padding-t4">~</span>
-			<input type="text" class="form-control max-w60 pull-left"></input>
+			<input type="number" min="1" class="form-control max-w200 pull-left" ng-model='settings.speed_normal'></input>
 			
 			<div class="col-xs-12 float-clear margin-b7"></div>
 			
 			<label class="control-label col-xs-3 padding-clear align-left padding-t4">Fast</label>
-	    <input type="text" class="form-control max-w60 pull-left"></input>
-			<span class="pull-left padding-rl7 padding-t4">~</span>
-			<input type="text" class="form-control max-w60 pull-left"></input>
+			<input type="number" min="1" class="form-control max-w200 pull-left" ng-model='settings.speed_high'></input>
 			
 			<div class="col-xs-12 float-clear margin-b7"></div>
 			
-			<label class="control-label col-xs-3 padding-clear align-left padding-t4">Speeding</label>
-	    <input type="text" class="form-control max-w60 pull-left"></input>
-			<span class="pull-left padding-rl7 padding-t4">~</span>
-			<input type="text" class="form-control max-w60 pull-left"></input>
-			
+			<label class="control-label col-xs-3 padding-clear align-left padding-t4">Over</label>
+			<input type="number" min="1" class="form-control max-w200 pull-left" ng-model='settings.speed_over'></input>
+
 			<div class="col-xs-12 float-clear margin-b5"></div>
 			
 		</fieldset>
@@ -152,7 +167,7 @@
 		<!-- alarm range end -->
 		
 		<!-- buttons begin -->
-		<button type="button" class="btn btn-default pull-right btn-success margin-r15 margin-b5 float-clear">Save</button>
+		<button type="button" class="btn btn-default pull-right btn-success margin-r15 margin-b5 float-clear" ng-click="save()">Save</button>
 		<!-- buttons end -->
- 	</form>
+	</form>
 </div>

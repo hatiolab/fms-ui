@@ -123,7 +123,8 @@ class ResourceMultiUpdateController < DomainResourcesController
       if found_resource
         attrs_to_remove.each { |p| data.delete(p) }
         data.merge(attrs_to_add) unless attrs_to_add.empty?
-        found_resource.update_attributes(data)
+        #found_resource.update_attributes(data)
+        found_resource.update_attributes(update_multiple_params(data))
       end
     end if multiple_data
   end
