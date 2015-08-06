@@ -82,7 +82,7 @@ public
 
 	def upload_image
 		fleet = Fleet.find(params[:id])
-		fleet.img = params[:file]
+		fleet.car_image = params[:file]
 		fleet.save!
 
     respond_to do |format|

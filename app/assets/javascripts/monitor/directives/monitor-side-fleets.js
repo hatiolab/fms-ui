@@ -127,6 +127,7 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	 * show fleet info window to map
 	 */
 	$scope.showFleetInfo = function(fleet) {
+		$scope.setActiveItem(fleet);
 		$scope.$emit('monitor-fleet-info-change', fleet);
 	};
 
@@ -135,6 +136,18 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	 */
 	$scope.showTrip = function(fleet) {
 		$scope.$emit('monitor-fleet-trip-change', fleet);
+	};
+
+	/**
+	 * active item
+	 * 
+	 * @param {Object}
+	 */
+	$scope.setActiveItem = function(activeItem) {
+		for(var i = 0 ; i < $scope.fleetItems.length ; i++) {
+			var item = $scope.fleetItems[i];
+			item.active = (item.id == activeItem.id);
+		}
 	};
 
 	/**

@@ -29,7 +29,6 @@ angular.module('fmsSettings').directive('driverDetail', function() {
 	 */
 	$scope.$watch('file', function (file) {
 		if(file != null && $scope.item && $scope.item.id) {
-			//$scope.upload(file);
 			Upload.upload({
 				url: '/drivers/' + $scope.item.id + '/upload_image.json', 
 				file: file,

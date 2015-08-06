@@ -6,14 +6,57 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 		scope: {}
 	}; 
 })
-.controller('fleetDetailCtrl', function($rootScope, $scope, $resource, $element, ModalUtils, RestApi) {
+.controller('fleetDetailCtrl', function($rootScope, $scope, $resource, $element, Upload, ModalUtils, RestApi) {
 
+	/**
+	 * File
+	 * 
+	 * @type {Object}
+	 */
+	$scope.file = null;
 	/**
 	 * Selected Driver Item
 	 * 
 	 * @type {Object}
 	 */
-	$scope.item = {};
+	$scope.item = { image : '/assets/ph_car.png' };
+
+	/**
+	 * File Object 변경시 자동 업로드 
+	 * 
+	 * @param  {file}
+	 * @return N/A
+	 */
+	$scope.$watch('file', function (file) {
+		if(file != null && $scope.item && $scope.item.id) {
+			Upload.upload({
+				url: '/fleets/' + $scope.item.id + '/upload_image.json', 
+				file: file,
+			}).progress(function(evt) {
+				//console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+			}).success(function(data, status, headers, config) {
+				$scope.item.car_image = data.car_image;
+			});
+		}
+  });
+
+	/**
+	 * change image
+	 * 
+	 * @param  {String}
+	 * @return N/A
+	 */
+  $scope.changeImage = function(imageType) {
+  	if(imageType == 'car') {
+  		$scope.item.image = $scope.item.car_image ? $scope.item.car_image : "/assets/ph_car.png";
+  	} else {
+  		$scope.item.image = ($scope.item.driver && $scope.item.driver.img) ? $scope.item.driver.img : "/assets/ph_user.png";
+  	}
+  };
+
+  $scope.setDefaultImage = function() {
+		$scope.item.image = $scope.item.car_image ? $scope.item.car_image : "/assets/ph_car.png";
+  };
 
 	/**
 	 * fleet item selected
@@ -23,6 +66,8 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 	 */
 	$rootScope.$on('setting-fleet-item-change', function(event, fleet) {
 		$scope.item = fleet;
+		$scope.setDefaultImage();
+		$scope.file = null;
 	});
 
 	/**
@@ -111,7 +156,7 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 	 * @return N/A
 	 */
 	$scope.new = function() {
-		$scope.item = {};
+		$scope.item = { image : '/assets/ph_car.png' };
 	};
 
 	/**

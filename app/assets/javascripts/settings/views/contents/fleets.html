@@ -1,10 +1,11 @@
 <div class="setting-content">
 	<!-- fleet photo & info begin -->
 	<div class="col-xs-12 col-sm-5 col-md-5 align-center">
-		<img src="" class="photo-driver"/>
-		<button type="button" class="btn btn-default btn-sm margin-t7 margin-r5 pull-left photo-fleet"></button>
-		<button type="button" class="btn btn-default btn-sm margin-t7 pull-left photo-driver"></button>
-		<button type="button" class="btn btn-default btn-sm margin-t7 pull-right">File Upload</button>
+		<img ng-src="{{item.image}}" class="photo-driver"/>
+		<button type="button" class="btn btn-default btn-sm margin-t7 margin-r5 pull-left photo-fleet" ng-click="changeImage('car')"></button>
+		<button type="button" class="btn btn-default btn-sm margin-t7 pull-left photo-driver" ng-click="changeImage('driver')"></button>
+		<input type="file" ngf-select ngf-multiple="false" ng-model="file" ng-show="item.id"/><br/>
+		<!--button type="button" class="btn btn-default btn-sm margin-t7 pull-right">File Upload</button-->
 	</div>
 
 	<div class="col-xs-12 col-sm-7 col-md-7">
@@ -19,7 +20,7 @@
 			<div class="form-group">
 			 	<label class="col-xs-12 col-sm-3 col-md-3 control-label">Driver <strong style="color:red">*</strong></label>
 			 	<div class="col-xs-11 col-sm-9 col-md-9">
-			 	 <input type="text" class="form-control" ng-model="item.driver"></input>
+			 	 <input type="text" class="form-control" ng-model="item.driver.name"></input>
 			 	</div>
 			</div>
 			

@@ -77,7 +77,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="fleet in fleetItems" ng-click="showFleetInfo(fleet)">
+			<tr ng-repeat="fleet in fleetItems" ng-click="showFleetInfo(fleet)" ng-class="{active : fleet.active}">
 				<td>{{fleet.name}}</td>
 				<td>{{fleet.driver.name}}</td>
 				<td>{{fleet.car_no}}</td>
