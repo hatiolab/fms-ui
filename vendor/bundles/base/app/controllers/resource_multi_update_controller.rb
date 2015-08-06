@@ -51,7 +51,6 @@ class ResourceMultiUpdateController < DomainResourcesController
     domain_resource_flag = correspond_class.public_instance_methods.include?(:domain)
     delete_list, update_list, create_list = self.refine_multiple_data(params[:multiple_data], id_field)
     
-    debug_print create_list
     correspond_class.transaction do
       # 1. delete
       self.destroy_multiple_data(correspond_class, delete_list)
@@ -89,7 +88,11 @@ class ResourceMultiUpdateController < DomainResourcesController
   # 클라이언트로 부터 넘어온 multiple_data를 삭제 데이터, 수정 데이터, 생성 데이터로 분리하여 리턴 
   #
   def refine_multiple_data(multiple_data, id_field)
-    data_list = JSON.parse(multiple_data)
+    if(multiple_data && multiple_data.class.name == 'string')
+      data_list = JSON.parse(multiple_data)
+    else
+      data_list = multiple_data
+    end
     delete_list, update_list, create_list = [], [], [];
   
     data_list.each do |data|
