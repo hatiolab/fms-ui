@@ -103,6 +103,7 @@ label input[type="checkbox"]{margin-right:5px;}
 
 .search-table{overflow-x:hidden;overflow-y:auto;}
 .search-table .table{margin-bottom:0;}
+.search-table th:last-child{border-right:none;}
 .search-table .status-box,.infolist-panel .speed-status .status-box,.detail-item  .status-box{width:10px;height:10px;display:inline-block;-webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;margin:2px 4px 0 0;}
 .table td{padding:5px 8px !important;vertical-align:middle;}
 .table td.icon-td{padding:4px 5px 0 5px !important;}
@@ -214,14 +215,23 @@ font-size:11px;color:#666;}
 .setting-content .control-label{color:#4d5f7d}
 .setting-content .form-group .control-label{padding-top:4px !important;}
 .setting-content .line-infos .form-group{border-bottom:1px solid #efefef;overflow:hidden;margin-bottom:5px;padding:7px 0 5px 0;}
-.setting-content .bg-white{background-color:#fff;margin-top:15px;padding:15px;border-top:1px solid #d4d9dd;}
+.setting-content .bg-white{background:url(bg_white_gradient.png) repeat-x;margin-top:15px;padding:15px;border-top:1px solid #d4d9dd;}
 .setting-content fieldset{margin:0 15px 25px 15px;padding-bottom:5px;border:1px solid #d1dae4;}
 .setting-content fieldset legend{margin-left:10px;margin-bottom:5px;padding:0 5px;border:none;width:initial !important;color:#6883ae;font-weight:normal;}
 .setting-content fieldset .form-group{margin-bottom:10px;}
 .setting-content button.photo-fleet{background:url(/assets/icon-setting-menu.png) -795px -197px no-repeat #fff;height:24px;width:27px;}
 .setting-content button.photo-driver{background:url(/assets/icon-setting-menu.png) -795px -97px no-repeat #fff;height:24px;width:27px;min-height:24px;}
+.setting-content .search-table{border:1px solid #bfcfda;border-width:1px 0;}
+.setting-content .search-table th{border-width:1px 1px 0 1px;border-top:#f4f5f8;}
+.table-context{overflow:hidden;margin:4px 0 5px 0;}
+
 .form-horizontal .radio{padding-top:0;}
 .setting-content .form-horizontal input[type="radio"]{margin-top:0;}
 .setting-content fieldset .align-left{padding-left:15px !important;}
 .setting-content fieldset.col-xs-12{padding-left:0;padding-right:0;}
 .setting-content .form-horizontal .checkbox{padding:0 0 10px 10px;}
+.table-context button{width:24px;height:20px;border:1px solid #e8e8e8;border-width:0 1px;border-radius:0;cursor:pointer !important;}
+.table-context .icon-plus{background:url(/assets/icon-table-context.png) 8px 7px no-repeat}
+.table-context .icon-minus{background:url(/assets/icon-table-context.png) 8px -43px no-repeat;margin-left:-1px;}
+.table-context .icon-plus:hover{background-position:-42px 7px;}
+.table-context .icon-minus:hover{background-position:-42px -43px;}
