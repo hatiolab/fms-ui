@@ -34,25 +34,25 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 			}
 
 			if(gridContainerId == 'monitor-alert-table-container') {
-				newHeight = newHeight - 300;
+				newHeight = newHeight - 323;
 
 			} else if(gridContainerId == 'monitor-fleet-table-container') {
-				newHeight = newHeight - 190;
+				newHeight = newHeight - 213;
 
 			} else if(gridContainerId == 'geofence-table-container') {
-				newHeight = newHeight - 360;
+				newHeight = newHeight - 353;
 
 			} else if(gridContainerId == 'setting-driver-table-container') {
-				newHeight = newHeight - 270;
+				newHeight = newHeight - 293;
 
 			} else if(gridContainerId == 'setting-fleet-table-container') {
-				newHeight = newHeight - 300;
+				newHeight = newHeight - 323;
 
 			} else if(gridContainerId == 'setting-group-table-container') {
-				newHeight = newHeight - 230;
+				newHeight = newHeight - 253;
 
 			} else if(gridContainerId == 'setting-group-relation-table-container') {
-				newHeight = newHeight - 300;
+				newHeight = newHeight - 323;
 			}
 
 			if(newHeight > 10) {

@@ -19,10 +19,11 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 	};
 
 	/**
-	 * alert popup을 띄운다.
+	 * Alert popup을 띄운다.
 	 */
 	$scope.addAlertPopup = function(alert) {
-		var popupStr = "<div id='alert_" + alert.id + "' class='alert alert-popup' role='alert' ng-show='true'>";
+		var topPosition = $scope.calcPopupTopPosition();
+		var popupStr = "<div id='alert_" + alert.id + "' style='top:" + topPosition + "px' class='alert alert-popup' role='alert' ng-show='true'>";
 		popupStr += "<div class='" + alert.typeClass + "'></div>";
 		popupStr += "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>";
 		popupStr += "<span aria-hidden='true'>&times;</span></button>";
@@ -30,6 +31,17 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 		popupStr += "</div>";		
 		var el = $compile(popupStr)($scope);
     $element.append(el);
+	};
+
+	/**
+	 * Popup Top Position 계산
+	 * 
+	 * @return N/A
+	 */
+	$scope.calcPopupTopPosition = function() {
+		var firstTop = 55, height = 60;
+		var popups = $element.find('.alert-popup');
+		return firstTop + (height * popups.length);
 	};
 
 	/**
@@ -70,6 +82,9 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 		});
 	};
 
+	/**
+	 * Interval
+	 */
 	$interval($scope.searchNewAlert, $rootScope.getIntSetting('map_refresh_interval') * 1000);
 
 });
