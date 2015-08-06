@@ -80,6 +80,17 @@ public
     end
 	end
 
+	def upload_image
+		fleet = Fleet.find(params[:id])
+		fleet.img = params[:file]
+		fleet.save!
+
+    respond_to do |format|
+      format.xml  { render :xml => { :success => true, :car_image => fleet.car_image.url } }
+      format.json { render :json => { :success => true, :car_image => fleet.car_image.url } }
+    end
+	end	
+
 private
   def resource_params
     [ params.require(:fleet).permit(:fleet_group,:name,:device_name,:device_model,:driver_id,:car_no,:car_model,:car_image,:fleet_group_id,:purchase_date,:reg_date,:lat,:lng,:status,:velocity,:trip_id,:batch_id,:track_id,:last_trip_time) ]

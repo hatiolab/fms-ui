@@ -14,4 +14,6 @@ class Fleet < ActiveRecord::Base
 
   belongs_to :driver
 
+  mount_uploader :car_image, ImageUploader
+
 end

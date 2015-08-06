@@ -70,6 +70,16 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 		});
 	};
 
-	$interval($scope.searchNewAlert, $rootScope.getIntSetting('map_refresh_interval') * 1000);	
+	$interval($scope.searchNewAlert, $rootScope.getIntSetting('map_refresh_interval') * 1000);
+
+	// TODO 삭제 임시 코드 
+	var tempAlert = {
+		id : 'F1000002-1438324361-9',
+		title : 'Tom Cruise',
+		typeClass : 'type-icon impact-white',
+		time : 1438324361000
+	};
+	
+	$scope.addAlertPopup(tempAlert);
 
 });

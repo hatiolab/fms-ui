@@ -95,6 +95,7 @@ Trkvue::Engine.routes.draw do
 		end
 		member do
 			get :trip
+			post :upload_image
 		end
 	end
 
