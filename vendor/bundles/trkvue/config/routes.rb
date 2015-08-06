@@ -47,6 +47,9 @@ Trkvue::Engine.routes.draw do
 			get :show_by_name
 			get :export
 		end
+		member do
+			post :upload_image
+		end
 	end
 
 	resources :settings do

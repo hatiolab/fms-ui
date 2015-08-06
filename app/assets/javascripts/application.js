@@ -20,6 +20,7 @@
 //= require lodash/lodash.min
 //= require angular-bootstrap/ui-bootstrap.min
 //= require angular-bootstrap/ui-bootstrap-tpls.min
+//= require ng-file-upload/ng-file-upload.min
 //= require bs
 //= require_tree .
 //= require_self

@@ -42,12 +42,15 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 	 * Refresh timer를 시작 
 	 */
 	$scope.searchNewAlert = function() {
-		RestApi.get('/events/' + $scope.lastSearchAlertTime + '/latest_one.json', {}, function(alert) {
-			$scope.lastSearchAlertTime = new Date().getTime();
-			if(alert && alert.driver) {
-				$scope.setAlert(alert);
-			}
-		});
+		var refresh = $rootScope.getSetting('map_refresh');
+		if(refresh && refresh == 'Y') {
+			RestApi.get('/events/' + $scope.lastSearchAlertTime + '/latest_one.json', {}, function(alert) {
+				$scope.lastSearchAlertTime = new Date().getTime();
+				if(alert && alert.driver) {
+					$scope.setAlert(alert);
+				}
+			});
+		}
 	};
 
 	/**
@@ -67,6 +70,6 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 		});
 	};
 
-	$interval($scope.searchNewAlert, 10 * 1000);	
+	$interval($scope.searchNewAlert, $rootScope.getIntSetting('map_refresh_interval') * 1000);	
 
 });

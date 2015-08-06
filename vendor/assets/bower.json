@@ -6,6 +6,7 @@
     "angular-google-maps": "latest",
     "angular-resource": "latest",
     "angular-smart-table": "latest",
-    "angular-bootstrap": "latest"
+    "angular-bootstrap": "latest",
+    "ng-file-upload": "latest"
   }
 }

@@ -1,4 +1,16 @@
 class DriversController < ResourceMultiUpdateController
+
+public
+	def upload_image
+		driver = Driver.find(params[:id])
+		driver.img = params[:file]
+		driver.save!
+
+    respond_to do |format|
+      format.xml  { render :xml => { :success => true, :img => driver.img.url } }
+      format.json { render :json => { :success => true, :img => driver.img.url } }
+    end
+	end
   
 private
   def resource_params

@@ -1,3 +1,5 @@
+require 'carrierwave/orm/activerecord'
+
 class Driver < ActiveRecord::Base
 
 	include Multitenant
@@ -28,9 +30,10 @@ class Driver < ActiveRecord::Base
 
 	validates :address, length: { maximum: 255 }, :strict => true
 
-	validates :img, length: { maximum: 255 }, :strict => true
+	#validates :img, length: { maximum: 255 }, :strict => true
 
 	validates_uniqueness_of :name, :strict => true, :scope => [:domain_id,:code]
 
-
+	mount_uploader :img, ImageUploader
+	
 end

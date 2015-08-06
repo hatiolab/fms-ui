@@ -6,14 +6,40 @@ angular.module('fmsSettings').directive('driverDetail', function() {
 		scope: {}
 	}; 
 })
-.controller('driverDetailCtrl', function($rootScope, $scope, $resource, $element, ModalUtils, RestApi) {
+.controller('driverDetailCtrl', function($rootScope, $scope, $resource, $element, Upload, ModalUtils, RestApi) {
 
+	/**
+	 * File
+	 * 
+	 * @type {Object}
+	 */
+	$scope.file = null;
 	/**
 	 * Selected Driver Item
 	 * 
 	 * @type {Object}
 	 */
-	$scope.item = {};
+	$scope.item = { img : "/assets/ph_user.png" };
+
+	/**
+	 * File Object 변경시 자동 업로드 
+	 * 
+	 * @param  {file}
+	 * @return N/A
+	 */
+	$scope.$watch('file', function (file) {
+		if(file != null && $scope.item && $scope.item.id) {
+			//$scope.upload(file);
+			Upload.upload({
+				url: '/drivers/' + $scope.item.id + '/upload_image.json', 
+				file: file,
+			}).progress(function(evt) {
+				//console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+			}).success(function(data, status, headers, config) {
+				$scope.item.img = data.img;
+			});
+		}
+  });
 
 	/**
 	 * driver item selected
@@ -23,6 +49,8 @@ angular.module('fmsSettings').directive('driverDetail', function() {
 	 */
 	$rootScope.$on('setting-driver-item-change', function(event, driver) {
 		$scope.item = driver;
+		$scope.item.img = $scope.item.img ? $scope.item.img : "/assets/ph_user.png";
+		$scope.file = null;
 	});
 
 	/**
@@ -103,7 +131,7 @@ angular.module('fmsSettings').directive('driverDetail', function() {
 	 * @return N/A
 	 */
 	$scope.new = function() {
-		$scope.item = {};
+		$scope.item = { img : "/assets/ph_user.png" };
 	};
 
 	/**
