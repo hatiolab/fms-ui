@@ -45,19 +45,11 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat="geofence in geofenceItems" ng-click="goGeofence(geofence)">
+							<tr ng-repeat="geofence in geofenceItems" ng-click="goGeofence(geofence)" ng-class="{active : geofence.active}">
 								<td>{{geofence.name}}</td>
 								<td>{{geofence.description}}</td>
 							</tr>
 						</tbody>
-						<tfoot>
-							<tr>
-								<td class="text-center" colspan="2">
-									<div st-pagination="" st-items-by-page="geofences.limit" st-displayed-pages="geofences.total_page">
-									</div>
-								</td>
-							</tr>
-						</tfoot>
 					</table>
 				</div>
 				<!-- data table end -->

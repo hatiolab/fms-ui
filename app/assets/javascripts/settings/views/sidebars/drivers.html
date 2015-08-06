@@ -44,10 +44,10 @@
 					      </tr>
 					    </thead>
 							<tbody>
-								<tr ng-repeat="driver in items" ng-click="goItem(driver)">
-									<td>{{driver.code}}</td>
-									<td>{{driver.name}}</td>
-									<td>{{driver.division}}</td>
+								<tr ng-repeat="item in items" ng-click="goItem(item)" ng-class="{active : item.active}">
+									<td>{{item.code}}</td>
+									<td>{{item.name}}</td>
+									<td>{{item.division}}</td>
 								</tr>
 							</tbody>
 						</table>

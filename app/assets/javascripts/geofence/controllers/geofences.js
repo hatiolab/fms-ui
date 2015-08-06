@@ -102,8 +102,21 @@ angular.module('fmsGeofence',['uiGmapgoogle-maps'])
 	 */
 	$scope.goGeofence = function(geofence) {
 		if(geofence) {
+			$scope.setActiveItem(geofence);
 			$scope.geofence = angular.copy(geofence);
 			$scope.$emit('geofence-item-selected', geofence);
+		}
+	};
+
+	/**
+	 * active item
+	 * 
+	 * @param {Object}
+	 */
+	$scope.setActiveItem = function(activeItem) {
+		for(var i = 0 ; i < $scope.geofenceItems.length ; i++) {
+			var item = $scope.geofenceItems[i];
+			item.active = (item.id == activeItem.id);
 		}
 	};
 

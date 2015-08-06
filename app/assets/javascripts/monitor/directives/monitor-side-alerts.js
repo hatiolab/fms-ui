@@ -269,6 +269,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	 * show event info window to map
 	 */
 	 $scope.showEventInfo = function(fmsEvent) {
+	 	$scope.setActiveItem(fmsEvent);
 	 	$scope.$emit('monitor-event-info-change', fmsEvent);
 	 };
 
@@ -276,8 +277,21 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	 * send show event to map
 	 */
 	 $scope.showTrip = function(fmsEvent) {
+	 	$scope.setActiveItem(fmsEvent);
 	 	$scope.$emit('monitor-event-trip-change', fmsEvent);
 	 };
+
+	/**
+	 * active item
+	 * 
+	 * @param {Object}
+	 */
+	$scope.setActiveItem = function(activeItem) {
+		for(var i = 0 ; i < $scope.items.length ; i++) {
+			var item = $scope.items[i];
+			item.active = (item.id == activeItem.id);
+		}
+	};
 
 	/**
 	 * map refresh 

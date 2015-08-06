@@ -166,9 +166,22 @@ angular.module('fmsSettings').directive('driverList', function() {
 	 * @param  {Object}
 	 * @return N/A
 	 */
-	$scope.goItem = function(driver) {
-		$scope.$emit('setting-driver-item-change', driver);
+	$scope.goItem = function(item) {
+		$scope.setActiveItem(item);
+		$scope.$emit('setting-driver-item-change', item);
 	};
+
+	/**
+	 * active item
+	 * 
+	 * @param {Object}
+	 */
+	$scope.setActiveItem = function(activeItem) {
+		for(var i = 0 ; i < $scope.items.length ; i++) {
+			var item = $scope.items[i];
+			item.active = (item.id == activeItem.id);
+		}
+	};	
 
 	/**
 	 * Driver items changed so the list must be refreshed
