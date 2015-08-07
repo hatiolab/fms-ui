@@ -488,11 +488,11 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	/**
 	 * Sidebar에서 Fleet 조회시
 	 */
-	$rootScope.$on('monitor-fleet-list-change', function(evt, fleetDataSet) {
+	$rootScope.$on('monitor-fleet-list-change', function(evt, fleetItems) {
 		$scope.viewMode = 'FLEET';
 
-		if(fleetDataSet && fleetDataSet.items) {
-			$scope.refreshFleets(fleetDataSet.items);
+		if(fleetItems) {
+			$scope.refreshFleets(fleetItems);
 		}
 	});
 

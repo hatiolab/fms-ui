@@ -111,7 +111,7 @@ severity begin -->
 
 <!-- table begin -->
 <div id="monitor-alert-table-container" class="search-table">
-	<table class="table table-striped table-hover" st-pagination-scroll st-table="items" st-pipe="searchEvents">
+	<table class="table table-striped table-hover" st-pagination-scroll st-table="items" st-pipe="search">
 		<thead>
 			<tr>
 				<th>#</th>
@@ -131,7 +131,7 @@ severity begin -->
 				<td class="icon-td align-center" ng-click="showEventInfo(item)">
 					<span class="{{item.typeClass}}"></span>
 				</td>
-				<td class="icon-td align-center" ng-click="showTrip(item)">
+				<td class="icon-td align-center" ng-click="goTrip(item)">
 					<span class="icon-trip" ng-show="item.tid != null && item.tid != ''"></span>
 				</td>
 			</tr>

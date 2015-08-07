@@ -9,28 +9,35 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 			var refreshButton = angular.element('.panel-refresh');
 			refreshButton.bind("click", function() {
 				var fleetTab = angular.element('#fleetTab');
-				// side-fleets 탭이 액티브 된 경우만 호출하도록 변경 ...
+				// side-fleets 탭이 액티브 된 경우만 호출
 				if(fleetTab.hasClass('active')) {
-					scope.findFleets(null);
-					//scope.pageFleets(null);
+					scope.search(scope.tablestate);
 				}
       });
 		}
 	};
 })
 
-.controller('sideFleetsCtrl', function($rootScope, $scope, $resource, $element, ConstantSpeed, FmsUtils, RestApi) {
+.controller('sideFleetsCtrl', function($rootScope, $scope, $element, ConstantSpeed, FmsUtils, RestApi) {
 
 	/**
-	 * 폼 모델 초기화 
+	 * 처음 전체 페이지 로딩시는 fleet data 자동조회 하지 않는다.
 	 */
-	$scope.fleetSearchParams = {};
+	$scope.searchEnabled = false;
+	/**
+	 * 검색 조건 
+	 */
+	$scope.searchParams = {};
+	/**
+	 * smart table object
+	 */
+	$scope.tablestate = null;
 
 	/**
-	 * Rails Server의 스펙에 맞도록 파라미터 변경 ...
+	 * 조회 조건 파라미터 정규화 
 	 */
-	this.convertSearchParams = function(params) {
-		var searchParams = {};
+	$scope.normalizeSearchParams = function(params) {
+		var searchParams = { '_o[name]' : 'asc' };
 
 		if(!params || FmsUtils.isEmpty(params)) {
 			return searchParams;
@@ -41,87 +48,138 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 		}
 
 		FmsUtils.getSpeedLangeCondition(params, searchParams);
-		searchParams['_o[name]'] = 'asc';
 		return searchParams;
 	};
 
-	$scope.normalizeSearchParams = this.convertSearchParams;
+	/**
+	 * 속도 구간 조건 설정 
+	 * 
+	 * @param {String}
+	 */
+	$scope.setSpeed = function(speedRange, id) {
+		var anchor = $element.find('#' + id);
+		var val = $scope.searchParams['speed_' + speedRange];
+
+		if(val) {
+			$scope.searchParams['speed_' + speedRange] = false;
+			anchor.removeClass('active');
+		} else {
+			$scope.searchParams['speed_' + speedRange] = true;
+			anchor.addClass('active');
+		}
+	};
 
 	/**
 	 * Search Fleet Groups
 	 */
-	this.searchGroups = function(params) {
+	$scope.findGroups = function(params) {
 		RestApi.list('/fleet_groups.json', params, function(dataSet) {
 			$scope.groups = dataSet;
 		});
 	};
 
-	$scope.findGroups = this.searchGroups;
+	/**
+	 * search events
+	 */
+	 $scope.search = function(tablestate) {
+	 	if(!$scope.searchEnabled) {
+	 		$scope.searchEnabled = true;
+	 		$scope.tablestate = tablestate;
+	 		$scope.tablestate.pagination.number = 20;
+	 	}
+
+	 	if(tablestate) {
+	 		$scope.tablestate = tablestate;
+	 	}
+
+ 		var searchParams = $scope.beforeSearch();
+		$scope.setPageQueryInfo(searchParams, $scope.tablestate.pagination, 0, 20);
+
+    $scope.doSearch(searchParams, function(dataSet) {
+      $scope.numbering(dataSet.items, 1);
+      $scope.items = dataSet.items;
+      $scope.afterSearch(dataSet);
+    });
+	 };
 
 	/**
-	 * Search Fleets
+	 * Items Numbering
+	 * 
+	 * @param  {Array}
+	 * @param  {Number}
+	 * @return N/A
 	 */
-	this.searchFleets = function(params) {
-		var searchParams = params;
-		if(!params || params == {}) {
-			searchParams = angular.copy($scope.fleetSearchParams);
-			searchParams.fleet_group_id = searchParams.group ? searchParams.group.id : '';
-		}
+	 $scope.numbering = function(items, startNo) {
+	 	for(var i = 0 ; i < items.length ; i++) {
+	 		items[i].no = i + 1;
+	 	}
+	 };
 
-		searchParams = $scope.normalizeSearchParams(searchParams);
-		RestApi.search('/fleets.json', searchParams, function(dataSet) {
-			$scope.fleets = dataSet;
-			$scope.fleetItems = dataSet.items;
-			FmsUtils.setSpeedClasses($scope.fleetItems);
-			$scope.speedRangeSummaries = FmsUtils.getSpeedSummaries($scope.fleetItems);
-			$scope.$emit('monitor-fleet-list-change', $scope.fleets);
-			// grid container를 새로 설정한다.
-			FmsUtils.setGridContainerHieght('monitor-fleet-table-container');
-		});
-	};
+	 /**
+	  * 페이지네이션 검색 정보를 설정한다. 
+	  *
+	  * @param {Object}
+	  * @param {Object}
+	  * @param {Number}
+	  * @param {Number}
+	  */
+	 $scope.setPageQueryInfo = function(searchParams, pagination, start, limit) {
+	 	searchParams.start = start;
+	 	searchParams.limit = limit;
+	 	pagination.start = start;
+	 	pagination.number = limit;
+	 }
 
-	$scope.findFleets = this.searchFleets;
+	 /**
+	  * 페이지네이션 결과 정보를 설정한다. 
+	  * 
+	  * @param {Number}
+	  * @param {Number}
+	  * @param {Number}
+	  */
+	 $scope.setPageReultInfo = function(total_count, total_page, current_page) {
+		$scope.tablestate.pagination.totalItemCount = total_count;
+		$scope.tablestate.pagination.numberOfPages = total_page;
+		$scope.tablestate.pagination.currentPage = current_page; 		
+	 };
 
-	/**
-	 * smart table object
-	 */
-	$scope.tablestate = null;
-	/**
-	 * 처음 전체 페이지 로딩시는 fleet data 자동조회 하지 않는다.
-	 */
-	$scope.fleetInit = false;
-	/**
-	 * call by pagination
-	 */
-	$scope.pageFleets = function(tablestate) {
-		if(!$scope.fleetInit){
-			$scope.fleetInit = true;
-			$scope.tablestate = tablestate;
-			$scope.tablestate.pagination.number = 20;
-		}
+	 /**
+	  * infinite scorll directive에서 호출 
+	  * 
+	  * @return {Object}
+	  */
+	 $scope.beforeSearch = function() {
+	 	var searchParams = angular.copy($scope.searchParams);
+	 	searchParams.fleet_group_id = searchParams.group ? searchParams.group.id : '';
+	 	return $scope.normalizeSearchParams(searchParams);
+	 };
 
-		if(tablestate) {
-			$scope.tablestate = tablestate;
-		}
+	 /**
+	  * infinite scorll directive에서 호출 
+	  * 
+	  * @param  {Object}
+	  * @param  {Function}
+	  * @return N/A
+	  */
+	 $scope.doSearch = function(params, callback) {
+	 	RestApi.search('/fleets.json', params, function(dataSet) {
+	 		callback(dataSet);
+	 	});
+	 };
 
-		var searchParams = angular.copy($scope.fleetSearchParams);
-		searchParams.fleet_group_id = searchParams.group ? searchParams.group.id : '';
-		searchParams = $scope.normalizeSearchParams(searchParams);
-		searchParams.start = $scope.tablestate.pagination.start;
-		searchParams.limit = $scope.tablestate.pagination.number;
-
-		RestApi.search('/fleets.json', searchParams, function(dataSet) {
-			$scope.fleets = dataSet;
-			$scope.fleetItems = dataSet.items;
-			FmsUtils.setSpeedClasses($scope.fleetItems);
-			$scope.speedRangeSummaries = FmsUtils.getSpeedSummaries($scope.fleetItems);
-			$scope.tablestate.pagination.totalItemCount = dataSet.total;
-			$scope.tablestate.pagination.numberOfPages = dataSet.total_page;
-			$scope.$emit('monitor-fleet-list-change', $scope.fleets);
-			// grid container를 새로 설정한다.
-			FmsUtils.setGridContainerHieght('monitor-fleet-table-container');
-		});
-	};
+	 /**
+	  * infinite scorll directive에서 호출 
+	  * 
+	  * @param  {Object}
+	  * @return N/A
+	  */
+	 $scope.afterSearch = function(dataSet) {
+	 	$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
+		FmsUtils.setSpeedClasses($scope.items);
+		$scope.speedRangeSummaries = FmsUtils.getSpeedSummaries($scope.items);
+		$scope.$emit('monitor-fleet-list-change', $scope.items);
+		FmsUtils.setGridContainerHieght('monitor-fleet-table-container');
+	 };	
 
 	/**
 	 * show fleet info window to map
@@ -134,7 +192,8 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	/**
 	 * show trip to map
 	 */
-	$scope.showTrip = function(fleet) {
+	$scope.goTrip = function(fleet) {
+		$scope.setActiveItem(fleet);
 		$scope.$emit('monitor-fleet-trip-change', fleet);
 	};
 
@@ -144,8 +203,8 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	 * @param {Object}
 	 */
 	$scope.setActiveItem = function(activeItem) {
-		for(var i = 0 ; i < $scope.fleetItems.length ; i++) {
-			var item = $scope.fleetItems[i];
+		for(var i = 0 ; i < $scope.items.length ; i++) {
+			var item = $scope.items[i];
 			item.active = (item.id == activeItem.id);
 		}
 	};
@@ -154,34 +213,26 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	 * map refresh 
 	 */	
 	$rootScope.$on('monitor-refresh-fleet', function(evt, value) {
-		//$scope.findFleets(null);
-		$scope.pageFleets(null);
+		// TODO Refresh는 Items Start ~ End No.로 조회한다.
+		$scope.search($scope.tablestate);
 	});
 
 	/**
-	 * [watch fleetSearchParams in page scope, if changed trigger pageFleets in same scope]
-	 * @param  $scope.fleetSearchParams
+	 * [watch searchParams in page scope, if changed trigger pageFleets in same scope]
+	 * @param  $scope.searchParams
 	 * @return null
 	 */
-	$scope.$watchCollection('fleetSearchParams', function() {
-		if($scope.fleetInit){
-			$scope.pageFleets(null);
+	$scope.$watchCollection('searchParams', function() {
+		if($scope.searchEnabled) {
+			$scope.search($scope.tablestate);
 		}
 	});
-
-	/**
-	 * settings data all ready 
-	 */
-	//$scope.$on('settings-all-ready', function(evt, value) {
-	//	$scope.init();
-	//});
 
 	/**
 	 * 초기화 함수 
 	 */
 	$scope.init = function() {
 		$scope.findGroups(null);
-		//$scope.findFleets(null);
 	};
 
 	$scope.init();

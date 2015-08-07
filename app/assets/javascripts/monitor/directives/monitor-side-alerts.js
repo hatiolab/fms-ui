@@ -11,7 +11,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 				var fleetTab = angular.element('#alertTab');
 				// side-fleets 탭이 액티브 된 경우만 호출하도록 변경 ...
 				if(fleetTab.hasClass('active')) {
-					scope.searchEvents(scope.tablestate);
+					scope.search(scope.tablestate);
 				}
 			});
 		}
@@ -26,7 +26,6 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	 var toDateStr = FmsUtils.formatDate(new Date(), 'yyyy-MM-dd');
 	 var fromDate = FmsUtils.addDate(new Date(), -6);
 	 var fromDateStr = FmsUtils.formatDate(fromDate, 'yyyy-MM-dd');
-
 	/**
 	 * 조회 조건
 	 */
@@ -50,7 +49,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	/**
 	 * 처음 전체 페이지 로딩시는 event data 자동조회 하지 않는다.
 	 */
-	 $scope.eventInit = false;
+	 $scope.searchEnabled = false;
 
 	 /**
 	  * Date Picker Handling
@@ -85,8 +84,10 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	 */
 	 $scope.normalizeSearchParams = function(params) {
 
-	 	var searchParams = {};
-
+	 	var searchParams = {'_o[ctm]' : 'desc'};
+		// convert date to number
+		FmsUtils.buildDateConds(searchParams, 'ctm', params['ctm_gte'], params['ctm_lte']);
+		
 	 	if(!params) {
 	 		return searchParams;
 	 	}
@@ -125,10 +126,6 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	 		searchParams["_q[typ-in]"] = typeArr.join(',');
 	 	}
 
-		// convert date to number
-		FmsUtils.buildDateConds(searchParams, 'ctm', params['ctm_gte'], params['ctm_lte']);
-		// sort
-		searchParams['_o[ctm]'] = 'desc';
 		return searchParams;
 	};
 
@@ -155,9 +152,9 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	/**
 	 * search events
 	 */
-	 $scope.searchEvents = function(tablestate) {
-	 	if(!$scope.eventInit) {
-	 		$scope.eventInit = true;
+	 $scope.search = function(tablestate) {
+	 	if(!$scope.searchEnabled) {
+	 		$scope.searchEnabled = true;
 	 		$scope.tablestate = tablestate;
 	 		$scope.tablestate.pagination.number = 20;
 	 		return;
@@ -276,7 +273,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	/**
 	 * send show event to map
 	 */
-	 $scope.showTrip = function(fmsEvent) {
+	 $scope.goTrip = function(fmsEvent) {
 	 	$scope.setActiveItem(fmsEvent);
 	 	$scope.$emit('monitor-event-trip-change', fmsEvent);
 	 };
@@ -298,18 +295,21 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	 */	
 	 $rootScope.$on('monitor-refresh-event', function(evt, value) {
 		// TODO Refresh는 Items Start ~ End No.로 조회한다.
-		$scope.searchEvents($scope.tablestate);
+		$scope.search($scope.tablestate);
 	});
 
 	/**
 	 * form value 변화를 감지해서 자동 검색 
 	 */
 	 $scope.$watchCollection('searchParams', function() {
-	 	if($scope.eventInit) {
-	 		$scope.searchEvents($scope.tablestate);
+	 	if($scope.searchEnabled) {
+	 		$scope.search($scope.tablestate);
 	 	}
 	 });
 
+	/**
+	 * 초기화 함수 
+	 */
 	 $scope.init = function() {
 	 	$scope.findGroups({});
 	 	$scope.findFleets({});

@@ -4,7 +4,7 @@
 	<div class="form-group">
     <label class="col-xs-12 col-sm-3 col-md-2 control-label">Group</label>
     <div class="col-xs-11 col-sm-7 col-md-6 padding-clear">
-      <select name="group" class="form-control" ng-model="fleetSearchParams.group" ng-init="selected=''"
+      <select name="group" class="form-control" ng-model="searchParams.group" ng-init="selected=''"
        ng-options="group.name for group in groups" >
       	<option></option>
 			</select>
@@ -16,41 +16,42 @@
 	<div class="form-group">
     <label class="col-xs-12 col-sm-3 col-md-2 control-label">Vehicle Status</label>
 		<div class="col-xs-11 col-sm-9 col-md-10 padding-clear">
-			<a href="#" class="col-sm-4 status-check active gray">Off</a>
-			<a href="#" class="col-sm-4 status-check active dark">Idle</a>
-			<a href="#" class="col-sm-4 status-check active blue">Slow</a>
-			<a href="#" class="col-sm-4 status-check green">Normal</a>
-			<a href="#" class="col-sm-4 status-check orange">High</a>
-			<a href="#" class="col-sm-4 status-check red">Over</a>
-			<label class="col-sm-4 padding-clear">
-				<input ng-model="fleetSearchParams.speed_off" type="checkbox" class="status-check gray">
+			<a href="" id="_gray" ng-click="setSpeed('off','_gray')" class="col-sm-4 status-check gray">Off</a>
+			<a href="" id="_dark" ng-click="setSpeed('idle','_dark')" class="col-sm-4 status-check dark">Idle</a>
+			<a href="" id="_blue" ng-click="setSpeed('slow','_blue')" class="col-sm-4 status-check blue">Slow</a>
+			<a href="" id="_green" ng-click="setSpeed('normal','_green')" class="col-sm-4 status-check green">Normal</a>
+			<a href="" id="_orange" ng-click="setSpeed('high','_orange')" class="col-sm-4 status-check orange">High</a>
+			<a href="" id="_red" ng-click="setSpeed('over','_red')" class="col-sm-4 status-check red">Over</a>
+
+			<!--label class="col-sm-4 padding-clear">
+				<input ng-model="searchParams.speed_off" type="checkbox" class="status-check gray">
 				off
 				</input>
 			</label>
 			<label name="speedLevel" class="col-sm-4 padding-clear">
-				<input ng-model="fleetSearchParams.speed_idle" type="checkbox" class="status-check dark">
+				<input ng-model="searchParams.speed_idle" type="checkbox" class="status-check dark">
 				idle
 				</input>
 			</label>
 			<label name="speedLevel" class="col-sm-4 padding-clear">
-				<input ng-model="fleetSearchParams.speed_slow" type="checkbox" class="status-check blue">
+				<input ng-model="searchParams.speed_slow" type="checkbox" class="status-check blue">
 				slow
 				</input>
 			</label>
 			<label name="speedLevel" class="col-sm-4 padding-clear">
-				<input ng-model="fleetSearchParams.speed_normal" type="checkbox" class="status-check green">normal
+				<input ng-model="searchParams.speed_normal" type="checkbox" class="status-check green">normal
 				</input>
 			</label>
 			<label name="speedLevel" class="col-sm-4 padding-clear">
-				<input ng-model="fleetSearchParams.speed_high" type="checkbox" class="status-check orange">
+				<input ng-model="searchParams.speed_high" type="checkbox" class="status-check orange">
 				high
 				</input>
 			</label>
 			<label name="speedLevel" class="col-sm-4 padding-clear">
-				<input ng-model="fleetSearchParams.speed_over" type="checkbox" class="status-check red">
+				<input ng-model="searchParams.speed_over" type="checkbox" class="status-check red">
 				over
 				</input>
-			</label>
+			</label-->
 		</div>
 	</div>
 	<!-- speed end -->	
@@ -72,9 +73,11 @@
 
 <!-- table begin -->
 <div id="monitor-fleet-table-container" class="search-table">
-	<table class="table table-striped table-hover" st-table="fleetItems" st-pipe="pageFleets">
+	<table class="table table-striped table-hover" st-pagination-scroll 
+				 st-table="items" st-pipe="search">
 		<thead>
 		  <tr>
+		  	<th>#</th>
 				<th>Fleet</th>
 				<th>Driver</th>
 				<th>Car No</th>
@@ -83,49 +86,17 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="fleet in fleetItems" ng-click="showFleetInfo(fleet)" ng-class="{active : fleet.active}">
-				<td>{{fleet.name}}</td>
-				<td>{{fleet.driver.name}}</td>
-				<td>{{fleet.car_no}}</td>
-				<td><span class="{{fleet.typeClass}}"></span>{{fleet.velocity}}km/h</td>
-				<td class="icon-td align-center" ng-click="showTrip(fleet)">
-						<span class="icon-trip" ng-show="fleet.trip_id != null && fleet.trip_id != ''" ></span>
+			<tr ng-repeat="item in items" ng-click="showFleetInfo(item)" ng-class="{active : item.active}">
+				<td>{{item.no}}</td>
+				<td>{{item.name}}</td>
+				<td>{{item.driver.name}}</td>
+				<td>{{item.car_no}}</td>
+				<td><span class="{{item.typeClass}}"></span>{{item.velocity}}km/h</td>
+				<td class="icon-td align-center" ng-click="goTrip(item)">
+						<span class="icon-trip" ng-show="item.trip_id != null && item.trip_id != ''" ></span>
 				</td>
 			</tr>
 		</tbody>
-		<tfoot>
-			<tr>
-				<td class="text-center" colspan="5">
-					<div st-pagination="" st-items-by-page="fleets.limit" st-displayed-pages="fleets.total_page">
-					</div>
-				</td>
-			</tr>
-		</tfoot>
 	</table>
 </div>
 <!-- table end -->
-
-<!-- pagination begin - ->
-<div class="pagecontainer">
-	<nav class="pull-left padding-clear">
-  	<ul class="pagination">
-    <li>
-      <a href="#" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
-      </a>
-    </li>
-    <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-    <li><a href="#">2</a></li>
-    <li><a href="#">3</a></li>
-    <li><a href="#">4</a></li>
-    <li><a href="#">5</a></li>
-    <li>
-      <a href="#" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
-      </a>
-    </li>
-  </ul>
-	</nav>
-	<div class="pull-right"><strong>1-20</strong> of 630</div>
-</div>
-<!- - pagination end -->
