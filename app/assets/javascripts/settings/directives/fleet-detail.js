@@ -37,8 +37,24 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 				$scope.item.car_image = data.car_image;
 			});
 		}
-  });
+  	});
 
+	/**
+	 * Search Fleet Groups
+	 */
+	$scope.findGroups = function(params) {
+		RestApi.list('/fleet_groups.json', params, function(dataSet) {
+			$scope.groups = dataSet;
+		});
+	};
+	/**
+	 * Search Drivers
+	 */
+	$scope.findDrivers = function(params) {
+		RestApi.list('/drivers.json', params, function(dataSet) {
+			$scope.drivers = dataSet;
+		});
+	};
 	/**
 	 * change image
 	 * 
@@ -66,6 +82,8 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 	$rootScope.$on('setting-fleet-item-change', function(event, fleet) {
 		$scope.item = fleet;
 		$scope.setDefaultImage();
+		$scope.findGroups();
+		$scope.findDrivers();
 		$scope.file = null;
 	});
 
@@ -114,16 +132,17 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 		if(!$scope.checkValidForm()) {
 			return;
 		}
+		console.log($scope.item);
 
 		if($scope.item.id && $scope.item.id != '') {
 			var url = '/fleets/' + $scope.item.id + '.json';
-			var result = RestApi.update(url, null, {driver : $scope.item});
+			var result = RestApi.update(url, null, {fleet : $scope.item});
 			result.$promise.then(function(data) {
 				$scope.refreshList();
 			});
 
 		} else {
-			var result = RestApi.create('/fleets.json', null, {driver : $scope.item});
+			var result = RestApi.create('/fleets.json', null, {fleet : $scope.item});
 			result.$promise.then(function(data) {
 				$scope.refreshList();
 			});

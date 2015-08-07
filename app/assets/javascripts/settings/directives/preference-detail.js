@@ -9,7 +9,7 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 			}
 		};
 	})
-	.controller('preferenceDetailCtrl', function($rootScope, $scope, $filter, $resource, $element, RestApi) {
+	.controller('preferenceDetailCtrl', function($rootScope, $scope, $filter, $resource, $element, RestApi, ModalUtils) {
 
 		
 		/**
@@ -72,7 +72,14 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 				'speed_normal' : Number($scope.getByName(dataSet,'speed_normal').value),				
 				'stillcut_interval' : Number($scope.getByName(dataSet,'stillcut_interval').value),
 				'trip_interval' : Number($scope.getByName(dataSet,'trip_interval').value),
-				'map_refresh' : $scope.getByName(dataSet,'map_refresh').value
+				'map_refresh' : $scope.getByName(dataSet,'map_refresh').value,
+				'emergency_button' : $scope.getByName(dataSet,'emergency_button').value=="Y"?true:false,
+				'g_sensor' : $scope.getByName(dataSet,'g_sensor').value=="Y"?true:false,
+				'ext_emergency_button' : $scope.getByName(dataSet,'ext_emergency_button').value=="Y"?true:false,
+				'geofence_activation' : $scope.getByName(dataSet,'geofence_activation').value=="Y"?true:false,
+				'over_speed' : $scope.getByName(dataSet,'over_speed').value=="Y"?true:false,
+				'date_format' : $scope.getByName(dataSet,'date_format').value,
+				'time_format' : $scope.getByName(dataSet,'time_format').value
 			};
 		};
 
@@ -91,6 +98,12 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 		 */
 		$scope.checkValidForm = function() {
 
+			if($scope.settings['map_refresh']){
+				if(!$scope.settings['map_refresh_interval']||$scope.settings['map_refresh_interval']==0){
+					$scope.showAlerMsg("Input Value unvaliable","Map Refresh Interval is required, if Map Refresh option selected!");
+					return false;
+				}
+			}
 			return true;
 		};
 
@@ -100,8 +113,8 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 		 * @param  {String}
 		 * @return {Boolean}
 		 */
-		$scope.showAlerMsg = function(msg) {
-			ModalUtils.alert('sm', 'Alert', msg);
+		$scope.showAlerMsg = function(title,msg) {
+			ModalUtils.alert('sm', title, msg);
 			return false;
 		};
 
@@ -115,8 +128,14 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 
 			for(var i =0; i<$scope.items.length; i++){
 				var item = $scope.items[i];
+				 if($scope.settings[item.name].toString()=="true"){
+				 	$scope.settings[item.name] = "Y"
+				 }else if($scope.settings[item.name].toString()=="false"){
+				 	$scope.settings[item.name] = "N"
+				 }
 				items.push({
 					id : item.id,
+					name : item.name,
 					value : $scope.settings[item.name].toString(),
 					_cud_flag_ : "u"
 				});
@@ -126,7 +145,8 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 				var url = '/settings/update_multiple.json';
 				var result = RestApi.updateMultiple(url, null,items);
 				result.$promise.then(function(data) {
-					$scope.refreshSetting();
+					$scope.refreshSetting(items);
+					$scope.showAlerMsg("Save success","Your change is applied to system!");
 				});
 			}
 		};	
@@ -136,8 +156,9 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 		 * 
 		 * @return N/A
 		 */
-		$scope.refreshSetting = function() {
-			$scope.$emit('settings-value-change', null);
+		$scope.refreshSetting = function(settings) {
+			$scope.$emit('settings-value-change', settings);
+			$scope.searchPreferences();
 		}
 
 	});

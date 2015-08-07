@@ -200,8 +200,22 @@ angular.module('fmsSettings').directive('fleetList', function() {
 	 * @return N/A
 	 */
 	$scope.goItem = function(fleet) {
+		$scope.setActiveItem(fleet);
 		$scope.$emit('setting-fleet-item-change', fleet);
 	};
+
+	/**
+	 * active item
+	 * 
+	 * @param {Object}
+	 */
+	$scope.setActiveItem = function(activeItem) {
+		for(var i = 0 ; i < $scope.items.length ; i++) {
+			var item = $scope.items[i];
+			item.active = (item.id == activeItem.id);
+		}
+	};	
+
 
 	/**
 	 * Driver items changed so the list must be refreshed

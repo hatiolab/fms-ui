@@ -1,7 +1,9 @@
 angular.module('fmsCore').controller('CoreCtrl', function($rootScope, $scope, ConstantSpeed, FmsUtils, RestApi) {
 
 	$rootScope.$on('settings-value-change', function(event, setting) {
-		$rootScope.setSetting(setting.name, setting.value);
+		for(var i=0; i<setting.length; i++){
+			$rootScope.setSetting(setting[i].name, setting[i].value);
+		}
 	});
 
 	/**

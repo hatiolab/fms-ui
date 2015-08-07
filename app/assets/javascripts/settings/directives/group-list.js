@@ -164,9 +164,21 @@ angular.module('fmsSettings').directive('groupList', function() {
 		 * @return N/A
 		 */
 		$scope.goItem = function(group) {
+			$scope.setActiveItem(group);
 			$scope.$emit('setting-group-item-change', group);
 		};
 
+		/**
+		 * active item
+		 * 
+		 * @param {Object}
+		 */
+		$scope.setActiveItem = function(activeItem) {
+			for(var i = 0 ; i < $scope.items.length ; i++) {
+				var item = $scope.items[i];
+				item.active = (item.id == activeItem.id);
+			}
+		};	
 		/**
 		 * Driver items changed so the list must be refreshed
 		 * 

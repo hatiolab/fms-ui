@@ -19,9 +19,12 @@
 			
 			<div class="form-group">
 			 	<label class="col-xs-12 col-sm-3 col-md-3 control-label">Driver <strong style="color:red">*</strong></label>
-			 	<div class="col-xs-11 col-sm-9 col-md-9">
-			 	 <input type="text" class="form-control" ng-model="item.driver.name"></input>
-			 	</div>
+				<div class="col-xs-11 col-sm-7 col-md-6">
+					<select name="group" class="form-control" ng-model="item.driver_id" ng-init="selected=''"
+						ng-options="driver.id.toString() as driver.name for driver in drivers" >
+						<option></option>
+					</select>
+				</div>
 			</div>
 			
 			<div class="form-group">
@@ -33,9 +36,12 @@
 			
 			<div class="form-group">
 			 	<label class="col-xs-12 col-sm-3 col-md-3 control-label">Group <strong style="color:red">*</strong></label>
-			 	<div class="col-xs-11 col-sm-9 col-md-9">
-			 	 <input type="text" class="form-control" ng-model="item.group"></input>
-			 	</div>
+				<div class="col-xs-11 col-sm-7 col-md-6">
+					<select name="group" class="form-control" ng-model="item.fleet_group_id" ng-init="selected=''"
+						ng-options="group.id as group.name for group in groups">
+						<option></option>
+					</select>
+				</div>
 			</div>
 		</form>
 	</div>

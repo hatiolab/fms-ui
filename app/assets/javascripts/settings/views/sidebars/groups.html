@@ -36,7 +36,7 @@
 		      </tr>
 		    </thead>
 				<tbody>
-					<tr ng-repeat="group in items" ng-click="goItem(group)">
+					<tr ng-repeat="group in items" ng-click="goItem(group)" ng-class="{active : group.active}">
 						<td>{{group.name}}</td>
 						<td>{{group.description}}</td>
 					</tr>

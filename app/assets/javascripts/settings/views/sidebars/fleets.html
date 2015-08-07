@@ -54,7 +54,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="fleet in items" ng-click="goItem(fleet)">
+					<tr ng-repeat="fleet in items" ng-click="goItem(fleet)" ng-class="{active : fleet.active}">
 						<td>{{fleet.name}}</td>
 						<td>{{fleet.driver.name}}</td>
 						<td>{{fleet.car_no}}</td>
