@@ -32,16 +32,16 @@
 					<!-- contentEditable={{geofenceGroup.isEditable}} -->
 						<td>{{geofenceGroup.no}}</td>
 						<td ng-click="geofenceHide=false">
-						    <span ng-hide="!geofenceHide">{{geofenceGroup.geofence.name}}</span>					
-							<select ng-model="geofenceName" ng-options="geofence.name for  geofence in geofences" ng-hide="geofenceHide">
-   								<option value="">{{geofenceGroup.geofence.name}}</option>
+						    <span ng-hide="!geofenceHide">{{geofenceGroup.geofence.name}}</span>					 
+							<select ng-model="geofenceGroup.geofence_id" ng-options="geofence.id as geofence.name for  geofence in geofences" ng-hide="geofenceHide">
+   								<option value=""></option>
 							</select>
 						</td>
 						<td>{{geofenceGroup.geofence.description}}</td>
 						<td ng-click="alarmTypeHide=false">
-							<span ng-hide="!alarmTypeHide">{{geofenceGroup.geofence.alarm_type}}</span>
-							<select ng-model="alarmType" ng-hide="alarmTypeHide">
-   								<option value="">{{geofenceGroup.geofence.alarm_type}}</option>
+							<span ng-hide="!alarmTypeHide">{{geofenceGroup.alarm_type}}</span>
+							<select ng-model="geofenceGroup.alarm_type" ng-hide="alarmTypeHide">
+   								<option value=""></option>
    								<option value="IN" >IN</option>
 								<option value="OUT">OUT</option>
 							</select>

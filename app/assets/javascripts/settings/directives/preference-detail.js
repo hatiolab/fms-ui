@@ -90,9 +90,6 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 		 * @return N/A
 		 */
 		$scope.checkValidForm = function() {
-			if (!$scope.item.name || $scope.item.name == '') {
-				return $scope.showAlerMsg('Name must not be empty!');
-			}
 
 			return true;
 		};

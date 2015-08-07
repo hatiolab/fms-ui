@@ -139,8 +139,8 @@ class ResourceMultiUpdateController < DomainResourcesController
       data.delete(id_field)
       attrs_to_remove.each { |p| data.delete(p) }
       data.merge(attrs_to_add) unless attrs_to_add.empty?
-      data['domain_id'] = current_domain.id if(domain_resource_flag)
-      correspond_class.create!(data)
+      #data['domain_id'] = current_domain.id if(domain_resource_flag)
+      correspond_class.create!(update_multiple_params(data))
     end if multiple_data
   end
   
