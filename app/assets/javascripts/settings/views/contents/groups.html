@@ -2,66 +2,59 @@
 	<div class="col-xs-12 col-sm-7 col-md-7">
 		<form class="form-horizontal">
 			<div class="form-group">
-			 	<label class="col-xs-12 col-sm-3 col-md-3 control-label">Name</label>
-			 	<div class="col-xs-11 col-sm-9 col-md-9">
-			 	 <input type="text" class="form-control" ng-model="item.name"></input>
-			 	</div>
+				<label class="col-xs-12 col-sm-3 col-md-3 control-label">Name</label>
+				<div class="col-xs-11 col-sm-9 col-md-9">
+					<input type="text" class="form-control" ng-model="item.name"></input>
+				</div>
 			</div>
 			
 			<div class="form-group">
-			 	<label class="col-xs-12 col-sm-3 col-md-3 control-label">Description</label>
-			 	<div class="col-xs-11 col-sm-9 col-md-9">
-			 	<textarea class="form-control" rows="3" ng-model="item.description"></textarea>
-			 	</div>
+				<label class="col-xs-12 col-sm-3 col-md-3 control-label">Description</label>
+				<div class="col-xs-11 col-sm-9 col-md-9">
+					<textarea class="form-control" rows="3" ng-model="item.description"></textarea>
+				</div>
 			</div>
 		</form>
 	</div>
-
 	<div class="line-infos bg-white col-xs-12">
 		<div id="setting-group-relation-table-container" class="search-table">
 			<table class="table table-striped table-hover" st-pagination-scroll st-table="items" st-pipe="searchGeofenceGroups">
-		    <thead>
-		      <tr>
-		      	<th>#</th>
-		        <th>Geofence Name</th>
-		        <th>Geofence Description</th>
-		        <th>Event</th>
-		      </tr>
-		    </thead>
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Geofence Name</th>
+						<th>Geofence Description</th>
+						<th>Event</th>
+					</tr>
+				</thead>
 				<tbody>
-					<tr ng-repeat="geofenceGroup in items" ng-click="goItem(geofenceGroup)">
-						<td>{{geofenceGroup.geofence.no}}</td>
-						<td>{{geofenceGroup.geofence.name}}</td>
+					<tr ng-repeat="geofenceGroup in items">
+					<!-- contentEditable={{geofenceGroup.isEditable}} -->
+						<td>{{geofenceGroup.no}}</td>
+						<td ng-click="geofenceHide=false">
+						    <span ng-hide="!geofenceHide">{{geofenceGroup.geofence.name}}</span>					
+							<select ng-model="geofenceName" ng-options="geofence.name for  geofence in geofences" ng-hide="geofenceHide">
+   								<option value="">{{geofenceGroup.geofence.name}}</option>
+							</select>
+						</td>
 						<td>{{geofenceGroup.geofence.description}}</td>
-						<td>{{geofenceGroup.geofence.alarm_type}}</td>
-					</tr>
-
-					<tr>
-						<td>1</td>
-						<td>Geofence 1</td>
-						<td>Geofence 1 Description</td>
-						<td>In</td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td>Geofence 2</td>
-						<td>Geofence 2 Description</td>
-						<td>In/Out</td>
-					</tr>
-					<tr>
-						<td>3</td>
-						<td>Geofence 3</td>
-						<td>Geofence 3 Description</td>
-						<td>Out</td>
+						<td ng-click="alarmTypeHide=false">
+							<span ng-hide="!alarmTypeHide">{{geofenceGroup.geofence.alarm_type}}</span>
+							<select ng-model="alarmType" ng-hide="alarmTypeHide">
+   								<option value="">{{geofenceGroup.geofence.alarm_type}}</option>
+   								<option value="IN" >IN</option>
+								<option value="OUT">OUT</option>
+							</select>
+						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 		<div class="table-context">
-			<button type="button" class="btn pull-right icon-minus"></button>
-			<button type="button" class="btn pull-right icon-plus"></button>
+			<button type="button" class="btn pull-right icon-minus" ng-click="rmGeofence()"></button>
+			<button type="button" class="btn pull-right icon-plus" ng-click="addGeofence()"></button>
 		</div>
-	
+		
 		<!-- buttons begin -->
 		<button type="button" class="btn btn-default margin-t7 pull-left" ng-click="new()">New</button>
 		<button type="button" class="btn btn-default margin-t7 pull-right" ng-click="delete()">Delete</button>
