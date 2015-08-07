@@ -13,7 +13,8 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 				'geofence-table-container',
 				'setting-driver-table-container',
 				'setting-fleet-table-container',
-				'setting-group-relation-table-container'
+				'setting-group-relation-table-container',
+				'monitor-info-alert-table-container'
 			];
 			
 			var me = this;
@@ -53,6 +54,9 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 
 			} else if(gridContainerId == 'setting-group-relation-table-container') {
 				newHeight = newHeight - 323;
+
+			} else if(gridContainerId == 'monitor-info-alert-table-container') {
+				newHeight = 200;
 			}
 
 			if(newHeight > 10) {

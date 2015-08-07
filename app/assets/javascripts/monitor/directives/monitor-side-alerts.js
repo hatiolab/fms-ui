@@ -11,7 +11,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 				var fleetTab = angular.element('#alertTab');
 				// side-fleets 탭이 액티브 된 경우만 호출하도록 변경 ...
 				if(fleetTab.hasClass('active')) {
-					scope.searchEvents(null);
+					scope.searchEvents(scope.tablestate);
 				}
 			});
 		}
@@ -298,7 +298,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	 */	
 	 $rootScope.$on('monitor-refresh-event', function(evt, value) {
 		// TODO Refresh는 Items Start ~ End No.로 조회한다.
-		$scope.searchEvents(null);
+		$scope.searchEvents($scope.tablestate);
 	});
 
 	/**
@@ -306,7 +306,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	 */
 	 $scope.$watchCollection('searchParams', function() {
 	 	if($scope.eventInit) {
-	 		$scope.searchEvents(null);
+	 		$scope.searchEvents($scope.tablestate);
 	 	}
 	 });
 
