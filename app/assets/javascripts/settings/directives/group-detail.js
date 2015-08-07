@@ -17,146 +17,6 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 		$scope.item = {};
 
 		/**
-		 * group item selected
-		 * 
-		 * @param  {String}
-		 * @param  handler function
-		 */
-		$rootScope.$on('setting-group-item-change', function(event, group) {
-			$scope.item = group;
-			$scope.searchGeoGroups();
-			$scope.searchGeofences();
-			FmsUtils.setGridContainerHieght('setting-group-relation-table-container');
-		});
-
-		/**
-		 * Check form validation
-		 * 
-		 * @return N/A
-		 */
-		$scope.checkValidForm = function() {
-			if (!$scope.item.name || $scope.item.name == '') {
-				return $scope.showAlerMsg('Name must not be empty!');
-			}
-
-			return true;
-		};
-
-		/**
-		 * Show Alert Message
-		 * 
-		 * @param  {String}
-		 * @return {Boolean}
-		 */
-		$scope.showAlerMsg = function(msg) {
-			ModalUtils.alert('sm', 'Alert', msg);
-			return false;
-		};
-
-		/**
-		 * Save - Create or Update
-		 * 
-		 * @return {Object}
-		 */
-		$scope.save = function() {
-			if (!$scope.checkValidForm()) {
-				return;
-			}
-
-			if ($scope.item.id && $scope.item.id != '') {
-				var url = '/fleet_groups/' + $scope.item.id + '.json';
-				var result = RestApi.update(url, null, {
-					driver: $scope.item
-				});
-				result.$promise.then(function(data) {
-					$scope.refreshList();
-				});
-
-			} else {
-				var result = RestApi.create('/fleet_groups.json', null, {
-					driver: $scope.item
-				});
-				result.$promise.then(function(data) {
-					$scope.refreshList();
-				});
-			}
-		};
-
-		/**
-		 * Delete
-		 * 
-		 * @return N/A
-		 */
-		$scope.delete = function() {
-			if (!$scope.item.id || $scope.item.id == '') {
-				return;
-			}
-
-			ModalUtils.confirm('sm', 'Confirmation', 'Are you sure to delete?', function() {
-				var result = RestApi.delete('/fleet_groups/' + $scope.item.id + '.json', null);
-				result.$promise.then(function(data) {
-					$scope.new();
-					$scope.refreshList();
-				});
-			});
-		};
-
-		/**
-		 * New
-		 * 
-		 * @return N/A
-		 */
-		$scope.new = function() {
-			$scope.item = {};
-		};
-
-		/**
-		 * Refresh Driver List
-		 * 
-		 * @return N/A
-		 */
-		$scope.refreshList = function() {
-			$scope.$emit('setting-group-items-change', null);
-		}
-
-		/**
-		 * add - Create
-		 * 
-		 * @return {Object}
-		 */
-		$scope.addGeofence = function() {
-			console.log(1);
-			$scope.items.push({'no':'','geofence.name':'','geofence.description':'','geofence.alarm_type':''});
-			$scope.numbering($scope.items, 1);
-		};
-
-		/**
-		 * rm - remove
-		 * 
-		 * @return {Object}
-		 */
-		$scope.rmGeofence = function() {
-			// if(!$scope.checkValidForm()) {
-			// 	return;
-			// }
-
-			// if($scope.item.id && $scope.item.id != '') {
-			// 	var url = '/fleet_groups/' + $scope.item.id + '.json';
-			// 	var result = RestApi.update(url, null, {driver : $scope.item});
-			// 	result.$promise.then(function(data) {
-			// 		$scope.refreshList();
-			// 	});
-
-			// } else {
-			// 	var result = RestApi.create('/fleet_groups.json', null, {driver : $scope.item});
-			// 	result.$promise.then(function(data) {
-			// 		$scope.refreshList();
-			// 	});
-			// }
-		};
-
-
-		/**
 		 * geofence List
 		 */
 		$scope.items = [];
@@ -173,6 +33,22 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 		 */
 		$scope.searchEnabled = false;
 
+		$scope.geofenceHide =true;
+		$scope.alarmTypeHide = true;
+
+		/**
+		 * group item selected
+		 * 
+		 * @param  {String}
+		 * @param  handler function
+		 */
+		$rootScope.$on('setting-group-item-change', function(event, group) {
+			$scope.item = group;
+			$scope.searchGeoGroups();
+			$scope.searchGeofences();
+			FmsUtils.setGridContainerHieght('setting-group-relation-table-container');
+		});
+
 		/**
 		 * 서버에 보내기위해 파라미터 변경  
 		 */
@@ -185,8 +61,8 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 				return searchParams;
 			}
 
-			if (params.name) {
-				searchParams["_q[fleet_group_id-like]"] = params.fleet_group_id;
+			if (params.id) {
+				searchParams["_q[fleet_group_id-eq]"] = params.id;
 			}
 
 			return searchParams;
@@ -272,7 +148,180 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 
 		};
 
-		$scope.geofenceHide =true;
-		$scope.alarmTypeHide = true;
+		/**
+		 * Check form validation
+		 * 
+		 * @return N/A
+		 */
+		$scope.checkValidForm = function() {
+			if (!$scope.item.name || $scope.item.name == '') {
+				return $scope.showAlerMsg('Name must not be empty!');
+			}
+
+			return true;
+		};
+
+		/**
+		 * Show Alert Message
+		 * 
+		 * @param  {String}
+		 * @return {Boolean}
+		 */
+		$scope.showAlerMsg = function(msg) {
+			ModalUtils.alert('sm', 'Alert', msg);
+			return false;
+		};
+
+		/**
+		 * Save - Create or Update
+		 * 
+		 * @return {Object}
+		 */
+		$scope.save = function() {
+			console.log($scope.items);
+			if (!$scope.checkValidForm()) {
+				return;
+			}
+
+			if ($scope.item.id && $scope.item.id != '') {
+				var url = '/fleet_groups/' + $scope.item.id + '.json';
+				var result = RestApi.update(url, null, {
+					fleet_group: $scope.item
+				});
+				result.$promise.then(function(data) {
+					$scope.refreshList();
+					var items = [];
+					for(var i =0; i<$scope.items.length; i++){
+						var relation = $scope.items[i];
+						if(relation.fleet_group_id==''||relation.geofence_id==null){
+						}else{
+							items.push({
+								id : relation.id,
+								fleet_group_id: relation.fleet_group_id,
+								geofence_id: relation.geofence_id,
+								alarm_type: relation.alarm_type,
+								_cud_flag_ : relation.id ? "u" : "c"
+							});
+						}
+					}
+
+					if (items.length > 0) {
+						var url = '/geofence_groups/update_multiple.json';
+						var result = RestApi.updateMultiple(url, null,items);
+						result.$promise.then(function(data) {
+							$scope.refreshList();
+							$scope.searchGeoGroups();
+						});
+					}
+				});
+
+			} else {
+				var result = RestApi.create('/fleet_groups.json', null, {
+					fleet_group: $scope.item
+				});
+				result.$promise.then(function(data) {
+					$scope.refreshList();
+					var items = [];
+					for(var i =0; i<$scope.items.length; i++){
+						var relation = $scope.items[i];
+						if(relation.fleet_group_id==''||relation.fleet_group_id==null){
+						}else{
+							items.push({
+								id : relation.id,
+								fleet_group_id: relation.fleet_group_id,
+								geofence_id: relation.geofence_id,
+								alarm_type: relation.alarm_type,
+								_cud_flag_ : relation.id ? "u" : "c"
+							});
+						}
+					}
+
+					if (items.length > 0) {
+						var url = '/geofence_groups/update_multiple.json';
+						var result = RestApi.updateMultiple(url, null,items);
+						result.$promise.then(function(data) {
+							$scope.refreshList();
+							$scope.searchGeoGroups();
+						});
+					}
+				});
+			}
+		};
+
+		/**
+		 * Delete
+		 * 
+		 * @return N/A
+		 */
+		$scope.delete = function() {
+			if (!$scope.item.id || $scope.item.id == '') {
+				return;
+			}
+
+			ModalUtils.confirm('sm', 'Confirmation', 'Are you sure to delete?', function() {
+				var result = RestApi.delete('/fleet_groups/' + $scope.item.id + '.json', null);
+				result.$promise.then(function(data) {
+					$scope.new();
+					$scope.refreshList();
+				});
+			});
+		};
+
+		/**
+		 * New
+		 * 
+		 * @return N/A
+		 */
+		$scope.new = function() {
+			$scope.item = {};
+			$scope.items ={};
+		};
+
+		/**
+		 * Refresh Driver List
+		 * 
+		 * @return N/A
+		 */
+		$scope.refreshList = function() {
+			$scope.$emit('setting-group-items-change', null);
+		}
+
+		/**
+		 * add - Create
+		 * 
+		 * @return {Object}
+		 */
+		$scope.addGeofence = function() {
+			$scope.items.push({'no':'','geofence.name':'','geofence.description':'','geofence.alarm_type':'','fleet_group_id':$scope.item.id});
+			$scope.numbering($scope.items, 1);
+		};
+
+		/**
+		 * rm - remove
+		 * 
+		 * @return {Object}
+		 */
+		$scope.rmGeofence = function() {
+			// if(!$scope.checkValidForm()) {
+			// 	return;
+			// }
+
+			// if($scope.item.id && $scope.item.id != '') {
+			// 	var url = '/fleet_groups/' + $scope.item.id + '.json';
+			// 	var result = RestApi.update(url, null, {driver : $scope.item});
+			// 	result.$promise.then(function(data) {
+			// 		$scope.refreshList();
+			// 	});
+
+			// } else {
+			// 	var result = RestApi.create('/fleet_groups.json', null, {driver : $scope.item});
+			// 	result.$promise.then(function(data) {
+			// 		$scope.refreshList();
+			// 	});
+			// }
+		};
+		$scope.showdata = function() {
+			//console.log($scope.items);
+		};
 		// --------------------------- E N D ----------------------------
 	});
