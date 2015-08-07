@@ -46,7 +46,7 @@ class MongoController < ActionController::Base
       items = entity.order(sort_str).skip(params[:start].to_i).limit(params[:limit].to_i)
     end
 
-    return {:items => items, :total => total_count, :success => true}
+    return {:items => items, :total => total_count, :success => true, :conditions => where_conds}
   end
   
   def update_multiple_data(entity, params)

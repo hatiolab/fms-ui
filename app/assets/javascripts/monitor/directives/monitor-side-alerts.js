@@ -87,7 +87,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	 	var searchParams = {'_o[ctm]' : 'desc'};
 		// convert date to number
 		FmsUtils.buildDateConds(searchParams, 'ctm', params['ctm_gte'], params['ctm_lte']);
-		
+
 	 	if(!params) {
 	 		return searchParams;
 	 	}
@@ -241,7 +241,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	  * @return N/A
 	  */
 	 $scope.doSearch = function(params, callback) {
-	 	RestApi.search('/events.json', params, function(dataSet) {
+	 	RestApi.search('/events.json?type_summary=Y', params, function(dataSet) {
 	 		callback(dataSet);
 	 	});
 	 };
@@ -255,10 +255,11 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	 $scope.afterSearch = function(dataSet) {
 	 	$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
  		FmsUtils.setEventTypeClasses($scope.items);
- 		$scope.eventTypeSummaries = FmsUtils.getEventTypeSummaries($scope.items);
+ 		//$scope.eventTypeSummaries = FmsUtils.getEventTypeSummaries($scope.items);
+ 		$scope.eventTypeSummaries = dataSet.type_summary;
  		// Map에 정보를 전달하여 지도에 표시하게 한다.
 		$scope.$emit('monitor-event-list-change', $scope.items);
-		// grid container를 새로 설정한다.
+		// Grid Container를 새로 설정한다.
 		FmsUtils.setGridContainerHieght('monitor-alert-table-container');
 	 };
 

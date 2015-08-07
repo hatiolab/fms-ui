@@ -16,7 +16,20 @@ class EventsController < MongoController
     end
 
     results = searching(Event, params)
-    @collection, @total_count = results[:items], results[:total]
+    @collection, @total_count, conditions = results[:items], results[:total], results[:conditions]
+
+    if(params["type_summary"] && params["type_summary"] == 'Y')
+      conditions = conditions || {}
+      conditions[:typ] = 'V'
+      overspeedCnt = Event.all_of(conditions).count
+      conditions[:typ] = 'G'
+      impactCnt = Event.all_of(conditions).count
+      conditions[:typ] = 'B'
+      emergencyCnt = Event.all_of(conditions).count
+      conditions[:typ] = { '$in' => ['I', 'O'] }
+      geofenceCnt = Event.all_of(conditions).count
+      @type_summary = { :geofence => geofenceCnt, :impact => impactCnt, :overspeed => overspeedCnt, :emergency => emergencyCnt }
+    end
   end
   
   def show

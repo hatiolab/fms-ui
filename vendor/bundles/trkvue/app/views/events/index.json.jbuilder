@@ -6,4 +6,12 @@ json.items do |json|
 	end
 end
 json.total @total_count
+
+json.type_summary do
+	json.geofence @type_summary[:geofence]
+	json.impact @type_summary[:impact]
+	json.overspeed @type_summary[:overspeed] 
+	json.emergency @type_summary[:emergency]
+end if @type_summary
+
 json.success true

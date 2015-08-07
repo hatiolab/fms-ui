@@ -37,7 +37,6 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 			$scope.doSearch(searchParams, function(dataSet) {
 				$scope.items = dataSet.items;
 				$scope.afterSearch(dataSet.items);
-				console.log(dataSet.items.name);
 			});
 
 		};
