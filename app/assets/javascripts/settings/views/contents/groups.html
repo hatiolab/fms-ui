@@ -21,6 +21,7 @@
 			<table class="table table-striped table-hover" st-pagination-scroll st-table="items" st-pipe="searchGeofenceGroups">
 				<thead>
 					<tr>
+						<th></th>
 						<th>#</th>
 						<th>Geofence Name</th>
 						<th>Geofence Description</th>
@@ -30,6 +31,7 @@
 				<tbody>
 					<tr ng-repeat="geofenceGroup in items">
 					<!-- contentEditable={{geofenceGroup.isEditable}} -->
+						<td><input type="checkbox" ng-model='geofenceGroup.deleteFlage'></td>
 						<td>{{geofenceGroup.no}}</td>
 						<td ng-click="geofenceHide=false">
 						    <span ng-hide="!geofenceHide">{{geofenceGroup.geofence.name}}</span>					 

@@ -4,11 +4,10 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 			controller: 'groupDetailCtrl',
 			templateUrl: '/assets/settings/views/contents/groups.html',
 			scope: {},
-			link : function(scope, element, attr, groupDetailCtrl) {
-			}
+			link: function(scope, element, attr, groupDetailCtrl) {}
 		};
 	})
-	.controller('groupDetailCtrl', function($rootScope, $scope, $resource, $element, ModalUtils, FmsUtils, RestApi) {
+	.controller('groupDetailCtrl', function($rootScope, $scope, $resource, $element, $filter, ModalUtils, FmsUtils, RestApi) {
 		/**
 		 * Selected Driver Item
 		 * 
@@ -33,7 +32,7 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 		 */
 		$scope.searchEnabled = false;
 
-		$scope.geofenceHide =true;
+		$scope.geofenceHide = true;
 		$scope.alarmTypeHide = true;
 
 		/**
@@ -72,7 +71,7 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 		 * Search Groups
 		 */
 		$scope.searchGeoGroups = function() {
-			
+
 			searchParams = $scope.beforeSearch();
 
 			$scope.doSearch(searchParams, function(dataSet) {
@@ -87,7 +86,7 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 		 */
 		$scope.searchGeofences = function() {
 			searchParams = {};
-			
+
 			$scope.doGeofenceSearch(searchParams, function(dataSet) {
 				$scope.geofences = dataSet.items;
 			});
@@ -189,23 +188,22 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 				result.$promise.then(function(data) {
 					$scope.refreshList();
 					var items = [];
-					for(var i =0; i<$scope.items.length; i++){
+					for (var i = 0; i < $scope.items.length; i++) {
 						var relation = $scope.items[i];
-						if(relation.fleet_group_id==''||relation.geofence_id==null){
-						}else{
+						if (relation.fleet_group_id == '' || relation.geofence_id == null) {} else {
 							items.push({
-								id : relation.id,
+								id: relation.id,
 								fleet_group_id: relation.fleet_group_id,
 								geofence_id: relation.geofence_id,
 								alarm_type: relation.alarm_type,
-								_cud_flag_ : relation.id ? "u" : "c"
+								_cud_flag_: relation.id ? "u" : "c"
 							});
 						}
 					}
 
 					if (items.length > 0) {
 						var url = '/geofence_groups/update_multiple.json';
-						var result = RestApi.updateMultiple(url, null,items);
+						var result = RestApi.updateMultiple(url, null, items);
 						result.$promise.then(function(data) {
 							$scope.refreshList();
 							$scope.searchGeoGroups();
@@ -220,23 +218,22 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 				result.$promise.then(function(data) {
 					$scope.refreshList();
 					var items = [];
-					for(var i =0; i<$scope.items.length; i++){
+					for (var i = 0; i < $scope.items.length; i++) {
 						var relation = $scope.items[i];
-						if(relation.fleet_group_id==''||relation.fleet_group_id==null){
-						}else{
+						if (relation.fleet_group_id == '' || relation.fleet_group_id == null) {} else {
 							items.push({
-								id : relation.id,
+								id: relation.id,
 								fleet_group_id: relation.fleet_group_id,
 								geofence_id: relation.geofence_id,
 								alarm_type: relation.alarm_type,
-								_cud_flag_ : relation.id ? "u" : "c"
+								_cud_flag_: relation.id ? "u" : "c"
 							});
 						}
 					}
 
 					if (items.length > 0) {
 						var url = '/geofence_groups/update_multiple.json';
-						var result = RestApi.updateMultiple(url, null,items);
+						var result = RestApi.updateMultiple(url, null, items);
 						result.$promise.then(function(data) {
 							$scope.refreshList();
 							$scope.searchGeoGroups();
@@ -272,7 +269,7 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 		 */
 		$scope.new = function() {
 			$scope.item = {};
-			$scope.items ={};
+			$scope.items = {};
 		};
 
 		/**
@@ -290,7 +287,13 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 		 * @return {Object}
 		 */
 		$scope.addGeofence = function() {
-			$scope.items.push({'no':'','geofence.name':'','geofence.description':'','geofence.alarm_type':'','fleet_group_id':$scope.item.id});
+			$scope.items.push({
+				'no': '',
+				'geofence.name': '',
+				'geofence.description': '',
+				'geofence.alarm_type': '',
+				'fleet_group_id': $scope.item.id
+			});
 			$scope.numbering($scope.items, 1);
 		};
 
@@ -300,25 +303,15 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 		 * @return {Object}
 		 */
 		$scope.rmGeofence = function() {
-			// if(!$scope.checkValidForm()) {
-			// 	return;
-			// }
-
-			// if($scope.item.id && $scope.item.id != '') {
-			// 	var url = '/fleet_groups/' + $scope.item.id + '.json';
-			// 	var result = RestApi.update(url, null, {driver : $scope.item});
-			// 	result.$promise.then(function(data) {
-			// 		$scope.refreshList();
-			// 	});
-
-			// } else {
-			// 	var result = RestApi.create('/fleet_groups.json', null, {driver : $scope.item});
-			// 	result.$promise.then(function(data) {
-			// 		$scope.refreshList();
-			// 	});
-			// }
+			var result = [];
+			result = $filter('filter')($scope.items, {'deleteFlage':true});
+			for(var i=0; i<result.length; i++){
+				var index = $scope.items.indexOf(result[i]);
+				if (index !== -1) {
+					$scope.items.splice(index, 1);
+				}
+			}
 		};
-		$scope.showdata = function() {
-		};
+		$scope.showdata = function() {};
 		// --------------------------- E N D ----------------------------
 	});
