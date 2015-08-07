@@ -33,7 +33,6 @@ angular.module('fmsSettings').directive('driverDetail', function() {
 				url: '/drivers/' + $scope.item.id + '/upload_image.json', 
 				file: file,
 			}).progress(function(evt) {
-				//console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
 			}).success(function(data, status, headers, config) {
 				$scope.item.img = data.img;
 			});

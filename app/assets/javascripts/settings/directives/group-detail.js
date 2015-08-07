@@ -91,7 +91,6 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 			$scope.doGeofenceSearch(searchParams, function(dataSet) {
 				$scope.geofences = dataSet.items;
 			});
-			console.log($scope.geofences);
 		};
 
 		/**
@@ -178,7 +177,6 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 		 * @return {Object}
 		 */
 		$scope.save = function() {
-			console.log($scope.items);
 			if (!$scope.checkValidForm()) {
 				return;
 			}
@@ -321,7 +319,6 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 			// }
 		};
 		$scope.showdata = function() {
-			//console.log($scope.items);
 		};
 		// --------------------------- E N D ----------------------------
 	});
