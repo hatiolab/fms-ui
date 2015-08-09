@@ -1,69 +1,73 @@
-								<form class="form-horizontal">
-									<!-- period begin -->
-									<div class="form-group">
-								    <label for="inputPassword" class="col-xs-2 col-sm-2 col-md-2 control-label">Period</label>
-								    <div class="col-xs-3 col-sm-3 col-md-3 padding-clear">
-											<div id="info_trip_datepicker1" class="input-append date">
-										    <input data-format="yyyy-MM-dd" type="text" ng-model="tripSearchParams.etm_gte" placeholder="from"></input>
-										    <span class="add-on">
-										      <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-										    </span>
-											</div>
-								    </div>
-										<span class="col-xs-1 col-sm-1 col-md-1 padding-clear align-center margin-t7">~</span>
-								    <div class="col-xs-3 col-sm-3 col-md-3 padding-clear">
-											<div id="info_trip_datepicker2" class="input-append date">
-										    <input data-format="yyyy-MM-dd" type="text" ng-model="tripSearchParams.etm_lte"placeholder="to"></input>
-										    <span class="add-on">
-										      <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-										    </span>
-											</div>		 
-								    </div>
-									</div>
-									<!-- period end -->
-								</form>
+<form class="form-horizontal">
+	<!-- period begin -->
+	<div class="form-group">
+    <label for="inputPassword" class="col-xs-2 col-sm-2 col-md-2 control-label">Period</label>
+    <div class="col-xs-3 col-sm-3 col-md-3 padding-clear">
+			<div id="monitor_info_trip_datepicker1" class="input-append date">
+		    <input data-format="yyyy-MM-dd" type="text" ng-model="searchParams.etm_gte" placeholder="from"></input>
+		    <span class="add-on">
+		      <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+		    </span>
+			</div>
+    </div>
+		<span class="col-xs-1 col-sm-1 col-md-1 padding-clear align-center margin-t7">~</span>
+    <div class="col-xs-3 col-sm-3 col-md-3 padding-clear">
+			<div id="monitor_info_trip_datepicker2" class="input-append date">
+		    <input data-format="yyyy-MM-dd" type="text" ng-model="searchParams.etm_lte"placeholder="to"></input>
+		    <span class="add-on">
+		      <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+		    </span>
+			</div>		 
+    </div>
+	</div>
+	<!-- period end -->
+</form>
 
-								<!-- table begin -->
-								<table class="table table-striped table-hover" st-table="fleetTripItems" st-pipe="pageTrips">
-									<thead>
-									  <tr>
-											<th>Trip No.</th>
-											<th>Start Time</th>
-											<th>Finish Time</th>
-											<th>Idle</th>
-											<th>Low</th>
-											<th>Slow</th>
-											<th>Normal</th>
-											<th>High</th>
-											<th>Over</th>
-											<th>Trip</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr ng-repeat="fleetTrip in fleetTripItems">
-											<td class="align-center">{{fleetTrip.id}}</td>
-											<td>{{fleetTrip.stm | date : 'medium'}}</td>
-											<td>{{fleetTrip.etm | date : 'medium'}}</td>
-											<td>{{fleetTrip.c_off}}</td>
-											<td>{{fleetTrip.c_idl}}</td>
-											<td>{{fleetTrip.c_low}}</td>
-											<td>{{fleetTrip.c_nml}}</td>
-											<td>{{fleetTrip.c_hgh}}</td>
-											<td>{{fleetTrip.c_ovr}}</td>
-											<td class="icon-td align-center" ng-click="goTrip(fleetTrip)">
-												<span class="icon-trip"></span>
-											</td>
-										</tr>
-									</tbody>
-									<tfoot>
-										<tr>
-											<td class="text-center" colspan="10">
-												<div st-pagination="" 
-													st-items-by-page="fleetTripDataSet.limit" 
-													st-displayed-pages="fleetTripDataSet.total_page">
-												</div>
-											</td>
-										</tr>
-									</tfoot>
-								</table>
-								<!-- table end -->
+<div id="monitor-info-trip-table-container" class="search-table">
+	<!-- table begin -->
+	<table class="table table-striped table-hover" st-table="items" st-pipe="search">
+		<thead>
+		  <tr>
+		  	<th>#</th>
+				<th>Trip No.</th>
+				<th>Start Time</th>
+				<th>Finish Time</th>
+				<th>Idle</th>
+				<th>Low</th>
+				<th>Slow</th>
+				<th>Normal</th>
+				<th>High</th>
+				<th>Over</th>
+				<th>Trip</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="item in items">
+				<td>{{item.no}}</td>
+				<td class="align-center">{{item.id}}</td>
+				<td>{{item.stm | date : 'medium'}}</td>
+				<td>{{item.etm | date : 'medium'}}</td>
+				<td>{{item.c_off}}</td>
+				<td>{{item.c_idl}}</td>
+				<td>{{item.c_low}}</td>
+				<td>{{item.c_nml}}</td>
+				<td>{{item.c_hgh}}</td>
+				<td>{{item.c_ovr}}</td>
+				<td class="icon-td align-center" ng-click="goTrip(item)">
+					<span class="icon-trip"></span>
+				</td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td class="text-center" colspan="11">
+					<div st-pagination="" 
+						st-items-by-page="countPerPage" 
+						st-displayed-pages="pageInfo.total_page">
+					</div>
+				</td>
+			</tr>
+		</tfoot>
+	</table>
+	<!-- table end -->
+</div>
