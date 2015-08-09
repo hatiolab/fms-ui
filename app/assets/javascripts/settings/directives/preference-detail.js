@@ -73,13 +73,13 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 				'stillcut_interval' : Number($scope.getByName(dataSet,'stillcut_interval').value),
 				'trip_interval' : Number($scope.getByName(dataSet,'trip_interval').value),
 				'map_refresh' : $scope.getByName(dataSet,'map_refresh').value,
-				'emergency_button' : $scope.getByName(dataSet,'emergency_button').value=="Y"?true:false,
-				'g_sensor' : $scope.getByName(dataSet,'g_sensor').value=="Y"?true:false,
-				'ext_emergency_button' : $scope.getByName(dataSet,'ext_emergency_button').value=="Y"?true:false,
-				'geofence_activation' : $scope.getByName(dataSet,'geofence_activation').value=="Y"?true:false,
-				'over_speed' : $scope.getByName(dataSet,'over_speed').value=="Y"?true:false,
-				'date_format' : $scope.getByName(dataSet,'date_format').value,
-				'time_format' : $scope.getByName(dataSet,'time_format').value
+				'alarm_impact' : $scope.getByName(dataSet,'alarm_impact').value == "Y" ? true : false,
+				'alarm_g_sensor' : $scope.getByName(dataSet,'alarm_g_sensor').value == "Y" ? true : false,
+				'alarm_emergency' : $scope.getByName(dataSet,'alarm_emergency').value == "Y" ? true : false,
+				'alarm_geofence' : $scope.getByName(dataSet,'alarm_geofence').value == "Y" ? true : false,
+				'alarm_overspeed' : $scope.getByName(dataSet,'alarm_overspeed').value == "Y" ? true : false,
+				'format_date' : $scope.getByName(dataSet,'format_date').value,
+				'format_time' : $scope.getByName(dataSet,'format_time').value
 			};
 		};
 

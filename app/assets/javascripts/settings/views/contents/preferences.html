@@ -99,13 +99,13 @@
 			<label class="control-label col-xs-2 col-sm-1 col-md-1 padding-clear align-left">Date</label>
 			<div class="radio col-xs-5 col-sm-3 col-md-3">
 				<label>
-					<input type="radio" name="dnt-d" id="optionsRadios1" value="MM/DD/YYYY" ng-model="settings.date_format" checked>
-					MM/DD/YYYY
+					<input type="radio" name="dnt-d" id="optionsRadios1" value="yyyy-MM-dd" ng-model="settings.format_date" checked>
+					YYYY-MM-DD
 				</label>
 			</div>
 			<div class="radio col-xs-5 col-sm-3 col-md-3">
 				<label>
-					<input type="radio" name="dnt-d" id="optionsRadios2" ng-model="settings.date_format" value="DD/MM/YYYY">
+					<input type="radio" name="dnt-d" id="optionsRadios2" ng-model="settings.format_date" value="dd/MM/yyyy">
 					DD/MM/YYYY
 				</label>
 			</div>
@@ -113,13 +113,13 @@
 			<label class="control-label col-xs-2 col-sm-1 col-md-1 padding-clear align-left">Time</label>
 			<div class="radio col-xs-5 col-sm-3 col-md-3">
 				<label>
-					<input type="radio" name="dnt-t" id="optionsRadios1" value="AM/PM" ng-model="settings.time_format" checked>
+					<input type="radio" name="dnt-t" id="optionsRadios1" value="AM/PM" ng-model="settings.format_time" checked>
 					AM/PM
 				</label>
 			</div>
 			<div class="radio col-xs-5 col-sm-3 col-md-3">
 				<label>
-					<input type="radio" name="dnt-t" id="optionsRadios2" value="24HR" ng-model="settings.time_format" >
+					<input type="radio" name="dnt-t" id="optionsRadios2" value="24HR" ng-model="settings.format_time" >
 					24HR
 				</label>
 			</div>
@@ -156,23 +156,23 @@
 		<fieldset class="col-xs-12 col-sm-6 col-md-6 pull-right">
 			<legend>Alarm</legend>
 			<div class="checkbox">
-				<label><input type="checkbox" ng-model='settings.emergency_button'> Emergency Button</label>
+				<label><input type="checkbox" ng-model='settings.alarm_impact'> Impact</label>
 			</div>
 			
 			<div class="checkbox">
-				<label><input type="checkbox" ng-model='settings.ext_emergency_button'> Externam Emergency Button</label>
+				<label><input type="checkbox" ng-model='settings.alarm_emergency'> Emergency Button</label>
 			</div>
 			
 			<div class="checkbox">
-				<label><input type="checkbox" ng-model='settings.g_sensor'> G sensor</label>
+				<label><input type="checkbox" ng-model='settings.alarm_g_sensor'> G sensor</label>
 			</div>
 			
 			<div class="checkbox">
-				<label><input type="checkbox" ng-model='settings.over_speed'> Over Speed</label>
+				<label><input type="checkbox" ng-model='settings.alarm_overspeed'> OverSpeed</label>
 			</div>
 			
 			<div class="checkbox">
-				<label><input type="checkbox" ng-model='settings.geofence_activation'> Geofence Activation</label>
+				<label><input type="checkbox" ng-model='settings.alarm_geofence'> Geofence</label>
 			</div>
 		</fieldset>
 		<!-- alarm range end -->
