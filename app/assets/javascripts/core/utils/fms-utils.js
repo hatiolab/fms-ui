@@ -14,7 +14,8 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 				'setting-driver-table-container',
 				'setting-fleet-table-container',
 				'setting-group-relation-table-container',
-				'monitor-info-alert-table-container'
+				'monitor-info-alert-table-container',
+				'monitor-info-trip-table-container'
 			];
 			
 			var me = this;
@@ -30,6 +31,7 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 		setGridContainerHieght : function(gridContainerId) {
 			var newHeight = $(window).height();
 			var gridContainer = angular.element('#' + gridContainerId);
+
 			if(!gridContainer) {
 				return;
 			}
@@ -56,7 +58,10 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 				newHeight = newHeight - 323;
 
 			} else if(gridContainerId == 'monitor-info-alert-table-container') {
-				newHeight = 200;
+				newHeight = 210;
+
+			} else if(gridContainerId == 'monitor-info-trip-table-container') {
+				newHeight = 210;
 			}
 
 			if(newHeight > 10) {

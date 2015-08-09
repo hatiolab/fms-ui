@@ -80,7 +80,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	 });
 
 	/**
-	 * Rails Server의 스펙에 맞도록 파라미터 변경 ...
+	 * Normalize parameters
 	 */
 	 $scope.normalizeSearchParams = function(params) {
 
