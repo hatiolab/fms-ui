@@ -6,7 +6,7 @@
 			<div class="form-group col-xs-12 col-sm-6">
 				<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">Batch Interval</label>
 				<div class="col-xs-7 col-sm-8 col-md-8">
-					<input type="number" min="1" class="form-control max-w200 pull-left" ng-model='settings.batch_interval'></input>
+					<input type="number" min="1" class="form-control max-w100 pull-left" ng-model='settings.batch_interval'></input>
 					<span class="pull-left padding-rl7 padding-t4">Hour</span>
 <!-- 						<select class="form-control">
 								<option>select ..</option>
@@ -17,7 +17,7 @@
 			<div class="form-group col-xs-12 col-sm-6">
 				<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">Trip Interval</label>
 				<div class="col-xs-7 col-sm-8 col-md-8">
-					<input type="number" min="1" class="form-control max-w200 pull-left" ng-model='settings.trip_interval'></input>
+					<input type="number" min="1" class="form-control max-w100 pull-left" ng-model='settings.trip_interval'></input>
 					<span class="pull-left padding-rl7 padding-t4">Hour</span>
 <!-- 					<select class="form-control">
 						<option>select ..</option>
@@ -28,7 +28,7 @@
 			<div class="form-group col-xs-12 col-sm-6">
 				<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">GPS Interval</label>
 				<div class="col-xs-7 col-sm-8 col-md-8">
-					<input type="number" min="1" class="form-control max-w200 pull-left" ng-model='settings.gps_interval'></input>
+					<input type="number" min="1" class="form-control max-w100 pull-left" ng-model='settings.gps_interval'></input>
 					<span class="pull-left padding-rl7 padding-t4">Minutes</span>
 <!-- 					<select class="form-control">
 						<option>select ..</option>
@@ -39,7 +39,7 @@
 			<div class="form-group col-xs-12 col-sm-6">
 				<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">Stillcut Interval</label>
 				<div class="col-xs-7 col-sm-8 col-md-8">
-					<input type="number" min="1" class="form-control max-w200 pull-left" ng-model='settings.stillcut_interval'></input>
+					<input type="number" min="1" class="form-control max-w100 pull-left" ng-model='settings.stillcut_interval'></input>
 					<span class="pull-left padding-rl7 padding-t4">Minutes</span>
 <!-- 					<select class="form-control">
 						<option>select ..</option>
@@ -47,20 +47,20 @@
 				</div>
 			</div>
 
-			<div class="form-group col-xs-12 col-sm-6" >
-				<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">Map Refresh</label>
-				<div class="radio col-xs-2 col-sm-2 col-md-2">
-					<label><input type="radio" name="MapRefresh" id="optionsRadios1" value="Y" ng-model="settings.map_refresh" checked> Yes</label>
+			<div class="form-group col-xs-12 col-sm-12" >
+				<label class="control-label col-xs-5 col-sm-2 col-md-2 padding-clear">Map Refresh</label>
+				<div class="radio pull-left">
+					<label class="pull-left"><input type="radio" name="MapRefresh" id="optionsRadios1" value="Y" ng-model="settings.map_refresh" checked> Yes</label>
+						<div class="pull-left" ng-show="settings.map_refresh=='Y'">
+							<input type="number" min="1" class="form-control max-w100 pull-left" ng-model='settings.map_refresh_interval'></input>
+							<span class="pull-left padding-rl7 padding-t4">Seconds</span>
+					<!-- 					<select class="form-control">
+											<option>select ..</option>
+										</select> -->
+						</div>
 				</div>
-				<div class="col-xs-3 col-sm-4 col-md-4" ng-show="settings.map_refresh=='Y'">
-					<input type="number" min="1" class="form-control max-w100 pull-left" ng-model='settings.map_refresh_interval'></input>
-					<span class="pull-left padding-rl7 padding-t4">Seconds</span>
-<!-- 					<select class="form-control">
-						<option>select ..</option>
-					</select> -->
-				</div>
-				<div class="radio col-xs-2 col-sm-2 col-md-2">
-					<label><input type="radio" name="MapRefresh" id="optionsRadios2" value="N" ng-model="settings.map_refresh"> No</label>
+				<div class="radio pull-left">
+					<label class="pull-left"><input type="radio" name="MapRefresh" id="optionsRadios2" value="N" ng-model="settings.map_refresh"> No</label>
 				</div><!-- 
 
 				<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">Map Refresh Interval</label>
