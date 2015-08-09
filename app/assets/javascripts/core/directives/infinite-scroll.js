@@ -2,7 +2,7 @@
  * lrInfiniteScrollPlugin
  */
  angular.module('smart-table')
- .directive('stPaginationScroll', ['$timeout', function (timeout) {
+ .directive('stPaginationScroll', ['$timeout', 'GridUtils', function (timeout, GridUtils) {
 
   return {
 
@@ -14,11 +14,12 @@
       * 
       * @type {Number}
       */
-      var gridBufferCount = 100;
-      var itemByPage = 20;
-      var lengthThreshold = 20;
-      var timeThreshold = 400;
+      var gridBufferCount = GridUtils.getGridBufferCount();
+      var itemByPage = GridUtils.getGridCountPerPage();
+      var lengthThreshold = GridUtils.getGridLengthThreshold();
+      var timeThreshold = GridUtils.getTimeThreshold();
       var pagination = ctrl.tableState().pagination;
+      var moveScrollPx = 500;
 
       /**
        * Items Numbering
@@ -30,7 +31,7 @@
         var startNo = 1;
 
         if(scope.items && scope.items.length > 0) {
-          startNo = scrollUp ? (scope.items[0].no - 20) : (scope.items[scope.items.length - 1].no + 1);
+          startNo = scrollUp ? (scope.items[0].no - itemByPage) : (scope.items[scope.items.length - 1].no + 1);
         }
 
         for(var i = 0 ; i < items.length ; i++) {
@@ -65,14 +66,14 @@
             scope.items = scope.items.concat(dataSet.items);
             if (scope.items.length > gridBufferCount) {
               // buffer 개수가 max buffer 이상이면 앞에서 부터 한 페이지 개수만큼 비운다.
-              scope.items.splice(0, 20);
+              scope.items.splice(0, itemByPage);
             }
           } else {
             scope.items = dataSet.items.concat(scope.items);
             if (scope.items.length > gridBufferCount) {
               var removeCount = scope.items.length - gridBufferCount;
               // buffer 개수가 max buffer 이상이면 뒤에서 부터 한 페이지 개수만큼 비운다.
-              scope.items.splice(scope.items.length - 20, 20);
+              scope.items.splice(scope.items.length - itemByPage, itemByPage);
             }
           }
 
@@ -136,7 +137,7 @@
 
             prevPage();
             //scroll a bit up
-            tableContainer.scrollTop += 500;
+            tableContainer.scrollTop += moveScrollPx;
             promise = null;
 
           }, timeThreshold);
@@ -160,7 +161,7 @@
               
               nextPage();
               //scroll a bit up
-              tableContainer.scrollTop -= 500;
+              tableContainer.scrollTop -= moveScrollPx;
               promise = null;
 
             }, timeThreshold);

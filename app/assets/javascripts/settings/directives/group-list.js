@@ -12,7 +12,7 @@ angular.module('fmsSettings').directive('groupList', function() {
 			}
 		};
 	})
-	.controller('groupListCtrl', function($rootScope, $scope, $resource, $element, FmsUtils, RestApi) {
+	.controller('groupListCtrl', function($rootScope, $scope, $resource, $element, GridUtils, FmsUtils, RestApi) {
 
 		/**
 		 * Fleet List
@@ -57,11 +57,11 @@ angular.module('fmsSettings').directive('groupList', function() {
 		/**
 		 * Search Groups
 		 */
-		$scope.searchGroups = function(tablestate) {
+		$scope.search = function(tablestate) {
 			if (!$scope.searchEnabled) {
 				$scope.searchEnabled = true;
 				$scope.tablestate = tablestate;
-				$scope.tablestate.pagination.number = 20;
+				$scope.tablestate.pagination.number = GridUtils.getGridCountPerPage();
 			}
 
 			if (tablestate) {
@@ -70,7 +70,7 @@ angular.module('fmsSettings').directive('groupList', function() {
 
 			searchParams = angular.copy($scope.searchParams);
 			searchParams = $scope.normalizeSearchParams(searchParams);
-			$scope.setPageQueryInfo(searchParams, $scope.tablestate.pagination, 0, 20);
+			$scope.setPageQueryInfo(searchParams, $scope.tablestate.pagination, 0, GridUtils.getGridCountPerPage());
 
 			$scope.doSearch(searchParams, function(dataSet) {
 				$scope.numbering(dataSet.items, 1);

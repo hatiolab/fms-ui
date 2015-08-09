@@ -18,7 +18,7 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	};
 })
 
-.controller('sideFleetsCtrl', function($rootScope, $scope, $element, ConstantSpeed, FmsUtils, RestApi) {
+.controller('sideFleetsCtrl', function($rootScope, $scope, $element, GridUtils, ConstantSpeed, GridUtils, FmsUtils, RestApi) {
 
 	/**
 	 * 처음 전체 페이지 로딩시는 fleet data 자동조회 하지 않는다.
@@ -85,7 +85,7 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	 	if(!$scope.searchEnabled) {
 	 		$scope.searchEnabled = true;
 	 		$scope.tablestate = tablestate;
-	 		$scope.tablestate.pagination.number = 20;
+	 		$scope.tablestate.pagination.number = GridUtils.getGridCountPerPage();
 	 	}
 
 	 	if(tablestate) {
@@ -93,7 +93,7 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	 	}
 
  		var searchParams = $scope.beforeSearch();
-		$scope.setPageQueryInfo(searchParams, $scope.tablestate.pagination, 0, 20);
+		$scope.setPageQueryInfo(searchParams, $scope.tablestate.pagination, 0, GridUtils.getGridCountPerPage());
 
     $scope.doSearch(searchParams, function(dataSet) {
       $scope.numbering(dataSet.items, 1);

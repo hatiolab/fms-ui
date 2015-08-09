@@ -7,12 +7,12 @@ angular.module('fmsSettings').directive('fleetList', function() {
 		link : function(scope, element, attr, fleetListCtrl) {
 			var refreshButton = element.find('#searchFleets');
 			refreshButton.bind("click", function() {
-				scope.searchFleets(scope.tablestate);
+				scope.search(scope.tablestate);
 			});
 		}
 	}; 
 })
-.controller('fleetListCtrl', function($rootScope, $scope, $resource, $element, FmsUtils, RestApi) {
+.controller('fleetListCtrl', function($rootScope, $scope, $resource, $element, GridUtils, FmsUtils, RestApi) {
 
 	/**
 	 * Fleet List
@@ -93,11 +93,11 @@ angular.module('fmsSettings').directive('fleetList', function() {
 	/**
 	 * Search Fleets
 	 */
-	$scope.searchFleets = function(tablestate) {
+	$scope.search = function(tablestate) {
 		if(!$scope.searchEnabled) {
 			$scope.searchEnabled = true;
 			$scope.tablestate = tablestate;
-			$scope.tablestate.pagination.number = 20;
+			$scope.tablestate.pagination.number = GridUtils.getGridCountPerPage();
 		}
 
 		if(tablestate) {
@@ -106,7 +106,7 @@ angular.module('fmsSettings').directive('fleetList', function() {
 
 		searchParams = angular.copy($scope.searchParams);
 		searchParams = $scope.normalizeSearchParams(searchParams);
-		$scope.setPageQueryInfo(searchParams, $scope.tablestate.pagination, 0, 20);
+		$scope.setPageQueryInfo(searchParams, $scope.tablestate.pagination, 0, GridUtils.getGridCountPerPage());
 
     $scope.doSearch(searchParams, function(dataSet) {
       $scope.numbering(dataSet.items, 1);
@@ -224,7 +224,7 @@ angular.module('fmsSettings').directive('fleetList', function() {
 	 * @param  handler function
 	 */
 	$rootScope.$on('setting-fleet-items-change', function(event) {
-		$scope.searchFleets($scope.tablestate);
+		$scope.search($scope.tablestate);
 	});
 
 	/**
@@ -235,7 +235,7 @@ angular.module('fmsSettings').directive('fleetList', function() {
 	 */
 	$scope.$watchCollection('searchParams', function() {
 		if($scope.searchEnabled) {
-			$scope.searchFleets($scope.tablestate);
+			$scope.search($scope.tablestate);
 		}
 	});
 

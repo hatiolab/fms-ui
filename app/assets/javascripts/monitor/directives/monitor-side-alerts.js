@@ -18,7 +18,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	};
 })
 
-.controller('sideAlertsCtrl', function($rootScope, $scope, $resource, $element, FmsUtils, RestApi) {
+.controller('sideAlertsCtrl', function($rootScope, $scope, $resource, $element, GridUtils, FmsUtils, RestApi) {
 
 	/**
 	 * 기본 날짜 검색일 설정 
@@ -156,7 +156,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	 	if(!$scope.searchEnabled) {
 	 		$scope.searchEnabled = true;
 	 		$scope.tablestate = tablestate;
-	 		$scope.tablestate.pagination.number = 20;
+	 		$scope.tablestate.pagination.number = GridUtils.getGridCountPerPage();
 	 		return;
 	 	}
 
@@ -165,7 +165,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	 	}
 
  		var searchParams = $scope.beforeSearch();
-		$scope.setPageQueryInfo(searchParams, $scope.tablestate.pagination, 0, 20);
+		$scope.setPageQueryInfo(searchParams, $scope.tablestate.pagination, 0, GridUtils.getGridCountPerPage());
 
     $scope.doSearch(searchParams, function(dataSet) {
       $scope.numbering(dataSet.items, 1);
