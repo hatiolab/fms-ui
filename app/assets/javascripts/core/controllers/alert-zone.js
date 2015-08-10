@@ -22,7 +22,7 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
    		$scope.lastSearchAlertTime = new Date().getTime() + 10;
    	}
    	
-   	console.log($scope.lastSearchAlertTime);
+   	//console.log($scope.lastSearchAlertTime);
    	$timeout($scope.searchNewAlert, $scope.getInterval());
    };
 
