@@ -16,12 +16,13 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 	   		isShow : true
 	   	};
    		$scope.addAlertPopup(alert);
-   		$scope.lastSearchAlertTime = alertData.alert.ctm + 1;
+   		$scope.lastSearchAlertTime = alertData.alert.ctm + 10;
 
    	} else {
-   		$scope.lastSearchAlertTime = new Date().getTime() + 1;
+   		$scope.lastSearchAlertTime = new Date().getTime() + 10;
    	}
    	
+   	console.log($scope.lastSearchAlertTime);
    	$timeout($scope.searchNewAlert, $scope.getInterval());
    };
 
