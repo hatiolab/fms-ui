@@ -173,6 +173,7 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 			$scope.item.lat = DEFAULT_LAT;
 			$scope.item.lng = DEFAULT_LNG;
 			$scope.item.status = 'OFF';
+			$scope.item.velocity = 0;
 			var result = RestApi.create('/fleets.json', null, {fleet : $scope.item});
 			result.$promise.then(function(data) {
 				$scope.refreshList();

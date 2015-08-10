@@ -9,9 +9,13 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 */
 	$scope.mapOption = { center: { latitude: DEFAULT_LAT, longitude: DEFAULT_LNG }, zoom: 9 };
 	/**
-	 * map marker models for fleets, map polyline model for tracks, currently selected marker, map control
+	 * map marker models for fleets, map polyline model for tracks, currently selected marker, 
 	 */
-	$scope.markers = [], $scope.polylines = [], $scope.selectedMarker = null; $scope.mapControl = {};
+	$scope.markers = [], $scope.polylines = [], $scope.selectedMarker = null; 
+	/**
+	 * map control, marker control, polyline control
+	 */
+	$scope.mapControl = {}; $scope.markerControl = {}; $scope.polylineControl = {};
 	/**
 	 * window show / hide switch model
 	 */
@@ -67,18 +71,18 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		}
 
 		$scope.clearAll(null);
-		var gmap = $scope.mapControl.getGMap();
-		var startPoint = new google.maps.LatLng(fleets[0].lat, fleets[0].lng);
-		var bounds = new google.maps.LatLngBounds(startPoint, startPoint);
+		//var gmap = $scope.mapControl.getGMap();
+		//var startPoint = new google.maps.LatLng(fleets[0].lat, fleets[0].lng);
+		//var bounds = new google.maps.LatLngBounds(startPoint, startPoint);
 
 		for(var i = 0 ; i < fleets.length ; i++) {
 			var marker = $scope.fleetToMarker(fleets[i]);
 			$scope.addMarker(marker);
-			bounds.extend(new google.maps.LatLng(marker.latitude, marker.longitude));
+			//bounds.extend(new google.maps.LatLng(marker.latitude, marker.longitude));
 		}
 
-		gmap.setCenter(bounds.getCenter());
-		gmap.fitBounds(bounds);
+		//gmap.setCenter(bounds.getCenter());
+		//gmap.fitBounds(bounds);
 	};
 
 	/**
@@ -119,6 +123,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		var longitude = lng ? lng : marker.lng;
     var geocoder = new google.maps.Geocoder();
     var latlng = new google.maps.LatLng(latitude, longitude);
+
     geocoder.geocode({ 'latLng': latlng }, function (results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
         if (results[1]) {
@@ -142,32 +147,41 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 
 		$scope.clearAll(null);
 		var firstEvent = eventDataList[0];
-		var gmap = $scope.mapControl.getGMap();
-		var startPoint = new google.maps.LatLng(firstEvent.lat, firstEvent.lng);
-		var bounds = new google.maps.LatLngBounds(startPoint, startPoint);
 
 		for(var i = 0 ; i < eventDataList.length ; i++) {
 			var eventData = eventDataList[i];
 			var marker = $scope.eventToMarker(eventData);
 			$scope.addMarker(marker);
-			bounds.extend(new google.maps.LatLng(marker.latitude, marker.longitude));
 		}
-
-		gmap.setCenter(bounds.getCenter());
-		gmap.fitBounds(bounds);
 	};	
 
 	/**
 	 * 지도 초기화 
 	 */
 	$scope.clearAll = function(center) {
+		// clear markers
+		var gMarkers = $scope.markerControl.getGMarkers();
+		angular.forEach(gMarkers, function(marker) {
+			marker.setMap(null);
+		});
+
+		$scope.markerControl.getGMarkers().splice(0, gMarkers.length);
+		$scope.markerControl.clean();
+
 		angular.forEach($scope.markers, function(marker) {
 			marker = null;
 		});
 
-		$scope.markers = null;
-		$scope.markers = [];
-		$scope.polylines = [];
+		$scope.markers.splice(0, $scope.markers.length);
+
+		// clear polylines
+		angular.forEach($scope.polylines, function(polyline) {
+			polyline = null;
+		});
+
+		$scope.polylines.splice(0, $scope.polylines.length);
+
+		// 선택된 마커 해제 
 		$scope.selectedMarker = null;
 		$scope.switchOffAll();
 
@@ -219,11 +233,8 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		var batches = tripDataSet.batches;
 		var tracks = tripDataSet.tracks;
 		var events = tripDataSet.events;
-		var gmap = $scope.mapControl.getGMap();
 
 		// 1. trip
-		var startPoint = new google.maps.LatLng(trip.s_lat, trip.s_lng);
-		var bounds = new google.maps.LatLngBounds(startPoint, startPoint);
 		$scope.addMarker($scope.tripToMarker(trip, 'start'));
 
 		// 2. batches
@@ -232,7 +243,6 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 
 			// 2.1 batch start
 			$scope.addMarker($scope.batchToMarker(batch, 'start'));
-			bounds.extend(new google.maps.LatLng(batch.s_lat, batch.s_lng));
 
 			// 2.2 batch polyline
 			var batchline = {
@@ -250,7 +260,6 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 				if(tracks[j].bid == batch.id) {
 					$scope.addMarker($scope.trackToMarker(tracks[j]));
 					batchline.path.push({latitude : tracks[j].lat, longitude : tracks[j].lng});
-					bounds.extend(new google.maps.LatLng(tracks[j].lat, tracks[j].lng));
 				}
 			}
 
@@ -258,7 +267,6 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 			for(var k = 0 ; k < events.length ; k++) {
 				//if(events[k].bid == batch.id && events[k].typ != 'V') {
 				$scope.addMarker($scope.eventToMarker(events[k]));
-				bounds.extend(new google.maps.LatLng(events[k].lat, events[k].lng));
 				//}
 			}
 
@@ -266,7 +274,6 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 			if(batch.sts == '2') {
 				$scope.addMarker($scope.batchToMarker(batch, 'end'));
 				batchline.path.push({latitude : batch.lat, longitude : batch.lng});
-				bounds.extend(new google.maps.LatLng(batch.lat, batch.lng));
 			}
 		}
 
@@ -275,8 +282,6 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 			$scope.addMarker($scope.tripToMarker(trip, 'end'));
 		}
 
-		gmap.setCenter(bounds.getCenter());
-		gmap.fitBounds(bounds);
 		FmsUtils.setSpeedClass(trip, trip.vlc);
 
 		if($scope.currentTripId != trip.id) {

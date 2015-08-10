@@ -3,7 +3,7 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 	/**
    * Alert 발생시 
    */
-   $scope.setAlert = function(alertData) {
+   $scope.setAlert = function(alertData) {   	
    	if(alertData && alertData.alert && alertData.alert.id) {
 	   	FmsUtils.setAlertTypeClass(alertData.alert);
 	   	var alert = {
@@ -22,7 +22,7 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
    		$scope.lastSearchAlertTime = new Date().getTime() + 10;
    	}
    	
-   	//console.log($scope.lastSearchAlertTime);
+   	$timeout.cancel();
    	$timeout($scope.searchNewAlert, $scope.getInterval());
    };
 
@@ -33,9 +33,9 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 	 	var topPosition = $scope.calcPopupTopPosition();
 	 	var popupStr = "<div id='alert_" + alert.id + "' style='top:" + topPosition + "px' class='alert alert-popup' role='alert' ng-show='true'>";
 	 	popupStr += "<div class='" + alert.typeClass + "'></div>";
-	 	popupStr += "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>";
+	 	popupStr += "<button type='button' class='close' data-dismiss='alert' aria-label='Close' ng-click=\"goTrip('" + alert.id + "', 'N')\">";
 	 	popupStr += "<span aria-hidden='true'>&times;</span></button>";
-	 	popupStr += "<strong><button type='button' ng-click=\"goTrip('" + alert.id + "')\">" + alert.title + "</button></a></strong>{{" + alert.time + " | date : 'medium'}}";
+	 	popupStr += "<strong><button type='button' ng-click=\"goTrip('" + alert.id + "', 'Y')\">" + alert.title + "</button></a></strong>{{" + alert.time + " | date : 'medium'}}";
 	 	popupStr += "</div>";		
 	 	var el = $compile(popupStr)($scope);
 	 	$element.append(el);
@@ -77,11 +77,34 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 	/**
 	 * Go Trip
 	 */
-	 $scope.goTrip = function(alertId) {
-	 	RestApi.get('/events/' + alertId + '.json', {}, function(alert) {
-	 		$scope.$emit('monitor-event-trip-change', alert);
+	 $scope.goTrip = function(alertId, goTrip) {
+	 	if('Y' == goTrip) {
+		 	RestApi.get('/events/' + alertId + '.json', {}, function(alert) {
+		 		$scope.$emit('monitor-event-trip-change', alert);
+		 		$('#alert_' + alertId).remove();
+		 		$scope.redrawPopups();
+		 	});
+	 	} else {
 	 		$('#alert_' + alertId).remove();
-	 	});
+	 		$scope.redrawPopups();
+	 	}
+	 };
+
+	 /**
+	  * close시 popup들의 위치를 다시 조정한다.
+	  * 
+	  * @return N/A
+	  */
+	 $scope.redrawPopups = function() {
+	 	var topPosition = 55, height = 60;
+	 	var popups = $element.find('.alert-popup');
+	 	for(var i = 0 ; i < popups.length ; i++) {
+	 		if(i > 0)
+	 			topPosition = topPosition + height;
+
+	 		var popup = popups[i];
+	 		popup.style.top = topPosition + 'px';
+	 	}
 	 };
 
 	 /**
@@ -110,7 +133,12 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 	  * @return {Number}
 	  */
 	 $scope.getInterval = function() {
-	 	var interval = $rootScope.getIntSetting('map_refresh_interval');
+		var interval = 10;
+	 	try {
+	 		interval = $rootScope.getIntSetting('map_refresh_interval');	
+	 	} catch(e) {
+	 	}
+	 	
  		if(!interval || interval < 10) {
  			interval = 10;
  		}
