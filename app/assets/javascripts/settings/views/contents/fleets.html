@@ -1,7 +1,7 @@
 <div class="setting-content">
 	<!-- fleet photo & info begin -->
 	<div class="col-xs-12 col-sm-4 col-md-4 align-center">
-		<img ng-src="{{item.image}}" class="photo-driver"/>
+		<div class="photo-fleet-container"><img ng-src="{{item.image}}" class="photo-driver"/></div>
 		<button type="button" class="btn btn-default btn-sm margin-t7 margin-r5 pull-left photo-fleet" ng-click="changeImage('car')"></button>
 		<button type="button" class="btn btn-default btn-sm margin-t7 pull-left photo-driver" ng-click="changeImage('driver')"></button>
 		<input type="file" ngf-select ngf-multiple="false" ng-model="file" ng-show="item.id"/><br/>

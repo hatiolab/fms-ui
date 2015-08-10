@@ -1,7 +1,7 @@
 <div class="setting-content">
 	<!-- driver photo & info begin -->
 	<div class="col-xs-12 col-sm-4 col-md-4 align-center">
-		<img ng-src="{{item.img}}" class="photo-driver"/>
+		<div class="photo-driver-container"><img ng-src="{{item.img}}" class="photo-driver"/></div>
 		<input type="file" ngf-select ngf-multiple="false" ng-model="file" ng-show="item.id" class="margin-t5"/><br/>
 		<!-- <button type="file" class="btn btn-default btn-sm margin-t7">File Upload</button> -->
 	</div>
