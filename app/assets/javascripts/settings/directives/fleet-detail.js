@@ -6,7 +6,7 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 		scope: {}
 	}; 
 })
-.controller('fleetDetailCtrl', function($rootScope, $scope, $resource, $element, Upload, ModalUtils, RestApi) {
+.controller('fleetDetailCtrl', function($rootScope, $scope, $resource, $element, Upload, ModalUtils, FmsUtils, RestApi) {
 
 	/**
 	 * File
@@ -20,6 +20,34 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 	 * @type {Object}
 	 */
 	$scope.item = { image : '' };
+
+	 /**
+	  * Date Picker Handling
+	  * 
+	  * @param  {[type]}
+	  * @return {[type]}
+	  */
+	 $(function() {
+	 	var purchaseDate = $('#setting_fleet_datepicker1').datetimepicker({
+	 		language : 'en',
+	 		pickTime : false,
+	 		autoclose : true
+	 	}).on('changeDate', function(fev) {
+	 		$scope.item["purchase_date"] = FmsUtils.formatDate(fev.date, 'yyyy-MM-dd');
+	 		purchaseDate.data('datetimepicker').hide();
+	 	});
+	 });
+
+	 $(function() {
+	 	var regDate = $('#setting_fleet_datepicker2').datetimepicker({
+	 		language : 'en',
+	 		pickTime : false,
+	 		autoclose : true
+	 	}).on('changeDate', function(tev) {
+	 		$scope.item["reg_date"] = FmsUtils.formatDate(tev.date, 'yyyy-MM-dd');
+	 		regDate.data('datetimepicker').hide();
+	 	});
+	 });	
 
 	/**
 	 * File Object 변경시 자동 업로드 
@@ -98,7 +126,7 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 			return $scope.showAlerMsg('ID must not be empty!');
 		}
 
-		if(!$scope.item.driver || $scope.item.driver.id == '') {
+		if(!$scope.item.driver_id) {
 			return $scope.showAlerMsg('Driver must not be empty!');
 		}
 
@@ -106,7 +134,7 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 			return $scope.showAlerMsg('Car No. must not be empty!');
 		}
 
-		if(!$scope.item.fleet_group || $scope.item.fleet_group.id == '') {
+		if(!$scope.item.fleet_group_id) {
 			return $scope.showAlerMsg('Group must not be empty!');
 		}
 
@@ -133,7 +161,6 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 		if(!$scope.checkValidForm()) {
 			return;
 		}
-		console.log($scope.item);
 
 		if($scope.item.id && $scope.item.id != '') {
 			var url = '/fleets/' + $scope.item.id + '.json';
@@ -143,6 +170,9 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 			});
 
 		} else {
+			$scope.item.lat = DEFAULT_LAT;
+			$scope.item.lng = DEFAULT_LNG;
+			$scope.item.status = 'OFF';
 			var result = RestApi.create('/fleets.json', null, {fleet : $scope.item});
 			result.$promise.then(function(data) {
 				$scope.refreshList();
