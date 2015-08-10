@@ -19,7 +19,7 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 	 * 
 	 * @type {Object}
 	 */
-	$scope.item = { image : '/assets/ph_car.png' };
+	$scope.item = { image : '' };
 
 	/**
 	 * File Object 변경시 자동 업로드 
@@ -35,6 +35,7 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 			}).progress(function(evt) {
 			}).success(function(data, status, headers, config) {
 				$scope.item.car_image = data.car_image;
+				$scope.item.image = data.car_image;
 			});
 		}
   	});
@@ -63,14 +64,14 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 	 */
   $scope.changeImage = function(imageType) {
   	if(imageType == 'car') {
-  		$scope.item.image = $scope.item.car_image ? $scope.item.car_image : "/assets/ph_car.png";
+  		$scope.item.image = $scope.item.car_image ? $scope.item.car_image : "";
   	} else {
-  		$scope.item.image = ($scope.item.driver && $scope.item.driver.img) ? $scope.item.driver.img : "/assets/ph_user.png";
+  		$scope.item.image = ($scope.item.driver && $scope.item.driver.img) ? $scope.item.driver.img : "";
   	}
   };
 
   $scope.setDefaultImage = function() {
-		$scope.item.image = $scope.item.car_image ? $scope.item.car_image : "/assets/ph_car.png";
+		$scope.item.image = $scope.item.car_image ? $scope.item.car_image : "";
   };
 
 	/**
@@ -174,7 +175,7 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 	 * @return N/A
 	 */
 	$scope.new = function() {
-		$scope.item = { image : '/assets/ph_car.png' };
+		$scope.item = { image : '' };
 	};
 
 	/**

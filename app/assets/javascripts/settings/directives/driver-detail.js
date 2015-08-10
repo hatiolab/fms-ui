@@ -19,7 +19,7 @@ angular.module('fmsSettings').directive('driverDetail', function() {
 	 * 
 	 * @type {Object}
 	 */
-	$scope.item = { img : "/assets/ph_user.png" };
+	$scope.item = { img : "" };
 
 	/**
 	 * File Object 변경시 자동 업로드 
@@ -47,7 +47,7 @@ angular.module('fmsSettings').directive('driverDetail', function() {
 	 */
 	$rootScope.$on('setting-driver-item-change', function(event, driver) {
 		$scope.item = driver;
-		$scope.item.img = $scope.item.img ? $scope.item.img : "/assets/ph_user.png";
+		$scope.item.img = $scope.item.img ? $scope.item.img : "";
 		$scope.file = null;
 	});
 
@@ -129,7 +129,7 @@ angular.module('fmsSettings').directive('driverDetail', function() {
 	 * @return N/A
 	 */
 	$scope.new = function() {
-		$scope.item = { img : "/assets/ph_user.png" };
+		$scope.item = { img : "" };
 	};
 
 	/**

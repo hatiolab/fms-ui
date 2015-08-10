@@ -22,16 +22,16 @@
 					  <!-- Wrapper for slides -->
 					  <div class="carousel-inner" role="listbox">
 					    <div class="item active">
-					      <img src="/assets/ph_car.png"/>
+					      <img src="{{selectedMarker.car_image ? selectedMarker.car_image : '/assets/ph_car.png'}}"/>
 					    </div>
 					    <div class="item">
-					      <img src="/assets/ph_user.png"/>
+					      <img src="{{selectedMarker.driver.img ? selectedMarker.driver.img : '/assets/ph_user.png'}}"/>
 					    </div>
 					  </div>
 					</div>	
           <!-- <img src="/assets/ph_car.png"/>
           <img src="/assets/ph_user.png" hidden/>
-					<button>Toggle photo</button> -->
+					<button>Toggle photo</button-->
         </div>
         <div class="pull-left">
 	        <table class="detail-info-table">
