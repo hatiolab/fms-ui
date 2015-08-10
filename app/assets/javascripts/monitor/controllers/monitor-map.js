@@ -176,6 +176,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 
 		// clear polylines
 		angular.forEach($scope.polylines, function(polyline) {
+			//polyline.path.splice(0, polyline.path.length);
 			polyline = null;
 		});
 

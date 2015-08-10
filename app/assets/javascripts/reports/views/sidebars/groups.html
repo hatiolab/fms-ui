@@ -1,0 +1,78 @@
+<div class="col-xs-4 col-md-4 side-panel">
+	<div class="height-full" ng-show="true">
+
+		<!-- menu begin -->
+		<ul class="setting-sidemenu">
+			<li><a href="#/reports/groups" class="menu-icon driver active">Fleet Group Summary</a></li>
+			<li><a href="#/reports/fleets" class="menu-icon fleets">Fleet Summary</a></li>
+			<li><a href="#/reports/alerts" class="menu-icon group">Alert</a></li>
+			<button id="reportSearchGroups" type="button" class="btn btn-default panel-refresh pull-right"></button>
+		</ul>
+		<!-- menu end -->
+
+		<form name="reportGroupForm" class="form-horizontal">
+
+			<div class="form-group">
+				<label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">group</label>
+				<div class="col-xs-11 col-sm-7 col-md-6 padding-clear">
+					<select name="group" class="form-control" ng-model="searchParams.group" ng-init="selected=''"
+					ng-options="group.name for group in groups" >
+						<option></option>
+					</select>
+				</div>
+			</div>
+
+			<!-- period begin -->
+			<div class="form-group">
+				<label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">period</label>
+				<div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
+					<div id="monitor-side-alert-datepicker1" class="input-append date">
+						<input id="ctm_gte" name="ctm_gte" data-format="yyyy-MM-dd" type="text" ng-model="searchParams.ctm_gte" placeholder="from">
+						</input>
+						<span class="add-on">
+							<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+						</span>
+					</div>
+				</div>
+
+				<span class="col-xs-1 col-sm-1 col-md-1 padding-clear align-center margin-t7">~</span>
+				<div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
+					<div id="monitor-side-alert-datepicker2" class="input-append date">
+						<input id="ctm_lte" name="ctm_lte" data-format="yyyy-MM-dd" type="text" ng-model="searchParams.ctm_lte" placeholder="to"></input>
+						<span class="add-on">
+							<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+						</span>
+					</div>
+				</div>
+			</div>
+			<!-- period end -->
+
+		</form>
+
+		<!-- table begin -->
+		<div id="report-group-table-container" class="search-table">
+			<table class="table table-striped table-hover" st-pagination-scroll st-table="items" st-pipe="search">
+				<thead>
+					<tr>
+						<th data-field="no">#</th>
+						<th data-field="group">Group</th>
+						<th data-field="drivingTime">Driving Time</th>
+						<th data-field="drivingDist">Driving Dist.</th>
+						<th data-field="avgVelocity">Avg Velocity</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="item in items" ng-click="goItem(item)" ng-class="{active : item.active}">
+						<td>{{item.no}}</td>
+						<td>{{item.group.name}}</td>
+						<td>{{item.drivingTime}}</td>
+						<td>{{item.drivingDist}}</td>
+						<td>{{item.avgVelocity}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<!-- table end -->
+
+	</div>
+</div>

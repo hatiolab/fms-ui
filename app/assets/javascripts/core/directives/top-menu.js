@@ -27,7 +27,7 @@ angular.module('fmsCore').directive('topMenu', function() {
 	}, {
 		name : 'Report', 
 		cls : 'icon-report',
-		href : '',
+		href : '#/reports/groups',
 		active : false
 	}, {
 		name : 'Setting', 
