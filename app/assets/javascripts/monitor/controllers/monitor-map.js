@@ -179,7 +179,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	/**
 	 * Move to trip of fleet
 	 */
-	$scope.goTrip = function(tripId) {
+	$scope.goTrip = function(tripId, callback) {
 		$scope.viewMode = 'TRIP';
 
 		if(!tripId && $scope.selectedMarker) {
@@ -191,27 +191,27 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		}
 
 		if(tripId) {
-			$scope.getTripDataSet(tripId);
+			$scope.getTripDataSet(tripId, callback);
 		}
 	};	
 
 	/**
 	 * Get trip data set
 	 */
-	$scope.getTripDataSet = function(tripId) {
+	$scope.getTripDataSet = function(tripId, callback) {
 		// 1. invoke rest api
 		RestApi.get('/trips/' + tripId + '/trip_set.json', {}, function(dataSet) {
 			// 1. map 초기화 
 			$scope.clearAll(null);
 			// 2. trip 그리기 
-			$scope.showTrip(dataSet);
+			$scope.showTrip(dataSet, callback);
 		});
 	};
 
 	/**
 	 * Show Trip
 	 */
-	$scope.showTrip = function(tripDataSet) {
+	$scope.showTrip = function(tripDataSet, callback) {
 		var trip = tripDataSet.trip;
 		$scope.getAddress(trip, 'fromAddress', trip.s_lat, trip.s_lng);
 
@@ -283,6 +283,10 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 			$scope.currentTripId = trip.id;
 			// send trip information to infobar
 			$rootScope.$broadcast('monitor-trip-info-change', trip);
+		}
+
+		if(callback) {
+			callback();
 		}
 	};
 
@@ -534,7 +538,9 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 */
 	$rootScope.$on('monitor-event-trip-change', function(evt, eventData) {
 		$scope.selectedMarker = $scope.eventToMarker(eventData);
-		$scope.goTrip(eventData.tid);
+		$scope.goTrip(eventData.tid, function() {
+			$scope.showEventWindow(eventData);
+		});
 	});
 
 	/**
