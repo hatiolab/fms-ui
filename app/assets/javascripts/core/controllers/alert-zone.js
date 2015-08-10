@@ -1,21 +1,28 @@
-angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scope, $interval, $element, $compile, FmsUtils, RestApi) {
+angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scope, $timeout, $interval, $element, $compile, FmsUtils, RestApi) {
 
 	/**
    * Alert 발생시 
    */
    $scope.setAlert = function(alertData) {
-   	$scope.lastSearchAlertTime = alertData.alert.ctm + 1000;
-   	FmsUtils.setAlertTypeClass(alertData.alert);
-   	var alert = {
-   		id : alertData.alert.id,
-   		type : alertData.alert.typ,
-   		tripId : alertData.alert.tid,
-   		title : alertData.driver.name,
-   		time : alertData.alert.ctm,
-   		typeClass : alertData.alert.typeClass,
-   		isShow : true
-   	};
-   	$scope.addAlertPopup(alert);
+   	if(alertData && alertData.alert && alertData.alert.id) {
+	   	FmsUtils.setAlertTypeClass(alertData.alert);
+	   	var alert = {
+	   		id : alertData.alert.id,
+	   		type : alertData.alert.typ,
+	   		tripId : alertData.alert.tid,
+	   		title : alertData.driver.name,
+	   		time : alertData.alert.ctm,
+	   		typeClass : alertData.alert.typeClass,
+	   		isShow : true
+	   	};
+   		$scope.addAlertPopup(alert);
+   		$scope.lastSearchAlertTime = alertData.alert.ctm + 1;
+
+   	} else {
+   		$scope.lastSearchAlertTime = new Date().getTime() + 1;
+   	}
+   	
+   	$timeout($scope.searchNewAlert, $scope.getInterval());
    };
 
 	/**
@@ -55,10 +62,7 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 	 */
 	 $scope.searchNewAlert = function() {
  		RestApi.get('/events/' + $scope.lastSearchAlertTime + '/latest_one.json', {}, function(alert) {
- 			$scope.lastSearchAlertTime = new Date().getTime();
- 			if(alert && alert.driver) {
- 				$scope.setAlert(alert);
- 			}
+ 			$scope.setAlert(alert);
  		});
 	 };
 
@@ -94,17 +98,23 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 	 * Refresh timer를 시작 
 	 */
 	 $scope.refreshTimer = function() {
-	 	$interval.cancel();
-	 	var refresh = $rootScope.getSetting('map_refresh');
+	 	$timeout.cancel();
+	 	var interval = $scope.getInterval();
+ 		$timeout($scope.searchNewAlert, interval);
+	 };
+
+	 /**
+	  * Interval 
+	  * 
+	  * @return {Number}
+	  */
+	 $scope.getInterval = function() {
 	 	var interval = $rootScope.getIntSetting('map_refresh_interval');
+ 		if(!interval || interval < 10) {
+ 			interval = 10;
+ 		}
 
-	 	if(refresh == 'Y') {
-	 		if(!interval || interval < 10) {
-	 			interval = 10;
-	 		}
-
-	 		$interval($scope.searchNewAlert, interval * 1000);
-	 	}
+ 		return interval * 1000;
 	 };
 
 	 // timer 시작 
