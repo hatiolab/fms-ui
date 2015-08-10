@@ -134,23 +134,23 @@
 			<legend>Alarm</legend>
 			
 			<div class="checkbox">
-				<label><input type="checkbox" ng-model='settings.alarm_impact'> Impact</label>
+				<label><input type="checkbox" ng-model='settings.alarm_impact' ng-true-value="'Y'" ng-false-value="'N'"> Impact</label>
 			</div>
 			
 			<div class="checkbox">
-				<label><input type="checkbox" ng-model='settings.alarm_emergency'> Emergency Button</label>
+				<label><input type="checkbox" ng-model='settings.alarm_emergency' ng-true-value="'Y'" ng-false-value="'N'"> Emergency Button</label>
 			</div>
 			
 			<div class="checkbox">
-				<label><input type="checkbox" ng-model='settings.alarm_g_sensor'> G sensor</label>
+				<label><input type="checkbox" ng-model='settings.alarm_g_sensor' ng-true-value="'Y'" ng-false-value="'N'"> G sensor</label>
 			</div>
 			
 			<div class="checkbox">
-				<label><input type="checkbox" ng-model='settings.alarm_overspeed'> OverSpeed</label>
+				<label><input type="checkbox" ng-model='settings.alarm_overspeed' ng-true-value="'Y'" ng-false-value="'N'"> OverSpeed</label>
 			</div>
 			
 			<div class="checkbox">
-				<label><input type="checkbox" ng-model='settings.alarm_geofence'> Geofence</label>
+				<label><input type="checkbox" ng-model='settings.alarm_geofence' ng-true-value="'Y'" ng-false-value="'N'"> Geofence</label>
 			</div>
 		</fieldset>
 		<!-- alarm range end -->

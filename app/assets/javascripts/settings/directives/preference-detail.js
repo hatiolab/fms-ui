@@ -61,7 +61,7 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 		 * @return N/A
 		 */
 		$scope.afterSearch = function(dataSet) {
-			$scope.settings={
+			$scope.settings = {
 				'batch_interval' : Number($scope.getByName(dataSet,'batch_interval').value) ,
 				'distance_unit' : $scope.getByName(dataSet,'distance_unit').value,
 				'gps_interval' : Number($scope.getByName(dataSet,'gps_interval').value),
@@ -73,13 +73,15 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 				'stillcut_interval' : Number($scope.getByName(dataSet,'stillcut_interval').value),
 				'trip_interval' : Number($scope.getByName(dataSet,'trip_interval').value),
 				'map_refresh' : $scope.getByName(dataSet,'map_refresh').value,
-				'alarm_impact' : $scope.getByName(dataSet,'alarm_impact').value == "Y" ? true : false,
-				'alarm_g_sensor' : $scope.getByName(dataSet,'alarm_g_sensor').value == "Y" ? true : false,
-				'alarm_emergency' : $scope.getByName(dataSet,'alarm_emergency').value == "Y" ? true : false,
-				'alarm_geofence' : $scope.getByName(dataSet,'alarm_geofence').value == "Y" ? true : false,
-				'alarm_overspeed' : $scope.getByName(dataSet,'alarm_overspeed').value == "Y" ? true : false,
+				'alarm_impact' : $scope.getByName(dataSet,'alarm_impact').value,
+				'alarm_g_sensor' : $scope.getByName(dataSet,'alarm_g_sensor').value,
+				'alarm_emergency' : $scope.getByName(dataSet,'alarm_emergency').value,
+				'alarm_geofence' : $scope.getByName(dataSet,'alarm_geofence').value,
+				'alarm_overspeed' : $scope.getByName(dataSet,'alarm_overspeed').value,
 				'format_date' : $scope.getByName(dataSet,'format_date').value,
-				'format_time' : $scope.getByName(dataSet,'format_time').value
+				'format_time' : $scope.getByName(dataSet,'format_time').value,
+				'default_count_per_page' : $scope.getByName(dataSet,'default_count_per_page').value,
+				'default_grid_buffer_count' : $scope.getByName(dataSet,'default_grid_buffer_count').value
 			};
 		};
 
@@ -98,12 +100,13 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 		 */
 		$scope.checkValidForm = function() {
 
-			if($scope.settings['map_refresh']){
-				if(!$scope.settings['map_refresh_interval']||$scope.settings['map_refresh_interval']==0){
-					$scope.showAlerMsg("Input Value unvaliable","Map Refresh Interval is required, if Map Refresh option selected!");
+			if($scope.settings['map_refresh'] && $scope.settings['map_refresh'] == 'Y') {
+				if(!$scope.settings['map_refresh_interval'] || $scope.settings['map_refresh_interval'] < 1) {
+					$scope.showAlerMsg("Input Value unvaliable", "Map Refresh Interval is required, if Map Refresh option selected!");
 					return false;
 				}
 			}
+
 			return true;
 		};
 
@@ -128,11 +131,6 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 
 			for(var i =0; i<$scope.items.length; i++){
 				var item = $scope.items[i];
-				 if($scope.settings[item.name].toString()=="true"){
-				 	$scope.settings[item.name] = "Y"
-				 }else if($scope.settings[item.name].toString()=="false"){
-				 	$scope.settings[item.name] = "N"
-				 }
 				items.push({
 					id : item.id,
 					name : item.name,
@@ -143,16 +141,16 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 
 			if (items.length > 0) {
 				var url = '/settings/update_multiple.json';
-				var result = RestApi.updateMultiple(url, null,items);
+				var result = RestApi.updateMultiple(url, null, items);
 				result.$promise.then(function(data) {
 					$scope.refreshSetting(items);
-					$scope.showAlerMsg("Save success","Your change is applied to system!");
+					$scope.showAlerMsg("Success", "Success to save!");
 				});
 			}
 		};	
 
 		/**
-		 * Refresh Driver List
+		 * Refresh Setting List
 		 * 
 		 * @return N/A
 		 */

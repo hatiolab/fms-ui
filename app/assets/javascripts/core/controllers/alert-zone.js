@@ -54,15 +54,12 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 	 * Refresh timer를 시작 
 	 */
 	 $scope.searchNewAlert = function() {
-	 	var refresh = $rootScope.getSetting('map_refresh');
-	 	if(refresh && refresh == 'Y') {
-	 		RestApi.get('/events/' + $scope.lastSearchAlertTime + '/latest_one.json', {}, function(alert) {
-	 			$scope.lastSearchAlertTime = new Date().getTime();
-	 			if(alert && alert.driver) {
-	 				$scope.setAlert(alert);
-	 			}
-	 		});
-	 	}
+ 		RestApi.get('/events/' + $scope.lastSearchAlertTime + '/latest_one.json', {}, function(alert) {
+ 			$scope.lastSearchAlertTime = new Date().getTime();
+ 			if(alert && alert.driver) {
+ 				$scope.setAlert(alert);
+ 			}
+ 		});
 	 };
 
 	/**
@@ -82,9 +79,35 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 	 	});
 	 };
 
+	 /**
+	  * Setting이 준비되면 Refresh
+	  * 
+	  * @param  {String}
+	  * @param  {Function}
+	  * @return N/A
+	  */
+	 $scope.$on('settings-all-ready', function() {
+	 	$scope.refreshTimer();
+	 });
+
 	/**
-	 * Interval
+	 * Refresh timer를 시작 
 	 */
-	 $interval($scope.searchNewAlert, $rootScope.getIntSetting('map_refresh_interval') * 1000);
+	 $scope.refreshTimer = function() {
+	 	$interval.cancel();
+	 	var refresh = $rootScope.getSetting('map_refresh');
+	 	var interval = $rootScope.getIntSetting('map_refresh_interval');
+
+	 	if(refresh == 'Y') {
+	 		if(!interval || interval < 10) {
+	 			interval = 10;
+	 		}
+
+	 		$interval($scope.searchNewAlert, interval * 1000);
+	 	}
+	 };
+
+	 // timer 시작 
+	 $scope.refreshTimer();
 
 	});
