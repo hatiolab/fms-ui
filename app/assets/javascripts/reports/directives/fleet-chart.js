@@ -6,7 +6,7 @@ angular.module('fmsReports').directive('fleetChart', function() {
 		scope: {}
 	}; 
 })
-.controller('fleetChartCtrl', function($rootScope, $scope, $resource, $element, ModalUtils, RestApi) {
+.controller('fleetChartCtrl', function($rootScope, $scope, $element, ModalUtils, RestApi) {
 
 	// --------------------------- E N D ----------------------------
 });

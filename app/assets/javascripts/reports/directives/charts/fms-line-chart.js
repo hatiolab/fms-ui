@@ -3,15 +3,15 @@ angular.module('fmsReports').directive('fmsLineChart', function() {
 		restrict: 'E',
 		controller: 'lineChartCtrl',
 		templateUrl: '/assets/reports/views/charts/fms-line-chart.html',
-		scope: {}
+		scope: { title : '@title' }
 	}; 
 })
 .controller('lineChartCtrl', function($rootScope, $scope, $element) {
 	
   $scope.title = "Line Chart";
-  $scope.labels = ["Group-A", "Group-B", "Group-C", "Group-D"];
+  $scope.labels = ["Group-A", "Group-B", "Group-C", "Group-D", "Group-E", "Group-F"];
   $scope.series = ['Driving Distance (km)'];
-  $scope.data = [ [2814, 4823, 4230, 1679] ];
+  $scope.data = [ [2814, 4823, 4230, 1679, 2311, 1987] ];
 
   $scope.onClick = function (points, evt) {
     console.log(points, evt);

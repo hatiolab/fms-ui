@@ -6,7 +6,7 @@ angular.module('fmsReports').directive('alertChart', function() {
 		scope: {}
 	}; 
 })
-.controller('alertChartCtrl', function($rootScope, $scope, $resource, $element, ModalUtils, RestApi) {
+.controller('alertChartCtrl', function($rootScope, $scope, $element, ModalUtils, RestApi) {
 
 	// --------------------------- E N D ----------------------------
 });

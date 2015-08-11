@@ -6,7 +6,7 @@ angular.module('fmsReports').directive('groupChart', function() {
 		scope: {}
 	}; 
 })
-.controller('groupChartCtrl', function($rootScope, $scope, $resource, $element, ModalUtils, RestApi) {
+.controller('groupChartCtrl', function($rootScope, $scope, $element, ModalUtils, RestApi) {
 
 	// --------------------------- E N D ----------------------------
 });

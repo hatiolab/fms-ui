@@ -5,7 +5,7 @@
 		<ul class="setting-sidemenu">
 			<li><a href="#/reports/groups" class="menu-icon driver">Fleet Group Summary</a></li>
 			<li><a href="#/reports/fleets" class="menu-icon fleets active">Fleet Summary</a></li>
-			<li><a href="#/reports/alerts" class="menu-icon group">Alert</a></li>
+			<li><a href="#/reports/alerts" class="menu-icon group">Alert Summary</a></li>
 			<button id="reportSearchFleets" type="button" class="btn btn-default panel-refresh pull-right"></button>
 		</ul>
 		<!-- menu end -->
@@ -53,25 +53,25 @@
 				<div class="col-xs-11 col-sm-9 col-md-10 padding-clear">
 					<div class="radio">
 						<label>
-							<input type="radio" ng-model="chartName" value="Average Velocity">
+							<input type="radio" ng-model="chartName" value="Average Velocity" ng-click="showChart('fms-pie-chart')">
 								<span class="type-icon impact"></span>Average Velocity
 						</label>
 					</div>
 					<div class="radio">
 						<label>
-							<input type="radio" ng-model="chartName" value="Driving Distance">
+							<input type="radio" ng-model="chartName" value="Driving Distance" ng-click="showChart('fms-bar-chart')">
 								<span class="type-icon geofence"></span>Driving Distance
 						</label>
 					</div>
 					<div class="radio">
 						<label>
-							<input type="radio" ng-model="chartName" value="Driving Time">
+							<input type="radio" ng-model="chartName" value="Driving Time" ng-click="showChart('fms-line-chart')">
 								<span class="type-icon overspeed"></span>Driving Time
 						</label>
 					</div>
 					<div class="radio">
 						<label>
-							<input type="radio" ng-model="chartName" value="Speed Trend">
+							<input type="radio" ng-model="chartName" value="Speed Trend" ng-click="showChart('fms-radar-chart')">
 								<span class="type-icon emergency"></span>Speed Trend
 						</label>
 					</div>

@@ -12,7 +12,7 @@ angular.module('fmsReports').directive('alertSearch', function() {
 		}
 	}; 
 })
-.controller('alertSearchCtrl', function($rootScope, $scope, $resource, $element, GridUtils, FmsUtils, RestApi) {
+.controller('alertSearchCtrl', function($rootScope, $scope, $element, GridUtils, FmsUtils, RestApi) {
 
 	/**
 	 * 기본 날짜 검색일 설정 

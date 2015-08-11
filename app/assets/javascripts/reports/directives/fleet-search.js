@@ -12,7 +12,7 @@ angular.module('fmsReports').directive('fleetSearch', function() {
 		}
 	}; 
 })
-.controller('fleetSearchCtrl', function($rootScope, $scope, $resource, $element, GridUtils, FmsUtils, RestApi) {
+.controller('fleetSearchCtrl', function($rootScope, $scope, $element, $compile, GridUtils, FmsUtils, RestApi) {
 
 	/**
 	 * 기본 날짜 검색일 설정 
@@ -60,6 +60,30 @@ angular.module('fmsReports').directive('fleetSearch', function() {
 	 * @type {Array}
 	 */
 	$scope.groups = [];
+
+	/**
+	 * Show Chart
+	 * 
+	 * @return N/A
+	 */
+	$scope.showChart = function(chartType) {
+		// 기존 차트 삭제 
+		var parent = $('div.report-content').parent();
+		$('div.report-content').remove();
+		var html = "<div class='report-content'>" + $scope.newChartHtml(chartType) + "</div>";
+		var el = $compile(html)($scope);
+	 	parent.append(el);
+	 	// TODO send data to chart scope
+	};
+
+	/**
+	 * 새로운 차트를 생성한다.
+	 * 
+	 * @return {String}
+	 */
+	$scope.newChartHtml = function(chartType) {
+		return "<" + chartType + " class='col-xs-12 col-sm-12' title='" + $scope.chartName + "'></" + chartType + ">";
+	};
 
 	/**
 	 * Search Fleet Groups
