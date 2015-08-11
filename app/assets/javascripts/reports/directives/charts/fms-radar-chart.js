@@ -10,11 +10,13 @@ angular.module('fmsReports').directive('fmsRadarChart', function() {
 
 	$scope.title = "Radar Chart";
 	
-  $scope.labels =["Eating", "Drinking", "Sleeping", "Designing", "Coding", "Cycling", "Running"];
+  $scope.labels =["Group-A", "Group-B", "Group-C", "Group-D", "Group-E", "Group-F"];
+
+  $scope.series = ['Driving Time (hour)', 'Driving Distance (km)'];
 
   $scope.data = [
-    [65, 59, 90, 81, 56, 55, 40],
-    [28, 48, 40, 19, 96, 27, 100]
+    [65, 59, 90, 81, 56, 55],
+    [28, 48, 40, 19, 96, 98]
   ];
 
 });

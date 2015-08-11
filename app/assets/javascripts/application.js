@@ -22,6 +22,7 @@
 //= require angular-bootstrap/ui-bootstrap-tpls.min
 //= require ng-file-upload/ng-file-upload.min
 //= require Chart.js/Chart.min
+//= require Chart.js/src/Chart.StackedBar
 //= require angular-chart.js/dist/angular-chart.min
 //= require bs
 //= require_tree .
