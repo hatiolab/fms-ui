@@ -26,7 +26,7 @@ angular.module('fmsMonitor', ['fmsCore', 'pip'])
 });
 
 // 5. reports geofence
-angular.module('fmsReports', ['fmsCore']);
+angular.module('fmsReports', ['fmsCore', 'chart.js']);
 
 // 6. main module
 angular.module('fmsApp', ['fmsCore', 'fmsSettings', 'fmsGeofence', 'fmsMonitor', 'fmsReports'])

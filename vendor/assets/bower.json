@@ -7,6 +7,9 @@
     "angular-resource": "latest",
     "angular-smart-table": "latest",
     "angular-bootstrap": "latest",
-    "ng-file-upload": "latest"
+    "ng-file-upload": "latest",
+    "Chart.js": "latest",
+    "tc-angular-chartjs": "latest",
+    "angular-chart.js": "latest"
   }
 }

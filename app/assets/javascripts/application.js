@@ -21,6 +21,8 @@
 //= require angular-bootstrap/ui-bootstrap.min
 //= require angular-bootstrap/ui-bootstrap-tpls.min
 //= require ng-file-upload/ng-file-upload.min
+//= require Chart.js/Chart.min
+//= require angular-chart.js/dist/angular-chart.min
 //= require bs
 //= require_tree .
 //= require_self
