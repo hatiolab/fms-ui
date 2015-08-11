@@ -8,6 +8,8 @@ angular.module('fmsReports').directive('fmsRadarChart', function() {
 })
 .controller('radarChartCtrl', function($rootScope, $scope, $element) {
 
+	$scope.title = "Radar Chart";
+	
   $scope.labels =["Eating", "Drinking", "Sleeping", "Designing", "Coding", "Cycling", "Running"];
 
   $scope.data = [

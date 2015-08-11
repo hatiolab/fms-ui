@@ -8,49 +8,11 @@ angular.module('fmsReports').directive('fmsPolarareaChart', function() {
 })
 .controller('fmsPolarAreaChartCtrl', function($rootScope, $scope, $element) {
 
-    $scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales", "Tele Sales", "Corporate Sales"];
-    $scope.data = [300, 500, 100, 40, 120];
-    $scope.type = 'PolarArea';
+  $scope.title = "Polar Area Chart";
+  $scope.labels = ["Group-A", "Group-B", "Group-C", "Group-D"];
+  $scope.data = [2814, 4823, 4230, 1679];
 
-    $scope.toggle = function () {
-      $scope.type = $scope.type === 'PolarArea' ?
-        'Pie' : 'PolarArea';
-    };
-
-  /*$scope.data = [
-    {
-      value: 300,
-      color:'#F7464A',
-      highlight: '#FF5A5E',
-      label: 'Red'
-    },
-    {
-      value: 50,
-      color: '#46BFBD',
-      highlight: '#5AD3D1',
-      label: 'Green'
-    },
-    {
-      value: 100,
-      color: '#FDB45C',
-      highlight: '#FFC870',
-      label: 'Yellow'
-    },
-    {
-      value: 40,
-      color: '#949FB1',
-      highlight: '#A8B3C5',
-      label: 'Grey'
-    },
-    {
-      value: 120,
-      color: '#4D5360',
-      highlight: '#616774',
-      label: 'Dark Grey'
-    }
-  ];
-
-  $scope.options =  {
+  /*$scope.options =  {
 
     // Sets the chart to be responsive
     responsive: true,

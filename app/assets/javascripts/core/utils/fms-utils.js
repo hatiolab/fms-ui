@@ -77,6 +77,43 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 		},
 
 		/**
+		 * Period를 위한 From Date, To Date를 문자열로 리턴 
+		 * 
+		 * @param  {Number}
+		 * @return {Array}
+		 */
+		getPeriodString : function(duration) {
+			var toDateStr = this.formatDate(new Date(), 'yyyy-MM-dd');
+			var fromDate = this.addDate(new Date(), -1 * duration);
+			var fromDateStr = this.formatDate(fromDate, 'yyyy-MM-dd');
+			return [fromDateStr, toDateStr];
+		},
+
+		/**
+		 * DatePicker를 초기화한다.
+		 * 
+		 * @param  {String}
+		 * @param  {Object}
+		 * @param  {String}
+		 * @param  {Function}
+		 * @return N/A
+		 */
+		initDatePicker : function(datePickerId, searchParams, dateFieldName, searchFunc) {
+			var me = this;
+			$(function() {
+				var datePick = $('#' + datePickerId).datetimepicker({
+					language : 'en',
+					pickTime : false,
+					autoclose : true
+				}).on('changeDate', function(fev) {
+					searchParams[dateFieldName] = me.formatDate(fev.date, 'yyyy-MM-dd');
+					searchFunc.call();
+					datePick.data('datetimepicker').hide();
+				});
+			});
+		},
+
+		/**
 		 * date format change
 		 *
 		 * @date

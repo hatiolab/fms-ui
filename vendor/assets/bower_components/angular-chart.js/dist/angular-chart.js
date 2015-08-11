@@ -58,7 +58,8 @@
       Chart: Chart,
       getOptions: function (type) {
         var typeOptions = type && options[type] || {};
-        return angular.extend({}, options, typeOptions);
+        var opts = angular.extend({}, options, typeOptions);
+        return opts;
       }
     };
 

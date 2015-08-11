@@ -2,43 +2,34 @@ angular.module('fmsReports').directive('fmsBarChart', function() {
 	return { 
 		restrict: 'E',
 		controller: 'barChartCtrl',
-		templateUrl: '/assets/reports/views/charts/fms-bar-chart.html',
-		scope: {}
+		templateUrl: '/assets/reports/views/charts/fms-bar-chart.html'
 	}; 
 })
 .controller('barChartCtrl', function($rootScope, $scope, $element) {
 
-  $scope.labels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-  $scope.series = ['Series A', 'Series B'];
+  $scope.title = "Bar Chart";
+  $scope.labels = ['Group-A', 'Group-B', 'Group-C'];
+  $scope.series = ['Driving Time (hour)'];
+  $scope.data = [ [ 1256, 2341, 4597] ];
 
-  $scope.data = [
-    [65, 59, 80, 81, 56, 55, 40],
-    [28, 48, 40, 19, 86, 27, 90]
-  ];
+  /**
+   * 값을 Bar 위에 표시하기 
+   * 
+   * @type {Object}
+   */
+  $scope.options = {
+    showTooltips: true,
 
-  /*$scope.data = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    datasets: [
-      {
-        label: 'My First dataset',
-        fillColor: 'rgba(220,220,220,0.5)',
-        strokeColor: 'rgba(220,220,220,0.8)',
-        highlightFill: 'rgba(220,220,220,0.75)',
-        highlightStroke: 'rgba(220,220,220,1)',
-        data: [65, 59, 80, 81, 56, 55, 40]
-      },
-      {
-        label: 'My Second dataset',
-        fillColor: 'rgba(151,187,205,0.5)',
-        strokeColor: 'rgba(151,187,205,0.8)',
-        highlightFill: 'rgba(151,187,205,0.75)',
-        highlightStroke: 'rgba(151,187,205,1)',
-        data: [28, 48, 40, 19, 86, 27, 90]
-      }
-    ]
+    tooltipTemplate: "<%= value %>",
+
+    tooltipEvents: [],
+
+    onAnimationComplete: function() {
+      this.showTooltip(this.datasets[0].bars, true);
+    }
   };
 
-  $scope.options =  {
+  /*$scope.options =  {
 
     // Sets the chart to be responsive
     responsive: true,
@@ -70,4 +61,5 @@ angular.module('fmsReports').directive('fmsBarChart', function() {
     //String - A legend template
     legendTemplate : '<ul class="tc-chart-js-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].fillColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>'
   };*/
+
 });
