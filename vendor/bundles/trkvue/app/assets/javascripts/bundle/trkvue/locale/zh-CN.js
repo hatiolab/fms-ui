@@ -86,7 +86,20 @@ T({
 		'movie_paths' : 'Movie Paths',
 		'path' : 'Path',
 		'interval' : 'Interval',
-		'refresh' : 'Refresh'
+		'refresh' : 'Refresh',
+		'total_size' : 'Total Size',
+		'start_byte' : 'Start Byte',
+		'chunk_size' : 'Chunk Size',
+		'chunk_count' : 'Chunk Count',
+		'chunk_index' : 'Chunk Index',
+		'file_path' : 'URL',
+		'drive_time' : 'Driving Time',
+		'drive_dist' : 'Driving Dist.',
+		'impact' : 'Impact',
+		'geofence' : 'Geofence',
+		'emergency' : 'Emergency',
+		'gsensor' : 'Gsensor',
+		'overspeed' : 'Overspeed'
 	},
 	button : {
 		'stop' : 'Stop'
@@ -103,8 +116,13 @@ T({
 		'Batch' : 'Batch',
 		'Track' : 'Track',
 		'Event' : 'Event',
+		'Movie' : 'Movie',
 		'Simulator' : 'Simulator',
-		'SimulatorPath' : 'Routes'
+		'SimulatorPath' : 'Routes',
+		'FleetGroupSummary' : 'Fleet Group Summary',
+		'FleetSummary' : 'Fleet Summary',
+		'EventGroupSummary' : 'Event Group Summary',
+		'EventSummary' : 'Event Summary'
 	},
 	text : {
 	}

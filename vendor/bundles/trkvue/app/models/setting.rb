@@ -14,5 +14,8 @@ class Setting < ActiveRecord::Base
 
 	validates_uniqueness_of :name, :strict => true, :scope => [:domain_id]
 
+	def self.getIntValue(name)
+		Setting.where("name = ?", name).first.value.to_i
+	end
 
 end

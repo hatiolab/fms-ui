@@ -92,7 +92,14 @@ T({
 		'chunk_size' : 'Chunk Size',
 		'chunk_count' : 'Chunk Count',
 		'chunk_index' : 'Chunk Index',
-		'file_path' : 'URL'
+		'file_path' : 'URL',
+		'drive_time' : 'Driving Time',
+		'drive_dist' : 'Driving Dist.',
+		'impact' : 'Impact',
+		'geofence' : 'Geofence',
+		'emergency' : 'Emergency',
+		'gsensor' : 'Gsensor',
+		'overspeed' : 'Overspeed'
 	},
 	button : {
 		'stop' : 'Stop'
@@ -111,7 +118,11 @@ T({
 		'Event' : 'Event',
 		'Movie' : 'Movie',
 		'Simulator' : 'Simulator',
-		'SimulatorPath' : 'Routes'
+		'SimulatorPath' : 'Routes',
+		'FleetGroupSummary' : 'Fleet Group Summary',
+		'FleetSummary' : 'Fleet Summary',
+		'EventGroupSummary' : 'Event Group Summary',
+		'EventSummary' : 'Event Summary'
 	},
 	text : {
 	}

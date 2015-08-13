@@ -40,4 +40,13 @@ class Event
     @driver = Driver.new(:id => self.did, :code => self.did, :name => self.did) unless @driver
     @driver
   end
+
+  before_destroy do |document|
+    if(self.vdo && !self.vdo.empty? && self.vdo.length > 35)
+      require 'fileutils'
+      file = GlobalConfig.content_base_dir + "/" + self.vdo
+      dir = File.dirname(file)
+      FileUtils.rm_rf(dir)
+    end
+  end
 end

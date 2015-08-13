@@ -13,4 +13,8 @@ Menu.setup :Trackvue, {:rank => 8000} do
   submenu :Event, {:rank => 8900, :template => 'Trkvue.view.event.Event'}
   submenu :SimulatorPath, {:rank => 8920, :template => 'Trkvue.view.simulator_path.SimulatorPath'}
   submenu :Simulator, {:rank => 8930, :template => 'Trkvue.view.simulator.Simulator'}
+  submenu :FleetGroupSummary, {:rank => 9100, :template => 'Trkvue.view.fleet_group_summary.FleetGroupSummary'}
+  submenu :FleetSummary, {:rank => 9200, :template => 'Trkvue.view.fleet_summary.FleetSummary'}
+  submenu :EventGroupSummary, {:rank => 9300, :template => 'Trkvue.view.event_group_summary.EventGroupSummary'}
+  submenu :EventSummary, {:rank => 9400, :template => 'Trkvue.view.event_summary.EventSummary'}
 end

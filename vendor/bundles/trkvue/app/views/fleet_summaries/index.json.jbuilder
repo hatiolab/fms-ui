@@ -1,0 +1,12 @@
+json.items do |json|
+	json.array!(@collection) do |fleet_summary|
+json.(fleet_summary, :id,:domain_id,:fleet_id,:sum_day,:sum_year,:sum_month,:sum_week,:velocity,:drive_dist,:drive_time,:impact,:geofence,:emergency,:gsensor,:overspeed,:speed_off,:speed_idle,:speed_slow,:speed_normal,:speed_high,:speed_over)
+
+		json.fleet do
+			json.id fleet_summary.fleet_id
+			json.name fleet_summary.fleet ? fleet_summary.fleet.name : ''
+		end
+	end
+end
+json.total @total_count
+json.success true

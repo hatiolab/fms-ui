@@ -1,6 +1,39 @@
 Trkvue::Engine.routes.draw do
   
   # RESOURCES BEGIN BLOCK DON'T REMOVE
+	resources :event_group_summaries do
+		collection do
+			post :update_multiple
+			get :show_by_name
+			get :export
+		end
+	end
+
+	resources :event_summaries do
+		collection do
+			post :update_multiple
+			get :show_by_name
+			get :export
+		end
+	end
+
+	resources :fleet_summaries do
+		collection do
+			post :update_multiple
+			get :show_by_name
+			get :export
+		end
+	end
+
+	resources :fleet_group_summaries do
+		collection do
+			post :update_multiple
+			get :show_by_name
+			get :export
+			get :daily_summary
+		end
+	end
+  
 	resources :simulators do
 		collection do
 			post :update_multiple

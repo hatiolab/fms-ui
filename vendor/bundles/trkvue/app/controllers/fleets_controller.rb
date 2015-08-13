@@ -57,7 +57,7 @@ public
       format.xml  { render :xml => { :success => true, :car_image => fleet.car_image.url } }
       format.json { render :json => { :success => true, :car_image => fleet.car_image.url } }
     end
-	end	
+	end
 
 private
   def resource_params

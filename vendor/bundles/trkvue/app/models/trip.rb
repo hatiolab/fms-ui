@@ -25,4 +25,24 @@ class Trip
   field :c_nml, type: Integer
   field :c_hgh, type: Integer
   field :c_ovr, type: Integer
+
+  before_destroy do |document|
+    tracks = Track.all_of({"tid" => self.id})
+    tracks.each do |track| 
+      # debug_print "track : #{track.id}"
+      track.destroy
+    end
+
+    events = Event.all_of({"tid" => self.id})
+    events.each do |event| 
+      # debug_print "event : #{event.id}"
+      event.destroy
+    end
+
+    batches = Batch.all_of({"tid" => self.id})
+    batches.each do |batch| 
+      # debug_print "batch : #{batch.id}"
+      batch.destroy
+    end
+  end  
 end
