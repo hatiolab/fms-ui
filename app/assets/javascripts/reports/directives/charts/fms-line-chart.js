@@ -17,4 +17,12 @@ angular.module('fmsReports').directive('fmsLineChart', function() {
     console.log(points, evt);
   };
 
+
+  $rootScope.$on('line-chart-data-change', function(evt, dataSet) {
+    if($scope.title == dataSet.title) {
+      $scope.labels = dataSet.labels;
+      $scope.data = [dataSet.data];
+    }
+  });
+
 });

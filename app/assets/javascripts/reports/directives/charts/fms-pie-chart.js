@@ -21,7 +21,7 @@ angular.module('fmsReports').directive('fmsPieChart', function() {
     }
   };
 
-  $rootScope.$on('donut-chart-data-change', function(evt, dataSet) {
+  $rootScope.$on('pie-chart-data-change', function(evt, dataSet) {
     if($scope.title == dataSet.title) {
       $scope.labels = dataSet.labels;
       $scope.data = dataSet.data;

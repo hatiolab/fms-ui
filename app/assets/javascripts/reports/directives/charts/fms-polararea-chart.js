@@ -12,4 +12,11 @@ angular.module('fmsReports').directive('fmsPolarareaChart', function() {
   $scope.labels = ["Group-A", "Group-B", "Group-C", "Group-D", "Group-E", "Group-F"];
   $scope.data = [2814, 4823, 4230, 1679, 2832,1837];
 
+  $rootScope.$on('polararea-chart-data-change', function(evt, dataSet) {
+    if($scope.title == dataSet.title) {
+      $scope.labels = dataSet.labels;
+      $scope.data = dataSet.data;
+    }
+  });
+
 });
