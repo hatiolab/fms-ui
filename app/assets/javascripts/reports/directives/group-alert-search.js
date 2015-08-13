@@ -217,55 +217,69 @@ angular.module('fmsReports').directive('groupAlertSearch', function() {
 		$scope.sendEmergencyAlertChartData(dataSet.items);
 	 };
 	/**
-	 * [ Impact Alert Chart Data - doughnut]
-	 * @param  {[type]} dataSet [description]
+	 * Impact Count Chart Data - Doughnut
+	 * 
+	 * @param  {Arrya}
 	 */
-	$scope.sendImpactAlertChatData = function(items){
+	$scope.sendImpactAlertChatData = function(items) {
 	 	var donutChartData = { title : 'Impact Count', labels : [], data : [] };
 	 	$scope.setChartData(items, donutChartData, 'impact');
 	 	$scope.$emit('donut-chart-data-change', donutChartData);
 	}
 
 	/**
-	 * [ Overspeed Alert Chart Data - pie]
-	 * @param  {[type]} dataSet [description]
+	 * Overspeed Count Chart Data - Pie
+	 * 
+	 * @param  {Array}
 	 */
-	$scope.sendOverspeedAlertChartData = function(items){
+	$scope.sendOverspeedAlertChartData = function(items) {
 		var pieChartData = { title : 'Overspeed Count', labels : [], data : [] };
 	 	$scope.setChartData(items, pieChartData, 'overspeed');
 	 	$scope.$emit('pie-chart-data-change', pieChartData);
 	}
 
 	/**
-	 * [ Geofence Alert Chart Data - bar]
-	 * @param  {[type]} dataSet [description]
+	 * Geofence Count Chart Data - Bar
+	 * 
+	 * @param  {Array}
 	 */
-	$scope.sendGeofenceAlertChartData = function(items){
-	 	var barChartData = { title : 'Geofence Count', labels : [], data : [] };
+	$scope.sendGeofenceAlertChartData = function(items) {
+	 	var barChartData = { title : 'Geofence Count', labels : [], data : [], series : ['Geofence Count'] };
 	 	$scope.setChartData(items, barChartData, 'geofence');
 	 	$scope.$emit('bar-chart-data-change', barChartData);
 	}
 
 	/**
-	 * [ Emergency Alert Chart Data - polararea]
-	 * @param  {[type]} dataSet [description]
+	 * Emergency Alert Chart Data - Line
+	 * 
+	 * @param  {Array}
 	 */
-	$scope.sendEmergencyAlertChartData = function(items){
-	 	var polarareaChartData = { title : 'Emergency Count', labels : [], data : [] };
-	 	$scope.setChartData(items, polarareaChartData, 'emergency');
-	 	$scope.$emit('polararea-chart-data-change', polarareaChartData);
+	$scope.sendEmergencyAlertChartData = function(items) {
+	 	var lineChartData = { title : 'Emergency Count', labels : [], data : [], series : ['Emergency Count']  };
+	 	$scope.setChartData(items, lineChartData, 'emergency');
+	 	$scope.$emit('line-chart-data-change', lineChartData);
 	}
 	
-	$scope.setChartData = function(rawItems, barChartData, field) {
+	 /**
+	  * Set Chart Data
+	  * 
+	  * @param {Array}
+	  * @param {Object}
+	  * @param {String}
+	  * @return N/A
+	  */	
+	$scope.setChartData = function(rawItems, chartData, field) {
 	 	for(var i = 0 ; i < rawItems.length ; i++) {
 	 		var rawItem = rawItems[i];
-	 		barChartData.labels.push(rawItem.group_name);
-	 		barChartData.data.push(Number(rawItem[field]));
+	 		chartData.labels.push(rawItem.group_name);
+	 		chartData.data.push(Number(rawItem[field]));
 	 	};
 	 };
+
 	/**
-	 * [watch drivers SearchParams in page scope, if changed trigger pageFleets in same scope]
-	 * @param  $scope.searchParams
+	 * Watch SearchParams in page scope
+	 * 
+	 * @param {String}
 	 * @return null
 	 */
 	$scope.$watchCollection('searchParams', function() {

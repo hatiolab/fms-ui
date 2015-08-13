@@ -13,7 +13,7 @@
 
 		<form name="reportGroupForm" class="form-horizontal">
 
-			<div class="form-group">
+			<!--div class="form-group">
 				<label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">group</label>
 				<div class="col-xs-11 col-sm-7 col-md-6 padding-clear">
 					<select name="group" class="form-control" ng-model="searchParams.group" ng-init="selected=''"
@@ -21,7 +21,7 @@
 						<option></option>
 					</select>
 				</div>
-			</div>
+			</div-->
 
 			<!-- period begin -->
 			<div class="form-group">
@@ -55,11 +55,11 @@
 			<table class="table table-striped table-hover" st-pagination-scroll st-table="items" st-pipe="search">
 				<thead>
 					<tr>
-						<th data-field="no">#</th>
-						<th data-field="group">Group</th>
-						<th data-field="drivingTime">Driving Time</th>
-						<th data-field="drivingDist">Driving Dist.</th>
-						<th data-field="avgVelocity">Avg Velocity</th>
+						<th>#</th>
+						<th>Group</th>
+						<th>Driving Time</th>
+						<th>Driving Dist.</th>
+						<th>Velocity</th>
 					</tr>
 				</thead>
 				<tbody>

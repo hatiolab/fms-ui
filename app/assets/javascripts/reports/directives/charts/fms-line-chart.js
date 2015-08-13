@@ -18,17 +18,17 @@ angular.module('fmsReports').directive('fmsLineChart', function() {
    * 
    * @type {Object}
    */
-  $scope.options = {
+  /*$scope.options = {
     showTooltips: true,
     tooltipTemplate: "<%= value %>",
     tooltipEvents: [],
     onAnimationComplete: function() {
       this.showTooltip(this.datasets[0].points, true);
     }
-  };
+  };*/
 
   $scope.onClick = function (points, evt) {
-    console.log(points, evt);
+    //console.log(points, evt);
   };
 
 
@@ -36,6 +36,7 @@ angular.module('fmsReports').directive('fmsLineChart', function() {
     if($scope.title == dataSet.title) {
       $scope.labels = dataSet.labels;
       $scope.data = [dataSet.data];
+      $scope.series = dataSet.series;
     }
   });
 

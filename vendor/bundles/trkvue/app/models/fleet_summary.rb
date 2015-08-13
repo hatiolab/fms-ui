@@ -107,7 +107,7 @@ class FleetSummary < ActiveRecord::Base
 		match = { "$match" => conds }
 		group = { "$group" => { "_id" => nil, "avg" => { "$avg" => "$#{field}" }} }
 		result = Track.collection.aggregate([match, group])
-		return (result && !result.empty?) ? result[0]["avg"] : 0
+		return (result && !result.empty?) ? result[0]["avg"].round(2) : 0
 	end
 
 	#

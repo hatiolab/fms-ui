@@ -29,7 +29,7 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 	 * 
 	 * @type {String}
 	 */
-	$scope.chartName = 'Average Velocity';
+	$scope.chartName = 'Driving Distance';
 	/**
 	 * 사이드 바 토글 변수
 	 *
@@ -99,11 +99,11 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 	 	var lineChartData = { title : $scope.chartName, labels : [], data : [] };
 
 		if($scope.chartName == 'Average Velocity') {
-			$scope.setChartData(lineChartData, 'velocity');
+			$scope.setChartData(lineChartData, 'velocity', ['Average Velocity']);
 		} else if($scope.chartName == 'Driving Distance') {
-			$scope.setChartData(lineChartData, 'drive_dist');
+			$scope.setChartData(lineChartData, 'drive_dist', ['Driving Distance (km)']);
 		} else if($scope.chartName == 'Driving Time') {
-			$scope.setChartData(lineChartData, 'drive_time');
+			$scope.setChartData(lineChartData, 'drive_time', ['Driving Time (min.)']);
 		} else {
 			return;
 		}
@@ -117,12 +117,12 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 	  * @param {Object}
 	  * @param {String}
 	  */
-	 $scope.setChartData = function(chartData, field) {
-	 	var rawItems = $scope.items;
-	 	for(var i = 0 ; i < rawItems.length ; i++) {
-	 		var rawItem = rawItems[i];
-	 		chartData.labels.push(rawItem.fleet_name);
-	 		chartData.data.push(Number(rawItem[field]));
+	 $scope.setChartData = function(chartData, field, series) {
+	 	for(var i = 0 ; i < $scope.items.length ; i++) {
+	 		var item = $scope.items[i];
+	 		chartData.labels.push(item.fleet_name);
+	 		chartData.data.push(Number(item[field]));
+	 		chartData.series = series;
 	 	};
 	 };
 
@@ -186,7 +186,9 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 	 */
 	 $scope.numbering = function(items, startNo) {
 	 	for(var i = 0 ; i < items.length ; i++) {
-	 		items[i].no = i + 1;
+	 		var item = items[i];
+	 		item.no = i + 1;
+	 		item.velocity = Math.round(item.velocity);
 	 	}
 	 };
 
@@ -272,6 +274,7 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 	 $scope.afterSearch = function(dataSet) {
 	 	$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
 		FmsUtils.setGridContainerHieght('report-fleet-table-container');
+		$scope.sendChartData();
 	 };
 
 	/**

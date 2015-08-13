@@ -10,7 +10,7 @@ angular.module('fmsReports').directive('fmsBarChart', function() {
 
   $scope.chartId = 'chart-' + $scope.$id;
   $scope.labels = ['Group-A', 'Group-B', 'Group-C', 'Group-D', 'Group-E', 'Group-F'];
-  $scope.series = ['Driving Time (hour)'];
+  $scope.series = ['Driving Time (min.)'];
   $scope.data = [[ 11, 23, 27, 19, 14, 9]];
 
   /**
@@ -18,7 +18,7 @@ angular.module('fmsReports').directive('fmsBarChart', function() {
    * 
    * @type {Object}
    */
-  $scope.options = {
+  /*$scope.options = {
     showTooltips: true,
 
     tooltipTemplate: "<%= value %>",
@@ -28,12 +28,13 @@ angular.module('fmsReports').directive('fmsBarChart', function() {
     onAnimationComplete: function() {
       this.showTooltip(this.datasets[0].bars, true);
     }
-  };
+  };*/
 
   $rootScope.$on('bar-chart-data-change', function(evt, dataSet) {
     if($scope.title == dataSet.title) {
       $scope.labels = dataSet.labels;
       $scope.data = [dataSet.data];
+      $scope.series = dataSet.series;
     }
   });
 
