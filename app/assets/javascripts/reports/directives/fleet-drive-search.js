@@ -12,7 +12,7 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 		}
 	}; 
 })
-.controller('fleetDriveSearchCtrl', function($rootScope, $scope, $element, $compile, GridUtils, FmsUtils, RestApi) {
+.controller('fleetDriveSearchCtrl', function($rootScope, $scope, $element, $compile, $timeout, GridUtils, FmsUtils, RestApi) {
 
 	/**
 	 * 기본 날짜 검색일 설정 
@@ -66,14 +66,18 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 	 * 
 	 * @return N/A
 	 */
-	$scope.showChart = function(chartType) {
+	$scope.showChart = function(chartTitle, chartType) {
+		$scope.chartName = chartTitle;
 		// 기존 차트 삭제 
 		var parent = $('div.report-content').parent();
 		$('div.report-content').remove();
 		var html = "<div class='report-content'>" + $scope.newChartHtml(chartType) + "</div>";
 		var el = $compile(html)($scope);
 	 	parent.append(el);
-	 	// TODO send data to chart scope
+
+	 	// send data to chart scope
+	 	$timeout.cancel();
+   	$timeout($scope.sendChartData, 1000);
 	};
 
 	/**
@@ -84,6 +88,43 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 	$scope.newChartHtml = function(chartType) {
 		return "<" + chartType + " class='col-xs-12 col-sm-12' title='" + $scope.chartName + "'></" + chartType + ">";
 	};
+
+	/**
+	 * Send Chart Data
+	 * 
+	 * @return N/A
+	 */
+	$scope.sendChartData = function() {
+		// Line Chart로 
+	 	var lineChartData = { title : $scope.chartName, labels : [], data : [] };
+
+		if($scope.chartName == 'Average Velocity') {
+			$scope.setChartData(lineChartData, 'velocity');
+		} else if($scope.chartName == 'Driving Distance') {
+			$scope.setChartData(lineChartData, 'drive_dist');
+		} else if($scope.chartName == 'Driving Time') {
+			$scope.setChartData(lineChartData, 'drive_time');
+		} else {
+			return;
+		}
+
+		$scope.$emit('line-chart-data-change', lineChartData);
+	};
+
+	 /**
+	  * Set Chart Data
+	  * 
+	  * @param {Object}
+	  * @param {String}
+	  */
+	 $scope.setChartData = function(chartData, field) {
+	 	var rawItems = $scope.items;
+	 	for(var i = 0 ; i < rawItems.length ; i++) {
+	 		var rawItem = rawItems[i];
+	 		chartData.labels.push(rawItem.fleet_name);
+	 		chartData.data.push(Number(rawItem[field]));
+	 	};
+	 };
 
 	/**
 	 * Search Fleet Groups

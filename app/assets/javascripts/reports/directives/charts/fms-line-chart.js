@@ -11,7 +11,21 @@ angular.module('fmsReports').directive('fmsLineChart', function() {
   $scope.title = "Line Chart";
   $scope.labels = ["Group-A", "Group-B", "Group-C", "Group-D", "Group-E", "Group-F"];
   $scope.series = ['Driving Distance (km)'];
-  $scope.data = [ [2814, 4823, 4230, 1679, 2311, 1987] ];
+  $scope.data = [ [0, 0, 0, 0, 0, 0] ];
+
+  /**
+   * 값을 Line Point 위에 표시하기 
+   * 
+   * @type {Object}
+   */
+  $scope.options = {
+    showTooltips: true,
+    tooltipTemplate: "<%= value %>",
+    tooltipEvents: [],
+    onAnimationComplete: function() {
+      this.showTooltip(this.datasets[0].points, true);
+    }
+  };
 
   $scope.onClick = function (points, evt) {
     console.log(points, evt);
@@ -23,6 +37,10 @@ angular.module('fmsReports').directive('fmsLineChart', function() {
       $scope.labels = dataSet.labels;
       $scope.data = [dataSet.data];
     }
+  });
+
+  $scope.$on('$destroy', function(event) {
+    //alert('Scope (' + $scope.$id + ') destroy');
   });
 
 });

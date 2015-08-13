@@ -218,7 +218,7 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 	 };
 
 	 /**
-	  * Build Driving Time Chart Data 
+	  * Build Driving Distance Chart Data 
 	  * 
 	  * @param  {Array}
 	  */
@@ -231,18 +231,33 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 	 	// 2. Donought Chart
 	 	var pieChartData = { title : 'Driving Distance By Group', labels : [], data : [] };
 	 	$scope.setChartData(items, pieChartData, 'drive_dist');
-	 	$scope.$emit('donut-chart-data-change', pieChartData);
+	 	$scope.$emit('pie-chart-data-change', pieChartData);
 	 };
 
 	 /**
-	  * Build Driving Time Chart Data 
+	  * Build Velocity Chart Data 
 	  * 
 	  * @param  {Array}
 	  */
 	 $scope.sendVelocityChartData = function(items) {
-
+	 	// 1. Line Chart
+	 	var lineChartData = { title : 'Average Velocity By Group', labels : [], data : [] };
+	 	$scope.setChartData(items, lineChartData, 'velocity');
+	 	$scope.$emit('line-chart-data-change', lineChartData);
+	 	
+	 	// 2. Donought Chart
+	 	var polarareaChartData = { title : 'Average Velocity By Group', labels : [], data : [] };
+	 	$scope.setChartData(items, polarareaChartData, 'velocity');
+	 	$scope.$emit('polararea-chart-data-change', polarareaChartData);
 	 };
 
+	 /**
+	  * Set Chart Data
+	  * 
+	  * @param {Array}
+	  * @param {Object}
+	  * @param {String}
+	  */
 	 $scope.setChartData = function(rawItems, barChartData, field) {
 	 	for(var i = 0 ; i < rawItems.length ; i++) {
 	 		var rawItem = rawItems[i];
