@@ -83,18 +83,11 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 	 * @return N/A
 	 */
 	$scope.search = function(tablestate) {
-		if(!$scope.searchEnabled) {
-			$scope.searchEnabled = true;
-			$scope.tablestate = tablestate;
-			$scope.tablestate.pagination.number = GridUtils.getGridCountPerPage();
-		}
-
-		if(tablestate) {
-			$scope.tablestate = tablestate;
+		if(!$scope.checkSearch(tablestate)) {
+			return;
 		}
 
 		var searchParams = $scope.beforeSearch();
-		$scope.setPageQueryInfo(searchParams, $scope.tablestate.pagination, 0, GridUtils.getGridCountPerPage());
 
 		$scope.doSearch(searchParams, function(dataSet) {
 			$scope.numbering(dataSet.items, 1);
@@ -146,13 +139,34 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 		}
 	};
 
+	/**
+	 * Check Search
+	 * 
+	 * @return {Boolean}
+	 */
+	$scope.checkSearch = function(tablestate) {
+		if(!$scope.searchEnabled) {
+			$scope.searchEnabled = true;
+			$scope.tablestate = tablestate;
+			$scope.tablestate.pagination.number = GridUtils.getGridCountPerPage();
+		}
+
+		if(tablestate) {
+			$scope.tablestate = tablestate;
+		}
+
+		return true;
+	};
+
 	 /**
 	  * infinite scorll directive에서 호출 
 	  * 
 	  * @return {Object}
 	  */
 	 $scope.beforeSearch = function() {
-	 	return $scope.normalizeSearchParams($scope.searchParams);
+	 	var searchParams = $scope.normalizeSearchParams($scope.searchParams);
+	 	$scope.setPageQueryInfo(searchParams, $scope.tablestate.pagination, 0, GridUtils.getGridCountPerPage());
+	 	return searchParams;
 	 };
 
 	 /**
@@ -176,8 +190,65 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 	  */
 	 $scope.afterSearch = function(dataSet) {
 	 	$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
-		// grid container를 새로 설정한다.
 		FmsUtils.setGridContainerHieght('report-group-table-container');
+
+		// 1. Driving Time Chart Data - Bar && Donut
+		$scope.sendDrivingTimeChatData(dataSet.items);
+		// 2. Driving Distance Chart Data - Bar && Pie
+		$scope.sendDrivingDistChartData(dataSet.items);
+		// 3. Velocity Chart Data - Line && Polararea
+		$scope.sendVelocityChartData(dataSet.items);
+	 };
+
+	 /**
+	  * Build Driving Time Chart Data 
+	  * 
+	  * @param  {Array}
+	  */
+	 $scope.sendDrivingTimeChatData = function(items) {
+	 	// 1. Bar Chart
+	 	var barChartData = { title : 'Driving Time By Group', labels : [], data : [] };
+	 	$scope.setChartData(items, barChartData, 'drive_time');
+	 	$scope.$emit('bar-chart-data-change', barChartData);
+	 	
+	 	// 2. Donought Chart
+	 	var donutChartData = { title : 'Driving Time By Group', labels : [], data : [] };
+	 	$scope.setChartData(items, donutChartData, 'drive_time');
+	 	$scope.$emit('donut-chart-data-change', donutChartData);
+	 };
+
+	 /**
+	  * Build Driving Time Chart Data 
+	  * 
+	  * @param  {Array}
+	  */
+	 $scope.sendDrivingDistChartData = function(items) {
+	 	// 1. Bar Chart
+	 	var barChartData = { title : 'Driving Distance By Group', labels : [], data : [] };
+	 	$scope.setChartData(items, barChartData, 'drive_dist');
+	 	$scope.$emit('bar-chart-data-change', barChartData);
+	 	
+	 	// 2. Donought Chart
+	 	var pieChartData = { title : 'Driving Distance By Group', labels : [], data : [] };
+	 	$scope.setChartData(items, pieChartData, 'drive_dist');
+	 	$scope.$emit('donut-chart-data-change', pieChartData);
+	 };
+
+	 /**
+	  * Build Driving Time Chart Data 
+	  * 
+	  * @param  {Array}
+	  */
+	 $scope.sendVelocityChartData = function(items) {
+
+	 };
+
+	 $scope.setChartData = function(rawItems, barChartData, field) {
+	 	for(var i = 0 ; i < rawItems.length ; i++) {
+	 		var rawItem = rawItems[i];
+	 		barChartData.labels.push(rawItem.group_name);
+	 		barChartData.data.push(Number(rawItem[field]));
+	 	};
 	 };
 
 	/**
