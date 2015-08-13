@@ -207,8 +207,62 @@ angular.module('fmsReports').directive('groupAlertSearch', function() {
 	 $scope.afterSearch = function(dataSet) {
 	 	$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
 		FmsUtils.setGridContainerHieght('report-group-alert-table-container');
+		// 1. Impact Alert Chart Data - doughnut
+		$scope.sendImpactAlertChatData(dataSet.items);
+		// 2. Overspeed Alert Chart Data - pie
+		$scope.sendOverspeedAlertChartData(dataSet.items);
+		// 3. Geofence Alert Chart Data - bar
+		$scope.sendGeofenceAlertChartData(dataSet.items);
+		// 4. Emergency Alert Chart Data - polararea
+		$scope.sendEmergencyAlertChartData(dataSet.items);
 	 };
+	/**
+	 * [ Impact Alert Chart Data - doughnut]
+	 * @param  {[type]} dataSet [description]
+	 */
+	$scope.sendImpactAlertChatData = function(items){
+	 	var donutChartData = { title : 'Impact Alert By Group', labels : [], data : [] };
+	 	$scope.setChartData(items, donutChartData, 'impact');
+	 	$scope.$emit('donut-chart-data-change', donutChartData);
+	}
 
+	/**
+	 * [ Overspeed Alert Chart Data - pie]
+	 * @param  {[type]} dataSet [description]
+	 */
+	$scope.sendOverspeedAlertChartData = function(items){
+		var pieChartData = { title : 'Overspeed Alert By Group', labels : [], data : [] };
+	 	$scope.setChartData(items, pieChartData, 'overspeed');
+	 	$scope.$emit('pie-chart-data-change', pieChartData);
+	}
+
+	/**
+	 * [ Geofence Alert Chart Data - bar]
+	 * @param  {[type]} dataSet [description]
+	 */
+	$scope.sendGeofenceAlertChartData = function(items){
+	 	var barChartData = { title : 'Geofence Alert By Group', labels : [], data : [] };
+	 	$scope.setChartData(items, barChartData, 'geofence');
+	 	$scope.$emit('bar-chart-data-change', barChartData);
+	}
+
+	/**
+	 * [ Emergency Alert Chart Data - polararea]
+	 * @param  {[type]} dataSet [description]
+	 */
+	$scope.sendEmergencyAlertChartData = function(items){
+	 	var polarareaChartData = { title : 'Emergency Alert By Group', labels : [], data : [] };
+	 	$scope.setChartData(items, polarareaChartData, 'emergency');
+	 	$scope.$emit('polararea-chart-data-change', polarareaChartData);
+	}
+	
+	$scope.setChartData = function(rawItems, barChartData, field) {
+	 	for(var i = 0 ; i < rawItems.length ; i++) {
+	 		var rawItem = rawItems[i];
+	 		barChartData.labels.push(rawItem.group_name);
+	 		barChartData.data.push(Number(rawItem[field]));
+	 	};
+	 };
 	/**
 	 * [watch drivers SearchParams in page scope, if changed trigger pageFleets in same scope]
 	 * @param  $scope.searchParams
