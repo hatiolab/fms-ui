@@ -21,11 +21,7 @@ class FleetSummary < ActiveRecord::Base
 	#
 	# Daily Summary
 	#
-	def self.daily_summary(dateStr)
-		date = Date.parse(dateStr)
-		year, month, week = date.year, date.month, date.strftime("%U").to_i
-		startTime, endTime = date.to_time.to_i * 1000, (date + 1).to_time.to_i * 1000
-
+	def self.daily_summary(date, year, month, week, startTime, endTime)
 		fleets = Fleet.all
 		return unless fleets
 		
@@ -36,6 +32,9 @@ class FleetSummary < ActiveRecord::Base
 		end
 	end
 
+	#
+	# Search trip by time
+	#
 	def self.find_trips(startTime, endTime)
 		return Trip.any_of({'stm' => { '$gte' => startTime , '$lt' => endTime }}, {'etm' => { '$gte' => startTime , '$lt' => endTime }})
 	end
@@ -47,18 +46,17 @@ class FleetSummary < ActiveRecord::Base
 		track_conds = { 'stm' => { '$gte' => startTime , '$lt' => endTime }, 'fid' => fleet.name }		
 		event_conds = { 'etm' => track_conds['stm'], 'fid' => track_conds['fid'] }
 
-		fleetSum = FleetSummary.where("sum_day = ? and fleet_id = ?", date, fleet.id).first
+		fleetSum = FleetSummary.where("sum_day = ? and fleet_id = ?", date.strftime('%Y-%m-%d'), fleet.id).first
 		unless fleetSum
 			fleetSum = FleetSummary.new 
 			fleetSum.fleet_id = fleet.id
-			fleetSum.sum_day = date
+			fleetSum.sum_day = date.strftime('%Y-%m-%d')
 			fleetSum.sum_year = year
 			fleetSum.sum_month = month
 			fleetSum.sum_week = week
 		end
 
 		fleetSum.drive_time = FleetSummary.get_trip_time(trips, fleet, startTime, endTime)
-		debug_print fleetSum.drive_time
 		fleetSum.velocity = FleetSummary.get_track_avg(track_conds, 'vlc')
 		fleetSum.drive_dist = FleetSummary.get_track_sum(track_conds, 'dst')
 		fleetSum.impact = FleetSummary.get_event_count(event_conds, 'G')
@@ -74,6 +72,9 @@ class FleetSummary < ActiveRecord::Base
 		fleetSum.save!
 	end
 
+	#
+	# Trip 시간 계산 
+	#
 	def self.get_trip_time(trips, fleet, startTime, endTime)
 		tripTime, foundTrips = 0, trips.select { |trip| trip.fid == fleet.name }
 		return 0 if(!foundTrips || foundTrips.empty?)
@@ -84,13 +85,13 @@ class FleetSummary < ActiveRecord::Base
 			if(startTime <= stm && endTime >= etm)
 				tripTime += (etm - stm)
 			# 2. 트립 시작 시간과 트립 완료 시간이 startTime, endTime을 포함하는 경우 : endTime - startTime
-			elsif (starTime >= stm && endTime <= etm) 
+			elsif (startTime >= stm && endTime <= etm) 
 				tripTime += (endTime - startTime)
 			# 3. 트립 시작 시간이 startTime보다 이전이고 트립 완료 시간이 endTime 이전일 경우 : etm - startTime
-			elsif (starTime >= stm && endTime >= etm) 
+			elsif (startTime >= stm && endTime >= etm) 
 				tripTime += (etm - startTime)
 			# 4. 트립 시작 시간이 startTime 이 후이고 완료 시간이 endTime보다 이 후인 경우 : endTime - stm
-			elsif (starTime <= stm && endTime <= etm) 
+			elsif (startTime <= stm && endTime <= etm) 
 				tripTime += (endTime - stm)
 			end
 		end
@@ -99,6 +100,9 @@ class FleetSummary < ActiveRecord::Base
 		return tripTime
 	end
 
+	#
+	# Track의 선택 필드에 대한 평균값 계산 
+	#
 	def self.get_track_avg(conds, field)
 		match = { "$match" => conds }
 		group = { "$group" => { "_id" => nil, "avg" => { "$avg" => "$#{field}" }} }
@@ -106,6 +110,9 @@ class FleetSummary < ActiveRecord::Base
 		return (result && !result.empty?) ? result[0]["avg"] : 0
 	end
 
+	#
+	# Track의 선택 필드에 대한 합 계산  
+	#
 	def self.get_track_sum(conds, field)
 		match = { "$match" => conds }
 		group = { "$group" => { "_id" => nil, "sum" => { "$sum" => "$#{field}" }} }
@@ -113,6 +120,9 @@ class FleetSummary < ActiveRecord::Base
 		return (result && !result.empty?) ? result[0]["sum"] : 0
 	end
 
+	#
+	# Event의 선택 필드에 대한 카운팅 
+	#
 	def self.get_event_count(conds, type)
 		conds['typ'] = (type.class.name == 'Array') ? { '$in' => type } : type
 		match = { "$match" => conds }
@@ -121,6 +131,9 @@ class FleetSummary < ActiveRecord::Base
 		return (result && !result.empty?) ? result[0]["count"] : 0
 	end
 
+	#
+	# 속도 구간 카운팅 
+	#
 	def self.get_speed_count(conds, field, level)
 		FleetSummary.set_speed_cond(conds, level)
 		match = { "$match" => conds }
@@ -129,6 +142,9 @@ class FleetSummary < ActiveRecord::Base
 		return (result && !result.empty?) ? result[0]["count"] : 0
 	end
 
+	#
+	# 속도 구간에 대한 검색 조건 값 설정 
+	#
 	def self.set_speed_cond(conds, level)
 		if('speed_off' == level)
 			conds['vlc'] = -1

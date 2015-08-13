@@ -2,12 +2,13 @@ class FleetGroupSummariesController < ResourceMultiUpdateController
   
 public 
 	def daily_summary
-		date = params[:date] ? params[:date] : (Date.today - 1).strftime('%Y-%m-%d')
+		dateStr = params[:date] ? params[:date] : (Date.today - 1).strftime('%Y-%m-%d')
+		date = Date.parse(dateStr)
+		year, month, week = date.year, date.month, date.strftime("%U").to_i
+		startTime, endTime = date.to_time.to_i * 1000, (date + 1).to_time.to_i * 1000
 		
-		FleetGroupSummary.daily_summary(date)
-		FleetSummary.daily_summary(date)
-		EventGroupSummary.daily_summary(date)
-		EventSummary.daily_summary(date)
+		FleetSummary.daily_summary(date, year, month, week, startTime, endTime)
+		FleetGroupSummary.daily_summary(date, year, month, week)
 
 		respond_to do |format|
     	format.xml  { render :xml => { :success => true, :msg => 'success' } }

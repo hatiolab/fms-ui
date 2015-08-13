@@ -18,10 +18,4 @@ class EventSummary < ActiveRecord::Base
 
 	belongs_to :fleet
 
-	#
-	# Daily Summary
-	#
-	def self.daily_summary(date)
-	end
-
 end
