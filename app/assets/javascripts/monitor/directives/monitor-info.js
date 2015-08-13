@@ -6,7 +6,7 @@ angular.module('fmsMonitor').directive('monitorInfo', function() {
 		scope: {}
 	}; 
 })
-.controller('monitorInfoCtrl', function($rootScope, $scope, $resource, $element, RestApi) {
+.controller('monitorInfoCtrl', function($rootScope, $scope, $resource, $element, GridUtils, RestApi) {
 
 	$element.hide();
 
