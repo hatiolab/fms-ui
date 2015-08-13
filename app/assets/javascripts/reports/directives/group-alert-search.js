@@ -221,7 +221,7 @@ angular.module('fmsReports').directive('groupAlertSearch', function() {
 	 * @param  {[type]} dataSet [description]
 	 */
 	$scope.sendImpactAlertChatData = function(items){
-	 	var donutChartData = { title : 'Impact Alert By Group', labels : [], data : [] };
+	 	var donutChartData = { title : 'Impact Count', labels : [], data : [] };
 	 	$scope.setChartData(items, donutChartData, 'impact');
 	 	$scope.$emit('donut-chart-data-change', donutChartData);
 	}
@@ -231,7 +231,7 @@ angular.module('fmsReports').directive('groupAlertSearch', function() {
 	 * @param  {[type]} dataSet [description]
 	 */
 	$scope.sendOverspeedAlertChartData = function(items){
-		var pieChartData = { title : 'Overspeed Alert By Group', labels : [], data : [] };
+		var pieChartData = { title : 'Overspeed Count', labels : [], data : [] };
 	 	$scope.setChartData(items, pieChartData, 'overspeed');
 	 	$scope.$emit('pie-chart-data-change', pieChartData);
 	}
@@ -241,7 +241,7 @@ angular.module('fmsReports').directive('groupAlertSearch', function() {
 	 * @param  {[type]} dataSet [description]
 	 */
 	$scope.sendGeofenceAlertChartData = function(items){
-	 	var barChartData = { title : 'Geofence Alert By Group', labels : [], data : [] };
+	 	var barChartData = { title : 'Geofence Count', labels : [], data : [] };
 	 	$scope.setChartData(items, barChartData, 'geofence');
 	 	$scope.$emit('bar-chart-data-change', barChartData);
 	}
@@ -251,7 +251,7 @@ angular.module('fmsReports').directive('groupAlertSearch', function() {
 	 * @param  {[type]} dataSet [description]
 	 */
 	$scope.sendEmergencyAlertChartData = function(items){
-	 	var polarareaChartData = { title : 'Emergency Alert By Group', labels : [], data : [] };
+	 	var polarareaChartData = { title : 'Emergency Count', labels : [], data : [] };
 	 	$scope.setChartData(items, polarareaChartData, 'emergency');
 	 	$scope.$emit('polararea-chart-data-change', polarareaChartData);
 	}
