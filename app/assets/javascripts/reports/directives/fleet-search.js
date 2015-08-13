@@ -23,7 +23,7 @@ angular.module('fmsReports').directive('fleetSearch', function() {
 	 *
 	 * @type {Object}
 	 */
-	$scope.searchParams = { 'ctm_gte' : period[0], 'ctm_lte' : period[1] };
+	$scope.searchParams = { 'from_date' : period[0], 'to_date' : period[1] };
 	/**
 	 * Chart Name
 	 * 
@@ -100,15 +100,19 @@ angular.module('fmsReports').directive('fleetSearch', function() {
 	 * @param  {Object}
 	 */
 	$scope.normalizeSearchParams = function(params) {
-		var searchParams = {'_o[code]' : 'asc'};
+		var searchParams = {};
 
 		if(!params || FmsUtils.isEmpty(params)) {
 			return searchParams;
 		} 
 
-		searchParams['_q[code-like]'] = params.code;
-		searchParams['_q[division-like]'] = params.division;
-		searchParams['_q[name-like]'] = params.name;
+		searchParams["from_date"] = params.from_date;
+		searchParams["to_date"] = params.to_date;
+
+	 	if(params.group) {
+	 		searchParams["group_id"] = params.group.id;
+	 	}
+
 		return searchParams;
 	};
 
@@ -119,19 +123,11 @@ angular.module('fmsReports').directive('fleetSearch', function() {
 	 * @return N/A
 	 */
 	$scope.search = function(tablestate) {
-		if(!$scope.searchEnabled) {
-			$scope.searchEnabled = true;
-			$scope.tablestate = tablestate;
-			$scope.tablestate.pagination.number = GridUtils.getGridCountPerPage();
+		if(!$scope.checkSearch(tablestate)) {
+			return;
 		}
 
-		if(tablestate) {
-			$scope.tablestate = tablestate;
-		}
-
-		searchParams = angular.copy($scope.searchParams);
-		searchParams = $scope.normalizeSearchParams(searchParams);
-		$scope.setPageQueryInfo(searchParams, $scope.tablestate.pagination, 0, GridUtils.getGridCountPerPage());
+		var searchParams = $scope.beforeSearch();
 
 		$scope.doSearch(searchParams, function(dataSet) {
 			$scope.numbering(dataSet.items, 1);
@@ -183,14 +179,34 @@ angular.module('fmsReports').directive('fleetSearch', function() {
 		}
 	};
 
+	/**
+	 * Check Search
+	 * 
+	 * @return {Boolean}
+	 */
+	$scope.checkSearch = function(tablestate) {
+		if(!$scope.searchEnabled) {
+			$scope.searchEnabled = true;
+			$scope.tablestate = tablestate;
+			$scope.tablestate.pagination.number = GridUtils.getGridCountPerPage();
+		}
+
+		if(tablestate) {
+			$scope.tablestate = tablestate;
+		}
+
+		return true;
+	};
+
 	 /**
 	  * infinite scorll directive에서 호출 
 	  * 
 	  * @return {Object}
 	  */
 	 $scope.beforeSearch = function() {
-	 	var searchParams = angular.copy($scope.searchParams);
-	 	return $scope.normalizeSearchParams(searchParams);
+	 	var searchParams = $scope.normalizeSearchParams($scope.searchParams);
+	 	$scope.setPageQueryInfo(searchParams, $scope.tablestate.pagination, 0, GridUtils.getGridCountPerPage());
+	 	return searchParams;
 	 };
 
 	 /**
@@ -201,7 +217,7 @@ angular.module('fmsReports').directive('fleetSearch', function() {
 	  * @return N/A
 	  */
 	 $scope.doSearch = function(params, callback) {
-	 	RestApi.search('/drivers.json', params, function(dataSet) {
+	 	RestApi.search('/fleet_summaries/summary.json', params, function(dataSet) {
 	 		callback(dataSet);
 	 	});
 	 };
@@ -237,11 +253,11 @@ angular.module('fmsReports').directive('fleetSearch', function() {
 		/**
 		 * init date picker1
 		 */
-		FmsUtils.initDatePicker('report-fleet-datepicker1', $scope.searchParams, 'ctm_gte', $scope.search);
+		FmsUtils.initDatePicker('report-fleet-datepicker1', $scope.searchParams, 'from_date', $scope.search);
 		/**
 		 * init date picker2
 		 */
-		FmsUtils.initDatePicker('report-fleet-datepicker2', $scope.searchParams, 'ctm_lte', $scope.search);
+		FmsUtils.initDatePicker('report-fleet-datepicker2', $scope.searchParams, 'to_date', $scope.search);
 		/**
 		 * 차량 그룹 데이터
 		 */

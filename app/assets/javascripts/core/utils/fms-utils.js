@@ -107,8 +107,8 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 					autoclose : true
 				}).on('changeDate', function(fev) {
 					searchParams[dateFieldName] = me.formatDate(fev.date, 'yyyy-MM-dd');
-					searchFunc.call();
 					datePick.data('datetimepicker').hide();
+					searchFunc.call();
 				});
 			});
 		},

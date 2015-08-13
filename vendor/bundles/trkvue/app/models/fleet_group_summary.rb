@@ -70,6 +70,7 @@ class FleetGroupSummary < ActiveRecord::Base
 	end
 
 	def self.avg_by_group(fleetIds, date, field)
+		# TODO Track Data로 평균값 구하기
 		avg = FleetSummary.where("fleet_id in (?) and sum_day = ?", fleetIds, date).average(field.to_sym)
 		return avg ? avg : 0
 	end

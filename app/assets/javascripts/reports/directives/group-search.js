@@ -20,7 +20,7 @@ angular.module('fmsReports').directive('groupSearch', function() {
 	/**
 	 * 검색 조건 모델 
 	 */
-	$scope.searchParams = { 'ctm_gte' : period[0], 'ctm_lte' : period[1] };
+	$scope.searchParams = { 'from_date' : period[0], 'to_date' : period[1] };
 	/**
 	 * 사이드 바 토글 변수
 	 */
@@ -55,20 +55,24 @@ angular.module('fmsReports').directive('groupSearch', function() {
 	};
 
 	/**
-	 * Rails Server의 스펙에 맞도록 파라미터 변경 ...
+	 * 검색 조건 
 	 *
 	 * @param  {Object}
 	 */
 	$scope.normalizeSearchParams = function(params) {
-		var searchParams = {'_o[code]' : 'asc'};
+		var searchParams = {};
 
 		if(!params || FmsUtils.isEmpty(params)) {
 			return searchParams;
 		} 
 
-		searchParams['_q[code-like]'] = params.code;
-		searchParams['_q[division-like]'] = params.division;
-		searchParams['_q[name-like]'] = params.name;
+		searchParams["from_date"] = params.from_date;
+		searchParams["to_date"] = params.to_date;
+
+	 	if(params.group) {
+	 		searchParams["group_id"] = params.group.id;
+	 	}
+
 		return searchParams;
 	};
 
@@ -89,8 +93,7 @@ angular.module('fmsReports').directive('groupSearch', function() {
 			$scope.tablestate = tablestate;
 		}
 
-		searchParams = angular.copy($scope.searchParams);
-		searchParams = $scope.normalizeSearchParams(searchParams);
+		var searchParams = $scope.beforeSearch();
 		$scope.setPageQueryInfo(searchParams, $scope.tablestate.pagination, 0, GridUtils.getGridCountPerPage());
 
 		$scope.doSearch(searchParams, function(dataSet) {
@@ -149,8 +152,7 @@ angular.module('fmsReports').directive('groupSearch', function() {
 	  * @return {Object}
 	  */
 	 $scope.beforeSearch = function() {
-	 	var searchParams = angular.copy($scope.searchParams);
-	 	return $scope.normalizeSearchParams(searchParams);
+	 	return $scope.normalizeSearchParams($scope.searchParams);
 	 };
 
 	 /**
@@ -161,7 +163,7 @@ angular.module('fmsReports').directive('groupSearch', function() {
 	  * @return N/A
 	  */
 	 $scope.doSearch = function(params, callback) {
-	 	RestApi.search('/drivers.json', params, function(dataSet) {
+	 	RestApi.search('/fleet_group_summaries/summary.json', params, function(dataSet) {
 	 		callback(dataSet);
 	 	});
 	 };
@@ -198,11 +200,11 @@ angular.module('fmsReports').directive('groupSearch', function() {
 		/**
 		 * init date picker1
 		 */
-		FmsUtils.initDatePicker('report-group-datepicker1', $scope.searchParams, 'ctm_gte', $scope.search);
+		FmsUtils.initDatePicker('report-group-datepicker1', $scope.searchParams, 'from_date', $scope.search);
 		/**
 		 * init date picker2
 		 */
-		FmsUtils.initDatePicker('report-group-datepicker2', $scope.searchParams, 'ctm_lte', $scope.search);
+		FmsUtils.initDatePicker('report-group-datepicker2', $scope.searchParams, 'to_date', $scope.search);
 		/**
 		 * 차량 그룹 데이터
 		 */

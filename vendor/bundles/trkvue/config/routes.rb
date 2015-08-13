@@ -22,6 +22,8 @@ Trkvue::Engine.routes.draw do
 			post :update_multiple
 			get :show_by_name
 			get :export
+			get :summary
+			get :event_summary
 		end
 	end
 
@@ -31,6 +33,8 @@ Trkvue::Engine.routes.draw do
 			get :show_by_name
 			get :export
 			get :daily_summary
+			get :summary
+			get :event_summary
 		end
 	end
   
