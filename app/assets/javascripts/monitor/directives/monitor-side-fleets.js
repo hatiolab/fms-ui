@@ -151,6 +151,7 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	 $scope.beforeSearch = function() {
 	 	var searchParams = angular.copy($scope.searchParams);
 	 	searchParams.fleet_group_id = searchParams.group ? searchParams.group.id : '';
+	 	$scope.isLoading = true;
 	 	return $scope.normalizeSearchParams(searchParams);
 	 };
 
@@ -179,6 +180,7 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 		$scope.speedRangeSummaries = FmsUtils.getSpeedSummaries($scope.items);
 		$scope.$emit('monitor-fleet-list-change', $scope.items);
 		FmsUtils.setGridContainerHieght('monitor-fleet-table-container');
+		$scope.isLoading = false;
 	 };	
 
 	/**
@@ -232,6 +234,7 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	 * 초기화 함수 
 	 */
 	$scope.init = function() {
+		$scope.isLoading = false;
 		$scope.findGroups(null);
 	};
 

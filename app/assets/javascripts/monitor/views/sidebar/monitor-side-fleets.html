@@ -44,7 +44,7 @@
 <!-- table begin -->
 <div id="monitor-fleet-table-container" class="search-table">
 	<table class="table table-striped table-hover" st-pagination-scroll 
-				 st-table="items" st-pipe="search">
+				 st-table="items" st-pipe="search" >
 		<thead>
 		  <tr>
 		  	<th>#</th>
@@ -68,5 +68,6 @@
 			</tr>
 		</tbody>
 	</table>
+	<div ng-show="isLoading" class="loading"></div>
 </div>
 <!-- table end -->
