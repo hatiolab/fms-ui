@@ -3,30 +3,33 @@
 	
 		<!-- menu begin -->
 		<ul class="setting-sidemenu">
-			<li><a href="#/reports/groups" class="menu-icon driver">Fleet Group Summary</a></li>
-			<li><a href="#/reports/fleets" class="menu-icon fleets active">Fleet Summary</a></li>
-			<li><a href="#/reports/alerts" class="menu-icon group">Alert Summary</a></li>
-			<button id="reportSearchFleets" type="button" class="btn btn-default panel-refresh pull-right"></button>
+			<li><a href="#/reports/group-drive" class="menu-icon driver">Driving Summary By Group</a></li>
+			<li><a href="#/reports/fleet-drive" class="menu-icon fleets">Driving Summary By Fleet</a></li>
+			<li><a href="#/reports/group-alert" class="menu-icon group active">Alert Summary By Group</a></li>
+			<li><a href="#/reports/fleet-alert" class="menu-icon preference">Alert Summary By Fleet</a></li>
+			<button id="reportSearchAlerts" type="button" class="btn btn-default panel-refresh pull-right"></button>
 		</ul>
 		<!-- menu end -->
 
-		<form name="reportFleetForm" class="form-horizontal">
+		<form name="reportGroupAlertForm" class="form-horizontal">
 
+			<!-- group begin -->
 			<div class="form-group">
 				<label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">group</label>
 				<div class="col-xs-11 col-sm-7 col-md-6 padding-clear">
 					<select name="group" class="form-control" ng-model="searchParams.group" ng-init="selected=''"
-					ng-options="group.name for group in groups" >
+						ng-options="group.name for group in groups" >
 						<option></option>
 					</select>
 				</div>
 			</div>
+			<!-- group end -->
 
 			<!-- period begin -->
 			<div class="form-group">
-				<label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">Period</label>
+				<label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">period</label>
 				<div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
-					<div id="report-fleet-datepicker1" class="input-append date">
+					<div id="report-group-alert-datepicker1" class="input-append date">
 						<input name="from_date" data-format="yyyy-MM-dd" type="text" ng-model="searchParams.from_date" placeholder="from">
 						</input>
 						<span class="add-on">
@@ -37,7 +40,7 @@
 
 				<span class="col-xs-1 col-sm-1 col-md-1 padding-clear align-center margin-t7">~</span>
 				<div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
-					<div id="report-fleet-datepicker2" class="input-append date">
+					<div id="report-group-alert-datepicker2" class="input-append date">
 						<input name="to_date" data-format="yyyy-MM-dd" type="text" ng-model="searchParams.to_date" placeholder="to"></input>
 						<span class="add-on">
 							<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
@@ -53,26 +56,26 @@
 				<div class="col-xs-11 col-sm-9 col-md-10 padding-clear">
 					<div class="radio">
 						<label>
-							<input type="radio" ng-model="chartName" value="Average Velocity" ng-click="showChart('fms-pie-chart')">
-								<span class="type-icon impact"></span>Average Velocity
+							<input type="radio" ng-model="chartName" value="Impact">
+								<span class="type-icon impact"></span>Impact
 						</label>
 					</div>
 					<div class="radio">
 						<label>
-							<input type="radio" ng-model="chartName" value="Driving Distance" ng-click="showChart('fms-bar-chart')">
-								<span class="type-icon geofence"></span>Driving Distance
+							<input type="radio" ng-model="chartName" value="Overspeed">
+							<span class="type-icon overspeed"></span>Overspeed
 						</label>
 					</div>
 					<div class="radio">
 						<label>
-							<input type="radio" ng-model="chartName" value="Driving Time" ng-click="showChart('fms-line-chart')">
-								<span class="type-icon overspeed"></span>Driving Time
+							<input type="radio" ng-model="chartName" value="Geofence">
+								<span class="type-icon geofence"></span>Geofence
 						</label>
 					</div>
 					<div class="radio">
 						<label>
-							<input type="radio" ng-model="chartName" value="Speed Trend" ng-click="showChart('fms-radar-chart')">
-								<span class="type-icon emergency"></span>Speed Trend
+							<input type="radio" ng-model="chartName" value="Emergency">
+								<span class="type-icon emergency"></span>Emergency
 						</label>
 					</div>
 				</div>
@@ -82,29 +85,30 @@
 		</form>
 
 		<!-- table begin -->
-		<div id="report-fleet-table-container" class="search-table">
+		<div id="report-group-alert-table-container" class="search-table">
 			<table class="table table-striped table-hover" st-pagination-scroll st-table="items" st-pipe="search">
 				<thead>
 					<tr>
-						<th data-field="no">#</th>
-						<th data-field="group">Group</th>
-						<th data-field="drivingTime">Driving Time</th>
-						<th data-field="drivingDist">Driving Dist.</th>
-						<th data-field="avgVelocity">Avg Velocity</th>
+						<th>#</th>
+						<th>Group</th>
+						<th>Impact</th>
+						<th>Overspeed</th>
+						<th>Geofence</th>
+						<th>Emergency</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr ng-repeat="item in items" ng-click="goItem(item)" ng-class="{active : item.active}">
 						<td>{{item.no}}</td>
-						<td>{{item.fleet_name}}</td>
-						<td>{{item.drive_time}}</td>
-						<td>{{item.drive_dist}}</td>
-						<td>{{item.velocity}}</td>
+						<td>{{item.group_name}}</td>
+						<td>{{item.impact}}</td>
+						<td>{{item.overspeed}}</td>
+						<td>{{item.geofence}}</td>
+						<td>{{item.emergency}}</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 		<!-- table end -->
-
 	</div>
 </div>

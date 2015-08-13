@@ -18,38 +18,50 @@ angular.module('fmsReports').config(function($stateProvider, $urlRouterProvider)
 		}
 	})
 
-	.state('reports.groups', {
-		url: '/groups',
+	.state('reports.group-drive', {
+		url: '/group-drive',
 		views: {
 			'sidebar-view@': {
-				template: '<group-search></group-search>'
+				template: '<group-drive-search></group-drive-search>'
 			},
 			'content-view@' : {
-				template: '<group-chart></group-chart>'
+				template: '<group-drive-chart></group-drive-chart>'
 			}
 		}
 	})
 
-	.state('reports.fleets', {
-		url: '/fleets',
+	.state('reports.fleet-drive', {
+		url: '/fleet-drive',
 		views: {
 			'sidebar-view@': {
-				template: '<fleet-search></fleet-search>'
+				template: '<fleet-drive-search></fleet-drive-search>'
 			},
 			'content-view@' : {
-				template: '<fleet-chart></fleet-chart>'
+				template: '<fleet-drive-chart></fleet-drive-chart>'
 			}
 		}
 	})
 
-	.state('reports.alerts', {
-		url: '/alerts',
+	.state('reports.group-alert', {
+		url: '/group-alert',
 		views: {
 			'sidebar-view@': {
-				template: '<alert-search></alert-search>'
+				template: '<group-alert-search></group-alert-search>'
 			},
 			'content-view@' : {
-				template: '<alert-chart></alert-chart>'
+				template: '<group-alert-chart></group-alert-chart>'
+			}
+		}
+	})
+
+	.state('reports.fleet-alert', {
+		url: '/fleet-alert',
+		views: {
+			'sidebar-view@': {
+				template: '<fleet-alert-search></fleet-alert-search>'
+			},
+			'content-view@' : {
+				template: '<fleet-alert-chart></fleet-alert-chart>'
 			}
 		}
 	});
