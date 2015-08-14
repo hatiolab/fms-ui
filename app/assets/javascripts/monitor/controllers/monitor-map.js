@@ -146,7 +146,6 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		}
 
 		$scope.clearAll(null);
-		var firstEvent = eventDataList[0];
 
 		for(var i = 0 ; i < eventDataList.length ; i++) {
 			var eventData = eventDataList[i];

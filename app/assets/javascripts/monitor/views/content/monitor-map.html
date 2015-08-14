@@ -137,14 +137,14 @@
       show="windowSwitch.showEventInfo" closeClick="switchOffAll()">
       <div>
         <div>Event ID <strong>{{selectedMarker.id}}</strong></div>
-        <pip-video 
+        <!--pip-video 
         		video-url="{{selectedMarker.vdo}}"
         		front-video-url="{{selectedMarker.f_vdo}}"
             rear-video-url="{{selectedMarker.r_vdo}}"
             audio-url="{{selectedMarker.ado}}">
-        </pip-video> 
+        </pip-video-->
         <div class="detial-time">Occurred at <strong>{{selectedMarker.etm | date:'medium'}}</strong></div>
-        <div class="detail-address">{{selectedMarker.address}}</div>
+        <!--div class="detail-address">{{selectedMarker.address}}</div-->
 				<div class="detail-item margin-t10">
 					<span class="modal-icon dot-gray">Speed</span>
 					<span class="{{selectedMarker.typeClass}}"></span> {{selectedMarker.vlc}}
