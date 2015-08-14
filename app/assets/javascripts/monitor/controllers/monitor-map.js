@@ -159,6 +159,10 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * 지도 초기화 
 	 */
 	$scope.clearAll = function(center) {
+		if(!$scope.markerControl) {
+			return;
+		}
+
 		// clear markers
 		var gMarkers = $scope.markerControl.getGMarkers();
 		angular.forEach(gMarkers, function(marker) {
@@ -191,7 +195,13 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		}
 	};
 
+	/**
+	 * For Debugging
+	 */
 	$scope.sTime = 0;
+	/**
+	 * For Debugging
+	 */
 	$scope.eTime = 0;
 
 	/**
