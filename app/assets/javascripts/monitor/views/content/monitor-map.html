@@ -55,7 +55,7 @@
         </div>
 				<div class="col-xs-12 padding-clear detail-address margin-t5 map-window">address</div>
         <div ng-show="'{{selectedMarker.trip_id}}' != ''" class="col-xs-12 padding-clear margin-t5">
-          <button ng-click="$parent.goTrip()" class="btn modal-btn-trip btn-success btn-sm pull-right">Go Trip</button>
+          <button ng-click="$parent.goTrip('{{selectedMarker.trip_id}}')" class="btn modal-btn-trip btn-success btn-sm pull-right">Go Trip</button>
         </div>
       </div>
 		</ui-gmap-window>
