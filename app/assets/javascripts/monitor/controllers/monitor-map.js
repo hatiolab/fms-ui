@@ -226,7 +226,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 			// 2. trip 그리기 
 			$scope.showTrip(dataSet, callback);
 			eTime = new Date().getTime();
-			console.log('Go Trip Total Time : (Start : ' + sTime + ', End : ' + eTime + ') ' + (eTime - sTime) + ' (ms)');		
+			console.log('Show Trip (' + tripId + ') Total Time : (Start : ' + sTime + ', End : ' + eTime + ') ' + (eTime - sTime) + ' (ms)');		
 		});
 	};
 
