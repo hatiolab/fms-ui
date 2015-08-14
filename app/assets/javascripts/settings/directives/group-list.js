@@ -178,16 +178,7 @@ angular.module('fmsSettings').directive('groupList', function() {
 				var item = $scope.items[i];
 				item.active = (item.id == activeItem.id);
 			}
-		};	
-		/**
-		 * Driver items changed so the list must be refreshed
-		 * 
-		 * @param  {String}
-		 * @param  handler function
-		 */
-		$rootScope.$on('setting-group-items-change', function(event) {
-			$scope.searchGroups($scope.tablestate);
-		});
+		};
 
 		/**
 		 * Watch fleetSearchParams in page scope, if changed trigger pageFleets in same scope
@@ -201,5 +192,22 @@ angular.module('fmsSettings').directive('groupList', function() {
 			}
 		});
 
+		/**
+		 * Driver items changed so the list must be refreshed
+		 * 
+		 * @param  {String}
+		 * @param  handler function
+		 */
+		var groupsChnageListener = $rootScope.$on('setting-group-items-change', function(event) {
+			$scope.searchGroups($scope.tablestate);
+		});
+
+	  /**
+	   * Destroy Scope - RootScope Event Listener 정리 
+	   */
+	  $scope.$on('$destroy', function(event) {
+	    groupsChnageListener();
+	  });
+	  
 		// ------------------------------ E N D -------------------------------------
 	});

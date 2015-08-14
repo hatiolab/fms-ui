@@ -181,17 +181,7 @@ angular.module('fmsSettings').directive('driverList', function() {
 			var item = $scope.items[i];
 			item.active = (item.id == activeItem.id);
 		}
-	};	
-
-	/**
-	 * Driver items changed so the list must be refreshed
-	 * 
-	 * @param  {String}
-	 * @param  handler function
-	 */
-	$rootScope.$on('setting-driver-items-change', function(event) {
-		$scope.search($scope.tablestate);
-	});
+	};
 
 	/**
 	 * [watch drivers SearchParams in page scope, if changed trigger pageFleets in same scope]
@@ -204,4 +194,21 @@ angular.module('fmsSettings').directive('driverList', function() {
 		}
 	});
 
+	/**
+	 * Driver items changed so the list must be refreshed
+	 * 
+	 * @param  {String}
+	 * @param  handler function
+	 */
+	var driversChangeListener = $rootScope.$on('setting-driver-items-change', function(event) {
+		$scope.search($scope.tablestate);
+	});	
+
+  /**
+   * Destroy Scope - RootScope Event Listener 정리 
+   */
+  $scope.$on('$destroy', function(event) {
+    driversChangeListener();
+  });
+  
 });

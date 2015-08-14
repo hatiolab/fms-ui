@@ -36,19 +36,6 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 		$scope.alarmTypeHide = true;
 
 		/**
-		 * group item selected
-		 * 
-		 * @param  {String}
-		 * @param  handler function
-		 */
-		$rootScope.$on('setting-group-item-change', function(event, group) {
-			$scope.item = group;
-			$scope.searchGeoGroups();
-			$scope.searchGeofences();
-			FmsUtils.setGridContainerHieght('setting-group-relation-table-container');
-		});
-
-		/**
 		 * 서버에 보내기위해 파라미터 변경  
 		 */
 		$scope.normalizeSearchParams = function(params) {
@@ -312,6 +299,29 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 				}
 			}
 		};
-		$scope.showdata = function() {};
+
+		$scope.showdata = function() {
+
+		};
+
+		/**
+		 * group item selected
+		 * 
+		 * @param  {String}
+		 * @param  handler function
+		 */
+		var groupChangeListener = $rootScope.$on('setting-group-item-change', function(event, group) {
+			$scope.item = group;
+			$scope.searchGeoGroups();
+			$scope.searchGeofences();
+			FmsUtils.setGridContainerHieght('setting-group-relation-table-container');
+		});
+
+	  /**
+	   * Destroy Scope - RootScope Event Listener 정리 
+	   */
+	  $scope.$on('$destroy', function(event) {
+	    groupChangeListener();
+	  });
 		// --------------------------- E N D ----------------------------
 	});

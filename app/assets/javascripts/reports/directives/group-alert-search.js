@@ -37,7 +37,7 @@ angular.module('fmsReports').directive('groupAlertSearch', function() {
 	 */
 	$scope.isSidebarToggle = true;
 	/**
-	 * Group List
+	 * Data
 	 *
 	 * @type {Array}
 	 */
@@ -54,21 +54,6 @@ angular.module('fmsReports').directive('groupAlertSearch', function() {
 	 * @type {Boolean}
 	 */
 	$scope.searchEnabled = false;
-	/**
-	 * Fleet Group 모델 
-	 * 
-	 * @type {Array}
-	 */
-	$scope.groups = [];
-
-	/**
-	 * Search Fleet Groups
-	 */
-	$scope.findGroups = function(params) {
-		RestApi.list('/fleet_groups.json', params, function(dataSet) {
-			$scope.groups = dataSet;
-		});
-	};
 
 	/**
 	 * Rails Server의 스펙에 맞도록 파라미터 변경 ...
@@ -76,20 +61,7 @@ angular.module('fmsReports').directive('groupAlertSearch', function() {
 	 * @param  {Object}
 	 */
 	$scope.normalizeSearchParams = function(params) {
-		var searchParams = {};
-
-		if(!params || FmsUtils.isEmpty(params)) {
-			return searchParams;
-		} 
-
-		searchParams["from_date"] = params.from_date;
-		searchParams["to_date"] = params.to_date;
-
-	 	if(params.group) {
-	 		searchParams["group_id"] = params.group.id;
-	 	}
-
-		return searchParams;
+		return angular.copy(params);
 	};
 
 	/**
@@ -302,10 +274,6 @@ angular.module('fmsReports').directive('groupAlertSearch', function() {
 		 * init date picker2
 		 */
 		FmsUtils.initDatePicker('report-group-alert-datepicker2', $scope.searchParams, 'to_date', $scope.search);
-		/**
-		 * 차량 그룹 데이터
-		 */
-		$scope.findGroups();
 	};
 
 	/**

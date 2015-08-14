@@ -121,17 +121,6 @@ angular.module('fmsGeofence',['uiGmapgoogle-maps'])
 	};
 
 	/**
-	 * geofence item selected
-	 * 
-	 * @param  {eventName}
-	 * @param  handler function
-	 */
-	$rootScope.$on('geofence-items-change', function(event, geofence) {
-		$scope.resetGeofence();
-		$scope.pageGeofences(null);
-	});
-
-	/**
 	 * save polygon
 	 * 
 	 * @return {[type]}
@@ -219,9 +208,28 @@ angular.module('fmsGeofence',['uiGmapgoogle-maps'])
 		}
 	});
 
-	var searchButton = $element.find('#searchGeofences');
+	/**
+	 * geofence item selected
+	 * 
+	 * @param  {eventName}
+	 * @param  handler function
+	 */
+	var itemChangeListener = $rootScope.$on('geofence-items-change', function(event, geofence) {
+		$scope.resetGeofence();
+		$scope.pageGeofences(null);
+	});
+	
+  /**
+   * Destroy Scope - RootScope Event Listener 정리 
+   */
+  $scope.$on('$destroy', function(event) {
+    itemChangeListener();
+  });
 
-	searchButton.bind("click", function() {
+	/**
+	 * Bind Search Button Click Event
+	 */
+	$element.find('#searchGeofences').bind("click", function() {
 		$scope.pageGeofences(null);
 	});
 

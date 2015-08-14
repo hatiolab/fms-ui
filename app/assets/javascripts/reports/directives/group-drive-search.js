@@ -26,7 +26,7 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 	 */
 	$scope.isSidebarToggle = true;
 	/**
-	 * Group List
+	 * Data
 	 */
 	$scope.items = [];
 	/**
@@ -38,21 +38,6 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 	 * @type {Boolean}
 	 */
 	$scope.searchEnabled = false;
-	/**
-	 * Fleet Group 모델 
-	 * 
-	 * @type {Array}
-	 */
-	$scope.groups = [];
-
-	/**
-	 * Search Fleet Groups
-	 */
-	$scope.findGroups = function(params) {
-		RestApi.list('/fleet_groups.json', params, function(dataSet) {
-			$scope.groups = dataSet;
-		});
-	};
 
 	/**
 	 * 검색 조건 
@@ -60,20 +45,7 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 	 * @param  {Object}
 	 */
 	$scope.normalizeSearchParams = function(params) {
-		var searchParams = {};
-
-		if(!params || FmsUtils.isEmpty(params)) {
-			return searchParams;
-		} 
-
-		searchParams["from_date"] = params.from_date;
-		searchParams["to_date"] = params.to_date;
-
-	 	if(params.group) {
-	 		searchParams["group_id"] = params.group.id;
-	 	}
-
-		return searchParams;
+		return angular.copy(params);
 	};
 
 	/**
@@ -192,7 +164,7 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 	  */
 	 $scope.afterSearch = function(dataSet) {
 	 	$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
-		FmsUtils.setGridContainerHieght('report-group-table-container');
+		FmsUtils.setGridContainerHieght('report-group-drive-table-container');
 
 		// 1. Driving Time Chart Data - Bar && Donut
 		$scope.sendDrivingTimeChatData('Driving Time', dataSet.items);
@@ -298,10 +270,6 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 		 * init date picker2
 		 */
 		FmsUtils.initDatePicker('report-group-datepicker2', $scope.searchParams, 'to_date', $scope.search);
-		/**
-		 * 차량 그룹 데이터
-		 */
-		$scope.findGroups();
 	};
 
 	/**

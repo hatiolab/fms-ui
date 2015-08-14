@@ -1,6 +1,12 @@
 angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scope, $timeout, $interval, $element, $compile, FmsUtils, RestApi) {
 
 	/**
+	 * timer 시작 여
+	 * 
+	 * @type {Boolean}
+	 */
+	$scope.timerStarted = false;
+	/**
 	 * alert list
 	 * 
 	 * @type {Array}
@@ -21,6 +27,8 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
    * Alert 발생시 
    */
    $scope.setAlert = function(alertData) {   	
+   	$timeout.cancel();
+
    	if(alertData && alertData.alert && alertData.alert.id) {
 	   	FmsUtils.setAlertTypeClass(alertData.alert);
 	   	var alert = {
@@ -43,7 +51,6 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
    		$scope.lastSearchAlertTime = new Date().getTime() + 10;
    	}
    	
-   	$timeout.cancel();
    	$timeout($scope.searchNewAlert, $scope.getInterval());
    };
 
@@ -205,6 +212,7 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 	  * @return N/A
 	  */
 	 $scope.$on('settings-all-ready', function() {
+	 	alert('Setting All Ready');
 	 	$scope.refreshTimer();
 	 });
 
@@ -212,9 +220,12 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 	 * Refresh timer를 시작 
 	 */
 	 $scope.refreshTimer = function() {
-	 	$timeout.cancel();
-	 	var interval = $scope.getInterval();
- 		$timeout($scope.searchNewAlert, interval);
+	 	if(!$scope.timerStarted) {
+	 		$scope.timerStarted = true;
+		 	$timeout.cancel();
+		 	var interval = $scope.getInterval();
+	 		$timeout($scope.searchNewAlert, interval);	 		
+	 	}
 	 };
 
 	 /**
@@ -236,7 +247,16 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
  		return interval * 1000;
 	 };
 
-	 // timer 시작 
-	 $scope.refreshTimer();
+	/**
+	 * Scope destroy시 
+	 */
+	$scope.$on('$destroy', function(event) {
+		$timeout.cancel();
+	});
+
+	/**
+	 * timer 시작 
+	 */ 
+	$scope.refreshTimer();
 
 	});

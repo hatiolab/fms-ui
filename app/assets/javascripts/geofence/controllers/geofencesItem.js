@@ -159,34 +159,6 @@ angular.module('fmsGeofence')
 		};
 
 		/**
-		 * geofence item selected
-		 * 
-		 * @param  {String}
-		 * @param  handler function
-		 */
-		$rootScope.$on('geofence-item-selected', function(event, geofence) {
-			$scope.geofence = geofence;
-			$scope.resetPolygon();
-			$scope.setDrawingMode(true);
-
-			RestApi.get('/polygons.json', { '_q[geofence_id-eq]' : geofence.id }, function(dataSet) {
-				$scope.setPolygon(dataSet.items);
-			});
-		});
-
-		/**
-		 * geofence item new
-		 * 
-		 * @param  {Object}
-		 * @param  {Object}
-		 */
-		$rootScope.$on('geofence-item-new', function(event, emptyGeofence) {
-			$scope.geofence = emptyGeofence;
-			$scope.resetPolygon();
-			$scope.setDrawingMode(false);
-		});
-
-		/**
 		 * save polygon
 		 * 
 		 * @return {Object}
@@ -236,6 +208,42 @@ angular.module('fmsGeofence')
 			$scope.polygon.name = '';
 			$scope.polygon.description = '';
 		};
+
+		/**
+		 * geofence item selected
+		 * 
+		 * @param  {String}
+		 * @param  handler function
+		 */
+		var geofenceSelectionListener = $rootScope.$on('geofence-item-selected', function(event, geofence) {
+			$scope.geofence = geofence;
+			$scope.resetPolygon();
+			$scope.setDrawingMode(true);
+
+			RestApi.get('/polygons.json', { '_q[geofence_id-eq]' : geofence.id }, function(dataSet) {
+				$scope.setPolygon(dataSet.items);
+			});
+		});
+
+		/**
+		 * geofence item new
+		 * 
+		 * @param  {Object}
+		 * @param  {Object}
+		 */
+		var geofenceNewListener = $rootScope.$on('geofence-item-new', function(event, emptyGeofence) {
+			$scope.geofence = emptyGeofence;
+			$scope.resetPolygon();
+			$scope.setDrawingMode(false);
+		});
+
+	  /**
+	   * Destroy Scope - RootScope Event Listener 정리 
+	   */
+	  $scope.$on('$destroy', function(event) {
+	    geofenceSelectionListener();
+	    geofenceNewListener();
+	  });
 
 		//--------------------------------- E N D ------------------------------------
 	});

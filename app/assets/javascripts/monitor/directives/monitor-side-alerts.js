@@ -306,7 +306,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	/**
 	 * map refresh 
 	 */
-	$rootScope.$on('monitor-refresh-event', function(evt, value) {
+	var refreshListener = $rootScope.$on('monitor-refresh-event', function(evt, value) {
 		// TODO Refresh는 Items Start ~ End No.로 조회한다.
 		$scope.search($scope.tablestate);
 	});
@@ -318,6 +318,13 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 		if ($scope.searchEnabled) {
 			$scope.search($scope.tablestate);
 		}
+	});
+
+	/**
+	 * Scope destroy시 
+	 */
+	$scope.$on('$destroy', function(event) {
+		refreshListener();
 	});
 
 	/**

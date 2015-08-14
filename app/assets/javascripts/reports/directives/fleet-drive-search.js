@@ -272,7 +272,7 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 	  */
 	 $scope.afterSearch = function(dataSet) {
 	 	$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
-		FmsUtils.setGridContainerHieght('report-fleet-table-container');
+		FmsUtils.setGridContainerHieght('report-fleet-drive-table-container');
 		$scope.sendChartData();
 	 };
 

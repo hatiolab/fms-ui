@@ -103,20 +103,6 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
   };
 
 	/**
-	 * fleet item selected
-	 * 
-	 * @param  {String}
-	 * @param  handler function
-	 */
-	$rootScope.$on('setting-fleet-item-change', function(event, fleet) {
-		$scope.item = fleet;
-		$scope.setDefaultImage();
-		$scope.findGroups();
-		$scope.findDrivers();
-		$scope.file = null;
-	});
-
-	/**
 	 * Check form validation
 	 * 
 	 * @return N/A
@@ -216,7 +202,27 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 	 */
 	$scope.refreshList = function() {
 		$scope.$emit('setting-fleet-items-change', null);
-	}
+	};
 
+	/**
+	 * fleet item selected
+	 * 
+	 * @param  {String}
+	 * @param  handler function
+	 */
+	var fleetChangeListener = $rootScope.$on('setting-fleet-item-change', function(event, fleet) {
+		$scope.item = fleet;
+		$scope.setDefaultImage();
+		$scope.findGroups();
+		$scope.findDrivers();
+		$scope.file = null;
+	});	
+
+  /**
+   * Destroy Scope - RootScope Event Listener 정리 
+   */
+  $scope.$on('$destroy', function(event) {
+    fleetChangeListener();
+  });
 	// --------------------------- E N D ----------------------------
 });

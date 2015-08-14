@@ -214,18 +214,7 @@ angular.module('fmsSettings').directive('fleetList', function() {
 			var item = $scope.items[i];
 			item.active = (item.id == activeItem.id);
 		}
-	};	
-
-
-	/**
-	 * Driver items changed so the list must be refreshed
-	 * 
-	 * @param  {String}
-	 * @param  handler function
-	 */
-	$rootScope.$on('setting-fleet-items-change', function(event) {
-		$scope.search($scope.tablestate);
-	});
+	};
 
 	/**
 	 * Watch fleetSearchParams in page scope, if changed trigger pageFleets in same scope
@@ -238,6 +227,23 @@ angular.module('fmsSettings').directive('fleetList', function() {
 			$scope.search($scope.tablestate);
 		}
 	});
+
+	/**
+	 * Driver items changed so the list must be refreshed
+	 * 
+	 * @param  {String}
+	 * @param  handler function
+	 */
+	var fleetsChangeListener = $rootScope.$on('setting-fleet-items-change', function(event) {
+		$scope.search($scope.tablestate);
+	});
+
+  /**
+   * Destroy Scope - RootScope Event Listener 정리 
+   */
+  $scope.$on('$destroy', function(event) {
+    fleetsChangeListener();
+  });
 
 	/**
 	 * 초기화 함수 

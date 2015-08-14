@@ -40,18 +40,6 @@ angular.module('fmsSettings').directive('driverDetail', function() {
   });
 
 	/**
-	 * driver item selected
-	 * 
-	 * @param  {String}
-	 * @param  handler function
-	 */
-	$rootScope.$on('setting-driver-item-change', function(event, driver) {
-		$scope.item = driver;
-		$scope.item.img = $scope.item.img ? $scope.item.img : "";
-		$scope.file = null;
-	});
-
-	/**
 	 * Check form validation
 	 * 
 	 * @return N/A
@@ -139,7 +127,26 @@ angular.module('fmsSettings').directive('driverDetail', function() {
 	 */
 	$scope.refreshList = function() {
 		$scope.$emit('setting-driver-items-change', null);
-	}
+	};
+
+	/**
+	 * driver item selected
+	 * 
+	 * @param  {String}
+	 * @param  handler function
+	 */
+	var driverChangeListener = $rootScope.$on('setting-driver-item-change', function(event, driver) {
+		$scope.item = driver;
+		$scope.item.img = $scope.item.img ? $scope.item.img : "";
+		$scope.file = null;
+	});
+
+  /**
+   * Destroy Scope - RootScope Event Listener 정리 
+   */
+  $scope.$on('$destroy', function(event) {
+    driverChangeListener();
+  });		
 
 	// --------------------------- E N D ----------------------------
 });
