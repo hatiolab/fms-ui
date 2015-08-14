@@ -142,9 +142,9 @@
         		front-video-url="{{selectedMarker.f_vdo}}"
             rear-video-url="{{selectedMarker.r_vdo}}"
             audio-url="{{selectedMarker.ado}}">
-        </pip-video-->
+        </pip-video>
         <div class="detial-time">Occurred at <strong>{{selectedMarker.etm | date:'medium'}}</strong></div>
-        <!--div class="detail-address">{{selectedMarker.address}}</div-->
+        <div class="detail-address">{{selectedMarker.address}}</div>
 				<div class="detail-item margin-t10">
 					<span class="modal-icon dot-gray">Speed</span>
 					<span class="{{selectedMarker.typeClass}}"></span> {{selectedMarker.vlc}}
@@ -156,7 +156,7 @@
 					<strong>{{selectedMarker.gy}}</strong>
 					<span class="modal-icon dot-gray">G-Z</span>
 					<strong>{{selectedMarker.gz}}</strong>
-				</div>
+				</div-->
       </div>
     </ui-gmap-window>
 

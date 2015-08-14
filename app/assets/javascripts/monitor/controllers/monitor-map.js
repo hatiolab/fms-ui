@@ -250,6 +250,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		var batches = tripDataSet.batches;
 		var tracks = tripDataSet.tracks;
 		var events = tripDataSet.events;
+		console.log(events);
 
 		// 1. trip
 		$scope.addMarker($scope.tripToMarker(trip, 'start'));
@@ -440,8 +441,9 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 			marker.ado = CONTENT_BASE_URL + marker.ado;
 		}*/
 
+		/*//var icon = 'assets/event_impact.png';
 		marker.icon = $scope.getEventMarkerIcon(evt);
-		/*marker.events = {
+		marker.events = {
 			click : function(e) {
 				$scope.addMarkerClickEvent(e, 'showEventInfo');
 			}
