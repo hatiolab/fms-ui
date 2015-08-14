@@ -31,15 +31,15 @@ class TripsController < MongoController
     tracks = Track.all_of({'tid' => trip.id}).order("id asc")
     # 4. events
     events = Event.all_of({'tid' => trip.id}).order("id asc")
+    
     alerts = events.collect do |evt|
+      data = JSON.parse(evt.to_json)
       {
-        '_id' => evt._id,
-        id => evt._id,
-        typ => evt.type,
-        lat => evt.lat,
-        lng => evt.lng,
-        tid => evt.tid,
-        bid => evt.bid
+        '_id' => data['_id'],
+        'id' => data['id'],
+        'typ' => data['typ'],
+        'lat' => data['lat'],
+        'lng' => data['lng']
       }
     end
     # 5. result
