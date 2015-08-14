@@ -276,7 +276,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 			// 2.3 tracks
 			for(var j = 0 ; j < tracks.length ; j++) {
 				if(tracks[j].bid == batch.id) {
-					$scope.addMarker($scope.trackToMarker(tracks[j]));
+					//$scope.addMarker($scope.trackToMarker(tracks[j]));
 					//batchline.path.push({latitude : tracks[j].lat, longitude : tracks[j].lng});
 				}
 			}
@@ -284,7 +284,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 			// 2.4 events
 			for(var k = 0 ; k < events.length ; k++) {
 				//if(events[k].bid == batch.id && events[k].typ != 'V') {
-				//$scope.addMarker($scope.eventToMarker(events[k]));
+				$scope.addMarker($scope.eventToMarker(events[k]));
 				//}
 			}
 
