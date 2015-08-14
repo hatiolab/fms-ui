@@ -39,7 +39,9 @@ class TripsController < MongoController
         'id' => data['id'],
         'typ' => data['typ'],
         'lat' => data['lat'],
-        'lng' => data['lng']
+        'lng' => data['lng'],
+        'tid' => data['tid'],
+        'bid' => data['bid']
       }
     end
     # 5. result
