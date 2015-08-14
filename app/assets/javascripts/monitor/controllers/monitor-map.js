@@ -271,13 +271,13 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 				stroke : { color: '#FF0000', opacity: 1.0, weight: 4 }
 			};
 
-			$scope.polylines.push(batchline);
+			//$scope.polylines.push(batchline);
 
 			// 2.3 tracks
 			for(var j = 0 ; j < tracks.length ; j++) {
 				if(tracks[j].bid == batch.id) {
 					$scope.addMarker($scope.trackToMarker(tracks[j]));
-					batchline.path.push({latitude : tracks[j].lat, longitude : tracks[j].lng});
+					//batchline.path.push({latitude : tracks[j].lat, longitude : tracks[j].lng});
 				}
 			}
 
@@ -291,7 +291,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 			// 2.5 batch end
 			if(batch.sts == '2') {
 				$scope.addMarker($scope.batchToMarker(batch, 'end'));
-				batchline.path.push({latitude : batch.lat, longitude : batch.lng});
+				//batchline.path.push({latitude : batch.lat, longitude : batch.lng});
 			}
 		}
 
