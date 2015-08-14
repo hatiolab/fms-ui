@@ -44,6 +44,8 @@ class TripsController < MongoController
         'bid' => data['bid']
       }
     end
+
+    debug_print "alert size : #{alerts.size}"
     # 5. result
     result = {:fleet => fleet, :trip => trip, :batches => batches, :tracks => tracks, :events => alerts, :success => true}
 
