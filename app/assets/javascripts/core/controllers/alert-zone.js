@@ -212,7 +212,6 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 	  * @return N/A
 	  */
 	 $scope.$on('settings-all-ready', function() {
-	 	alert('Setting All Ready');
 	 	$scope.refreshTimer();
 	 });
 
