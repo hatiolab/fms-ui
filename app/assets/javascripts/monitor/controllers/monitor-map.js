@@ -195,20 +195,9 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	};
 
 	/**
-	 * For Debugging
-	 */
-	$scope.sTime = 0;
-	/**
-	 * For Debugging
-	 */
-	$scope.eTime = 0;
-
-	/**
 	 * Move to trip of fleet
 	 */
 	$scope.goTrip = function(tripId, callback) {
-		// For Debugging
-		sTime = new Date().getTime();
 		$scope.viewMode = 'TRIP';
 
 		if(!tripId && $scope.selectedMarker) {
@@ -234,8 +223,6 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 			$scope.clearAll(null);
 			// 2. trip 그리기 
 			$scope.showTrip(dataSet, callback);
-			eTime = new Date().getTime();
-			console.log('Show Trip (' + tripId + ') Total Time : (Start : ' + sTime + ', End : ' + eTime + ') ' + (eTime - sTime) + ' (ms)');		
 		});
 	};
 
@@ -250,7 +237,6 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		var batches = tripDataSet.batches;
 		var tracks = tripDataSet.tracks;
 		var events = tripDataSet.events;
-		console.log(events);
 
 		// 1. trip
 		$scope.addMarker($scope.tripToMarker(trip, 'start'));
@@ -260,7 +246,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 			var batch = batches[i];
 
 			// 2.1 batch start
-			//$scope.addMarker($scope.batchToMarker(batch, 'start'));
+			$scope.addMarker($scope.batchToMarker(batch, 'start'));
 
 			// 2.2 batch polyline
 			var batchline = {
@@ -276,8 +262,8 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 			// 2.3 tracks
 			for(var j = 0 ; j < tracks.length ; j++) {
 				if(tracks[j].bid == batch.id) {
-					//$scope.addMarker($scope.trackToMarker(tracks[j]));
-					//batchline.path.push({latitude : tracks[j].lat, longitude : tracks[j].lng});
+					$scope.addMarker($scope.trackToMarker(tracks[j]));
+					batchline.path.push({latitude : tracks[j].lat, longitude : tracks[j].lng});
 				}
 			}
 
@@ -291,8 +277,8 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 
 			// 2.5 batch end
 			if(batch.sts == '2') {
-				//$scope.addMarker($scope.batchToMarker(batch, 'end'));
-				//batchline.path.push({latitude : batch.lat, longitude : batch.lng});
+				$scope.addMarker($scope.batchToMarker(batch, 'end'));
+				batchline.path.push({latitude : batch.lat, longitude : batch.lng});
 			}
 		}
 
@@ -426,7 +412,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		marker.latitude = evt.lat;
 		marker.longitude = evt.lng;
 		
-		/*if(marker.vdo && marker.vdo != '' && marker.vdo.indexOf('http') < 0) {
+		if(marker.vdo && marker.vdo != '' && marker.vdo.indexOf('http') < 0) {
 			marker.vdo = CONTENT_BASE_URL + marker.vdo;
 		}
 		
@@ -440,15 +426,14 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 
 		if(marker.ado && marker.ado != '' && marker.ado.indexOf('http') < 0) {
 			marker.ado = CONTENT_BASE_URL + marker.ado;
-		}*/
+		}
 
-		/*//var icon = 'assets/event_impact.png';
 		marker.icon = $scope.getEventMarkerIcon(evt);
 		marker.events = {
 			click : function(e) {
 				$scope.addMarkerClickEvent(e, 'showEventInfo');
 			}
-		};*/
+		};
 		return marker;
 	};
 

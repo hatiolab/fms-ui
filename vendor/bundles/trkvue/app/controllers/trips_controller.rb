@@ -30,24 +30,9 @@ class TripsController < MongoController
     # 3. tracks
     tracks = Track.all_of({'tid' => trip.id}).order("id asc")
     # 4. events
-    events = Event.all_of({'tid' => trip.id}).order("id asc")
-    
-    alerts = events.collect do |evt|
-      data = JSON.parse(evt.to_json)
-      {
-        '_id' => data['_id'],
-        'id' => data['id'],
-        'typ' => data['typ'],
-        'lat' => data['lat'],
-        'lng' => data['lng'],
-        'tid' => data['tid'],
-        'bid' => data['bid']
-      }
-    end
-
-    debug_print "alert size : #{alerts.size}"
+    events = Event.all_of({'tid' => trip.id}).order("id asc")    
     # 5. result
-    result = {:fleet => fleet, :trip => trip, :batches => batches, :tracks => tracks, :events => alerts, :success => true}
+    result = {:fleet => fleet, :trip => trip, :batches => batches, :tracks => tracks, :events => events, :success => true}
 
     respond_to do |format|
       format.xml { render :xml => result } 
