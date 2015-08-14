@@ -36,7 +36,7 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 	   		type : alertData.alert.typ,
 	   		tripId : alertData.alert.tid,
 	   		title : alertData.driver.name,
-	   		time : alertData.alert.ctm,
+	   		time : alertData.alert.etm,
 	   		typeClass : alertData.alert.typeClass,
 	   		isShow : true
 	   	};
