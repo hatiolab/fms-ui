@@ -290,7 +290,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 
 			// 2.5 batch end
 			if(batch.sts == '2') {
-				$scope.addMarker($scope.batchToMarker(batch, 'end'));
+				//$scope.addMarker($scope.batchToMarker(batch, 'end'));
 				//batchline.path.push({latitude : batch.lat, longitude : batch.lng});
 			}
 		}
