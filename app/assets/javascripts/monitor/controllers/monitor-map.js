@@ -284,7 +284,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 			// 2.4 events
 			for(var k = 0 ; k < events.length ; k++) {
 				//if(events[k].bid == batch.id && events[k].typ != 'V') {
-				$scope.addMarker($scope.eventToMarker(events[k]));
+				//$scope.addMarker($scope.eventToMarker(events[k]));
 				//}
 			}
 
