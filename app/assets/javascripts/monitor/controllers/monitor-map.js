@@ -441,11 +441,11 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		}*/
 
 		marker.icon = $scope.getEventMarkerIcon(evt);
-		marker.events = {
+		/*marker.events = {
 			click : function(e) {
 				$scope.addMarkerClickEvent(e, 'showEventInfo');
 			}
-		};
+		};*/
 		return marker;
 	};
 
