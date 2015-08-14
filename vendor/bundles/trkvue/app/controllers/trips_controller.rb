@@ -34,7 +34,7 @@ class TripsController < MongoController
     alerts = events.collect do |evt|
       {
         '_id' => evt._id,
-        id => evt.id,
+        id => evt._id,
         typ => evt.type,
         lat => evt.lat,
         lng => evt.lng,
