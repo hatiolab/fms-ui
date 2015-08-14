@@ -7,7 +7,7 @@
 			<li><a href="#/reports/fleet-drive" class="menu-icon fleets active">Driving Summary By Fleet</a></li>
 			<li><a href="#/reports/group-alert" class="menu-icon group">Alert Summary By Group</a></li>
 			<li><a href="#/reports/fleet-alert" class="menu-icon preference">Alert Summary By Fleet</a></li>
-			<button id="reportSearchFleets" type="button" class="btn btn-default panel-refresh pull-right"></button>
+			<button id="reportSearchFleetDrive" type="button" class="btn btn-default panel-refresh pull-right"></button>
 		</ul>
 		<!-- menu end -->
 
@@ -54,19 +54,19 @@
 				<div class="col-xs-11 col-sm-9 col-md-10 padding-clear">
 					<div class="radio">
 						<label>
-							<input type="radio" ng-model="chartName" value="Driving Distance" ng-click="showChart('Driving Distance', 'fms-line-chart')">
-								<span class="type-icon geofence"></span>Driving Distance
-						</label>
-					</div>
-					<div class="radio">
-						<label>
-							<input type="radio" ng-model="chartName" value="Driving Time" ng-click="showChart('Driving Time', 'fms-line-chart')">
+							<input type="radio" ng-model="chartTitle" value="Driving Time" ng-click="showChart('fms-line-chart')">
 								<span class="type-icon overspeed"></span>Driving Time
 						</label>
 					</div>
 					<div class="radio">
 						<label>
-							<input type="radio" ng-model="chartName" value="Average Velocity" ng-click="showChart('Average Velocity', 'fms-line-chart')">
+							<input type="radio" ng-model="chartTitle" value="Driving Distance" ng-click="showChart('fms-line-chart')">
+								<span class="type-icon geofence"></span>Driving Distance
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" ng-model="chartTitle" value="Average Velocity" ng-click="showChart('fms-line-chart')">
 								<span class="type-icon impact"></span>Average Velocity
 						</label>
 					</div>
@@ -89,9 +89,9 @@
 					<tr>
 						<th>#</th>
 						<th>Fleet</th>
-						<th>Driving Time</th>
-						<th>Driving Dist.</th>
-						<th>Velocity</th>
+						<th>Driving Time (min.)</th>
+						<th>Driving Dist. (km)</th>
+						<th>Velocity (km/h)</th>
 					</tr>
 				</thead>
 				<tbody>

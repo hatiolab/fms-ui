@@ -5,7 +5,7 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 		templateUrl: '/assets/reports/views/sidebars/group-drive.html',
 		scope: {},
 		link : function(scope, element, attr, groupSearchCtrl) {
-			var refreshButton = element.find('#reportSearchGroups');
+			var refreshButton = element.find('#reportSearchGroupDrive');
 			refreshButton.bind("click", function() {
 				scope.search(scope.tablestate);
 			});

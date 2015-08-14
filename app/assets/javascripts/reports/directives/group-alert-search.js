@@ -5,7 +5,7 @@ angular.module('fmsReports').directive('groupAlertSearch', function() {
 		templateUrl: '/assets/reports/views/sidebars/group-alert.html',
 		scope: {},
 		link : function(scope, element, attr, fleetSearchCtrl) {
-			var refreshButton = element.find('#reportSearchAlerts');
+			var refreshButton = element.find('#reportSearchGroupAlert');
 			refreshButton.bind("click", function() {
 				scope.search(scope.tablestate);
 			});

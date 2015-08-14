@@ -8,10 +8,30 @@ angular.module('fmsReports').directive('fmsLineChart', function() {
 })
 .controller('lineChartCtrl', function($rootScope, $scope, $element) {
 	
+  /**
+   * Chart Title
+   * 
+   * @type {String}
+   */
   $scope.title = "Line Chart";
-  $scope.labels = ["Group-A", "Group-B", "Group-C", "Group-D", "Group-E", "Group-F"];
-  $scope.series = ['Driving Distance (km)'];
-  $scope.data = [ [0, 0, 0, 0, 0, 0] ];
+  /**
+   * Chart Labels
+   * 
+   * @type {Array}
+   */
+  $scope.labels = [];
+  /**
+   * Chart Series
+   * 
+   * @type {Array}
+   */
+  $scope.series = [];
+  /**
+   * Chart Data
+   * 
+   * @type {Array}
+   */
+  $scope.data = [ [] ];
 
   /**
    * 값을 Line Point 위에 표시하기 
@@ -31,8 +51,10 @@ angular.module('fmsReports').directive('fmsLineChart', function() {
     //console.log(points, evt);
   };
 
-
-  $rootScope.$on('line-chart-data-change', function(evt, dataSet) {
+  /**
+   * Data Change Listener
+   */
+  var dataChangeListener = $rootScope.$on('line-chart-data-change', function(evt, dataSet) {
     if($scope.title == dataSet.title) {
       $scope.labels = dataSet.labels;
       $scope.data = [dataSet.data];
@@ -40,8 +62,18 @@ angular.module('fmsReports').directive('fmsLineChart', function() {
     }
   });
 
+  /**
+   * Destroy Scope - RootScope Event Listener 정리 
+   */
   $scope.$on('$destroy', function(event) {
-    //alert('Scope (' + $scope.$id + ') destroy');
+    dataChangeListener();
   });
+
+  /**
+   * Element 제거시에 Scope도 같이 제거 
+   */
+  $element.on('$destroy', function() {
+    $scope.$destroy();
+  });  
 
 });

@@ -5,7 +5,7 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 		templateUrl: '/assets/reports/views/sidebars/fleet-drive.html',
 		scope: {},
 		link : function(scope, element, attr, fleetSearchCtrl) {
-			var refreshButton = element.find('#reportSearchFleets');
+			var refreshButton = element.find('#reportSearchFleetDrive');
 			refreshButton.bind("click", function() {
 				scope.search(scope.tablestate);
 			});
@@ -24,12 +24,6 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 	 * @type {Object}
 	 */
 	$scope.searchParams = { 'from_date' : period[0], 'to_date' : period[1] };
-	/**
-	 * Chart Name
-	 * 
-	 * @type {String}
-	 */
-	$scope.chartName = 'Driving Distance';
 	/**
 	 * 사이드 바 토글 변수
 	 *
@@ -60,14 +54,19 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 	 * @type {Array}
 	 */
 	$scope.groups = [];
+	/**
+	 * Chart Title
+	 * 
+	 * @type {String}
+	 */
+	$scope.chartTitle = 'Driving Time';
 
 	/**
 	 * Show Chart
 	 * 
 	 * @return N/A
 	 */
-	$scope.showChart = function(chartTitle, chartType) {
-		$scope.chartName = chartTitle;
+	$scope.showChart = function(chartType) {
 		// 기존 차트 삭제 
 		var parent = $('div.report-content').parent();
 		$('div.report-content').remove();
@@ -77,7 +76,7 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 
 	 	// send data to chart scope
 	 	$timeout.cancel();
-   	$timeout($scope.sendChartData, 1000);
+   	$timeout($scope.sendChartData, 100);
 	};
 
 	/**
@@ -86,7 +85,7 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 	 * @return {String}
 	 */
 	$scope.newChartHtml = function(chartType) {
-		return "<" + chartType + " class='col-xs-12 col-sm-12' title='" + $scope.chartName + "'></" + chartType + ">";
+		return "<" + chartType + " class='col-xs-12 col-sm-12' title='" + $scope.chartTitle + "'></" + chartType + ">";
 	};
 
 	/**
@@ -96,13 +95,13 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 	 */
 	$scope.sendChartData = function() {
 		// Line Chart로 
-	 	var lineChartData = { title : $scope.chartName, labels : [], data : [] };
+	 	var lineChartData = { title : $scope.chartTitle, labels : [], data : [] };
 
-		if($scope.chartName == 'Average Velocity') {
+		if($scope.chartTitle == 'Average Velocity') {
 			$scope.setChartData(lineChartData, 'velocity', ['Average Velocity']);
-		} else if($scope.chartName == 'Driving Distance') {
+		} else if($scope.chartTitle == 'Driving Distance') {
 			$scope.setChartData(lineChartData, 'drive_dist', ['Driving Distance (km)']);
-		} else if($scope.chartName == 'Driving Time') {
+		} else if($scope.chartTitle == 'Driving Time') {
 			$scope.setChartData(lineChartData, 'drive_time', ['Driving Time (min.)']);
 		} else {
 			return;

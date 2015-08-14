@@ -5,14 +5,14 @@ angular.module('fmsReports').directive('fleetAlertSearch', function() {
 		templateUrl: '/assets/reports/views/sidebars/fleet-alert.html',
 		scope: {},
 		link : function(scope, element, attr, fleetSearchCtrl) {
-			var refreshButton = element.find('#reportSearchAlerts');
+			var refreshButton = element.find('#reportSearchFleetAlert');
 			refreshButton.bind("click", function() {
 				scope.search(scope.tablestate);
 			});
 		}
 	}; 
 })
-.controller('fleetAlertSearchCtrl', function($rootScope, $scope, $element, GridUtils, FmsUtils, RestApi) {
+.controller('fleetAlertSearchCtrl', function($rootScope, $scope, $element, $compile, $timeout, GridUtils, FmsUtils, RestApi) {
 
 	/**
 	 * 기본 날짜 검색일 설정 
@@ -24,12 +24,6 @@ angular.module('fmsReports').directive('fleetAlertSearch', function() {
 	 * @type {Object}
 	 */
 	$scope.searchParams = { 'from_date' : period[0], 'to_date' : period[1] };
-	/**
-	 * Chart Name
-	 * 
-	 * @type {String}
-	 */
-	$scope.chartName = 'Impact';
 	/**
 	 * 사이드 바 토글 변수
 	 *
@@ -60,6 +54,78 @@ angular.module('fmsReports').directive('fleetAlertSearch', function() {
 	 * @type {Array}
 	 */
 	$scope.groups = [];
+	/**
+	 * Chart Title
+	 * 
+	 * @type {String}
+	 */
+	$scope.chartTitle = 'Impact';
+
+	/**
+	 * Show Chart
+	 * 
+	 * @return N/A
+	 */
+	$scope.showChart = function(chartType) {
+		// 기존 차트 삭제 
+		var parent = $('div.report-content').parent();
+		$('div.report-content').remove();
+		var html = "<div class='report-content'>" + $scope.newChartHtml(chartType) + "</div>";
+		var el = $compile(html)($scope);
+	 	parent.append(el);
+
+	 	// send data to chart scope
+	 	$timeout.cancel();
+   	$timeout($scope.sendChartData, 100);
+	};
+
+	/**
+	 * 새로운 차트를 생성한다.
+	 * 
+	 * @return {String}
+	 */
+	$scope.newChartHtml = function(chartType) {
+		return "<" + chartType + " class='col-xs-12 col-sm-12' title='" + $scope.chartTitle + "'></" + chartType + ">";
+	};
+
+	/**
+	 * Send Chart Data
+	 * 
+	 * @return N/A
+	 */
+	$scope.sendChartData = function() {
+		// Line Chart로 
+	 	var lineChartData = { title : $scope.chartTitle, labels : [], data : [] };
+
+		if($scope.chartTitle == 'Impact') {
+			$scope.setChartData(lineChartData, 'impact', ['Impact Count']);
+		} else if($scope.chartTitle == 'Overspeed') {
+			$scope.setChartData(lineChartData, 'overspeed', ['Overspeed Count']);
+		} else if($scope.chartTitle == 'Geofence') {
+			$scope.setChartData(lineChartData, 'geofence', ['Geofence Count']);
+		} else if($scope.chartTitle == 'Emergency') {
+			$scope.setChartData(lineChartData, 'emergency', ['Emergency Count']);
+		} else {
+			return;
+		}
+
+		$scope.$emit('bar-chart-data-change', lineChartData);
+	};
+
+	 /**
+	  * Set Chart Data
+	  * 
+	  * @param {Object}
+	  * @param {String}
+	  */
+	 $scope.setChartData = function(chartData, field, series) {
+	 	for(var i = 0 ; i < $scope.items.length ; i++) {
+	 		var item = $scope.items[i];
+	 		chartData.labels.push(item.fleet_name);
+	 		chartData.data.push(Number(item[field]));
+	 		chartData.series = series;
+	 	};
+	 };
 
 	/**
 	 * Search Fleet Groups
@@ -207,6 +273,7 @@ angular.module('fmsReports').directive('fleetAlertSearch', function() {
 	 $scope.afterSearch = function(dataSet) {
 	 	$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
 		FmsUtils.setGridContainerHieght('report-fleet-alert-table-container');
+		$scope.sendChartData();
 	 };
 
 	/**
