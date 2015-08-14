@@ -33,13 +33,13 @@ class TripsController < MongoController
     events = Event.all_of({'tid' => trip.id}).order("id asc")
     alerts = events.collect do |evt|
       {
-        '_id' : evt._id,
-        id : evt.id,
-        typ : evt.type,
-        lat : evt.lat,
-        lng : evt.lng,
-        tid : evt.tid,
-        bid : evt.bid
+        '_id' => evt._id,
+        id => evt.id,
+        typ => evt.type,
+        lat => evt.lat,
+        lng => evt.lng,
+        tid => evt.tid,
+        bid => evt.bid
       }
     end
     # 5. result
