@@ -260,7 +260,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 			var batch = batches[i];
 
 			// 2.1 batch start
-			$scope.addMarker($scope.batchToMarker(batch, 'start'));
+			//$scope.addMarker($scope.batchToMarker(batch, 'start'));
 
 			// 2.2 batch polyline
 			var batchline = {
