@@ -191,10 +191,15 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		}
 	};
 
+	$scope.sTime = 0;
+	$scope.eTime = 0;
+
 	/**
 	 * Move to trip of fleet
 	 */
 	$scope.goTrip = function(tripId, callback) {
+		// For Debugging
+		sTime = new Date().getTime();
 		$scope.viewMode = 'TRIP';
 
 		if(!tripId && $scope.selectedMarker) {
@@ -220,6 +225,8 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 			$scope.clearAll(null);
 			// 2. trip 그리기 
 			$scope.showTrip(dataSet, callback);
+			eTime = new Date().getTime();
+			console.log('Go Trip Total Time : (Start : ' + sTime + ', End : ' + eTime + ') ' + (eTime - sTime) + ' (ms)');		
 		});
 	};
 
@@ -568,6 +575,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		rootScopeListener5();
 		rootScopeListener6();
 		rootScopeListener7();
+		$scope.clearAll(null);
 	});
 
 	/**
