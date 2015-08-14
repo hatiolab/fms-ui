@@ -44,11 +44,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	 * 
 	 * @type {Object}
 	 */
-	$scope.pageInfo = {
-		total: 0,
-		total_page: 0,
-		current_page: 0
-	};
+	$scope.pageInfo = { total: 0, total_page: 0, current_page: 0 };
 	/**
 	 * smart table object
 	 */
@@ -331,7 +327,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	 * 초기화 함수 
 	 */
 	$scope.init = function() {
-		$scope.isLoading =false;
+		$scope.isLoading = false;
 		$scope.findGroups({});
 		$scope.findFleets({});
 	};

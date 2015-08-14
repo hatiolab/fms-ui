@@ -522,7 +522,13 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * Sidebar Fleet 그리드의 Fleet 클릭시
 	 */
 	var rootScopeListener3 = $rootScope.$on('monitor-fleet-info-change', function(evt, fleet) {
-		$scope.showFleetInfo(fleet);
+		if($scope.viewMode == 'FLEET') {
+			$scope.showFleetInfo(fleet);
+
+		} else if($scope.viewMode == 'TRIP' || $scope.viewMode == 'EVENT') {
+			if(fleet.trip_id) 
+				$scope.goTrip(fleet.trip_id);
+		} 
 	});
 
 	/**

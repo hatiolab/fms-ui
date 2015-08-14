@@ -123,7 +123,7 @@ severity begin -->
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="item in items" ng-class="{active : item.active}">
+			<tr ng-repeat="item in items" ng-class="{active : item.active}" ng-click="goTrip(item)">
 				<td>{{item.no}}</td>
 				<td>{{item.fid}}</td>
 				<td>{{item.driver.name}}</td>
