@@ -1,4 +1,4 @@
-angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $scope, $timeout, $interval, ConstantSpeed, FmsUtils, RestApi) {
+angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $scope, $element, $timeout, $interval, ConstantSpeed, FmsUtils, RestApi) {
 	
 	/**
 	 * 현재 선택된 Trip ID
@@ -52,7 +52,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	/**
 	 * window information switch off all
 	 */
-	$scope.isWwitchOn = function() {
+	$scope.isSwitchOn = function() {
 		var on = false;
 		for (property in $scope.windowSwitch) {
 			if($scope.windowSwitch[property]) {
@@ -86,56 +86,61 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	};
 
 	/**
-	 * Show fleet info window
+	 * Get address from lat, lng
 	 */
-	$scope.showFleetInfo = function(fleet) {
-		$scope.showMapWindow(fleet, 'showFleetInfo');
-	};
-
-	/**
-	 * Show event info window
-	 */
-	$scope.showEventWindow = function(eventData) {
-		$scope.showMapWindow(eventData, 'showEventInfo');
-	};
-
-	/**
-	 * Show map Window
-	 */
-	$scope.showMapWindow = function(data, switchName) {
-		angular.forEach($scope.markers, function(marker) {
-			if(marker.id == data.id) {
-				$scope.selectedMarker = marker;
-				$scope.switchOn(switchName);
-				if(!marker.address) {
-					$scope.getAddress(marker, 'address');
-				}
-				return;
-			}
-		});
-	};
-
-	/**
-	 * get address from lat, lng
-	 */
-	$scope.getAddress = function(marker, addressField, lat, lng) {
+	$scope.getAddress = function(marker, lat, lng, callback) {
+		$scope.resetMapWindowAddress();
 		var latitude = lat ? lat : marker.lat;
 		var longitude = lng ? lng : marker.lng;
     var geocoder = new google.maps.Geocoder();
     var latlng = new google.maps.LatLng(latitude, longitude);
 
     geocoder.geocode({ 'latLng': latlng }, function (results, status) {
-      if (status == google.maps.GeocoderStatus.OK) {
-        if (results[1]) {
-            marker[addressField] = results[1].formatted_address;
+    	var address = null;
+
+    	if (status == google.maps.GeocoderStatus.OK) {
+    		if (results[1]) {
+    			address = results[1].formatted_address;
+
         } else {
-            marker[addressField] = 'Location not found';
+          address = 'Location not found';
         }
       } else {
-        marker[addressField] = 'Geocoder failed due to: ' + status;
+        address = 'Geocoder failed due to: ' + status;
       }
+
+			if(callback) {
+				callback(marker, address);
+			}      
     });
 	};
+
+	/**
+	 * Map Window의 Address를 업데이트한다. 
+	 *
+	 * @param {Object}
+	 * @param {String} 
+	 */
+	 $scope.updateMapWindowAddress = function(marker, address) {
+	 	if($scope.selectedMarker && $scope.selectedMarker._id == marker._id) {
+	 		var divAddrs = $element.find("div.detail-address.map-window");
+	 		for(var i = 0 ; i < divAddrs.length ; i++) {
+	 			var divAddr = divAddrs[i];
+	 			divAddr.innerHTML = 'Location : ' + address;
+	 		}
+	 	}
+	 };
+
+	 /**
+	  * Map Window의 Address를 초기화한다.
+	  */
+	 $scope.resetMapWindowAddress = function() {
+	 		var divAddrs = $element.find("div.detail-address");
+	 		for(var i = 0 ; i < divAddrs.length ; i++) {
+	 			var divAddr = divAddrs[i];
+	 			divAddr.innerHTML = '';
+	 		}
+	 };
 
 	/**
 	 * Refresh Event Markers
@@ -158,7 +163,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * 지도 초기화 
 	 */
 	$scope.clearAll = function(center) {
-		if(!$scope.markerControl) {
+		if(!$scope.markerControl || !$scope.markerControl.getGMarkers) {
 			return;
 		}
 
@@ -186,8 +191,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		$scope.polylines.splice(0, $scope.polylines.length);
 
 		// 선택된 마커 해제 
-		$scope.selectedMarker = null;
-		$scope.switchOffAll();
+		$scope.changeMarker(null);
 
 		if(center) {
 			$scope.mapOption.center = center;
@@ -199,14 +203,6 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 */
 	$scope.goTrip = function(tripId, callback) {
 		$scope.viewMode = 'TRIP';
-
-		if(!tripId && $scope.selectedMarker) {
-			tripId = $scope.selectedMarker.trip_id;
-		}
-
-		if(!tripId && $scope.selectedMarker) {
-			tripId = $scope.selectedMarker.tid;
-		}
 
 		if(tripId) {
 			$scope.getTripDataSet(tripId, callback);
@@ -231,8 +227,6 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 */
 	$scope.showTrip = function(tripDataSet, callback) {
 		var trip = tripDataSet.trip;
-		$scope.getAddress(trip, 'fromAddress', trip.s_lat, trip.s_lng);
-
 		var fleet = tripDataSet.fleet;
 		var batches = tripDataSet.batches;
 		var tracks = tripDataSet.tracks;
@@ -269,7 +263,6 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 
 			// 2.4 events
 			for(var k = 0 ; k < events.length ; k++) {
-				//if(events[k].bid == batch.id && events[k].typ != 'V') {
 				if(events[k].bid == batch.id) {
 					$scope.addMarker($scope.eventToMarker(events[k]));
 				}
@@ -289,14 +282,27 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 
 		FmsUtils.setSpeedClass(trip, trip.vlc);
 
-		if($scope.currentTripId != trip.id) {
-			$scope.currentTripId = trip.id;
-			// send trip information to infobar
-			$rootScope.$broadcast('monitor-trip-info-change', trip);
-		}
+		// 현재 선택된 Trip을 변경 
+		$scope.changeCurrentTrip(trip);
 
 		if(callback) {
 			callback();
+		}
+	};
+
+	/**
+	 * 현재 선택된 Trip을 변경한다.
+	 * 
+	 */
+	$scope.changeCurrentTrip = function(newTrip) {
+		if($scope.currentTripId != newTrip.id) {
+			$scope.currentTripId = newTrip.id;
+			// send trip information to infobar
+			$rootScope.$broadcast('monitor-trip-info-change', newTrip);
+
+			$scope.getAddress(newTrip, newTrip.s_lat, newTrip.s_lng, function(marker, address) {
+	 			newTrip['fromAddress'] = address;
+			});
 		}
 	};
 
@@ -308,17 +314,35 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	};
 
 	/**
+	 * 선택 Marker를 변경한다.
+	 * 
+	 * @param {Object}
+	 * @param {String}
+	 */
+	$scope.changeMarker = function(marker, switchName) {
+		if(marker == null) {
+			$scope.selectedMarker = null;
+			$scope.switchOffAll();
+
+		} else if($scope.selectedMarker != marker) {
+			$scope.selectedMarker = marker;
+			$scope.switchOn(switchName);
+
+			if(marker.latitude > 0 && marker.longitude > 0) {
+				$scope.getAddress(marker, null, null, $scope.updateMapWindowAddress);
+			}
+		}
+	};
+
+	/**
 	 * add marker click event
 	 */
 	$scope.addMarkerClickEvent = function(e, switchName) {
 		if(!e.model.typeClass && e.model.vlc) {
 			FmsUtils.setSpeedClass(e.model, e.model.vlc);
 		}
-		$scope.selectedMarker = e.model;
-		$scope.switchOn(switchName);
-		if(!$scope.selectedMarker.address) {
-			$scope.getAddress(e.model, 'address');
-		}
+
+		$scope.changeMarker(e.model, switchName);
 	}
 
 	/**
@@ -514,7 +538,6 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * Sidebar Fleet 그리드의 Trip 클릭시
 	 */
 	var rootScopeListener2 = $rootScope.$on('monitor-fleet-trip-change', function(evt, fleet) {
-		$scope.selectedMarker = $scope.fleetToMarker(fleet);
 		$scope.goTrip(fleet.trip_id);
 	});
 
@@ -523,7 +546,8 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 */
 	var rootScopeListener3 = $rootScope.$on('monitor-fleet-info-change', function(evt, fleet) {
 		if($scope.viewMode == 'FLEET') {
-			$scope.showFleetInfo(fleet);
+			var marker = $scope.fleetToMarker(fleet);
+			$scope.changeMarker(marker, 'showFleetInfo');
 
 		} else if($scope.viewMode == 'TRIP' || $scope.viewMode == 'EVENT') {
 			if(fleet.trip_id) 
@@ -553,9 +577,9 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * Sidebar Event 그리드의 Trip 클릭시
 	 */
 	var rootScopeListener6 = $rootScope.$on('monitor-event-trip-change', function(evt, eventData) {
-		$scope.selectedMarker = $scope.eventToMarker(eventData);
+		var marker = $scope.eventToMarker(eventData);
 		$scope.goTrip(eventData.tid, function() {
-			$scope.showEventWindow(eventData);
+			$scope.changeMarker(marker, 'showEventInfo');
 		});
 	});
 
@@ -563,7 +587,8 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * Sidebar Event 그리드의 Event 선택시
 	 */
 	var rootScopeListener7 = $rootScope.$on('monitor-event-info-change', function(evt, eventData) {
-		$scope.showEventWindow(eventData);
+		var marker = $scope.eventToMarker(eventData);
+		$scope.changeMarker(marker, 'showEventInfo');
 	});
 
 	/**
@@ -617,11 +642,15 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * map을 refresh
 	 */
 	$scope.refreshMap = function() {
-		if(!$scope.isWwitchOn()) {
+		if(!$scope.isSwitchOn()) {
 			if($scope.viewMode == 'FLEET') {
 				$scope.$emit('monitor-refresh-fleet', 1);
+
 			} else if($scope.viewMode == 'TRIP') {
-				$scope.goTrip($scope.currentTripId);
+				if($scope.currentTripId) {
+					$scope.goTrip($scope.currentTripId);
+				}
+
 			} else if($scope.viewMode == 'EVENT') {
 				$scope.$emit('monitor-refresh-event', 1);
 			}			
