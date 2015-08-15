@@ -22,7 +22,7 @@ angular.module('fmsCore').directive('topMenu', function() {
 	}, {
 		name : 'HR', 
 		cls : 'icon-hr',
-		href : '',
+		href : '#/hr/overspeed',
 		active : false
 	}, {
 		name : 'Report', 

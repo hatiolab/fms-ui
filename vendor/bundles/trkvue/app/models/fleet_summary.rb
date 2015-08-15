@@ -4,7 +4,7 @@ class FleetSummary < ActiveRecord::Base
 
 	stampable
 
-	validates_presence_of :fleet_id,:sum_day,:sum_year,:sum_month,:sum_week, :strict => true
+	validates_presence_of :fleet_id,:driver_id,:sum_day,:sum_year,:sum_month,:sum_week, :strict => true
 
 	validates :sum_day, length: { maximum: 10 }, :strict => true
 
@@ -17,6 +17,8 @@ class FleetSummary < ActiveRecord::Base
 	validates_uniqueness_of :sum_day, :strict => true, :scope => [:domain_id,:fleet_id]
 
 	belongs_to :fleet
+
+	belongs_to :driver
 
 	#
 	# Daily Summary
@@ -56,6 +58,7 @@ class FleetSummary < ActiveRecord::Base
 			fleetSum.sum_week = week
 		end
 
+		fleetSum.driver_id = fleet.driver_id
 		fleetSum.drive_time = FleetSummary.get_trip_time(trips, fleet, startTime, endTime)
 		fleetSum.velocity = FleetSummary.get_track_avg(track_conds, 'vlc')
 		fleetSum.drive_dist = FleetSummary.get_track_sum(track_conds, 'dst')

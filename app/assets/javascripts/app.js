@@ -28,8 +28,11 @@ angular.module('fmsMonitor', ['fmsCore', 'pip'])
 // 5. reports geofence
 angular.module('fmsReports', ['fmsCore', 'chart.js']);
 
+// 6. reports human resource
+angular.module('fmsHr', ['fmsReports']);
+
 // 6. main module
-angular.module('fmsApp', ['fmsCore', 'fmsSettings', 'fmsGeofence', 'fmsMonitor', 'fmsReports'])
+angular.module('fmsApp', ['fmsCore', 'fmsSettings', 'fmsGeofence', 'fmsMonitor', 'fmsReports', 'fmsHr'])
 .config(function($httpProvider, $stateProvider, $urlRouterProvider) {
 	// CSRF Token
 	$httpProvider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content');

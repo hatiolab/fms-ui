@@ -1,6 +1,7 @@
 class FleetSummariesController < ResourceMultiUpdateController
 
   public
+
   def summary
     from_date, to_date = params[:from_date], params[:to_date]
     cond = ["(fleet_summaries.sum_day between ? and ?)", from_date, to_date]
@@ -31,6 +32,47 @@ class FleetSummariesController < ResourceMultiUpdateController
     respond_to do |format|
       format.xml  { render :xml => results }
       format.json { render :json => results }
+    end
+  end
+
+  def driver_summary
+    from_date, to_date = params[:from_date], params[:to_date]
+    cond = ["(fleet_summaries.sum_day between ? and ?)", from_date, to_date]
+
+    if(params[:group_id])
+      cond[0] << " and fleet_summaries.fleet_id in (select id from fleets where fleet_group_id = ?)"
+      cond.push(params[:group_id])
+    end
+
+    select = 
+      "drivers.id as driver_id, 
+      drivers.code as driver_code,
+      drivers.name as driver_name, 
+      sum(fleet_summaries.speed_off) as speed_off,
+      sum(fleet_summaries.speed_idle) as speed_idle,
+      sum(fleet_summaries.speed_slow) as speed_slow,
+      sum(fleet_summaries.speed_normal) as speed_normal,
+      sum(fleet_summaries.speed_high) as speed_high,
+      sum(fleet_summaries.speed_over) as speed_over,
+      sum(fleet_summaries.impact) as impact, 
+      sum(fleet_summaries.overspeed) as overspeed, 
+      sum(fleet_summaries.geofence) as geofence,
+      sum(fleet_summaries.emergency) as emergency"
+
+    joinStr = "fleet_summaries INNER JOIN drivers ON fleet_summaries.driver_id = drivers.id"
+
+    groupStr = "drivers.id, drivers.code, drivers.name"
+
+    orderStr = "drivers.code asc"   
+
+    total = FleetSummary.where(cond).count
+    sql = FleetSummary.select(select).joins(joinStr).where(cond).group(groupStr).order(orderStr).to_sql
+    items = FleetSummary.connection.select_all(sql)
+    results = { :success => true, :total => total, :items => items }
+
+    respond_to do |format|
+     format.xml  { render :xml => results }
+     format.json { render :json => results }
     end
   end
 
@@ -65,12 +107,12 @@ class FleetSummariesController < ResourceMultiUpdateController
     respond_to do |format|
      format.xml  { render :xml => results }
      format.json { render :json => results }
-    end   
+    end
   end
 
  private
   def resource_params
-    [ params.require(:fleet_summary).permit(:fleet_id,:sum_day,:sum_year,:sum_month,:sum_week,:velocity,:drive_dist,:drive_time,:impact,:geofence,:emergency,:gsensor,:overspeed,:speed_off,:speed_idle,:speed_slow,:speed_normal,:speed_high,:speed_over) ]
+    [ params.require(:fleet_summary).permit(:fleet_id,:driver_id,:sum_day,:sum_year,:sum_month,:sum_week,:velocity,:drive_dist,:drive_time,:impact,:geofence,:emergency,:gsensor,:overspeed,:speed_off,:speed_idle,:speed_slow,:speed_normal,:speed_high,:speed_over) ]
   end
 
 end

@@ -14,7 +14,6 @@ class CreateFleetGroupSummaries < ActiveRecord::Migration
 			t.integer :impact, :default => 0
 			t.integer :geofence, :default => 0
 			t.integer :emergency, :default => 0
-			t.integer :gsensor, :default => 0
 			t.integer :overspeed, :default => 0
 			t.integer :speed_off, :default => 0
 			t.integer :speed_idle, :default => 0

@@ -50,6 +50,9 @@ angular.module('fmsReports').directive('fmsBarChart', function() {
     }
   };*/
 
+  /**
+   * Series가 하나인 Data Change Listener
+   */
   var dataChangeListener = $rootScope.$on('bar-chart-data-change', function(evt, dataSet) {
     if($scope.title == dataSet.title) {
       $scope.labels = dataSet.labels;
@@ -59,10 +62,22 @@ angular.module('fmsReports').directive('fmsBarChart', function() {
   });
 
   /**
+   * Series가 여럿인 Data List Change Listener
+   */
+  var dataListChangeListener = $rootScope.$on('bar-chart-data-list-change', function(evt, dataSet) {
+    if($scope.title == dataSet.title) {
+      $scope.labels = dataSet.labels;
+      $scope.data = dataSet.data;
+      $scope.series = dataSet.series;
+    }
+  });
+
+  /**
    * Destroy Scope - RootScope Event Listener 정리 
    */
   $scope.$on('$destroy', function(event) {
     dataChangeListener();
+    dataListChangeListener();
   });
 
   /**

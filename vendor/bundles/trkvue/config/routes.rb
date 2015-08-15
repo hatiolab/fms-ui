@@ -23,6 +23,7 @@ Trkvue::Engine.routes.draw do
 			get :show_by_name
 			get :export
 			get :summary
+			get :driver_summary
 			get :event_summary
 		end
 	end

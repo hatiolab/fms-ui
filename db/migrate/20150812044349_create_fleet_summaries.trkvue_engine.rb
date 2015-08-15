@@ -5,6 +5,7 @@ class CreateFleetSummaries < ActiveRecord::Migration
 		create_table :fleet_summaries  do |t|
 			t.references :domain, :null => false
 			t.references :fleet
+			t.references :driver
 			t.string :sum_day, :null => false, :limit => 10
 			t.string :sum_year, :null => false, :limit => 4
 			t.string :sum_month, :null => false, :limit => 2
@@ -15,7 +16,6 @@ class CreateFleetSummaries < ActiveRecord::Migration
 			t.integer :impact, :default => 0
 			t.integer :geofence, :default => 0
 			t.integer :emergency, :default => 0
-			t.integer :gsensor, :default => 0
 			t.integer :overspeed, :default => 0
 			t.integer :speed_off, :default => 0
 			t.integer :speed_idle, :default => 0
