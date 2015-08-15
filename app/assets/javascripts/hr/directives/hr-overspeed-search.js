@@ -37,6 +37,10 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 	 */
 	$scope.items = [];
 	/**
+	 * 선택된 아이템
+	 */
+	$scope.item = null;
+	/**
 	 * Smart Table
 	 *
 	 * @type {Object}
@@ -62,30 +66,23 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 	$scope.chartTitle = 'Over Speed Total Summary';
 
 	/**
-	 * Show Chart
-	 * 
-	 * @return N/A
+	 * Show Total Summary Chart
 	 */
-	$scope.showChart = function(chartType) {
+	$scope.showTotalChart = function() {
+		// 선택 아이템 변경 
+		$scope.item = null;
+		$scope.chartTitle = "Over Speed Total Summary";
+
 		// 기존 차트 삭제 
 		var parent = $('div.report-content').parent();
 		$('div.report-content').remove();
-		var html = "<div class='report-content'>" + $scope.newChartHtml(chartType) + "</div>";
+		var html = "<div class='report-content'><fms-line-chart class='col-xs-12 col-sm-12' title='Over Speed Total Summary'></fms-line-chart></div>";
 		var el = $compile(html)($scope);
 	 	parent.append(el);
 
 	 	// send data to chart scope
 	 	$timeout.cancel();
-   	$timeout($scope.sendChartData, 100);
-	};
-
-	/**
-	 * 새로운 차트를 생성한다.
-	 * 
-	 * @return {String}
-	 */
-	$scope.newChartHtml = function(chartType) {
-		return "<" + chartType + " class='col-xs-12 col-sm-12' title='" + $scope.chartTitle + "'></" + chartType + ">";
+   	$timeout($scope.sendTotalChartData, 100);
 	};
 
 	/**
@@ -93,32 +90,70 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 	 * 
 	 * @return N/A
 	 */
-	$scope.sendChartData = function() {
-		// Line Chart로 
+	$scope.sendTotalChartData = function() {
 	 	var lineChartData = { title : $scope.chartTitle, labels : [], series : ['Over Speed Count'], data : [] };
-
-		if($scope.chartTitle == 'Over Speed Total Summary') {
-			$scope.setChartData(lineChartData, 'overspeed');
-		} else {
-			$scope.setChartData(lineChartData, 'overspeed');
-		}
-
+		$scope.setChartData(lineChartData, 'overspeed');
 		$scope.$emit('line-chart-data-change', lineChartData);
 	};
 
-	 /**
-	  * Set Chart Data
-	  * 
-	  * @param {Object}
-	  * @param {String}
-	  */
-	 $scope.setChartData = function(chartData, field) {
+	/**
+	 * active item
+	 * 
+	 * @param {Object}
+	 */
+	$scope.setActiveItem = function(activeItem) {
+		// 선택 아이템 변경 
+		$scope.item = activeItem;		
+		for (var i = 0; i < $scope.items.length; i++) {
+			var item = $scope.items[i];
+			item.active = (item.driver_id == $scope.item.driver_id);
+		}
+	};
+
+	/**
+	 * Show Selected Item Chart
+	 * 
+	 * @return N/A
+	 */
+	$scope.showItemChart = function(item) {
+		$scope.setActiveItem(item);
+		$scope.chartTitle = "Over Speed - " + item.driver_code + "(" + item.driver_name + ")";
+
+		// 기존 차트 삭제 
+		var parent = $('div.report-content').parent();
+		$('div.report-content').remove();
+		var html = "<div class='report-content'><fms-radar-chart class='col-xs-12 col-sm-12' title='" + $scope.chartTitle + "'></fms-radar-chart></div>";
+		var el = $compile(html)($scope);
+	 	parent.append(el);
+
+	 	// send data to chart scope
+	 	$timeout.cancel();
+   	$timeout($scope.sendDriverChartData, 100);
+	};
+
+	/**
+	 * Send Driver Chart Data
+	 */
+	$scope.sendItemChartData = function() {
+		// TODO
+	 	var radarChartData = { title : $scope.chartTitle, labels : [], series : ['Over Speed Count'], data : [] };
+		$scope.setChartData(radarChartData, 'overspeed');
+		$scope.$emit('radar-chart-data-change', radarChartData);
+	}
+
+	/**
+	 * Set Chart Data
+	 * 
+	 * @param {Object}
+	 * @param {String}
+	 */
+	$scope.setChartData = function(chartData, field) {
 	 	for(var i = 0 ; i < $scope.items.length ; i++) {
 	 		var item = $scope.items[i];
 	 		chartData.labels.push(item.driver_code + '\n(' + item.driver_name + ')');
 	 		chartData.data.push(Number(item[field]));
 	 	};
-	 };
+	};
 
 	/**
 	 * Search Fleet Groups
@@ -178,13 +213,13 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 	 * @param  {Number}
 	 * @return N/A
 	 */
-	 $scope.numbering = function(items, startNo) {
+	$scope.numbering = function(items, startNo) {
 	 	for(var i = 0 ; i < items.length ; i++) {
 	 		var item = items[i];
 	 		item.no = i + 1;
 	 		item.velocity = Math.round(item.velocity);
 	 	}
-	 };
+	};
 
 	 /**
 	  * 페이지네이션 검색 정보를 설정한다. 
@@ -194,12 +229,12 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 	  * @param {Number}
 	  * @param {Number}
 	  */
-	 $scope.setPageQueryInfo = function(searchParams, pagination, start, limit) {
+	$scope.setPageQueryInfo = function(searchParams, pagination, start, limit) {
 	 	searchParams.start = start;
 	 	searchParams.limit = limit;
 	 	pagination.start = start;
 	 	pagination.number = limit;
-	 };
+	};
 
 	 /**
 	  * 페이지네이션 결과 정보를 설정한다. 
@@ -240,11 +275,11 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 	  * 
 	  * @return {Object}
 	  */
-	 $scope.beforeSearch = function() {
+	$scope.beforeSearch = function() {
 	 	var searchParams = $scope.normalizeSearchParams($scope.searchParams);
 	 	$scope.setPageQueryInfo(searchParams, $scope.tablestate.pagination, 0, GridUtils.getGridCountPerPage());
 	 	return searchParams;
-	 };
+	};
 
 	 /**
 	  * infinite scorll directive에서 호출 
@@ -253,11 +288,11 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 	  * @param  {Function}
 	  * @return N/A
 	  */
-	 $scope.doSearch = function(params, callback) {
+	$scope.doSearch = function(params, callback) {
 	 	RestApi.search('/fleet_summaries/driver_summary.json', params, function(dataSet) {
 	 		callback(dataSet);
 	 	});
-	 };
+	};
 
 	 /**
 	  * infinite scorll directive에서 호출 
@@ -265,11 +300,11 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 	  * @param  {Object}
 	  * @return N/A
 	  */
-	 $scope.afterSearch = function(dataSet) {
+	$scope.afterSearch = function(dataSet) {
 	 	$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
 		FmsUtils.setGridContainerHieght('hr-overspeed-table-container');
-		$scope.sendChartData();
-	 };
+		$scope.showTotalChart();
+	};
 
 	/**
 	 * [watch drivers SearchParams in page scope, if changed trigger pageFleets in same scope]

@@ -71,29 +71,29 @@ Entity.setup SimulatorPath, {:bundle =>'trkvue'} do
 end
 
 Entity.setup FleetGroupSummary, {:bundle =>'trkvue'} do
-  @list_columns = ['fleet_group_id','sum_day','velocity','drive_dist','drive_time', 'impact', 'geofence', 'emergency', 'gsensor', 'overspeed', 'speed_off', 'speed_idle', 'speed_slow', 'speed_normal', 'speed_high', 'speed_over']
+  @list_columns = ['fleet_group_id','sum_day','velocity','drive_dist','drive_time', 'impact', 'geofence', 'emergency', 'overspeed', 'speed_off', 'speed_idle', 'speed_slow', 'speed_normal', 'speed_high', 'speed_over']
   @search_columns = ['fleet_group_id']
   @sort_columns = []
-  @editable_columns = ['fleet_group_id','sum_day','velocity','drive_dist','drive_time', 'impact', 'geofence', 'emergency', 'gsensor', 'overspeed', 'speed_off', 'speed_idle', 'speed_slow', 'speed_normal', 'speed_high', 'speed_over']
+  @editable_columns = ['fleet_group_id','sum_day','velocity','drive_dist','drive_time', 'impact', 'geofence', 'emergency', 'overspeed', 'speed_off', 'speed_idle', 'speed_slow', 'speed_normal', 'speed_high', 'speed_over']
 end
 
 Entity.setup FleetSummary, {:bundle =>'trkvue'} do
-  @list_columns = ['fleet_id','sum_day','velocity','drive_dist','drive_time', 'impact', 'geofence', 'emergency', 'gsensor', 'overspeed', 'speed_off', 'speed_idle', 'speed_slow', 'speed_normal', 'speed_high', 'speed_over']
+  @list_columns = ['fleet_id','sum_day','velocity','drive_dist','drive_time', 'impact', 'geofence', 'emergency', 'overspeed', 'speed_off', 'speed_idle', 'speed_slow', 'speed_normal', 'speed_high', 'speed_over']
   @search_columns = ['fleet_id']
   @sort_columns = []
-  @editable_columns = ['fleet_id','sum_day','velocity','drive_dist','drive_time', 'impact', 'geofence', 'emergency', 'gsensor', 'overspeed', 'speed_off', 'speed_idle', 'speed_slow', 'speed_normal', 'speed_high', 'speed_over']
+  @editable_columns = ['fleet_id','sum_day','velocity','drive_dist','drive_time', 'impact', 'geofence', 'emergency', 'overspeed', 'speed_off', 'speed_idle', 'speed_slow', 'speed_normal', 'speed_high', 'speed_over']
 end
 
 Entity.setup EventGroupSummary, {:bundle =>'trkvue'} do
-  @list_columns = ['fleet_group_id','sum_day','impact', 'geofence', 'emergency', 'gsensor', 'overspeed']
+  @list_columns = ['fleet_group_id','sum_day','impact', 'geofence', 'emergency', 'overspeed']
   @search_columns = ['fleet_group_id']
   @sort_columns = []
-  @editable_columns = ['fleet_group_id','sum_day','impact', 'geofence', 'emergency', 'gsensor', 'overspeed']
+  @editable_columns = ['fleet_group_id','sum_day','impact', 'geofence', 'emergency', 'overspeed']
 end
 
 Entity.setup EventSummary, {:bundle =>'trkvue'} do
-  @list_columns = ['fleet_id','sum_day','impact', 'geofence', 'emergency', 'gsensor', 'overspeed']
+  @list_columns = ['fleet_id','sum_day','impact', 'geofence', 'emergency', 'overspeed']
   @search_columns = ['fleet_id']
   @sort_columns = []
-  @editable_columns = ['fleet_id','sum_day','impact', 'geofence', 'emergency', 'gsensor', 'overspeed']
+  @editable_columns = ['fleet_id','sum_day','impact', 'geofence', 'emergency', 'overspeed']
 end

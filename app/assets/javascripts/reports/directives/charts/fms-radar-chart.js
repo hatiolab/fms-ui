@@ -8,16 +8,58 @@ angular.module('fmsReports').directive('fmsRadarChart', function() {
 })
 .controller('radarChartCtrl', function($rootScope, $scope, $element) {
 
+	/**
+	 * Radar Chart Title
+	 */
 	$scope.title = "Radar Chart";
-	
-  $scope.labels =["Group-A", "Group-B", "Group-C", "Group-D", "Group-E", "Group-F"];
+	/**
+	 * Radar Chart Labels
+	 */
+  $scope.labels = [];
+  /**
+   * Radar Chart Series
+   */
+  $scope.series = [];
+  /**
+   * Radar Chart Data
+   */
+  $scope.data = [[]];
 
-  $scope.series = ['Driving Time (hour)', 'Driving Distance (km)', 'Average Velocity (km/h)'];
+  /**
+   * Series가 하나인 Data Change Listener
+   */
+  var dataChangeListener = $rootScope.$on('radar-chart-data-change', function(evt, dataSet) {
+    if($scope.title == dataSet.title) {
+      $scope.labels = dataSet.labels;
+      $scope.data = [dataSet.data];
+      $scope.series = dataSet.series;
+    }
+  });
 
-  $scope.data = [
-    [65, 59, 90, 81, 56, 55],
-    [28, 48, 40, 19, 96, 98],
-    [39, 84, 72, 23, 45, 88]
-  ];
+  /**
+   * Series가 여럿인 Data List Change Listener
+   */
+  var dataListChangeListener = $rootScope.$on('radar-chart-data-list-change', function(evt, dataSet) {
+    if($scope.title == dataSet.title) {
+      $scope.labels = dataSet.labels;
+      $scope.data = dataSet.data;
+      $scope.series = dataSet.series;
+    }
+  });
+
+     /**
+   * Destroy Scope - RootScope Event Listener 정리 
+   */
+  $scope.$on('$destroy', function(event) {
+    dataChangeListener();
+    dataListChangeListener();
+  });
+
+  /**
+   * Element 제거시에 Scope도 같이 제거 
+   */
+  $element.on('$destroy', function() {
+    $scope.$destroy();
+  });
 
 });
