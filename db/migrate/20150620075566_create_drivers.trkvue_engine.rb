@@ -13,6 +13,7 @@ class CreateDrivers < ActiveRecord::Migration
 			t.string :phone_no, :limit => 32
 			t.string :mobile_no, :limit => 32
 			t.string :address, :limit => 255
+			t.integer :point, :default => 0
 			t.string :img, :limit => 255
 			t.userstamps
 			t.timestamps

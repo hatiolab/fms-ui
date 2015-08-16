@@ -29,7 +29,7 @@
 		<thead>
 		  <tr>
 		  	<th>#</th>
-				<th>Trip No.</th>
+				<!--th>Trip No.</th-->
 				<th>Start Time</th>
 				<th>Finish Time</th>
 				<th>Idle</th>
@@ -42,9 +42,9 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="item in items">
+			<tr ng-repeat="item in items" ng-class="{active : item.active}">
 				<td>{{item.no}}</td>
-				<td class="align-center">{{item.id}}</td>
+				<!--td class="align-center">{{item.id}}</td-->
 				<td>{{item.stm | date : 'medium'}}</td>
 				<td>{{item.etm | date : 'medium'}}</td>
 				<td>{{item.c_off}}</td>
@@ -53,7 +53,7 @@
 				<td>{{item.c_nml}}</td>
 				<td>{{item.c_hgh}}</td>
 				<td>{{item.c_ovr}}</td>
-				<td class="icon-td align-center" ng-click="goTrip(item)">
+				<td class="icon-td align-center" ng-click="goTrip(item)" >
 					<span class="icon-trip"></span>
 				</td>
 			</tr>

@@ -17,7 +17,7 @@ angular.module('fmsHr').directive('hrDrivehabitSearch', function() {
 	/**
 	 * 기본 날짜 검색일 설정 
 	 */
-	var period = FmsUtils.getPeriodString(3);
+	var period = FmsUtils.getPeriodString(7);
 	/**
 	 * 검색 조건 모델 
 	 *
@@ -73,16 +73,20 @@ angular.module('fmsHr').directive('hrDrivehabitSearch', function() {
 		$scope.item = null;
 		$scope.chartTitle = "Over Speed Total Summary";
 
-		// 기존 차트 삭제 
-		var parent = $('div.report-content').parent();
-		$('div.report-content').remove();
-		var html = "<div class='report-content'><fms-bar-chart class='col-xs-12 col-sm-12' title='Driving Habit Total Summary'></fms-bar-chart></div>";
-		var el = $compile(html)($scope);
-	 	parent.append(el);
+		var params = { from_date : $scope.searchParams['from_date'], to_date : $scope.searchParams['to_date']};
 
-	 	// send data to chart scope
-	 	$timeout.cancel();
-   	$timeout($scope.sendTotalChartData, 100);
+		RestApi.list('/fleet_group_summaries/driver_summary.json', params, function(list) {
+			// 기존 차트 삭제 
+			var parent = $('div.report-content').parent();
+			$('div.report-content').remove();
+			var html = "<div class='report-content'><fms-bar-chart class='col-xs-12 col-sm-12' title='Driving Habit Total Summary'></fms-bar-chart></div>";
+			var el = $compile(html)($scope);
+		 	parent.append(el);
+
+		 	// send data to chart scope
+		 	$timeout.cancel();
+	   	$timeout($scope.sendTotalChartData, 250, true, list);
+	 	});
 	};
 
 	/**
@@ -90,11 +94,37 @@ angular.module('fmsHr').directive('hrDrivehabitSearch', function() {
 	 * 
 	 * @return N/A
 	 */
-	$scope.sendTotalChartData = function() {
+	$scope.sendTotalChartData = function(list) {
 		$scope.chartTitle = 'Driving Habit Total Summary';
 	 	var barChartData = { title : $scope.chartTitle, labels : [], data : [] };
-		$scope.setChartData(barChartData, ['speed_slow', 'speed_normal', 'speed_high', 'speed_over'], ['Slow Count', 'Normal Count', 'High Count', 'Over Count']);
+		$scope.setChartData(list, barChartData, ['speed_slow', 'speed_normal', 'speed_high', 'speed_over'], ['Slow Count', 'Normal Count', 'High Count', 'Over Count']);
 		$scope.$emit('bar-chart-data-list-change', barChartData);
+	};
+
+	 /**
+	  * Set Chart Data
+	  *
+	  * @param {Array}
+	  * @param {Object}
+	  * @param {Array}
+	  * @param {Array}
+	  */
+	$scope.setChartData = function(dataList, chartData, fieldList, series) {
+	 	for(var i = 0 ; i < dataList.length ; i++) {
+	 		var item = dataList[i];
+	 		chartData.labels.push(item.group_name);
+	 		chartData.series = series;
+	 	}
+
+	 	for(var i = 0 ; i < fieldList.length ; i++) {
+	 		var field = fieldList[i];
+	 		chartData.data.push([]);
+
+			for(var j = 0 ; j < dataList.length ; j++) {
+				var item = $scope.items[j];
+				chartData.data[i].push(Number(item[field]));
+	 		}
+	 	}
 	};
 
 	/**
@@ -130,7 +160,7 @@ angular.module('fmsHr').directive('hrDrivehabitSearch', function() {
 
 	 	// send data to chart scope
 	 	$timeout.cancel();
-   	$timeout($scope.sendItemChartData, 100);
+   	$timeout($scope.sendItemChartData, 250);
 	};
 
 	/**
@@ -145,30 +175,6 @@ angular.module('fmsHr').directive('hrDrivehabitSearch', function() {
 	 		data : [item.speed_slow, item.speed_normal, item.speed_high, item.speed_over]
 	 	};
 		$scope.$emit('radar-chart-data-change', radarChartData);
-	};
-
-	 /**
-	  * Set Chart Data
-	  * 
-	  * @param {Object}
-	  * @param {String}
-	  */
-	$scope.setChartData = function(chartData, fieldList, series) {
-	 	for(var i = 0 ; i < $scope.items.length ; i++) {
-	 		var item = $scope.items[i];
-	 		chartData.labels.push(item.driver_code + '(' + item.driver_name + ')');
-	 		chartData.series = series;
-	 	}
-
-	 	for(var i = 0 ; i < fieldList.length ; i++) {
-	 		var field = fieldList[i];
-	 		chartData.data.push([]);
-
-			for(var j = 0 ; j < $scope.items.length ; j++) {
-				var item = $scope.items[j];
-				chartData.data[i].push(Number(item[field]));
-	 		}
-	 	}
 	};
 
 	/**

@@ -17,7 +17,7 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 	/**
 	 * 기본 날짜 검색일 설정 
 	 */
-	var period = FmsUtils.getPeriodString(3);
+	var period = FmsUtils.getPeriodString(7);
 	/**
 	 * 검색 조건 모델 
 	 *
@@ -72,17 +72,20 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 		// 선택 아이템 변경 
 		$scope.item = null;
 		$scope.chartTitle = "Over Speed Total Summary";
+		var params = { from_date : $scope.searchParams['from_date'], to_date : $scope.searchParams['to_date']};
 
-		// 기존 차트 삭제 
-		var parent = $('div.report-content').parent();
-		$('div.report-content').remove();
-		var html = "<div class='report-content'><fms-line-chart class='col-xs-12 col-sm-12' title='Over Speed Total Summary'></fms-line-chart></div>";
-		var el = $compile(html)($scope);
-	 	parent.append(el);
+		RestApi.list('/fleet_group_summaries/driver_summary.json', params, function(list) {
+			// 기존 차트 삭제 
+			var parent = $('div.report-content').parent();
+			$('div.report-content').remove();
+			var html = "<div class='report-content'><fms-bar-chart class='col-xs-12 col-sm-12' title='Over Speed Total Summary'></fms-bar-chart></div>";
+			var el = $compile(html)($scope);
+		 	parent.append(el);
 
-	 	// send data to chart scope
-	 	$timeout.cancel();
-   	$timeout($scope.sendTotalChartData, 100);
+		 	// send data to chart scope
+		 	$timeout.cancel();
+	   	$timeout($scope.sendTotalChartData, 250, true, list);
+	 	});
 	};
 
 	/**
@@ -90,10 +93,14 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 	 * 
 	 * @return N/A
 	 */
-	$scope.sendTotalChartData = function() {
-	 	var lineChartData = { title : $scope.chartTitle, labels : [], series : ['Over Speed Count'], data : [] };
-		$scope.setChartData(lineChartData, 'overspeed');
-		$scope.$emit('line-chart-data-change', lineChartData);
+	$scope.sendTotalChartData = function(list) {
+	 	var barChartData = { title : $scope.chartTitle, labels : [], series : ['Over Speed Count'], data : [] };
+	 	for(var i = 0 ; i < list.length ; i++) {
+	 		var item = list[i];
+	 		barChartData.labels.push(item.group_name);
+	 		barChartData.data.push(Number(item.speed_over));
+	 	};
+		$scope.$emit('bar-chart-data-change', barChartData);
 	};
 
 	/**
@@ -117,42 +124,32 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 	 */
 	$scope.showItemChart = function(item) {
 		$scope.setActiveItem(item);
-		$scope.chartTitle = "Over Speed - " + item.driver_code + "(" + item.driver_name + ")";
-
-		// 기존 차트 삭제 
-		var parent = $('div.report-content').parent();
-		$('div.report-content').remove();
-		var html = "<div class='report-content'><fms-radar-chart class='col-xs-12 col-sm-12' title='" + $scope.chartTitle + "'></fms-radar-chart></div>";
-		var el = $compile(html)($scope);
-	 	parent.append(el);
-
-	 	// send data to chart scope
-	 	$timeout.cancel();
-   	$timeout($scope.sendDriverChartData, 100);
+		$scope.chartTitle = "Over Speed Trend - " + item.driver_code + " (" + item.driver_name + ")";
+		var params = { driver_id : item.driver_id, from_date : $scope.searchParams['from_date'], to_date : $scope.searchParams['to_date']};
+		RestApi.list('/fleet_summaries/driver_summary.json', params, function(list) {
+			// 기존 차트 삭제 
+			var parent = $('div.report-content').parent();
+			$('div.report-content').remove();
+			var html = "<div class='report-content'><fms-bar-chart class='col-xs-12 col-sm-12' title='" + $scope.chartTitle + "'></fms-bar-chart></div>";
+			var el = $compile(html)($scope);
+		 	parent.append(el);
+		 	// send data to chart scope
+		 	$timeout.cancel();
+	   	$timeout($scope.sendItemChartData, 250, true, list);
+	 	});
 	};
 
 	/**
 	 * Send Driver Chart Data
 	 */
-	$scope.sendItemChartData = function() {
-		// TODO
-	 	var radarChartData = { title : $scope.chartTitle, labels : [], series : ['Over Speed Count'], data : [] };
-		$scope.setChartData(radarChartData, 'overspeed');
-		$scope.$emit('radar-chart-data-change', radarChartData);
-	}
-
-	/**
-	 * Set Chart Data
-	 * 
-	 * @param {Object}
-	 * @param {String}
-	 */
-	$scope.setChartData = function(chartData, field) {
-	 	for(var i = 0 ; i < $scope.items.length ; i++) {
-	 		var item = $scope.items[i];
-	 		chartData.labels.push(item.driver_code + '\n(' + item.driver_name + ')');
-	 		chartData.data.push(Number(item[field]));
+	$scope.sendItemChartData = function(list) {
+	 	var barChartData = { title : $scope.chartTitle, labels : [], series : ['Over Speed Count'], data : [] };
+	 	for(var i = 0 ; i < list.length ; i++) {
+	 		var item = list[i];
+	 		barChartData.labels.push(item.date);
+	 		barChartData.data.push(Number(item.speed_over));
 	 	};
+		$scope.$emit('bar-chart-data-change', barChartData);
 	};
 
 	/**

@@ -35,6 +35,7 @@ Trkvue::Engine.routes.draw do
 			get :export
 			get :daily_summary
 			get :summary
+			get :driver_summary
 			get :event_summary
 		end
 	end

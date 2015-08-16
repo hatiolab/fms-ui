@@ -39,6 +39,11 @@ class FleetSummariesController < ResourceMultiUpdateController
     from_date, to_date = params[:from_date], params[:to_date]
     cond = ["(fleet_summaries.sum_day between ? and ?)", from_date, to_date]
 
+    if(params[:driver_id])
+      cond[0] << " and fleet_summaries.driver_id = ?"
+      cond.push(params[:driver_id])
+    end
+
     if(params[:group_id])
       cond[0] << " and fleet_summaries.fleet_id in (select id from fleets where fleet_group_id = ?)"
       cond.push(params[:group_id])
@@ -48,6 +53,7 @@ class FleetSummariesController < ResourceMultiUpdateController
       "drivers.id as driver_id, 
       drivers.code as driver_code,
       drivers.name as driver_name, 
+      drivers.point as point,
       sum(fleet_summaries.speed_off) as speed_off,
       sum(fleet_summaries.speed_idle) as speed_idle,
       sum(fleet_summaries.speed_slow) as speed_slow,
@@ -59,9 +65,13 @@ class FleetSummariesController < ResourceMultiUpdateController
       sum(fleet_summaries.geofence) as geofence,
       sum(fleet_summaries.emergency) as emergency"
 
+    select << ",fleet_summaries.sum_day as date" if(params[:driver_id])
+
     joinStr = "fleet_summaries INNER JOIN drivers ON fleet_summaries.driver_id = drivers.id"
 
     groupStr = "drivers.id, drivers.code, drivers.name"
+
+    groupStr << ", sum_day" if(params[:driver_id])
 
     orderStr = "drivers.code asc"   
 

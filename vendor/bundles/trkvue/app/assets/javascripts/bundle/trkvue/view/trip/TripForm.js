@@ -22,6 +22,8 @@ Ext.define('Trkvue.view.trip.TripForm', {
 		{ name : 'lat', fieldLabel : T('label.lat'), xtype : 'numberfield' },
 		{ name : 'lng', fieldLabel : T('label.lng'), xtype : 'numberfield' },
 		{ name : 'sts', fieldLabel : T('label.sts'), allowBlank : false },
+		{ name : 'vlc', fieldLabel : T('label.vlc'), xtype : 'numberfield' },
+		//{ name : 'a_vlc', fieldLabel : T('label.vlc'), xtype : 'numberfield' },
 		{ name : 'c_off', fieldLabel : T('label.c_off'), xtype : 'numberfield' },
 		{ name : 'c_idl', fieldLabel : T('label.c_idl'), xtype : 'numberfield' },
 		{ name : 'c_low', fieldLabel : T('label.c_low'), xtype : 'numberfield' },

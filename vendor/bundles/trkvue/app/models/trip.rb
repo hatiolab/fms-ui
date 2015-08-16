@@ -25,6 +25,8 @@ class Trip
   field :c_nml, type: Integer
   field :c_hgh, type: Integer
   field :c_ovr, type: Integer
+  field :vlc, type: Float
+  field :a_vlc, type: Float
 
   before_destroy do |document|
     tracks = Track.all_of({"tid" => self.id})

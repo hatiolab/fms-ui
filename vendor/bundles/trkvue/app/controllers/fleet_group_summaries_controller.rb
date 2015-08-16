@@ -37,6 +37,41 @@ public
   	end
   end
 
+  def driver_summary
+    from_date, to_date = params[:from_date], params[:to_date]
+    cond = ["(fleet_group_summaries.sum_day between ? and ?)", from_date, to_date]
+
+    select = 
+      "fleet_groups.id as group_id, 
+      fleet_groups.name as group_name, 
+      sum(fleet_group_summaries.speed_off) as speed_off,
+      sum(fleet_group_summaries.speed_idle) as speed_idle,
+      sum(fleet_group_summaries.speed_slow) as speed_slow,
+      sum(fleet_group_summaries.speed_normal) as speed_normal,
+      sum(fleet_group_summaries.speed_high) as speed_high,
+      sum(fleet_group_summaries.speed_over) as speed_over,
+      sum(fleet_group_summaries.impact) as impact, 
+      sum(fleet_group_summaries.overspeed) as overspeed, 
+      sum(fleet_group_summaries.geofence) as geofence,
+      sum(fleet_group_summaries.emergency) as emergency"
+
+    joinStr = "fleet_group_summaries INNER JOIN fleet_groups ON fleet_group_summaries.fleet_group_id = fleet_groups.id"
+
+    groupStr = "fleet_groups.id, fleet_groups.name"
+
+    orderStr = "fleet_groups.name asc"   
+
+    total = FleetGroupSummary.where(cond).count
+    sql = FleetGroupSummary.select(select).joins(joinStr).where(cond).group(groupStr).order(orderStr).to_sql
+    items = FleetGroupSummary.connection.select_all(sql)
+    results = { :success => true, :total => total, :items => items }
+
+    respond_to do |format|
+     format.xml  { render :xml => results }
+     format.json { render :json => results }
+    end    
+  end  
+
   def event_summary
     from_date, to_date = params[:from_date], params[:to_date]
     cond = ["(fleet_group_summaries.sum_day between ? and ?)", from_date, to_date]

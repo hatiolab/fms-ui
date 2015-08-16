@@ -19,6 +19,8 @@ Ext.define('Trkvue.view.trip.Trip', {
 		{ header : T('label.s_lng'), dataIndex : 's_lng', align : 'right' , width : 120, editor : { xtype : 'textfield' } },
 		{ header : T('label.lat'), dataIndex : 'lat', align : 'right' , width : 120, editor : { xtype : 'textfield' } },
 		{ header : T('label.lng'), dataIndex : 'lng', align : 'right' , width : 120, editor : { xtype : 'textfield' } },
+		{ header : T('label.vlc'), dataIndex : 'vlc', align : 'right', width : 70 },
+		//{ header : T('label.a_vlc'), dataIndex : 'vlc', align : 'right', width : 70 },		
 		{ header : T('label.c_off'), dataIndex : 'c_off', align : 'right' , width : 80, editor : { xtype : 'numberfield' } },
 		{ header : T('label.c_idl'), dataIndex : 'c_idl', align : 'right' , width : 90, editor : { xtype : 'numberfield' } },
 		{ header : T('label.c_low'), dataIndex : 'c_low', align : 'right' , width : 125,  editor : { xtype : 'numberfield' } },

@@ -6,17 +6,15 @@ angular.module('fmsMonitor').directive('monitorInfoTrips', function() {
 		scope: {}
 	}; 
 })
-.controller('monitorTripsCtrl', function($rootScope, $scope, $resource, $element, FmsUtils, RestApi) {
+.controller('monitorTripsCtrl', function($rootScope, $scope, $resource, $element, GridUtils, FmsUtils, RestApi) {
 	/**
 	 * 기본 날짜 검색일 설정 
 	 */
-	var toDateStr = FmsUtils.formatDate(new Date(), 'yyyy-MM-dd');
-	var fromDate = FmsUtils.addDate(new Date(), -3);
-	var fromDateStr = FmsUtils.formatDate(fromDate, 'yyyy-MM-dd');
+	var period = FmsUtils.getPeriodString(3);
 	/**
 	 * 폼 모델 초기화 
 	 */
-	$scope.searchParams = { 'etm_gte' : fromDateStr, 'etm_lte' : toDateStr };
+	$scope.searchParams = { 'etm_gte' : period[0], 'etm_lte' : period[1] };
 	/**
 	 * Fleet Trip List
 	 */
@@ -37,41 +35,13 @@ angular.module('fmsMonitor').directive('monitorInfoTrips', function() {
 	  * count per page 
 	  * @type {Number}
 	  */
-	$scope.countPerPage = 4;
+	$scope.countPerPage = 5;
 	/**
 	 * Page Information - Total Record Count & Total Page
 	 * 
 	 * @type {Object}
 	 */
 	 $scope.pageInfo = { total : 0, total_page : 0, current_page : 0 };
-
-	/**
-	 * Date Picker
-	 */
-	$(function() {
-		var fromDt = $('#monitor_info_trip_datepicker1').datetimepicker({
-			language : 'en',
-			pickTime : false,
-			autoclose : true
-		}).on('changeDate', function(fev) {
-			$scope.searchParams.etm_gte = FmsUtils.formatDate(fev.date, 'yyyy-MM-dd');
-			$scope.search($scope.tablestate);
-			fromDt.data('datetimepicker').hide();
-		});
-	});
-
-	$(function() {
-		var toDt = $('#monitor_info_trip_datepicker2').datetimepicker({
-			language : 'en',
-			pickTime : false,
-			autoclose : true
-		}).on('changeDate', function(tev) {
-			//FmsUtils.addDate(tev.date, -1);
-			$scope.searchParams.etm_lte = FmsUtils.formatDate(tev.date, 'yyyy-MM-dd');
-			$scope.search($scope.tablestate);
-			toDt.data('datetimepicker').hide();
-		});
-	});
 
 	/**
 	 * Normalize parameters
@@ -84,10 +54,9 @@ angular.module('fmsMonitor').directive('monitorInfoTrips', function() {
 			"limit" : $scope.countPerPage
 		};
 
-		$scope.tablestate.pagination.number = searchParams.limit;
-
 		// convert date to number
-		FmsUtils.buildDateConds(searchParams, 'ctm', $scope.searchParams['ctm_gte'], $scope.searchParams['ctm_lte']);
+		FmsUtils.buildDateConds(searchParams, 'etm', $scope.searchParams['etm_gte'], $scope.searchParams['etm_lte']);
+		$scope.tablestate.pagination.number = searchParams.limit;
 		return searchParams;		
 	};
 
@@ -114,23 +83,34 @@ angular.module('fmsMonitor').directive('monitorInfoTrips', function() {
 	 * call by pagination
 	 */
 	$scope.search = function(tablestate) {
-	 	if(!$scope.searchEnabled) {
-	 		$scope.searchEnabled = true;
-	 		$scope.tablestate = tablestate;
-	 		$scope.tablestate.pagination.number = $scope.countPerPage;
-	 		return;
-	 	}
+		if($scope.checkSearch(tablestate)) {
+	 		var searchParams = $scope.beforeSearch();
+	    $scope.doSearch(searchParams, function(dataSet) {
+	      $scope.items = dataSet.items;
+	      $scope.afterSearch(dataSet);
+	    });
+		}
+	};
 
-	 	if(tablestate) {
-	 		$scope.tablestate = tablestate;
-	 	}
+	/**
+	 * Check Search
+	 * 
+	 * @return {Boolean}
+	 */
+	$scope.checkSearch = function(tablestate) {
+		var isOk = $scope.searchEnabled ? true : false;
 
- 		var searchParams = $scope.beforeSearch();
+		if(!$scope.searchEnabled) {
+			$scope.searchEnabled = true;
+			$scope.tablestate = tablestate;
+			$scope.tablestate.pagination.number = $scope.countPerPage;
+		}
 
-    $scope.doSearch(searchParams, function(dataSet) {
-      $scope.items = dataSet.items;
-      $scope.afterSearch(dataSet);
-    });
+		if(tablestate) {
+			$scope.tablestate = tablestate;
+		}
+
+		return isOk;
 	};
 
 	 /**
@@ -175,7 +155,7 @@ angular.module('fmsMonitor').directive('monitorInfoTrips', function() {
 	 * @return N/A
 	 */
 	 $scope.numbering = function(items) {
-	 	var startNo = (!$scope.pageInfo || !$scope.pageInfo.current_page) ? 1 : ($scope.pageInfo.current_page - 1)* $scope.countPerPage + 1;
+	 	var startNo = (!$scope.pageInfo || !$scope.pageInfo.current_page) ? 1 : ($scope.pageInfo.current_page - 1) * $scope.countPerPage + 1;
 
 	 	for(var i = 0 ; i < items.length ; i++) {
 	 		items[i].no = startNo + i;
@@ -186,7 +166,7 @@ angular.module('fmsMonitor').directive('monitorInfoTrips', function() {
 	 * Trip 선택 조회시
 	 */
 	$scope.$on('monitor-trip-info-change', function(evt, tripData) {
-		if(!tripData.from || tripData.from != 'infobar') {
+		if(!$scope.trip || $scope.trip.id != tripData.id) {
 			$scope.trip = tripData;
 			$scope.tablestate.pagination.start = 0;
 			$scope.tablestate.pagination.number = $scope.countPerPage;
@@ -195,10 +175,46 @@ angular.module('fmsMonitor').directive('monitorInfoTrips', function() {
 	});
 
 	/**
+	 * active item
+	 * 
+	 * @param {Object}
+	 */
+	$scope.setActiveItem = function(item) {
+		// 선택 아이템 변경 
+		$scope.trip = item;		
+		for (var i = 0; i < $scope.items.length; i++) {
+			var item = $scope.items[i];
+			item.active = (item.id == $scope.trip.id);
+		}
+	};	
+
+	/**
 	 * Trip 선택시 
 	 */
 	$scope.goTrip = function(trip) {
+		//$scope.setActiveItem(trip);
 		$scope.$emit('monitor-info-trip-change', trip);
-	}
+	};
+
+	/**
+	 * 초기화 함수 
+	 * 
+	 * @return N/A
+	 */
+	$scope.init = function() {
+		/**
+		 * init date picker1
+		 */
+		FmsUtils.initDatePicker('monitor_info_trip_datepicker1', $scope.searchParams, 'etm_gte', $scope.search);
+		/**
+		 * init date picker2
+		 */
+		FmsUtils.initDatePicker('monitor_info_trip_datepicker2', $scope.searchParams, 'etm_lte', $scope.search);
+	};
+
+	/**
+	 * 초기화 
+	 */
+	$scope.init();	
 
 });

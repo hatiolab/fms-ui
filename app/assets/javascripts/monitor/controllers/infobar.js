@@ -5,12 +5,31 @@ angular.module('fmsMonitor').controller('InfobarCtrl', function($rootScope, $sco
 	 */
 	$scope.isInfobarToggle = true;
 	/**
-	 * 그리드 크기 모드 변경
-	 * @param {[type]} mode [full(screen size-55px), half((screen height-55px) * 50%), mini(272)]
+	 * Infobar 높이 변경
 	 */
-	$scope.setInfobarGridContainerMode = function(mode) {
-		GridUtils.setInfobarGridContainerMode("monitor-info-alert-table-container",mode);
-		GridUtils.setInfobarGridContainerMode("monitor-info-trip-table-container",mode);
+	$scope.changeInfobarHeight = function(mode) {
+		if(mode != 'toggle') {
+			// 1. 전체 사이즈 
+			var infobarSize = GridUtils.setInfobarHeight('div.infolist-panel', mode);
+			// 2. 탭별 사이즈 
+			angular.element('#info').height(infobarSize - 25);
+			angular.element('#monitor-info-alert-table-container').height(infobarSize - 30);
+			angular.element('#monitor-info-trip-table-container').height(infobarSize - 30);
+
+		} else {
+			var height = angular.element('div.infolist-panel').height();
+
+			// hide
+			if(height > 25) {
+				angular.element('div.infolist-panel').height(25);
+				angular.element('#info').height(0);
+				angular.element('#monitor-info-alert-table-container').height(0);
+				angular.element('#monitor-info-trip-table-container').height(0);
+			// show
+			} else {
+				$scope.changeInfobarHeight('mini');
+			}
+		}
 	};
 
 });

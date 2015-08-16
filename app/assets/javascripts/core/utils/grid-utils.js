@@ -41,38 +41,38 @@ angular.module('fmsCore').factory('GridUtils', function($rootScope) {
 		},
 
 		/**
-		 * @param {[type]} gridContainerId [grid Id]
-		 * @param {[type]} mode            [full(screen size-55px), half((screen height-55px) * 50%), mini(272)]
+		 * Change Info bar Height
 		 */
-		setInfobarGridContainerMode: function(gridContainerId, mode) {
+		setInfobarHeight: function(divSelector, mode) {
 			var newHeight = $(window).height();
-			var gridContainer = angular.element('#' + gridContainerId);
-			var headerHeight = angular.element('header').height();
-			var infolistBarHeight = angular.element('ul.nav.nav-tabs').height();
-			var infolistBarConditionHeight = angular.element('form.form-horizontal.ng-pristine.ng-valid').height();
-			// console.log(infolistBarHeight);
-
-			if (!gridContainer) {
+			var container = angular.element(divSelector);
+			if (!container) {
 				return;
 			}
+
+			var headerHeight = angular.element('header').height();
+
 			switch (mode) {
 				case "full":
-					newHeight = newHeight-headerHeight-25-12.8-25;//size of inforbar 25
+					newHeight = newHeight - headerHeight;
 					break;
 				case "half":
-					newHeight = (newHeight - 55)/2;
+					newHeight = (newHeight - 55) / 2;
 					break;
 				case "mini":
-					newHeight = 350;
+					newHeight = (newHeight - 55) / 3;
+					break;
+				case "zero":
+					newHeight = 25;
 					break;
 				default:
-					newHeight = 350;
+					newHeight = (newHeight - 55) / 3;
 			}
 
-			if(newHeight > 10) {
-				gridContainer.height(newHeight);
-			}
-		},
+			container.height(newHeight);
+			return newHeight;
+		}
+
 		//------------------------------- E N D ------------------------------------
 	};
 });
