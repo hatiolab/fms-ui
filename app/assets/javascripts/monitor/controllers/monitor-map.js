@@ -304,11 +304,8 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 
 		$scope.mapOption.fit = true;
 
-		$timeout(callback, 1000);
-
-		/*if(callback) {
-			callback();
-		}*/
+		// 임시로 callback을 
+		$timeout(callback, 500);
 	};
 
 	/**
@@ -598,6 +595,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * Sidebar Event 그리드의 Trip 클릭시
 	 */
 	var rootScopeListener6 = $rootScope.$on('monitor-event-trip-change', function(evt, eventData) {
+		$scope.switchOffAll();
 		var marker = $scope.eventToMarker(eventData);
 		$scope.goTrip(eventData.tid, function() {
 			$scope.changeMarker(marker, 'showEventInfo');
@@ -608,6 +606,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * Sidebar Event 그리드의 Event 선택시
 	 */
 	var rootScopeListener7 = $rootScope.$on('monitor-event-info-change', function(evt, eventData) {
+		$scope.switchOffAll();
 		var marker = $scope.eventToMarker(eventData);
 		$scope.changeMarker(marker, 'showEventInfo');
 	});
