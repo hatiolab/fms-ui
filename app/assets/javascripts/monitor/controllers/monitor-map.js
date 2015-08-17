@@ -304,7 +304,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 
 		$scope.mapOption.fit = true;
 
-		$timeout(callback, 1000, true, callback);
+		$timeout(callback, 1000);
 
 		/*if(callback) {
 			callback();
