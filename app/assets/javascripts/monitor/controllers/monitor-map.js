@@ -7,7 +7,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	/**
 	 * map option
 	 */
-	$scope.mapOption = { center: { latitude: DEFAULT_LAT, longitude: DEFAULT_LNG }, zoom: 9 };
+	$scope.mapOption = { center: { latitude: DEFAULT_LAT, longitude: DEFAULT_LNG }, zoom: 9, fit : false };
 	/**
 	 * map marker models for fleets, map polyline model for tracks, currently selected marker, 
 	 */
@@ -66,6 +66,8 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * Refresh Fleet Markers
 	 */
 	$scope.refreshFleets = function(fleets) {
+		$scope.mapOption.fit = false;
+
 		if(!fleets || fleets.length == 0) {
 			return;
 		}
@@ -83,6 +85,15 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 
 		//gmap.setCenter(bounds.getCenter());
 		//gmap.fitBounds(bounds);
+		
+		$scope.mapOption.fit = true;
+	};
+
+	/**
+	 * Show Monitor Mode Control
+	 */
+	$scope.showMonitorModeControl = function(map) {
+		// 맵 상단에 모드 Overlay
 	};
 
 	/**
@@ -152,11 +163,15 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 
 		$scope.clearAll(null);
 
+		$scope.mapOption.fit = false;
+
 		for(var i = 0 ; i < eventDataList.length ; i++) {
 			var eventData = eventDataList[i];
 			var marker = $scope.eventToMarker(eventData);
 			$scope.addMarker(marker);
 		}
+
+		$scope.mapOption.fit = true;
 	};	
 
 	/**
@@ -226,6 +241,8 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * Show Trip
 	 */
 	$scope.showTrip = function(tripDataSet, callback) {
+		$scope.mapOption.fit = false;
+
 		var trip = tripDataSet.trip;
 		var fleet = tripDataSet.fleet;
 		var batches = tripDataSet.batches;
@@ -284,6 +301,8 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 
 		// 현재 선택된 Trip을 변경 
 		$scope.changeCurrentTrip(trip);
+
+		$scope.mapOption.fit = true;
 
 		if(callback) {
 			callback();
