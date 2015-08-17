@@ -577,7 +577,9 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * Infobar Trip 그리드의 Trip 선택시
 	 */
 	var rootScopeListener4 = $rootScope.$on('monitor-info-trip-change', function(evt, trip) {
-		$scope.goTrip(trip.id);
+		if($scope.viewMode != 'TRIP' || trip.id != $scope.currentTripId) {
+			$scope.goTrip(trip.id);
+		}
 	});
 
 	/**
@@ -597,9 +599,14 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	var rootScopeListener6 = $rootScope.$on('monitor-event-trip-change', function(evt, eventData) {
 		$scope.switchOffAll();
 		var marker = $scope.eventToMarker(eventData);
-		$scope.goTrip(eventData.tid, function() {
+
+		if($scope.viewMode == 'TRIP' && eventData.tid == $scope.currentTripId) {
 			$scope.changeMarker(marker, 'showEventInfo');
-		});
+		} else {
+			$scope.goTrip(eventData.tid, function() {
+				$scope.changeMarker(marker, 'showEventInfo');
+			});			
+		}
 	});
 
 	/**
