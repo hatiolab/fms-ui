@@ -146,10 +146,11 @@ label input[type="checkbox"]{margin-right:5px;}
 .infolist-panel .info-table{width:98%;margin-left:1%;}
 .infolist-panel .info-table td{border-bottom:1px solid #f2f2f2;}
 .icon-panel-option{background:url(/assets/icon-panel-sizeoption.png) no-repeat;border-radius:0;border:1px solid #607788;border-width:0 0 0 1px;width:30px;height:18px;margin-top:4px;opacity:.6;}
+.icon-panel-option.size-hide{background-position:5px -299px;}
 .icon-panel-option.size-mini{background-position:5px 1px;}
 .icon-panel-option.size-half{background-position:5px -99px;}
 .icon-panel-option.size-full{background-position:5px -199px;}
-.icon-panel-option:hover{background-color:transparent;opacity:1;border-color:#607788;}
+.icon-panel-option:hover,.icon-panel-option.active,.icon-panel-option:focus{background-color:transparent !important;opacity:1 !important;border-color:#607788 !important;}
 .btn-in-pagination{background-image:-webkit-linear-gradient(top,#394e61 0,#2c4051 100%);
 	background-image:-webkit-gradient(linear,left top,left bottom,from(#394e61),to(#2c4051));
 	background-image:-o-linear-gradient(top,#394e61 0,#2c4051 100%);
