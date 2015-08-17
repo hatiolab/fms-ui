@@ -9,9 +9,9 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 */
 	$scope.mapOption = { center: { latitude: DEFAULT_LAT, longitude: DEFAULT_LNG }, zoom: 9, fit : false };
 	/**
-	 * map marker models for fleets, map polyline model for tracks, currently selected marker, 
+	 * map marker models for fleets, map polyline model for tracks, currently selected marker, progress bar
 	 */
-	$scope.markers = [], $scope.polylines = [], $scope.selectedMarker = null; 
+	$scope.markers = [], $scope.polylines = [], $scope.selectedMarker = null; $scope.progressBar = null;
 	/**
 	 * map control, marker control, polyline control
 	 */
@@ -63,16 +63,48 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	};
 
 	/**
+	 * Init Progress Bar
+	 */
+	$scope.initProgress = function() {
+		if(!$scope.progressBar) {
+			$scope.progressBar = new progressBar();
+			var gmap = $scope.mapControl.getGMap();
+			gmap.controls[google.maps.ControlPosition.CENTER].push($scope.progressBar.getDiv());
+		}
+	};
+
+	/**
+	 * Start Progress Bar
+	 */
+	$scope.startProgress = function(maxCnt) {
+		if(!$scope.progressBar) {
+			$scope.initProgress();
+		}
+
+		$scope.mapOption.fit = false;
+		$scope.progressBar.start(maxCnt);
+	};
+
+	/**
+	 * End Progress Bar
+	 */
+	$scope.endProgress = function(gmap) {
+		$scope.progressBar.hide();
+		$scope.mapOption.fit = true;
+	};
+
+	/**
 	 * Refresh Fleet Markers
 	 */
 	$scope.refreshFleets = function(fleets) {
-		$scope.mapOption.fit = false;
-
 		if(!fleets || fleets.length == 0) {
 			return;
 		}
 
-		$scope.clearAll(null);
+		// start progress ...		
+		$scope.startProgress(fleets.length);
+		$scope.clearAll(null);		
+		
 		//var gmap = $scope.mapControl.getGMap();
 		//var startPoint = new google.maps.LatLng(fleets[0].lat, fleets[0].lng);
 		//var bounds = new google.maps.LatLngBounds(startPoint, startPoint);
@@ -80,13 +112,15 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		for(var i = 0 ; i < fleets.length ; i++) {
 			var marker = $scope.fleetToMarker(fleets[i]);
 			$scope.addMarker(marker);
+			$scope.progressBar.updateBar(1);
 			//bounds.extend(new google.maps.LatLng(marker.latitude, marker.longitude));
 		}
 
 		//gmap.setCenter(bounds.getCenter());
 		//gmap.fitBounds(bounds);
 		
-		$scope.mapOption.fit = true;
+		// end progress ...		
+		$scope.endProgress();
 	};
 
 	/**
@@ -161,9 +195,9 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 			return;
 		}
 
+		// start progress ...		
+		$scope.startProgress(eventDataList.length);
 		$scope.clearAll(null);
-
-		$scope.mapOption.fit = false;
 
 		for(var i = 0 ; i < eventDataList.length ; i++) {
 			var eventData = eventDataList[i];
@@ -171,7 +205,8 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 			$scope.addMarker(marker);
 		}
 
-		$scope.mapOption.fit = true;
+		// end progress ...
+		$scope.endProgress();
 	};	
 
 	/**
@@ -230,10 +265,14 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	$scope.getTripDataSet = function(tripId, callback) {
 		// 1. invoke rest api
 		RestApi.get('/trips/' + tripId + '/trip_set.json', {}, function(dataSet) {
+			// start progress : Trip Count (1) + Batch Count + Track Count + Event Count
+			$scope.startProgress(1 + dataSet.batches.length + dataSet.tracks.length + dataSet.events.length);			
 			// 1. map 초기화 
 			$scope.clearAll(null);
 			// 2. trip 그리기 
 			$scope.showTrip(dataSet, callback);
+			// end progrss ...
+			$scope.endProgress();
 		});
 	};
 
@@ -241,7 +280,6 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 * Show Trip
 	 */
 	$scope.showTrip = function(tripDataSet, callback) {
-		$scope.mapOption.fit = false;
 
 		var trip = tripDataSet.trip;
 		var fleet = tripDataSet.fleet;
@@ -302,10 +340,10 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		// 현재 선택된 Trip을 변경 
 		$scope.changeCurrentTrip(trip);
 
-		$scope.mapOption.fit = true;
-
-		// 임시로 callback을 
-		$timeout(callback, 500);
+		if(callback) {
+			// 0.5초 후 callback - event 선택 
+			$timeout(callback, 500);
+		}
 	};
 
 	/**
@@ -329,6 +367,7 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 	 */
 	$scope.addMarker = function(marker) {
 		$scope.markers.push(marker);
+		$scope.progressBar.updateBar(1);
 	};
 
 	/**
