@@ -222,12 +222,16 @@ font-size:12px;color:#666;}
 .setting-sidemenu li .menu-icon.fleets{background-position:10px -194px;}
 .setting-sidemenu li .menu-icon.group{background-position:10px -294px;}
 .setting-sidemenu li .menu-icon.geofence{background-position:10px -394px;}
+.setting-sidemenu li .menu-icon.overspeed{background-position:10px -494px;}
+.setting-sidemenu li .menu-icon.chart{background-position:10px -594px;}
 .setting-sidemenu li .menu-icon.active{background:url(/assets/icon-setting-menu.png) -790px 6px no-repeat #ecf2f6;border-color:#7ea8dd;position:relative;z-index:10000;margin-left:1px;color:#4d5f7d;font-weight:bold;}
 .setting-sidemenu li .menu-icon.active.preferences{background-position:-790px 6px;}
 .setting-sidemenu li .menu-icon.active.driver{background-position:-790px -94px;}
 .setting-sidemenu li .menu-icon.active.fleets{background-position:-790px -194px;}
 .setting-sidemenu li .menu-icon.active.group{background-position:-790px -294px;}
 .setting-sidemenu li .menu-icon.active.geofence{background-position:-790px -394px;}
+.setting-sidemenu li .menu-icon.active.overspeed{background-position:-790px -494px;}
+.setting-sidemenu li .menu-icon.active.chart{background-position:-790px -594px;}
 .setting-sidemenu .panel-refresh{margin:0 9px 0 0;}
 .setting-sidemenu+form{background-color:#cedde7;padding:10px 0 1px 10px !important;}
 .setting-content,.report-content{padding-top:25px;}
