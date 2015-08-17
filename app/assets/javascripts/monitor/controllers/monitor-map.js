@@ -302,11 +302,15 @@ angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $
 		// 현재 선택된 Trip을 변경 
 		$scope.changeCurrentTrip(trip);
 
-		$scope.mapOption.fit = true;
+		$timeout($scope.setFitOption, 500);
 
 		if(callback) {
 			callback();
 		}
+	};
+
+	$scope.setFitOption = function() {
+		$scope.mapOption.fit = true;
 	};
 
 	/**

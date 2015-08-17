@@ -223,7 +223,7 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 	 		$scope.timerStarted = true;
 		 	$timeout.cancel();
 		 	var interval = $scope.getInterval();
-	 		$timeout($scope.searchNewAlert, interval);	 		
+	 		$timeout($scope.searchNewAlert, interval);
 	 	}
 	 };
 
