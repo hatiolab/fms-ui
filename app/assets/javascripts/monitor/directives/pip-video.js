@@ -20,7 +20,6 @@ angular.module('pip', [])
                     '<a target="_self" href="{{ videoUrl }}" download="video.mp4">' +
                         '[Download]' +
                     '</a>' +
-                    '<a id="play_video">Play</a>' +
                 '<div>'
         };
     })
@@ -124,20 +123,8 @@ angular.module('pip', [])
         });
 
         $element.on('canplay', 'video.backward-layer', function(e) {
-            alert('canplay');
-        });
-
-        $element.on('click', '#play_video', function(e) {
             $element.find('video.backward-layer').trigger('play');
         });
-
-        /*$scope.$watch('videoUrl', function(newVal, oldVal) {
-            if(newVal && newVal != '' && newVal.length > 10) {
-                alert(newVal);
-                console.log($element.find('video.backward-layer'));
-                $element.find('video.backward-layer').trigger('play');
-            }
-        });*/
 
         // $scope.$watch("toggle", function(value) {
         //     element.toggleClass('active', value)
