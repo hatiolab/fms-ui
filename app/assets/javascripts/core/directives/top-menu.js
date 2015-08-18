@@ -17,7 +17,7 @@ angular.module('fmsCore').directive('topMenu', function() {
 	}, {
 		name : 'Geofence', 
 		cls : 'icon-geofence',
-		href : '#/geofence',
+		href : '#/geofence/settings',
 		active : false
 	}, {
 		name : 'HR', 

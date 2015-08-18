@@ -1,5 +1,5 @@
 angular.module('fmsGeofence')
-	.controller('GeofenceItemCtrl', function($rootScope, $scope, $resource, $element, $interval, uiGmapIsReady, ConstantSpeed, FmsUtils, RestApi) {
+	.controller('GeofenceMapCtrl', function($rootScope, $scope, $resource, $element, $interval, uiGmapIsReady, ConstantSpeed, FmsUtils, RestApi) {
 
 		/**
 		 * sidebar toggle

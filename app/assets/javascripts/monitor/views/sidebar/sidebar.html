@@ -1,6 +1,7 @@
 <!-- side panel begin -->
 <div class="col-xs-4 col-md-4 side-panel" ng-controller="SidebarCtrl" >
 	<div class="height-full" ng-show="isSidebarToggle">
+
 	  <!-- Nav tabs -->
 	  <ul class="nav nav-tabs" role="tablist">
 	    <li id="fleetTab" role="presentation" class="active">
@@ -8,6 +9,7 @@
 	    		<strong>Fleets</strong>
 	    	</a>
 	    </li>
+
 	    <li id="alertTab" role="presentation">
 	    	<a href="#side-alerts" aria-controls="profile" role="tab" data-toggle="tab">
 	    		<strong>Alerts</strong>
@@ -20,6 +22,7 @@
 
 	  <!-- Tab panes -->
 	  <div class="tab-content">
+	  
 	  	<!-- fleet tab -->
 	  	<div role="tabpanel" class="tab-pane active" id="side-fleets">
 	    	<monitor-side-fleets></monitor-side-fleets>

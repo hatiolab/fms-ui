@@ -8,63 +8,42 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 		};
 	})
 	.controller('groupDetailCtrl', function($rootScope, $scope, $resource, $element, $filter, ModalUtils, FmsUtils, RestApi) {
+
 		/**
-		 * Selected Driver Item
+		 * Selected Group Item
 		 * 
 		 * @type {Object}
 		 */
 		$scope.item = {};
-
 		/**
-		 * geofence List
+		 * Group - Geofence Relation List
 		 */
 		$scope.items = [];
 		/**
-		 * 검색 조건 모델 
+		 * Geofence List
 		 */
-		$scope.searchParams = {};
+		$scope.geofences = [];
 		/**
-		 * smart table object
+		 * Geofence Show 여부 
 		 */
-		$scope.tablestate = null;
-		/**
-		 * 처음 전체 페이지 로딩시는 fleet data 자동조회 하지 않는다.
-		 */
-		$scope.searchEnabled = false;
-
 		$scope.geofenceHide = true;
-		$scope.alarmTypeHide = true;
-
 		/**
-		 * 서버에 보내기위해 파라미터 변경  
+		 * Alarm Type Show 여부 
 		 */
-		$scope.normalizeSearchParams = function(params) {
-			var searchParams = {
-				'_o[fleet_group_id]': 'asc'
-			};
-
-			if (!params || FmsUtils.isEmpty(params)) {
-				return searchParams;
-			}
-
-			if (params.id) {
-				searchParams["_q[fleet_group_id-eq]"] = params.id;
-			}
-
-			return searchParams;
-		};
+		$scope.alarmTypeHide = true;
 
 		/**
 		 * Search Groups
 		 */
 		$scope.searchGeoGroups = function() {
+			var searchParams = {
+				'_o[geofence_id]': 'asc',
+				"_q[fleet_group_id-eq]" : $scope.item.id
+			};
 
-			searchParams = $scope.beforeSearch();
-
-			$scope.doSearch(searchParams, function(dataSet) {
-				$scope.numbering(dataSet.items, 1);
-				$scope.items = dataSet.items;
-				$scope.afterSearch(dataSet);
+			RestApi.list('/geofence_groups.json', searchParams, function(dataList) {
+				$scope.numbering(dataList, 1);
+				$scope.items = dataList;
 			});
 		};
 
@@ -72,11 +51,9 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 		 * Search geofence
 		 */
 		$scope.searchGeofences = function() {
-			searchParams = {};
-
-			$scope.doGeofenceSearch(searchParams, function(dataSet) {
-				$scope.geofences = dataSet.items;
-			});
+			RestApi.list('/geofences.json', {}, function(dataList) {
+				$scope.geofences = dataList;
+			});					
 		};
 
 		/**
@@ -88,49 +65,12 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 		 */
 		$scope.numbering = function(items, startNo) {
 			for (var i = 0; i < items.length; i++) {
-				items[i].no = i + 1;
-				items[i].isEditable = true;
+				var item = items[i];
+				item.no = i + 1;
+				item.isEditable = true;
+				item.isShow = true;
+				item.deleteFlag = false;
 			}
-		};
-
-
-
-		/**
-		 * infinite scorll directive에서 호출 
-		 * 
-		 * @return {Object}
-		 */
-		$scope.beforeSearch = function() {
-			var searchParams = angular.copy($scope.item);
-			return $scope.normalizeSearchParams(searchParams);
-		};
-
-		/**
-		 * @param  {Object}
-		 * @param  {Function}
-		 * @return N/A
-		 */
-		$scope.doSearch = function(params, callback) {
-			RestApi.search('/geofence_groups.json', params, function(dataSet) {
-				callback(dataSet);
-			});
-		};
-
-		$scope.doGeofenceSearch = function(params, callback) {
-			RestApi.search('/geofences.json', params, function(dataSet) {
-				callback(dataSet);
-			});
-		};
-
-
-		/**
-		 * infinite scorll directive에서 호출 
-		 * 
-		 * @param  {Object}
-		 * @return N/A
-		 */
-		$scope.afterSearch = function(dataSet) {
-
 		};
 
 		/**
@@ -169,63 +109,56 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 
 			if ($scope.item.id && $scope.item.id != '') {
 				var url = '/fleet_groups/' + $scope.item.id + '.json';
-				var result = RestApi.update(url, null, {
-					fleet_group: $scope.item
-				});
-				result.$promise.then(function(data) {
-					$scope.refreshList();
-					var items = [];
-					for (var i = 0; i < $scope.items.length; i++) {
-						var relation = $scope.items[i];
-						if (relation.fleet_group_id == '' || relation.geofence_id == null) {} else {
-							items.push({
-								id: relation.id,
-								fleet_group_id: relation.fleet_group_id,
-								geofence_id: relation.geofence_id,
-								alarm_type: relation.alarm_type,
-								_cud_flag_: relation.id ? "u" : "c"
-							});
-						}
-					}
-
-					if (items.length > 0) {
-						var url = '/geofence_groups/update_multiple.json';
-						var result = RestApi.updateMultiple(url, null, items);
-						result.$promise.then(function(data) {
-							$scope.refreshList();
-							$scope.searchGeoGroups();
-						});
-					}
-				});
+				var result = RestApi.update(url, null, { fleet_group: $scope.item });
+				result.$promise.then(function(data) { $scope.updateRelations(); });
 
 			} else {
-				var result = RestApi.create('/fleet_groups.json', null, {
-					fleet_group: $scope.item
-				});
-				result.$promise.then(function(data) {
-					$scope.refreshList();
-					var items = [];
-					for (var i = 0; i < $scope.items.length; i++) {
-						var relation = $scope.items[i];
-						if (relation.fleet_group_id == '' || relation.fleet_group_id == null) {} else {
-							items.push({
-								id: relation.id,
-								fleet_group_id: relation.fleet_group_id,
-								geofence_id: relation.geofence_id,
-								alarm_type: relation.alarm_type,
-								_cud_flag_: relation.id ? "u" : "c"
-							});
-						}
-					}
+				var result = RestApi.create('/fleet_groups.json', null, { fleet_group: $scope.item });
+				result.$promise.then(function(data) { $scope.updateRelations(); });
+			}
+		};
 
-					if (items.length > 0) {
-						var url = '/geofence_groups/update_multiple.json';
-						var result = RestApi.updateMultiple(url, null, items);
-						result.$promise.then(function(data) {
-							$scope.refreshList();
-							$scope.searchGeoGroups();
-						});
-					}
+		/**
+		 * Multiple Update Geofence - Group Relations
+		 */
+		$scope.updateRelations = function() {
+			$scope.refreshList();
+			var items = $scope.buildRelations();
+			$scope.invokeUpdateRelations(items);
+		};
+
+		/**
+		 * Build Geofence - Group Relations Data for Multiple Update
+		 */
+		$scope.buildRelations = function() {
+			var items = [];
+
+			for (var i = 0; i < $scope.items.length; i++) {
+				var relation = $scope.items[i];
+
+				if (relation.fleet_group_id && relation.geofence_id) {
+					items.push({
+						id: relation.id,
+						fleet_group_id: relation.fleet_group_id,
+						geofence_id: relation.geofence_id,
+						alarm_type: relation.alarm_type,
+						_cud_flag_: (relation.deleteFlag) ? 'd' : (relation.id ? 'u' : 'c')
+					});
+				}
+			}
+
+			return items;
+		};
+
+		/**
+		 * Invoke Geofence - Group Relation
+		 */
+		$scope.invokeUpdateRelations = function(relationItems) {
+			if (relationItems.length > 0) {
+				var url = '/geofence_groups/update_multiple.json';
+				var result = RestApi.updateMultiple(url, null, relationItems);
+				result.$promise.then(function(data) {
+					$scope.searchGeoGroups();
 				});
 			}
 		};
@@ -236,17 +169,15 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 		 * @return N/A
 		 */
 		$scope.delete = function() {
-			if (!$scope.item.id || $scope.item.id == '') {
-				return;
-			}
-
-			ModalUtils.confirm('sm', 'Confirmation', 'Are you sure to delete?', function() {
-				var result = RestApi.delete('/fleet_groups/' + $scope.item.id + '.json', null);
-				result.$promise.then(function(data) {
-					$scope.new();
-					$scope.refreshList();
+			if ($scope.item.id && $scope.item.id != '') {
+				ModalUtils.confirm('sm', 'Confirmation', 'Are you sure to delete?', function() {
+					var result = RestApi.delete('/fleet_groups/' + $scope.item.id + '.json', null);
+					result.$promise.then(function(data) {
+						$scope.new();
+						$scope.refreshList();
+					});
 				});
-			});
+			}
 		};
 
 		/**
@@ -256,7 +187,7 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 		 */
 		$scope.new = function() {
 			$scope.item = {};
-			$scope.items = {};
+			$scope.items = [];
 		};
 
 		/**
@@ -273,36 +204,40 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 		 * 
 		 * @return {Object}
 		 */
-		$scope.addGeofence = function() {
+		$scope.addRelation = function() {
 			$scope.items.push({
-				'no': '',
-				'geofence.name': '',
-				'geofence.description': '',
-				'geofence.alarm_type': '',
-				'fleet_group_id': $scope.item.id
+				no: 0,
+				fleet_group : {
+					id : $scope.item.id,
+					name : $scope.item.name,
+					description : $scope.item.description
+				},
+				fleet_group_id : $scope.item.id,
+				alarm_type : '',
+				geofence : {
+					id : '',
+					name : '',
+					description : ''				
+				},
+				geofence_id: '',
+				isShow : true,
+				deleteFlag : false
 			});
+
 			$scope.numbering($scope.items, 1);
 		};
 
-		/**
-		 * rm - remove
-		 * 
-		 * @return {Object}
-		 */
-		$scope.rmGeofence = function() {
-			var result = [];
-			result = $filter('filter')($scope.items, {'deleteFlage':true});
-			for(var i=0; i<result.length; i++){
-				var index = $scope.items.indexOf(result[i]);
-				if (index !== -1) {
-					$scope.items.splice(index, 1);
-				}
+	/**
+	 * Relation 삭제 
+	 */
+	$scope.deleteRelation = function() {
+		for(var i = 0 ; i < $scope.items.length ; i++) {
+			var item = $scope.items[i];
+			if(item.deleteFlag) {
+				item.isShow = false;
 			}
-		};
-
-		$scope.showdata = function() {
-
-		};
+		}
+	};
 
 		/**
 		 * group item selected

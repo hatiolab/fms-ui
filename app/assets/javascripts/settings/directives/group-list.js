@@ -7,7 +7,7 @@ angular.module('fmsSettings').directive('groupList', function() {
 			link: function(scope, element, attr, groupListCtrl) {
 				var refreshButton = element.find('#searchGroups');
 				refreshButton.bind("click", function() {
-					scope.searchGroups(scope.tablestate);
+					scope.search(scope.tablestate);
 				});
 			}
 		};
@@ -15,7 +15,7 @@ angular.module('fmsSettings').directive('groupList', function() {
 	.controller('groupListCtrl', function($rootScope, $scope, $resource, $element, GridUtils, FmsUtils, RestApi) {
 
 		/**
-		 * Fleet List
+		 * Group List
 		 */
 		$scope.items = [];
 		/**
@@ -188,7 +188,7 @@ angular.module('fmsSettings').directive('groupList', function() {
 		 */
 		$scope.$watchCollection('searchParams', function() {
 			if ($scope.searchEnabled) {
-				$scope.searchGroups($scope.tablestate);
+				$scope.search($scope.tablestate);
 			}
 		});
 
@@ -198,15 +198,15 @@ angular.module('fmsSettings').directive('groupList', function() {
 		 * @param  {String}
 		 * @param  handler function
 		 */
-		var groupsChnageListener = $rootScope.$on('setting-group-items-change', function(event) {
-			$scope.searchGroups($scope.tablestate);
+		var groupsChangeListener = $rootScope.$on('setting-group-items-change', function(event) {
+			$scope.search($scope.tablestate);
 		});
 
 	  /**
 	   * Destroy Scope - RootScope Event Listener 정리 
 	   */
 	  $scope.$on('$destroy', function(event) {
-	    groupsChnageListener();
+	    groupsChangeListener();
 	  });
 	  
 		// ------------------------------ E N D -------------------------------------

@@ -8,12 +8,34 @@ angular.module('fmsGeofence').config(function($stateProvider, $urlRouterProvider
 		url: '/geofence',
 		views: {
 			'sidebar-view': {
-				controller: 'GeofenceCtrl',
-				templateUrl: '/assets/geofence/views/sidebar.html'
+				template: 'Sidebar'
 			},
 			'content-view' : {
-				controller: 'GeofenceItemCtrl',
-				templateUrl: '/assets/geofence/views/geofence.html'
+				template: 'Content'
+			}
+		}
+	})
+
+	.state('geofence.settings', {
+		url: '/settings',
+		views: {
+			'sidebar-view@': {
+				template: '<setting-list></setting-list>'
+			},
+			'content-view@' : {
+				templateUrl : '/assets/geofence/views/contents/settings.html'
+			}
+		}
+	})
+
+	.state('geofence.relations', {
+		url: '/relations',
+		views: {
+			'sidebar-view@': {
+				template: '<relation-list></relation-list>'
+			},
+			'content-view@' : {
+				template: '<relation-detail></relation-detail>'
 			}
 		}
 	});
