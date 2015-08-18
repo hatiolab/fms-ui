@@ -17,12 +17,14 @@ angular.module('fmsGeofence', ['fmsCore']);
 // 4. monitor module
 angular.module('fmsMonitor', ['fmsCore', 'pip'])
 .config(function($sceDelegateProvider) {
-	$sceDelegateProvider.resourceUrlWhitelist([
-	    // Allow same origin resource loads.
+	if(typeof CONTENT_BASE_URL != 'undefined') {
+		$sceDelegateProvider.resourceUrlWhitelist([
+	  	// Allow same origin resource loads.
 	    'self',
 	    // Allow loading from our assets domain.  Notice the difference between * and **.
 	    CONTENT_BASE_URL + '**'
 	  ]);
+	}
 });
 
 // 5. reports geofence
@@ -37,5 +39,25 @@ angular.module('fmsApp', ['fmsCore', 'fmsSettings', 'fmsGeofence', 'fmsMonitor',
 	// CSRF Token
 	$httpProvider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content');
 	// if none of the above states are matched, use this as the fallback
-	$urlRouterProvider.otherwise('/');
+	$urlRouterProvider.otherwise('/');	
+})
+.run(function($state, $rootScope, $location, RestApi) {
+	// go to signin screen
+	$rootScope.goToSignin = function() {
+		window.location = '/users/sign_in';
+		window.location.reload();
+	};
+
+	/*$rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
+		if(typeof login !== 'undefined') {
+			RestApi.isSignedIn(function(data, response) {
+				if(typeof response == 'object' && response.status && response.status == 401) {
+					e.preventDefault();
+					$rootScope.goToSignin();
+				}
+			});
+		} else {
+			e.preventDefault();
+		}
+  });*/
 });

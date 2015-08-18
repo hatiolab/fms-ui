@@ -1,36 +1,36 @@
-			<!-- side panel begin -->
-			<div class="col-xs-4 col-md-4 side-panel" ng-controller="SidebarCtrl" >
-				<div class="height-full" ng-show="isSidebarToggle">
-				  <!-- Nav tabs -->
-				  <ul class="nav nav-tabs" role="tablist">
-				    <li id="fleetTab" role="presentation" class="active">
-				    	<a href="#side-fleets" aria-controls="home" role="tab" data-toggle="tab">
-				    		<strong>Fleets</strong>
-				    	</a>
-				    </li>
-				    <li id="alertTab" role="presentation">
-				    	<a href="#side-alerts" aria-controls="profile" role="tab" data-toggle="tab">
-				    		<strong>Alerts</strong>
-				    	</a>
-				    </li>
-						<!--button type="button" class="btn btn-default panel-toggle pull-right" ng-click="isSidebarToggle = !isSidebarToggle"></button-->
-						<button type="button" class="btn btn-default panel-toggle pull-right"></button>
-						<button type="button" class="btn btn-default panel-refresh pull-right"></button>
-				  </ul>
+<!-- side panel begin -->
+<div class="col-xs-4 col-md-4 side-panel" ng-controller="SidebarCtrl" >
+	<div class="height-full" ng-show="isSidebarToggle">
+	  <!-- Nav tabs -->
+	  <ul class="nav nav-tabs" role="tablist">
+	    <li id="fleetTab" role="presentation" class="active">
+	    	<a href="#side-fleets" aria-controls="home" role="tab" data-toggle="tab">
+	    		<strong>Fleets</strong>
+	    	</a>
+	    </li>
+	    <li id="alertTab" role="presentation">
+	    	<a href="#side-alerts" aria-controls="profile" role="tab" data-toggle="tab">
+	    		<strong>Alerts</strong>
+	    	</a>
+	    </li>
+			<!--button type="button" class="btn btn-default panel-toggle pull-right" ng-click="isSidebarToggle = !isSidebarToggle"></button-->
+			<button type="button" class="btn btn-default panel-toggle pull-right"></button>
+			<button type="button" class="btn btn-default panel-refresh pull-right"></button>
+	  </ul>
 
-				  <!-- Tab panes -->
-				  <div class="tab-content">
-				  	<!-- fleet tab -->
-				  	<div role="tabpanel" class="tab-pane active" id="side-fleets">
-				    	<monitor-side-fleets></monitor-side-fleets>
-				    </div>
-				    
-						<!-- alert tab -->
-						<div role="tabpanel" class="tab-pane" id="side-alerts">
-							<monitor-side-alerts></monitor-side-alerts>
-						</div>
-				  </div>
-
-				</div>
+	  <!-- Tab panes -->
+	  <div class="tab-content">
+	  	<!-- fleet tab -->
+	  	<div role="tabpanel" class="tab-pane active" id="side-fleets">
+	    	<monitor-side-fleets></monitor-side-fleets>
+	    </div>
+	    
+			<!-- alert tab -->
+			<div role="tabpanel" class="tab-pane" id="side-alerts">
+				<monitor-side-alerts></monitor-side-alerts>
 			</div>
-			<!-- side panel end -->
+	  </div>
+
+	</div>
+</div>
+<!-- side panel end -->

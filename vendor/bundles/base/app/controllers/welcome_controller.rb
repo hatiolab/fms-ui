@@ -3,7 +3,11 @@ class WelcomeController < ApplicationController
   #layout false
   
   def index
-    render :layout => true
+    if(user_signed_in?)
+      render :layout => true
+    else
+      redirect_to new_user_session_path
+    end
   end
   
   def std
