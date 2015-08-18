@@ -123,17 +123,21 @@ angular.module('pip', [])
             });
         });
 
+        $element.on('canplay', 'video.backward-layer', function(e) {
+            alert('canplay');
+        });
+
         $element.on('click', '#play_video', function(e) {
             $element.find('video.backward-layer').trigger('play');
         });
 
-        $scope.$watch('videoUrl', function(newVal, oldVal) {
+        /*$scope.$watch('videoUrl', function(newVal, oldVal) {
             if(newVal && newVal != '' && newVal.length > 10) {
                 alert(newVal);
                 console.log($element.find('video.backward-layer'));
                 $element.find('video.backward-layer').trigger('play');
             }
-        });
+        });*/
 
         // $scope.$watch("toggle", function(value) {
         //     element.toggleClass('active', value)
