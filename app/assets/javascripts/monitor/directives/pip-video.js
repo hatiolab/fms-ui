@@ -128,7 +128,7 @@ angular.module('pip', [])
         });
 
         $scope.$watch('videoUrl', function(newVal, oldVal) {
-            if(newVal && newVal != '' && newVal.length > 10 && newVal != oldVal) {
+            if(newVal && newVal != '' && newVal.length > 10) {
                 alert(newVal);
                 console.log($element.find('video.backward-layer'));
                 $element.find('video.backward-layer').trigger('play');
