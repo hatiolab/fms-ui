@@ -79,7 +79,7 @@ angular.module('pip', [])
             };
         })();
 
-        $.createEventCapturing(['play', 'pause', 'seeked']);
+        $.createEventCapturing(['canplay', 'play', 'pause', 'seeked']);
 
         $element.on('click', '.pip-container video.forward-layer', function(e){
             var video = e.target;
