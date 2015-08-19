@@ -1,3 +1,4 @@
+// 현재 사용 안 함, 추후 문제없으면 제거 
 angular.module('fmsCore').controller('CoreCtrl', function($rootScope, $scope, ConstantSpeed, FmsUtils, RestApi) {
 
 	$rootScope.$on('settings-value-change', function(event, setting) {

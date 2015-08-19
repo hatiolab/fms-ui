@@ -1,6 +1,40 @@
-angular.module('fmsCore').factory('RestApi', function($resource) {
+angular.module('fmsCore').factory('RestApi', function($rootScope, $resource, ModalUtils) {
 	
 	return {
+
+		isSignedIn : function(callback) {
+			if(typeof login === 'undefined') {
+				callback({status : 401});
+
+			} else {
+				var rsc = $resource('/users/' + login.id + '.json', {});
+
+				rsc.get(null,
+					// good
+					function(data, response) {
+						callback(data, response);
+					// bad
+					}, function(response) {
+						callback(null, response);
+					});
+			}
+		},
+
+		handleError : function(response) {
+			if(response && response.status && response.status == 401) {
+				this.goToSingin();
+			} else {
+				this.showErrorMessage(response);
+			}
+		},
+
+		goToSingin : function() {
+			$rootScope.goToSignin();
+		},
+
+		showErrorMessage : function(response) {
+			ModalUtils.alert('sm', 'Error', 'Status : ' + response.status + ', ' + response.msg);
+		},
 
 		/**
 		 * search list for pagination
@@ -17,14 +51,21 @@ angular.module('fmsCore').factory('RestApi', function($resource) {
 			}
 
 			var rsc = $resource(url, params);
+			var me = this;
 
-			rsc.get(function(dataSet, response) {
-				dataSet.start = params.start;
-				dataSet.limit = params.limit;
-				dataSet.page = Math.ceil(dataSet.start / dataSet.limit) + 1;
-				dataSet.total_page = (dataSet.total > params.limit) ? Math.ceil(dataSet.total / params.limit) : 1;
-				callback(dataSet); 
-			});
+			rsc.get(
+				// good
+				function(dataSet, response) {
+					dataSet.start = params.start;
+					dataSet.limit = params.limit;
+					dataSet.page = Math.ceil(dataSet.start / dataSet.limit) + 1;
+					dataSet.total_page = (dataSet.total > params.limit) ? Math.ceil(dataSet.total / params.limit) : 1;
+					callback(dataSet);
+
+				// bad
+				}, function(response) {
+					me.handleError(response);
+				});
 		},
 
 		/**
@@ -36,10 +77,17 @@ angular.module('fmsCore').factory('RestApi', function($resource) {
 		 */
 		list : function(url, params, callback) {
 			var rsc = $resource(url, params);
+			var me = this;
 
-			rsc.get(function(dataSet, response) {
-				callback(dataSet.items);
-			});
+			rsc.get(
+				// good
+				function(dataSet, response) {
+					callback(dataSet.items);
+
+				// bad
+				}, function(response) {
+					me.handleError(response);
+				});
 		},
 		
 		/**
@@ -51,9 +99,17 @@ angular.module('fmsCore').factory('RestApi', function($resource) {
 		 */
 		get : function(url, params, callback) {
 			var rsc = $resource(url, params);
-			rsc.get(function(data, response) {
-				callback(data);
-			});
+			var me = this;
+
+			rsc.get(
+				// good
+				function(data, response) {
+					callback(data);
+
+				// bad
+				}, function(response) {
+					me.handleError(response);
+				});
 		},
 
 		/**
@@ -65,9 +121,17 @@ angular.module('fmsCore').factory('RestApi', function($resource) {
 		 */
 		getByName : function(url, params, callback) {
 			var rsc = $resource(url, params);
-			rsc.get(function(data, response) {
-				callback(data);
-			});
+			var me = this;
+
+			rsc.get(
+				// good
+				function(data, response) {
+					callback(data);
+
+				// bad
+				}, function(response) {
+					me.handleError(response);
+				});
 		},
 
 		/**

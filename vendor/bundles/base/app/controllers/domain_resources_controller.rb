@@ -1,9 +1,16 @@
 class DomainResourcesController < InheritedResources::Base
   
+  include Basic
   include Importable
   include Exportable
   include Transactionable
+
+  respond_to :xml, :json, :xls
+
+  before_filter :authenticate_user!, :set_current_user
   
+  around_filter :scope_current_domain
+
   public
   
   def index

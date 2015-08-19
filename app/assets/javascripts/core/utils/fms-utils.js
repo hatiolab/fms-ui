@@ -10,7 +10,8 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 			var gridContainers = [
 				'monitor-alert-table-container', 
 				'monitor-fleet-table-container',
-				'geofence-table-container',
+				'geofence-setting-table-container',
+				'geofence-relation-table-container',
 				'setting-driver-table-container',
 				'setting-fleet-table-container',
 				'setting-group-relation-table-container',
@@ -42,9 +43,12 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 			} else if(gridContainerId == 'monitor-fleet-table-container') {
 				newHeight = newHeight - 213;
 
-			} else if(gridContainerId == 'geofence-table-container') {
-				newHeight = newHeight - 353;
+			} else if(gridContainerId == 'geofence-setting-table-container') {
+				newHeight = newHeight - 375;
 
+			} else if(gridContainerId == 'geofence-relation-table-container') {
+				newHeight = newHeight - 323;
+				
 			} else if(gridContainerId == 'setting-driver-table-container') {
 				newHeight = newHeight - 293;
 

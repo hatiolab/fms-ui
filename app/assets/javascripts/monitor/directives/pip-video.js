@@ -78,7 +78,7 @@ angular.module('pip', [])
             };
         })();
 
-        $.createEventCapturing(['play', 'pause', 'seeked']);
+        $.createEventCapturing(['canplay', 'play', 'pause', 'seeked']);
 
         $element.on('click', '.pip-container video.forward-layer', function(e){
             var video = e.target;
@@ -120,6 +120,10 @@ angular.module('pip', [])
             $('video,audio[xmediagroup=' + mediagroup + ']').not(video).each(function(){
                 this.currentTime = video.currentTime;
             });
+        });
+
+        $element.on('canplay', 'video.backward-layer', function(e) {
+            $element.find('video.backward-layer').trigger('play');
         });
 
         // $scope.$watch("toggle", function(value) {

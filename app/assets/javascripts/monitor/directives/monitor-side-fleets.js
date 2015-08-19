@@ -187,14 +187,24 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	 * show fleet info window to map
 	 */
 	$scope.showFleetInfo = function(fleet) {
-		$scope.setActiveItem(fleet);
-		$scope.$emit('monitor-fleet-info-change', fleet);
+		if(!$scope.ignoreShowFleetInfo) {
+			$scope.setActiveItem(fleet);
+			$scope.$emit('monitor-fleet-info-change', fleet);
+		} else {
+			$scope.ignoreShowFleetInfo = false;			
+		}
 	};
+
+	/**
+	 * showFleetInfo를 무시할 지 여부 : Trip버튼 클릭시에는 showFleetInfo와 goTrip이 동시에 호출되므로 이 때는 showFleetInfo 무시 
+	 */
+	$scope.ignoreShowFleetInfo = false;
 
 	/**
 	 * show trip to map
 	 */
 	$scope.goTrip = function(fleet) {
+		$scope.ignoreShowFleetInfo = true;
 		$scope.setActiveItem(fleet);
 		$scope.$emit('monitor-fleet-trip-change', fleet);
 	};
