@@ -349,5 +349,7 @@ font-size:12px;color:#666;}
 
 }
 
-.st-sort-ascent{color:#cc3300 !important;}
-.st-sort-descent{color:#006699 !important;}
+.st-sort-ascent:before{content:'';
+background:url('/assets/icon-table-context.png') 0 -144px no-repeat;height:16px;width:16px;padding-left:12px;}
+.st-sort-descent:before{content:'';
+background:url('/assets/icon-table-context.png') 0 -94px no-repeat;height:16px;width:16px;padding-left:12px;}
