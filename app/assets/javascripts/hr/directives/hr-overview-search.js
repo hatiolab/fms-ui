@@ -147,7 +147,7 @@ angular.module('fmsHr').directive('hrOverviewSearch', function() {
 	 	$scope.setChartData(items, barChartData, 'drive_time');
 
 	 	// send data to chart scope
-		$timeout(function() {$scope.$emit('bar-chart-data-change', barChartData)}, 100);
+		$timeout(function() {$scope.$emit('bar-chart-data-change', barChartData)}, 200);
 	 };
 
 	 /**
@@ -161,7 +161,7 @@ angular.module('fmsHr').directive('hrOverviewSearch', function() {
 	 	var barChartData = { title : title, labels : [], data : [], series : ['Driving Distance (km)'] };
 	 	$scope.setChartData(items, barChartData, 'drive_dist');
 	 	// send data to chart scope
-		$timeout(function() {$scope.$emit('bar-chart-data-change', barChartData)}, 100);
+		$timeout(function() {$scope.$emit('bar-chart-data-change', barChartData)}, 200);
 	 };
 
 	 /**
@@ -174,7 +174,7 @@ angular.module('fmsHr').directive('hrOverviewSearch', function() {
 	 	var barChartData = { title : title, labels : [], data : [], series : ['Overspeed'] };
 	 	$scope.setChartData(items, barChartData, 'speed_over');
 	 	// send data to chart scope
-		$timeout(function() {$scope.$emit('bar-chart-data-change', barChartData)}, 100);
+		$timeout(function() {$scope.$emit('bar-chart-data-change', barChartData)}, 200);
 	 };
 
 	 /**
@@ -187,7 +187,7 @@ angular.module('fmsHr').directive('hrOverviewSearch', function() {
 	 	var barChartData = { title : title, labels : [], data : [], series : ['Impact'] };
 	 	$scope.setChartData(items, barChartData, 'impact');
 	 	// send data to chart scope
-		$timeout(function() {$scope.$emit('line-chart-data-change', barChartData)}, 100);
+		$timeout(function() {$scope.$emit('line-chart-data-change', barChartData)}, 200);
 	 };
 
 	 /**
@@ -200,7 +200,7 @@ angular.module('fmsHr').directive('hrOverviewSearch', function() {
 	 	var barChartData = { title : title, labels : [], data : [], series : ['Emergency'] };
 	 	$scope.setChartData(items, barChartData, 'emergency');
 	 	// send data to chart scope
-		$timeout(function() {$scope.$emit('line-chart-data-change', barChartData)}, 100);
+		$timeout(function() {$scope.$emit('line-chart-data-change', barChartData)}, 200);
 	 };
 
 	 /**
@@ -213,7 +213,7 @@ angular.module('fmsHr').directive('hrOverviewSearch', function() {
 	 	var barChartData = { title : title, labels : [], data : [], series : ['Geofence'] };
 	 	$scope.setChartData(items, barChartData, 'geofence');
 	 	// send data to chart scope
-		$timeout(function() {$scope.$emit('line-chart-data-change', barChartData)}, 100);
+		$timeout(function() {$scope.$emit('line-chart-data-change', barChartData)}, 200);
 	 };
 
 
