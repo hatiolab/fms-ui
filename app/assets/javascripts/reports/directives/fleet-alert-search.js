@@ -13,7 +13,6 @@ angular.module('fmsReports').directive('fleetAlertSearch', function() {
 	}; 
 })
 .controller('fleetAlertSearchCtrl', function($rootScope, $scope, $element, $compile, $timeout, GridUtils, FmsUtils, RestApi) {
-
 	/**
 	 * 기본 날짜 검색일 설정 
 	 */
@@ -62,6 +61,14 @@ angular.module('fmsReports').directive('fleetAlertSearch', function() {
 	$scope.chartTitle = 'Impact';
 
 	/**
+	 * Sort Field Name & Sort value
+	 * 
+	 * @type {String}
+	 */
+	$scope.sort_field = 'impact'
+	$scope.sort_value = 'asc'
+
+	/**
 	 * Show Chart
 	 * 
 	 * @return N/A
@@ -76,7 +83,7 @@ angular.module('fmsReports').directive('fleetAlertSearch', function() {
 
 	 	// send data to chart scope
 	 	$timeout.cancel();
-   	$timeout($scope.sendChartData, 100);
+		$timeout($scope.sendChartData, 100);
 	};
 
 	/**
@@ -96,7 +103,6 @@ angular.module('fmsReports').directive('fleetAlertSearch', function() {
 	$scope.sendChartData = function() {
 		// Line Chart로 
 	 	var lineChartData = { title : $scope.chartTitle, labels : [], data : [] };
-
 		if($scope.chartTitle == 'Impact') {
 			$scope.setChartData(lineChartData, 'impact', ['Impact Count']);
 		} else if($scope.chartTitle == 'Overspeed') {
@@ -127,6 +133,27 @@ angular.module('fmsReports').directive('fleetAlertSearch', function() {
 	 	};
 	 };
 
+	 /**
+	  * [sort condition setup]
+	  * @param  {[string]} the field you should sort from database
+	  * $scope.sort_field {[string]} the field you should sort from database
+	  * $scope.sort_value {[string]} asc/desc default asc
+	  */
+	 
+	$scope.setsort = function(sort_field){
+		var sortClass = $element.find('#'+sort_field)[0].className;
+		$scope.sort_value= {};
+		$scope.sort_field = sort_field;
+
+		if(sortClass =="st-sort-ascent"){
+			$scope.sort_value ="asc";
+		}else if(sortClass =="st-sort-descent"){
+			$scope.sort_value ="desc";
+		}else{
+			$scope.sort_value ="desc";
+		}
+	};
+	
 	/**
 	 * Search Fleet Groups
 	 */
@@ -142,7 +169,12 @@ angular.module('fmsReports').directive('fleetAlertSearch', function() {
 	 * @param  {Object}
 	 */
 	$scope.normalizeSearchParams = function(params) {
-		var searchParams = {};
+		//Sort Condition
+		if($scope.sort_field&&$scope.sort_value){
+			var searchParams = { sort_field : $scope.sort_field, sort_value : $scope.sort_value };
+		}
+
+		// var searchParams = {};
 
 		if(!params || FmsUtils.isEmpty(params)) {
 			return searchParams;

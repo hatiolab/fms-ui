@@ -86,15 +86,15 @@
 
 		<!-- table begin -->
 		<div id="report-fleet-alert-table-container" class="search-table">
-			<table class="table table-striped table-hover" st-pagination-scroll st-table="items" st-pipe="search">
+			<table class="table" st-pagination-scroll st-table="items" st-pipe="search">
 				<thead>
 					<tr>
-						<th st-sort="no">#</th>
-						<th st-sort="fleet_name">Fleet</th>
-						<th st-sort="impact">Impact</th>
-						<th st-sort="overspeed">Overspeed</th>
-						<th st-sort="geofence">Geofence</th>
-						<th st-sort="emergency">Emergency</th>
+						<th>#</th>
+						<th id="fleet_name">Fleet</th>
+						<th id="impact" st-sort="impact" ng-click="setsort('impact')">Impact</th>
+						<th id="overspeed" st-sort="overspeed" ng-click="setsort('overspeed')">Overspeed</th>
+						<th id="geofence" st-sort="geofence" ng-click="setsort('geofence')">Geofence</th>
+						<th id="emergency" st-sort="emergency" ng-click="setsort('emergency')">Emergency</th>
 					</tr>
 				</thead>
 				<tbody>

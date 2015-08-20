@@ -54,6 +54,13 @@ angular.module('fmsReports').directive('groupAlertSearch', function() {
 	 * @type {Boolean}
 	 */
 	$scope.searchEnabled = false;
+	/**
+	 * Sort Field Name & Sort value
+	 * 
+	 * @type {String}
+	 */
+	$scope.sort_field = 'impact'
+	$scope.sort_value = 'asc'
 
 	/**
 	 * Rails Server의 스펙에 맞도록 파라미터 변경 ...
@@ -61,7 +68,37 @@ angular.module('fmsReports').directive('groupAlertSearch', function() {
 	 * @param  {Object}
 	 */
 	$scope.normalizeSearchParams = function(params) {
-		return angular.copy(params);
+		var searchParams = {};
+		if(!params || FmsUtils.isEmpty(params)) {
+			return searchParams;
+		}
+		searchParams = angular.copy(params);
+		//Sort Condition
+		if($scope.sort_field&&$scope.sort_value){
+			searchParams.sort_field= $scope.sort_field;
+			searchParams.sort_value= $scope.sort_value;
+		}
+		return searchParams;
+	};
+
+	/**
+	* [sort condition setup]
+	* @param  {[string]} the field you should sort from database
+	* $scope.sort_field {[string]} the field you should sort from database
+	* $scope.sort_value {[string]} asc/desc default asc
+	*/
+	$scope.setsort = function(sort_field){
+		var sortClass = $element.find('#'+sort_field)[0].className;
+		$scope.sort_value= {};
+		$scope.sort_field = sort_field;
+
+		if(sortClass =="st-sort-ascent"){
+			$scope.sort_value ="asc";
+		}else if(sortClass =="st-sort-descent"){
+			$scope.sort_value ="desc";
+		}else{
+			$scope.sort_value ="desc";
+		}
 	};
 
 	/**
@@ -74,8 +111,12 @@ angular.module('fmsReports').directive('groupAlertSearch', function() {
 		if(!$scope.checkSearch(tablestate)) {
 			return;
 		}
+		//Sort Condition
+		if($scope.sort_field&&$scope.sort_value){
+			var searchParams = { sort_field : $scope.sort_field, sort_value : $scope.sort_value };
+		}
 
-		var searchParams = $scope.beforeSearch();
+		searchParams = $scope.beforeSearch();
 
 		$scope.doSearch(searchParams, function(dataSet) {
 			$scope.numbering(dataSet.items, 1);

@@ -62,6 +62,14 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 	$scope.chartTitle = 'Driving Time';
 
 	/**
+	 * Sort Field Name & Sort value
+	 * 
+	 * @type {String}
+	 */
+	$scope.sort_field = 'drive_time'
+	$scope.sort_value = 'asc'
+
+	/**
 	 * Show Chart
 	 * 
 	 * @return N/A
@@ -110,21 +118,40 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 		$scope.$emit('line-chart-data-change', lineChartData);
 	};
 
-	 /**
-	  * Set Chart Data
-	  * 
-	  * @param {Object}
-	  * @param {String}
-	  */
-	 $scope.setChartData = function(chartData, field, series) {
-	 	for(var i = 0 ; i < $scope.items.length ; i++) {
-	 		var item = $scope.items[i];
-	 		chartData.labels.push(item.fleet_name);
-	 		chartData.data.push(Number(item[field]));
-	 		chartData.series = series;
-	 	};
-	 };
+	/**
+	* Set Chart Data
+	* 
+	* @param {Object}
+	* @param {String}
+	*/
+	$scope.setChartData = function(chartData, field, series) {
+		for(var i = 0 ; i < $scope.items.length ; i++) {
+			var item = $scope.items[i];
+			chartData.labels.push(item.fleet_name);
+			chartData.data.push(Number(item[field]));
+			chartData.series = series;
+		};
+	};
 
+	/**
+	* [sort condition setup]
+	* @param  {[string]} the field you should sort from database
+	* $scope.sort_field {[string]} the field you should sort from database
+	* $scope.sort_value {[string]} asc/desc default asc
+	*/
+	$scope.setsort = function(sort_field){
+		var sortClass = $element.find('#'+sort_field)[0].className;
+		$scope.sort_value= {};
+		$scope.sort_field = sort_field;
+
+		if(sortClass =="st-sort-ascent"){
+			$scope.sort_value ="asc";
+		}else if(sortClass =="st-sort-descent"){
+			$scope.sort_value ="desc";
+		}else{
+			$scope.sort_value ="desc";
+		}
+	};
 	/**
 	 * Search Fleet Groups
 	 */
@@ -140,7 +167,10 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 	 * @param  {Object}
 	 */
 	$scope.normalizeSearchParams = function(params) {
-		var searchParams = {};
+		//Sort Condition
+		if($scope.sort_field&&$scope.sort_value){
+			var searchParams = { sort_field : $scope.sort_field, sort_value : $scope.sort_value };
+		}
 
 		if(!params || FmsUtils.isEmpty(params)) {
 			return searchParams;
@@ -172,6 +202,7 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 		$scope.doSearch(searchParams, function(dataSet) {
 			$scope.numbering(dataSet.items, 1);
 			$scope.items = dataSet.items;
+			console.log($scope.items);
 			$scope.afterSearch(dataSet);
 		});
 	};

@@ -38,6 +38,13 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 	 * @type {Boolean}
 	 */
 	$scope.searchEnabled = false;
+	/**
+	 * Sort Field Name & Sort value
+	 * 
+	 * @type {String}
+	 */
+	$scope.sort_field = 'drive_time'
+	$scope.sort_value = 'asc'
 
 	/**
 	 * 검색 조건 
@@ -45,7 +52,17 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 	 * @param  {Object}
 	 */
 	$scope.normalizeSearchParams = function(params) {
-		return angular.copy(params);
+		var searchParams = {};
+		if(!params || FmsUtils.isEmpty(params)) {
+			return searchParams;
+		}
+		searchParams = angular.copy(params);
+		//Sort Condition
+		if($scope.sort_field&&$scope.sort_value){
+			searchParams.sort_field= $scope.sort_field;
+			searchParams.sort_value= $scope.sort_value;
+		}
+		return searchParams;
 	};
 
 	/**
@@ -243,6 +260,26 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 	 		chartData.data.push(Number(rawItem[field]));
 	 	};
 	 };
+
+	/**
+	* [sort condition setup]
+	* @param  {[string]} the field you should sort from database
+	* $scope.sort_field {[string]} the field you should sort from database
+	* $scope.sort_value {[string]} asc/desc default asc
+	*/
+	$scope.setsort = function(sort_field){
+		var sortClass = $element.find('#'+sort_field)[0].className;
+		$scope.sort_value= {};
+		$scope.sort_field = sort_field;
+
+		if(sortClass =="st-sort-ascent"){
+			$scope.sort_value ="asc";
+		}else if(sortClass =="st-sort-descent"){
+			$scope.sort_value ="desc";
+		}else{
+			$scope.sort_value ="desc";
+		}
+	};
 
 	/**
 	 * Watch drivers SearchParams in page scope, if changed trigger pageFleets in same scope

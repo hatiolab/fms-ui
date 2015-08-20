@@ -4,6 +4,7 @@ class FleetSummariesController < ResourceMultiUpdateController
 
   def summary
     from_date, to_date = params[:from_date], params[:to_date]
+    sort_field, sort_value = params[:sort_field], params[:sort_value] #sort condition
     cond = ["(fleet_summaries.sum_day between ? and ?)", from_date, to_date]
 
     if(params[:group_id])
@@ -22,7 +23,8 @@ class FleetSummariesController < ResourceMultiUpdateController
 
     groupStr = "fleet_summaries.fleet_id, fleets.name"
 
-    orderStr = "fleets.name asc"
+    #orderStr = "fleets.name asc"
+    orderStr = "#{sort_field} #{sort_value}" # default code asc
 
     total = FleetSummary.where(cond).count
     sql = FleetSummary.select(select).joins(joinStr).where(cond).group(groupStr).order(orderStr).to_sql
@@ -37,6 +39,7 @@ class FleetSummariesController < ResourceMultiUpdateController
 
   def driver_summary
     from_date, to_date = params[:from_date], params[:to_date]
+    sort_field, sort_value = params[:sort_field], params[:sort_value] #sort condition
     cond = ["(fleet_summaries.sum_day between ? and ?)", from_date, to_date]
 
     if(params[:driver_id])
@@ -73,7 +76,8 @@ class FleetSummariesController < ResourceMultiUpdateController
 
     groupStr << ", sum_day" if(params[:driver_id])
 
-    orderStr = "drivers.code asc"   
+  #  orderStr = "drivers.code asc"   
+    orderStr = "#{sort_field} #{sort_value}" # default code asc
 
     total = FleetSummary.where(cond).count
     sql = FleetSummary.select(select).joins(joinStr).where(cond).group(groupStr).order(orderStr).to_sql
@@ -88,6 +92,7 @@ class FleetSummariesController < ResourceMultiUpdateController
 
   def event_summary
     from_date, to_date = params[:from_date], params[:to_date]
+    sort_field, sort_value = params[:sort_field], params[:sort_value] #sort condition
     cond = ["(fleet_summaries.sum_day between ? and ?)", from_date, to_date]
 
     if(params[:group_id])
@@ -107,7 +112,7 @@ class FleetSummariesController < ResourceMultiUpdateController
 
     groupStr = "fleet_summaries.fleet_id, fleets.name"
 
-    orderStr = "fleets.name asc"   
+    orderStr = "#{sort_field} #{sort_value}" # default impact asc
 
     total = FleetSummary.where(cond).count
     sql = FleetSummary.select(select).joins(joinStr).where(cond).group(groupStr).order(orderStr).to_sql

@@ -46,10 +46,10 @@
 				<thead>
 					<tr>
 						<th st-sort="no">#</th>
-						<th st-sort="group_name">Group</th>
-						<th st-sort="drive_time">Driving Time (min.)</th>
-						<th st-sort="drive_dist">Driving Dist. (km)</th>
-						<th st-sort="velocity">Velocity (km/h)</th>
+						<th>Group</th>
+						<th id="drive_time" st-sort="drive_time" ng-click="setsort('drive_time')">Driving Time (min.)</th>
+						<th id="drive_dist" st-sort="drive_dist" ng-click="setsort('drive_dist')">Driving Dist. (km)</th>
+						<th id="velocity" st-sort="velocity" ng-click="setsort('velocity')">Velocity (km/h)</th>
 					</tr>
 				</thead>
 				<tbody>
