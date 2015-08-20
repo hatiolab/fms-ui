@@ -103,8 +103,7 @@ angular.module('fmsHr').directive('hrOverviewSearch', function() {
 	  * @return {Object}
 	  */
 	 $scope.beforeSearch = function() {
-	 	var searchParams = $scope.normalizeSearchParams($scope.searchParams);
-	 	return searchParams;
+	 	return $scope.normalizeSearchParams($scope.searchParams);
 	 };
 
 	 /**
@@ -128,8 +127,8 @@ angular.module('fmsHr').directive('hrOverviewSearch', function() {
 	  */
 	 $scope.afterSearch = function(dataSet) {
 
-		$scope.sendDrivingTimeChatData('Driving Time(top 10)', dataSet.drive_dist);
-		$scope.sendDrivingDistChartData('Driving Distance(top 10)', dataSet.drive_time);
+		$scope.sendDrivingTimeChatData('Driving Time(top 10)', dataSet.drive_time);
+		$scope.sendDrivingDistChartData('Driving Distance(top 10)', dataSet.drive_dist);
 		$scope.sendOverspeedChartData('Overspeed Count(top 10)', dataSet.overspeed);
 		$scope.sendImpactChartData('Impact Count(top 10)', dataSet.impact);
 		$scope.sendGeofenceChartData('Geofence Count(top 10)', dataSet.geofence);
