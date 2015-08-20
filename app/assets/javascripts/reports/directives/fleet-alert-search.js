@@ -66,7 +66,7 @@ angular.module('fmsReports').directive('fleetAlertSearch', function() {
 	 * @type {String}
 	 */
 	$scope.sort_field = 'impact'
-	$scope.sort_value = 'asc'
+	$scope.sort_value = 'desc'
 
 	/**
 	 * Show Chart

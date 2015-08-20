@@ -44,7 +44,7 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 	 * @type {String}
 	 */
 	$scope.sort_field = 'drive_time'
-	$scope.sort_value = 'asc'
+	$scope.sort_value = 'desc'
 
 	/**
 	 * 검색 조건 

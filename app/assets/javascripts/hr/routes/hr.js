@@ -18,6 +18,18 @@ angular.module('fmsHr').config(function($stateProvider, $urlRouterProvider) {
 		}
 	})
 
+	.state('hr.overview', {
+		url: '/overview',
+		views: {
+			'sidebar-view@': {
+				template: '<hr-overview-search></hr-overview-search>'
+			},
+			'content-view@' : {
+				template: '<hr-overview-chart></hr-overview-chart>'
+			}
+		}
+	})
+
 	.state('hr.overspeed', {
 		url: '/overspeed',
 		views: {

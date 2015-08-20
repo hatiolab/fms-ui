@@ -20,9 +20,9 @@ angular.module('fmsCore').directive('topMenu', function() {
 		href : '#/geofence/settings',
 		active : false
 	}, {
-		name : 'HR', 
+		name : 'Driver', 
 		cls : 'icon-hr',
-		href : '#/hr/overspeed',
+		href : '#/hr/overview',
 		active : false
 	}, {
 		name : 'Report', 

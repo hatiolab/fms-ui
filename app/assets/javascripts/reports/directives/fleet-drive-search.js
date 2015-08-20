@@ -67,7 +67,7 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 	 * @type {String}
 	 */
 	$scope.sort_field = 'drive_time'
-	$scope.sort_value = 'asc'
+	$scope.sort_value = 'desc'
 
 	/**
 	 * Show Chart

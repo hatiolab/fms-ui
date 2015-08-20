@@ -5,6 +5,7 @@ class FleetSummariesController < ResourceMultiUpdateController
   def summary
     from_date, to_date = params[:from_date], params[:to_date]
     sort_field, sort_value = params[:sort_field], params[:sort_value] #sort condition
+    start, limit = params[:start], params[:limit]
     cond = ["(fleet_summaries.sum_day between ? and ?)", from_date, to_date]
 
     if(params[:group_id])
@@ -26,9 +27,17 @@ class FleetSummariesController < ResourceMultiUpdateController
     #orderStr = "fleets.name asc"
     orderStr = "#{sort_field} #{sort_value}" # default code asc
 
-    total = FleetSummary.where(cond).count
-    sql = FleetSummary.select(select).joins(joinStr).where(cond).group(groupStr).order(orderStr).to_sql
-    items = FleetSummary.connection.select_all(sql)
+    if(params[:limit])
+      start = params[:start] ? params[:start] : 1
+      sql = FleetSummary.select(select).joins(joinStr).where(cond).group(groupStr).order(orderStr).limit(params[:limit]).offset(start).to_sql
+      items = FleetSummary.connection.select_all(sql)
+      total = items.size
+    else
+      total = FleetSummary.where(cond).count
+      sql = FleetSummary.select(select).joins(joinStr).where(cond).group(groupStr).order(orderStr).to_sql
+      items = FleetSummary.connection.select_all(sql)
+    end
+
     results = { :success => true, :total => total, :items => items }
 
     respond_to do |format|
@@ -40,6 +49,7 @@ class FleetSummariesController < ResourceMultiUpdateController
   def driver_summary
     from_date, to_date = params[:from_date], params[:to_date]
     sort_field, sort_value = params[:sort_field], params[:sort_value] #sort condition
+    start, limit = params[:start], params[:limit]
     cond = ["(fleet_summaries.sum_day between ? and ?)", from_date, to_date]
 
     if(params[:driver_id])
@@ -66,7 +76,10 @@ class FleetSummariesController < ResourceMultiUpdateController
       sum(fleet_summaries.impact) as impact, 
       sum(fleet_summaries.overspeed) as overspeed, 
       sum(fleet_summaries.geofence) as geofence,
-      sum(fleet_summaries.emergency) as emergency"
+      sum(fleet_summaries.emergency) as emergency,
+      avg(fleet_summaries.velocity) as velocity, 
+      sum(fleet_summaries.drive_time) as drive_time, 
+      sum(fleet_summaries.drive_dist) as drive_dist"
 
     select << ",fleet_summaries.sum_day as date" if(params[:driver_id])
 
@@ -79,9 +92,17 @@ class FleetSummariesController < ResourceMultiUpdateController
   #  orderStr = "drivers.code asc"   
     orderStr = "#{sort_field} #{sort_value}" # default code asc
 
-    total = FleetSummary.where(cond).count
-    sql = FleetSummary.select(select).joins(joinStr).where(cond).group(groupStr).order(orderStr).to_sql
-    items = FleetSummary.connection.select_all(sql)
+    if(params[:limit])
+      start = params[:start] ? params[:start] : 1
+      sql = FleetSummary.select(select).joins(joinStr).where(cond).group(groupStr).order(orderStr).limit(params[:limit]).offset(start).to_sql
+      items = FleetSummary.connection.select_all(sql)
+      total = items.count
+    else
+      total = FleetSummary.where(cond).count
+      sql = FleetSummary.select(select).joins(joinStr).where(cond).group(groupStr).order(orderStr).to_sql
+      items = FleetSummary.connection.select_all(sql)
+    end
+
     results = { :success => true, :total => total, :items => items }
 
     respond_to do |format|

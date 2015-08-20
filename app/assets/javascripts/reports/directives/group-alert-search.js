@@ -60,7 +60,7 @@ angular.module('fmsReports').directive('groupAlertSearch', function() {
 	 * @type {String}
 	 */
 	$scope.sort_field = 'impact'
-	$scope.sort_value = 'asc'
+	$scope.sort_value = 'desc'
 
 	/**
 	 * Rails Server의 스펙에 맞도록 파라미터 변경 ...
