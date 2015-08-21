@@ -31,7 +31,7 @@ class FleetSummariesController < ResourceMultiUpdateController
       start = params[:start] ? params[:start] : 1
       sql = FleetSummary.select(select).joins(joinStr).where(cond).group(groupStr).order(orderStr).limit(params[:limit]).offset(start).to_sql
       items = FleetSummary.connection.select_all(sql)
-      total = items.size
+      total = items.count
     else
       total = FleetSummary.where(cond).count
       sql = FleetSummary.select(select).joins(joinStr).where(cond).group(groupStr).order(orderStr).to_sql
