@@ -2,7 +2,7 @@
 	<ui-gmap-google-map id='mapCanvas' center='mapOption.center' zoom='mapOption.zoom' control="mapControl">
 
 		<!-- markers -->
-		<ui-gmap-markers models="markers" coords="'self'" idKey="'_id'" events="'events'" icon="'icon'" fit="'$scope.mapOption.fit'" control="markerControl"></ui-gmap-markers>
+		<ui-gmap-markers models="markers" coords="'self'" idKey="'_id'" events="'events'" icon="'icon'" fit="'mapOption.fit'" control="markerControl"></ui-gmap-markers>
 
     <!-- lines -->
     <ui-gmap-polylines models="polylines" path="'path'" stroke="'stroke'" visible="'visible'" geodesic="'geodesic'" control="polylineControl" static='true'></ui-gmap-polylines>

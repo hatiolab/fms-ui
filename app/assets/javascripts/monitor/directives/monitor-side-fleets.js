@@ -128,7 +128,7 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	 	searchParams.limit = limit;
 	 	pagination.start = start;
 	 	pagination.number = limit;
-	 }
+	 };
 
 	 /**
 	  * 페이지네이션 결과 정보를 설정한다. 

@@ -32,14 +32,10 @@ angular.module('fmsSettings').directive('fleetList', function() {
 	$scope.searchEnabled = false;
 	/**
 	 * Fleet Group List
-	 * 
-	 * @type {Array}
 	 */
 	$scope.groups = [];
 	/**
 	 * Fleet Driver List
-	 * 
-	 * @type {Array}
 	 */
 	$scope.drivers = [];
 
@@ -94,25 +90,14 @@ angular.module('fmsSettings').directive('fleetList', function() {
 	 * Search Fleets
 	 */
 	$scope.search = function(tablestate) {
-		if(!$scope.searchEnabled) {
-			$scope.searchEnabled = true;
-			$scope.tablestate = tablestate;
-			$scope.tablestate.pagination.number = GridUtils.getGridCountPerPage();
-		}
-
-		if(tablestate) {
-			$scope.tablestate = tablestate;
-		}
-
-		searchParams = angular.copy($scope.searchParams);
-		searchParams = $scope.normalizeSearchParams(searchParams);
-		$scope.setPageQueryInfo(searchParams, $scope.tablestate.pagination, 0, GridUtils.getGridCountPerPage());
-
-    $scope.doSearch(searchParams, function(dataSet) {
-      $scope.numbering(dataSet.items, 1);
-      $scope.items = dataSet.items;
-      $scope.afterSearch(dataSet);
-    });		
+		if($scope.checkSearch(tablestate)) {
+			var searchParams = $scope.beforeSearch();
+	    $scope.doSearch(searchParams, function(dataSet) {
+	      $scope.numbering(dataSet.items, 1);
+	      $scope.items = dataSet.items;
+	      $scope.afterSearch(dataSet);
+	    });
+		}		
 	};
 
 	/**
@@ -163,9 +148,29 @@ angular.module('fmsSettings').directive('fleetList', function() {
 	  * 
 	  * @return {Object}
 	  */
+	 $scope.checkSearch = function(tablestate) {
+	 	if(!$scope.searchEnabled) {
+	 		$scope.searchEnabled = true;
+	 		$scope.tablestate = tablestate;
+	 		$scope.tablestate.pagination.number = $scope.countPerPage;
+	 	}
+
+	 	if(tablestate) {
+	 		$scope.tablestate = tablestate;
+	 	}
+
+	 	return true;
+	 };
+
+	 /**
+	  * infinite scorll directive에서 호출 
+	  * 
+	  * @return {Object}
+	  */
 	 $scope.beforeSearch = function() {
-	 	var searchParams = angular.copy($scope.searchParams);
-	 	return $scope.normalizeSearchParams(searchParams);
+	 	var searchParams = $scope.normalizeSearchParams($scope.searchParams);
+	 	$scope.setPageQueryInfo(searchParams, $scope.tablestate.pagination, 0, GridUtils.getGridCountPerPage());
+	 	return searchParams;
 	 };
 
 	 /**

@@ -1,4 +1,4 @@
-angular.module('fmsGeofence',['uiGmapgoogle-maps'])
+angular.module('fmsGeofence')
 .controller('GeofenceCtrl', function($rootScope, $scope, $resource, $element, $state, ConstantSpeed, FmsUtils, ModalUtils, RestApi) {
 	
 	/**
