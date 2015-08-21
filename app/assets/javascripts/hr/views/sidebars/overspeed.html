@@ -27,7 +27,7 @@
 				<label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">period</label>
 				<div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
 					<div id="hr-overspeed-datepicker1" class="input-append date">
-						<input name="from_date" data-format="yyyy-MM-dd" type="text" ng-model="searchParams.from_date" placeholder="from">
+						<input class="form-control" name="from_date" data-format="yyyy-MM-dd" type="text" ng-model="searchParams.from_date" placeholder="from">
 						</input>
 						<span class="add-on">
 							<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
@@ -38,7 +38,7 @@
 				<span class="col-xs-1 col-sm-1 col-md-1 padding-clear align-center margin-t7">~</span>
 				<div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
 					<div id="hr-overspeed-datepicker2" class="input-append date">
-						<input name="to_date" data-format="yyyy-MM-dd" type="text" ng-model="searchParams.to_date" placeholder="to"></input>
+						<input class="form-control" name="to_date" data-format="yyyy-MM-dd" type="text" ng-model="searchParams.to_date" placeholder="to"></input>
 						<span class="add-on">
 							<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
 						</span>
@@ -50,7 +50,7 @@
 		</form>
 
 		<!-- table begin -->
-		<div id="hr-overspeed-table-container" class="search-table">
+		<div id="hr-overspeed-table-container" class="search-table form-control">
 			<table class="table table-striped table-hover" st-pagination-scroll st-table="items" st-pipe="search">
 				<thead>
 					<tr>
