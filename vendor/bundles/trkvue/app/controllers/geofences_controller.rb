@@ -10,7 +10,6 @@ public
   # POST /domains/:domain_id/geofences/:id/update_multiple_polygons
   # 
   def update_multiple_polygons
-    debug_print params
     geofence, success, msg = Geofence.find(params[:id]), true, "success"
     
     if(geofence)

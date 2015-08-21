@@ -1,10 +1,6 @@
 angular.module('fmsGeofence')
-	.controller('GeofenceMapCtrl', function($rootScope, $scope, $resource, $element, $interval, uiGmapIsReady, ConstantSpeed, FmsUtils, RestApi) {
+	.controller('GeofenceSettingMapCtrl', function($rootScope, $scope, $element, ModalUtils, RestApi) {
 
-		/**
-		 * sidebar toggle
-		 */
-		$scope.isSidebarToggle = true;
 		/**
 		 * selected geofence
 		 * 
@@ -34,6 +30,7 @@ angular.module('fmsGeofence')
 				fill : { color : '#ff0000', opacity : 0.45 },
 				editable : false,
 				draggable : false,
+				fit : true
 			}
 		};
 
@@ -90,13 +87,8 @@ angular.module('fmsGeofence')
 			}
 		};
 
-		/**
-		 * @param  {[type]}
-		 * @return {[type]}
-		 */
-		uiGmapIsReady.promise().then(function(map_instances) {
-			// Draw Polygon if data exist
-		});
+		//uiGmapIsReady.promise().then(function(map_instances) {
+		//});
 
 		/**
 		 * Set Polygon Drawing Mode
@@ -140,21 +132,11 @@ angular.module('fmsGeofence')
 			$scope.clearPolygon();
 
 			if(!paths || paths.length == 0) {
-				$scope.mapOption.center.latitude = DEFAULT_LAT;
-				$scope.mapOption.center.longitude = DEFAULT_LNG;
-
+				$scope.mapOption.center = { latitude: DEFAULT_LAT, longitude: DEFAULT_LNG };
 			} else {
-				var startPoint = new google.maps.LatLng(paths[0].lat, paths[0].lng);
-				var bounds = new google.maps.LatLngBounds(startPoint, startPoint);
-
 				angular.forEach(paths, function(path) {
 					$scope.polygon.path.push({ latitude : path.lat, longitude : path.lng });
-					bounds.extend(new google.maps.LatLng(path.lat, path.lng));
 				});
-
-				var center = bounds.getCenter();
-				$scope.mapOption.center.latitude = center.lat();
-				$scope.mapOption.center.longitude = center.lng();				
 			}
 		};
 
@@ -176,9 +158,16 @@ angular.module('fmsGeofence')
 
 			var url = '/geofences/' + $scope.geofence.id + '/update_multiple_polygons.json';
 			var result = RestApi.updateMultiple(url, null, multipleData);
-			result.$promise.then(function(data) {
-				// TODO success or failure popup
-			});
+			result.$promise.then(
+				function(data) { ModalUtils.alert('sm', 'Complete', 'Succeeded to save!'); },
+				function(data) { 
+					if(data.status == 0) {
+						ModalUtils.alert('sm', 'Error', 'Connection Failure'); 
+					} else {
+						ModalUtils.alert('sm', 'Failure', 'Status : ' + data.status + ', Reason : ' + data.statusText); 
+					}
+				}
+			);
 		};
 
 		/**

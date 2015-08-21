@@ -1,0 +1,180 @@
+<div ng-controller="GeofenceViewMapCtrl">
+
+	<ui-gmap-google-map id='geofenceViewCanvas' center='mapOption.center' zoom='mapOption.zoom' control='mapControl'>
+
+		<!-- customized control
+		<ui-gmap-map-control template="polyButton.tpl.html" position="top-right" index="1" controller="mapWidgetCtrl"></ui-gmap-map-control-->
+
+		<ui-gmap-polygon
+			fit="polygon.option.fit"
+			static="polygon.option.static"
+			path="polygon.path"
+			stroke="polygon.option.stroke"
+			visible="polygon.option.visible"
+			geodesic="polygon.option.geodesic"
+			fill="polygon.option.fill"
+			editable="polygon.option.editable"
+			draggable="polygon.option.draggable"
+			ng-cloak="">
+		</ui-gmap-polygon>
+
+		<!-- markers -->
+		<ui-gmap-markers models="markers" coords="'self'" idKey="'_id'" events="'events'" icon="'icon'" fit="'mapOption.fit'" control="markerControl"></ui-gmap-markers>
+
+    <!-- lines -->
+    <ui-gmap-polylines models="polylines" path="'path'" stroke="'stroke'" visible="'visible'" geodesic="'geodesic'" control="polylineControl" static='true'></ui-gmap-polylines>
+
+		<!-- fleet marker window -->
+    <ui-gmap-window id="fleetWindow" coords="selectedMarker" 
+      show="windowSwitch.showFleetInfo" closeClick="switchOffAll()">
+			<div>
+        <div class="photos pull-left">
+					<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+					  <!-- Indicators -->
+					  <ol class="carousel-indicators">
+					    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+					    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+					  </ol>
+
+					  <!-- Wrapper for slides -->
+					  <div class="carousel-inner" role="listbox">
+					    <div class="item active">
+					      <img src="{{selectedMarker.car_image ? selectedMarker.car_image : '/assets/ph_car.png'}}"/>
+					    </div>
+					    <div class="item">
+					      <img src="{{selectedMarker.driver.img ? selectedMarker.driver.img : '/assets/ph_user.png'}}"/>
+					    </div>
+					  </div>
+					</div>	
+          <!-- <img src="/assets/ph_car.png"/>
+          <img src="/assets/ph_user.png" hidden/>
+					<button>Toggle photo</button-->
+        </div>
+        <div class="pull-left">
+	        <table class="detail-info-table">
+	          <tr>
+	            <th class="modal-icon dot-gray">Fleet</th>
+	            <td>{{selectedMarker.name}}</td>
+	          </tr>
+	          <tr>
+	            <th class="modal-icon dot-gray">Model</th>
+	            <td>{{selectedMarker.car_model}}</td>
+	          </tr>
+	          <tr>
+	            <th class="modal-icon dot-gray">Car No.</th>
+	            <td>{{selectedMarker.car_no}}</td>
+	          </tr>
+	          <tr>
+	            <th class="modal-icon dot-gray">Drivers</th>
+	            <td>{{selectedMarker.driver.name}}</td>
+	          </tr>
+					</table>
+        </div>
+				<div class="col-xs-12 padding-clear detail-address margin-t5 map-window">address</div>
+        <div ng-show="'{{selectedMarker.trip_id}}' != ''" class="col-xs-12 padding-clear margin-t5">
+          <button ng-click="$parent.goTrip('{{selectedMarker.trip_id}}')" class="btn modal-btn-trip btn-success btn-sm pull-right">Go Trip</button>
+        </div>
+      </div>
+		</ui-gmap-window>
+
+    <!-- trip marker window -->
+    <ui-gmap-window id="tripWindow" coords="selectedMarker" 
+      show="windowSwitch.showTripInfo" closeClick="switchOffAll()">
+      <div>
+        <div class="detail-item">
+					<span class="modal-icon dot-gray">Trip ID</span>
+					<strong>{{selectedMarker.id}} [ {{selectedMarker.type}} ]</strong>
+				</div>
+        <div class="detail-item">
+					<span class="modal-icon dot-gray min-w100">Recorded at</span>
+					{{selectedMarker.stm | date:'medium'}}
+				</div>
+        <div class="detail-item">
+					<span class="modal-icon dot-gray min-w100">Trip Started at</span>
+					{{selectedMarker.stm | date:'medium'}}
+				</div>
+      </div>
+    </ui-gmap-window>
+
+    <!-- batch marker window -->
+    <ui-gmap-window id="batchWindow" coords="selectedMarker" 
+      show="windowSwitch.showBatchInfo" closeClick="switchOffAll()">
+      <div>
+        <div class="detail-item">
+					<span class="modal-icon dot-gray">Batch ID</span>
+					<strong>{{selectedMarker.id}} [ {{selectedMarker.type}} ]</strong>
+				</div>
+        <div class="detail-item">
+					<span class="modal-icon dot-gray min-w100">Recorded at</span>
+					{{selectedMarker.utm | date:'medium'}}
+				</div>
+        <div class="detail-item">
+					<span class="modal-icon dot-gray min-w100">Batch Started at</span>
+					{{selectedMarker.stm | date:'medium'}}
+				</div>
+      </div>
+    </ui-gmap-window>
+
+    <!-- track marker window -->
+    <ui-gmap-window id="trackWindow" coords="selectedMarker" 
+      show="windowSwitch.showTrackInfo" closeClick="switchOffAll()">
+      <div>
+        <div>Track ID : <strong>{{selectedMarker.id}}</strong></div>
+        <pip-image front-image-url="{{selectedMarker.f_img}}" rear-image-url="{{selectedMarker.r_img}}">
+        </pip-image>
+        <div class="detail-item margin-t10">
+					<span class="modal-icon dot-gray min-w100">Recorded at</span>
+					{{selectedMarker.ctm | date:'medium'}}
+				</div>
+        <div class="detail-item">
+					<span class="modal-icon dot-gray min-w100">Started at</span>
+					{{selectedMarker.ttm | date:'medium'}}
+				</div>
+        <div class="detail-item">
+					<span class="modal-icon dot-gray">Speed</span>
+					<span class="{{selectedMarker.typeClass}}"></span>{{selectedMarker.vlc}}
+				</div>
+				
+				<div class="detail-item">
+					<span class="modal-icon dot-gray">G-X</span>
+					<strong>{{selectedMarker.gx}}</strong>
+					<span class="modal-icon dot-gray">G-Y</span>
+					<strong>{{selectedMarker.gy}}</strong>
+					<span class="modal-icon dot-gray">G-Z</span>
+					<strong>{{selectedMarker.gz}}</strong>
+				</div>	
+        
+      </div>
+    </ui-gmap-window>
+
+    <!-- event marker window -->
+    <ui-gmap-window id="eventWindow" coords="selectedMarker" 
+      show="windowSwitch.showEventInfo" closeClick="switchOffAll()">
+      <div>
+        <div>Event ID <strong>{{selectedMarker.id}}</strong></div>
+        <pip-video 
+        		video-url="{{selectedMarker.vdo}}"
+        		front-video-url="{{selectedMarker.f_vdo}}"
+            rear-video-url="{{selectedMarker.r_vdo}}"
+            audio-url="{{selectedMarker.ado}}">
+        </pip-video>
+        <div class="detial-time">Occurred at <strong>{{selectedMarker.etm | date:'medium'}}</strong></div>
+        <div class="detail-address map-window">address</div>
+				<div class="detail-item margin-t10">
+					<span class="modal-icon dot-gray">Speed</span>
+					<span class="{{selectedMarker.typeClass}}"></span> {{selectedMarker.vlc}}
+				</div>
+				<div class="detail-item">
+					<span class="modal-icon dot-gray">G-X</span>
+					<strong>{{selectedMarker.gx}}</strong>
+					<span class="modal-icon dot-gray">G-Y</span>
+					<strong>{{selectedMarker.gy}}</strong>
+					<span class="modal-icon dot-gray">G-Z</span>
+					<strong>{{selectedMarker.gz}}</strong>
+				</div>
+      </div>
+    </ui-gmap-window>	
+
+	</ui-gmap-google-map>
+	
+</div>
