@@ -218,7 +218,7 @@ angular.module('fmsGeofence')
 			});
 
 			var gmap = $scope.mapControl.getGMap();
-			gmap.fitBounds(bounds);			
+			gmap.fitBounds(bounds);
 		};
 
 		/**
