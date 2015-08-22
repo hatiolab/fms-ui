@@ -3,49 +3,34 @@
 
 		<!-- menu begin -->
 		<ul class="setting-sidemenu">
-			<li><a href="#/hr/overview" class="menu-icon overview">Overview</a></li>
+			<li><a href="#/hr/overview" class="menu-icon chart">Overview</a></li>
 			<li><a href="#/hr/overspeed" class="menu-icon overspeed active">Over Speed</a></li>
 			<li><a href="#/hr/drivehabit" class="menu-icon chart">Driving Habit</a></li>
+			<li><a href="#/hr/drivedistance" class="menu-icon chart">Driving distance By Driver</a></li>
+			<li><a href="#/hr/drivetime" class="menu-icon chart">Working Time By Driver</a></li>
 			<button id="hrSearchOverspeed" type="button" class="btn btn-default panel-refresh pull-right"></button>
 		</ul>
 		<!-- menu end -->
 
 		<form name="hrOverspeedForm" class="form-horizontal">
 
-			<div class="form-group">
-				<label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">group</label>
-				<div class="col-xs-11 col-sm-7 col-md-6 padding-clear">
-					<select name="group" class="form-control" ng-model="searchParams.group" ng-init="selected=''"
-					ng-options="group.name for group in groups" >
-						<option></option>
-					</select>
-				</div>
-			</div>
+			<!-- group begin -->
+			<option-list groups option-name ='group' option-model ="searchParams.group"></option-list>
+			<!-- group End -->
 
 			<!-- period begin -->
-			<div class="form-group">
-				<label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">period</label>
-				<div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
-					<div id="hr-overspeed-datepicker1" class="input-append date">
-						<input class="form-control" name="from_date" data-format="yyyy-MM-dd" type="text" ng-model="searchParams.from_date" placeholder="from">
-						</input>
-						<span class="add-on">
-							<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-						</span>
-					</div>
-				</div>
-
-				<span class="col-xs-1 col-sm-1 col-md-1 padding-clear align-center margin-t7">~</span>
-				<div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
-					<div id="hr-overspeed-datepicker2" class="input-append date">
-						<input class="form-control" name="to_date" data-format="yyyy-MM-dd" type="text" ng-model="searchParams.to_date" placeholder="to"></input>
-						<span class="add-on">
-							<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-						</span>
-					</div>
-				</div>
-			</div>
+			<period-picker from-date= "searchParams.from_date" to-date= "searchParams.to_date" search= "search"> </period-picker>
 			<!-- period end -->
+
+			<!-- Peroid Type begin -->
+			<div class="form-group">
+				<nav class="align-center">
+					<period-set week from-date= "searchParams.from_date" to-date= "searchParams.to_date" search="search"></period-set>
+					<period-set month from-date= "searchParams.from_date" to-date= "searchParams.to_date" search="search"></period-set>
+					<period-set year from-date= "searchParams.from_date" to-date= "searchParams.to_date" search="search"></period-set>
+				</nav>
+			</div>
+			<!-- Peroid Type begin -->
 
 		</form>
 

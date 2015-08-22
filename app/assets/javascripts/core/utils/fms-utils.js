@@ -91,16 +91,42 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 		/**
 		 * Period를 위한 From Date, To Date를 문자열로 리턴 
 		 * 
-		 * @param  {Number}
+		 * @param  {Number/String}
 		 * @return {Array}
 		 */
 		getPeriodString : function(duration) {
-			var toDateStr = this.formatDate(new Date(), 'yyyy-MM-dd');
-			var fromDate = this.addDate(new Date(), -1 * duration);
-			var fromDateStr = this.formatDate(fromDate, 'yyyy-MM-dd');
+			var fromDateStr = {};
+			var toDateStr ={};
+			var curr = new Date; // get current date
+
+			if(duration=="year"){
+				toDateStr = this.formatDate(curr, 'yyyy-MM-dd');
+				fromDate = this.addDate(curr, -1 * (this.getDOY(curr)-1));
+				fromDateStr = this.formatDate(fromDate, 'yyyy-MM-dd');
+			}else if(duration=="month"){
+				toDateStr = this.formatDate(curr, 'yyyy-MM-dd');
+				fromDate = this.addDate(curr, -1 * (curr.getDate()-1));
+				fromDateStr = this.formatDate(fromDate, 'yyyy-MM-dd');
+			}else if(duration=="week"){
+				toDateStr = this.formatDate(curr, 'yyyy-MM-dd');
+				fromDate = this.addDate(curr, -1 * curr.getDay());
+				fromDateStr = this.formatDate(fromDate, 'yyyy-MM-dd');
+			}else{
+				toDateStr = this.formatDate(new Date(), 'yyyy-MM-dd');
+				fromDate = this.addDate(new Date(), -1 * duration);
+				fromDateStr = this.formatDate(fromDate, 'yyyy-MM-dd');
+			}
 			return [fromDateStr, toDateStr];
 		},
 
+		/**
+		 * [getDOY return number of day for this year]
+		 * @return {[type]} [description]
+		 */
+		getDOY : function(curr) {
+			var onejan = new Date(curr.getFullYear(),0,1);
+			return Math.ceil((curr - onejan) / 86400000);
+		},
 		/**
 		 * DatePicker를 초기화한다.
 		 * 

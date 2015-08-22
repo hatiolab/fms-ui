@@ -52,6 +52,29 @@ angular.module('fmsHr').config(function($stateProvider, $urlRouterProvider) {
 				template: '<hr-drivehabit-chart></hr-drivehabit-chart>'
 			}
 		}
-	});
+	})
 
+	.state('hr.drivedistance', {
+		url: '/drivedistance',
+		views: {
+			'sidebar-view@': {
+				template: '<hr-drivedistance-search></hr-drivedistance-search>'
+			},
+			'content-view@' : {
+				template: '<hr-drivedistance-chart></hr-drivedistance-chart>'
+			}
+		}
+	})
+
+	.state('hr.drivetime', {
+		url: '/drivetime',
+		views: {
+			'sidebar-view@': {
+				template: '<hr-drivetime-search></hr-drivetime-search>'
+			},
+			'content-view@' : {
+				template: '<hr-drivetime-chart></hr-drivetime-chart>'
+			}
+		}
+	});
 });

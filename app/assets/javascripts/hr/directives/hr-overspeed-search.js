@@ -53,12 +53,6 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 	 */
 	$scope.searchEnabled = false;
 	/**
-	 * Fleet Group 모델 
-	 * 
-	 * @type {Array}
-	 */
-	$scope.groups = [];
-	/**
 	 * Chart Title
 	 * 
 	 * @type {String}
@@ -74,7 +68,7 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 		$scope.chartTitle = "Over Speed Total Summary";
 		var params = { from_date : $scope.searchParams['from_date'], to_date : $scope.searchParams['to_date']};
 
-		RestApi.list('/fleet_group_summaries/driver_summary.json', params, function(list) {
+		RestApi.list('/fleet_summaries/driver_summary.json', params, function(list) {
 			// 기존 차트 삭제 
 			var parent = $('div.report-content').parent();
 			$('div.report-content').remove();
@@ -97,7 +91,7 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 	 	var barChartData = { title : $scope.chartTitle, labels : [], series : ['Over Speed Count'], data : [] };
 	 	for(var i = 0 ; i < list.length ; i++) {
 	 		var item = list[i];
-	 		barChartData.labels.push(item.group_name);
+	 		barChartData.labels.push(item.driver_code+' / '+item.driver_name);
 	 		barChartData.data.push(Number(item.speed_over));
 	 	};
 		$scope.$emit('bar-chart-data-change', barChartData);
@@ -150,15 +144,6 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 	 		barChartData.data.push(Number(item.speed_over));
 	 	};
 		$scope.$emit('bar-chart-data-change', barChartData);
-	};
-
-	/**
-	 * Search Fleet Groups
-	 */
-	$scope.findGroups = function(params) {
-		RestApi.list('/fleet_groups.json', params, function(dataSet) {
-			$scope.groups = dataSet;
-		});
 	};
 
 	/**
@@ -320,18 +305,7 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 	 * @return N/A
 	 */
 	$scope.init = function() {
-		/**
-		 * init date picker1
-		 */
-		FmsUtils.initDatePicker('hr-overspeed-datepicker1', $scope.searchParams, 'from_date', $scope.search);
-		/**
-		 * init date picker2
-		 */
-		FmsUtils.initDatePicker('hr-overspeed-datepicker2', $scope.searchParams, 'to_date', $scope.search);
-		/**
-		 * 차량 그룹 데이터
-		 */
-		$scope.findGroups();
+
 	};
 
 	/**

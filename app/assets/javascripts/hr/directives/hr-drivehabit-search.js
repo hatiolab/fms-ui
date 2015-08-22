@@ -18,6 +18,7 @@ angular.module('fmsHr').directive('hrDrivehabitSearch', function() {
 	 * 기본 날짜 검색일 설정 
 	 */
 	var period = FmsUtils.getPeriodString(7);
+
 	/**
 	 * 검색 조건 모델 
 	 *
@@ -52,12 +53,7 @@ angular.module('fmsHr').directive('hrDrivehabitSearch', function() {
 	 * @type {Boolean}
 	 */
 	$scope.searchEnabled = false;
-	/**
-	 * Fleet Group 모델 
-	 * 
-	 * @type {Array}
-	 */
-	$scope.groups = [];
+
 	/**
 	 * Chart Title
 	 * 
@@ -115,13 +111,13 @@ angular.module('fmsHr').directive('hrDrivehabitSearch', function() {
 	 		chartData.labels.push(item.group_name);
 	 		chartData.series = series;
 	 	}
-
+	 	console.log(dataList);
 	 	for(var i = 0 ; i < fieldList.length ; i++) {
 	 		var field = fieldList[i];
 	 		chartData.data.push([]);
 
 			for(var j = 0 ; j < dataList.length ; j++) {
-				var item = $scope.items[j];
+				var item = dataList[j];
 				chartData.data[i].push(Number(item[field]));
 	 		}
 	 	}
@@ -175,15 +171,6 @@ angular.module('fmsHr').directive('hrDrivehabitSearch', function() {
 	 		data : [item.speed_slow, item.speed_normal, item.speed_high, item.speed_over]
 	 	};
 		$scope.$emit('radar-chart-data-change', radarChartData);
-	};
-
-	/**
-	 * Search Fleet Groups
-	 */
-	$scope.findGroups = function(params) {
-		RestApi.list('/fleet_groups.json', params, function(dataSet) {
-			$scope.groups = dataSet;
-		});
 	};
 
 	/**
@@ -345,18 +332,7 @@ angular.module('fmsHr').directive('hrDrivehabitSearch', function() {
 	 * @return N/A
 	 */
 	$scope.init = function() {
-		/**
-		 * init date picker1
-		 */
-		FmsUtils.initDatePicker('hr-drivehabit-datepicker1', $scope.searchParams, 'from_date', $scope.search);
-		/**
-		 * init date picker2
-		 */
-		FmsUtils.initDatePicker('hr-drivehabit-datepicker2', $scope.searchParams, 'to_date', $scope.search);
-		/**
-		 * 차량 그룹 데이터
-		 */
-		$scope.findGroups();
+
 	};
 
 	/**

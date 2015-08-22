@@ -14,61 +14,18 @@
 		<form name="reportGroupAlertForm" class="form-horizontal">
 
 			<!-- period begin -->
-			<div class="form-group">
-				<label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">period</label>
-				<div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
-					<div id="report-group-alert-datepicker1" class="input-append date">
-						<input class="form-control" name="from_date" data-format="yyyy-MM-dd" type="text" ng-model="searchParams.from_date" placeholder="from">
-						</input>
-						<span class="add-on">
-							<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-						</span>
-					</div>
-				</div>
-
-				<span class="col-xs-1 col-sm-1 col-md-1 padding-clear align-center margin-t7">~</span>
-				<div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
-					<div id="report-group-alert-datepicker2" class="input-append date">
-						<input class="form-control" name="to_date" data-format="yyyy-MM-dd" type="text" ng-model="searchParams.to_date" placeholder="to"></input>
-						<span class="add-on">
-							<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-						</span>
-					</div>
-				</div>
-			</div>
+			<period-picker from-date= "searchParams.from_date" to-date= "searchParams.to_date" search= "search"> </period-picker>
 			<!-- period end -->
 
-			<!-- type begin -->
-<!-- 			<div class="form-group">
-				<label class="col-xs-12 col-sm-3 col-md-2 control-label">type</label>
-				<div class="col-xs-11 col-sm-9 col-md-10 padding-clear">
-					<div class="radio">
-						<label>
-							<input type="radio" ng-model="chartName" value="Impact">
-								<span class="type-icon impact"></span>Impact
-						</label>
-					</div>
-					<div class="radio">
-						<label>
-							<input type="radio" ng-model="chartName" value="Overspeed">
-							<span class="type-icon overspeed"></span>Overspeed
-						</label>
-					</div>
-					<div class="radio">
-						<label>
-							<input type="radio" ng-model="chartName" value="Geofence">
-								<span class="type-icon geofence"></span>Geofence
-						</label>
-					</div>
-					<div class="radio">
-						<label>
-							<input type="radio" ng-model="chartName" value="Emergency">
-								<span class="type-icon emergency"></span>Emergency
-						</label>
-					</div>
-				</div>
-			</div> -->
-			<!-- type end -->
+			<!-- Peroid Type begin -->
+			<div class="form-group">
+				<nav class="align-center">
+					<period-set week from-date= "searchParams.from_date" to-date= "searchParams.to_date" search="search"></period-set>
+					<period-set month from-date= "searchParams.from_date" to-date= "searchParams.to_date" search="search"></period-set>
+					<period-set year from-date= "searchParams.from_date" to-date= "searchParams.to_date" search="search"></period-set>
+				</nav>
+			</div>
+			<!-- Peroid Type begin -->
 
 		</form>
 

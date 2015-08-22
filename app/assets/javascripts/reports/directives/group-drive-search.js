@@ -299,14 +299,6 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 	 * @return N/A
 	 */
 	$scope.init = function() {
-		/**
-		 * init date picker1
-		 */
-		FmsUtils.initDatePicker('report-group-datepicker1', $scope.searchParams, 'from_date', $scope.search);
-		/**
-		 * init date picker2
-		 */
-		FmsUtils.initDatePicker('report-group-datepicker2', $scope.searchParams, 'to_date', $scope.search);
 	};
 
 	/**

@@ -52,7 +52,7 @@ angular.module('fmsReports').directive('fleetAlertSearch', function() {
 	 * 
 	 * @type {Array}
 	 */
-	$scope.groups = [];
+	// $scope.groups = [];
 	/**
 	 * Chart Title
 	 * 
@@ -157,11 +157,11 @@ angular.module('fmsReports').directive('fleetAlertSearch', function() {
 	/**
 	 * Search Fleet Groups
 	 */
-	$scope.findGroups = function(params) {
-		RestApi.list('/fleet_groups.json', params, function(dataSet) {
-			$scope.groups = dataSet;
-		});
-	};
+	// $scope.findGroups = function(params) {
+	// 	RestApi.list('/fleet_groups.json', params, function(dataSet) {
+	// 		$scope.groups = dataSet;
+	// 	});
+	// };
 
 	/**
 	 * Rails Server의 스펙에 맞도록 파라미터 변경 ...
@@ -325,18 +325,6 @@ angular.module('fmsReports').directive('fleetAlertSearch', function() {
 	 * @return N/A
 	 */
 	$scope.init = function() {
-		/**
-		 * init date picker1
-		 */
-		FmsUtils.initDatePicker('report-fleet-alert-datepicker1', $scope.searchParams, 'from_date', $scope.search);
-		/**
-		 * init date picker2
-		 */
-		FmsUtils.initDatePicker('report-fleet-alert-datepicker2', $scope.searchParams, 'to_date', $scope.search);
-		/**
-		 * 차량 그룹 데이터
-		 */
-		$scope.findGroups();
 	};
 
 	/**

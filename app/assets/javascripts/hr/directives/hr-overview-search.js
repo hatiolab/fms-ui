@@ -43,6 +43,13 @@ angular.module('fmsHr').directive('hrOverviewSearch', function() {
 	$scope.sort_field = 'impact'
 	$scope.sort_value = 'desc'
 
+	$scope.setSearchPeriod = function(periodType){
+		period = FmsUtils.getPeriodString(periodType);
+		$scope.searchParams = { 'from_date' : period[0], 'to_date' : period[1] };
+		$scope.searchByCharType();
+	}
+
+
 	/**
 	 * 검색 조건 
 	 *
@@ -53,7 +60,7 @@ angular.module('fmsHr').directive('hrOverviewSearch', function() {
 		//Sort Condition
 		searchParams.sort_field= $scope.sort_field;
 		searchParams.sort_value= $scope.sort_value;
-		searchParams.limit = 10;
+		searchParams.limit = 30;
 		return searchParams;
 	};
 
@@ -126,13 +133,12 @@ angular.module('fmsHr').directive('hrOverviewSearch', function() {
 	  * @return N/A
 	  */
 	 $scope.afterSearch = function(dataSet) {
-
-		$scope.sendDrivingTimeChatData('Driving Time(top 10)', dataSet.drive_time);
-		$scope.sendDrivingDistChartData('Driving Distance(top 10)', dataSet.drive_dist);
-		$scope.sendOverspeedChartData('Overspeed Count(top 10)', dataSet.overspeed);
-		$scope.sendImpactChartData('Impact Count(top 10)', dataSet.impact);
-		$scope.sendGeofenceChartData('Geofence Count(top 10)', dataSet.geofence);
-		$scope.sendEmergencyChartData('Emergency Count(top 10)', dataSet.emergency);
+		$scope.sendDrivingTimeChatData('Working Time By Driver', dataSet.drive_time);
+		$scope.sendDrivingDistChartData('Driving distance By Driver', dataSet.drive_dist);
+		$scope.sendOverspeedChartData('Overspeed', dataSet.overspeed);
+		$scope.sendImpactChartData('Impact Count', dataSet.impact);
+		$scope.sendGeofenceChartData('Geofence Count', dataSet.geofence);
+		$scope.sendEmergencyChartData('Emergency Count', dataSet.emergency);
 	 };
 
 	 /**
@@ -184,10 +190,10 @@ angular.module('fmsHr').directive('hrOverviewSearch', function() {
 	  * @return N/A
 	  */
 	 $scope.sendImpactChartData = function(title, items) {
-	 	var barChartData = { title : title, labels : [], data : [], series : ['Impact'] };
-	 	$scope.setChartData(items, barChartData, 'impact');
+	 	var lineChartData = { title : title, labels : [], data : [], series : ['Impact'] };
+	 	$scope.setChartData(items, lineChartData, 'impact');
 	 	// send data to chart scope
-		$timeout(function() {$scope.$emit('line-chart-data-change', barChartData)}, 200);
+		$timeout(function() {$scope.$emit('line-chart-data-change', lineChartData)}, 200);
 	 };
 
 	 /**
@@ -197,10 +203,10 @@ angular.module('fmsHr').directive('hrOverviewSearch', function() {
 	  * @return N/A
 	  */
 	 $scope.sendEmergencyChartData = function(title, items) {
-	 	var barChartData = { title : title, labels : [], data : [], series : ['Emergency'] };
-	 	$scope.setChartData(items, barChartData, 'emergency');
+	 	var lineChartData = { title : title, labels : [], data : [], series : ['Emergency'] };
+	 	$scope.setChartData(items, lineChartData, 'emergency');
 	 	// send data to chart scope
-		$timeout(function() {$scope.$emit('line-chart-data-change', barChartData)}, 200);
+		$timeout(function() {$scope.$emit('line-chart-data-change', lineChartData)}, 200);
 	 };
 
 	 /**
@@ -210,10 +216,10 @@ angular.module('fmsHr').directive('hrOverviewSearch', function() {
 	  * @return N/A
 	  */
 	 $scope.sendGeofenceChartData = function(title, items) {
-	 	var barChartData = { title : title, labels : [], data : [], series : ['Geofence'] };
-	 	$scope.setChartData(items, barChartData, 'geofence');
+	 	var lineChartData = { title : title, labels : [], data : [], series : ['Geofence'] };
+	 	$scope.setChartData(items, lineChartData, 'geofence');
 	 	// send data to chart scope
-		$timeout(function() {$scope.$emit('line-chart-data-change', barChartData)}, 200);
+		$timeout(function() {$scope.$emit('line-chart-data-change', lineChartData)}, 200);
 	 };
 
 
@@ -228,7 +234,7 @@ angular.module('fmsHr').directive('hrOverviewSearch', function() {
 	 $scope.setChartData = function(rawItems, chartData, field) {
 	 	for(var i = 0 ; i < rawItems.length ; i++) {
 	 		var rawItem = rawItems[i];
-	 		chartData.labels.push(rawItem.driver_name);
+	 		chartData.labels.push(rawItem.driver_code+' / '+rawItem.driver_name);
 	 		chartData.data.push(Number(rawItem[field]));
 	 	};
 	 };
@@ -262,11 +268,11 @@ angular.module('fmsHr').directive('hrOverviewSearch', function() {
 		/**
 		 * init date picker1
 		 */
-		FmsUtils.initDatePicker('report-group-datepicker1', $scope.searchParams, 'from_date', $scope.search);
+		FmsUtils.initDatePicker('hr-overview-datepicker1', $scope.searchParams, 'from_date', $scope.search);
 		/**
 		 * init date picker2
 		 */
-		FmsUtils.initDatePicker('report-group-datepicker2', $scope.searchParams, 'to_date', $scope.search);
+		FmsUtils.initDatePicker('hr-overview-datepicker2', $scope.searchParams, 'to_date', $scope.search);
 
 		$scope.searchByCharType();
 	};

@@ -2,11 +2,30 @@
 	<div class="height-full" ng-show="true">
 		<!-- menu begin -->
 		<ul class="setting-sidemenu">
-			<li><a href="#/hr/overview" class="menu-icon overview active">Overview</a></li>
+			<li><a href="#/hr/overview" class="menu-icon chart active">Overview</a></li>
 			<li><a href="#/hr/overspeed" class="menu-icon chart">Over Speed</a></li>
 			<li><a href="#/hr/drivehabit" class="menu-icon chart">Driving Habit</a></li>
+			<li><a href="#/hr/drivedistance" class="menu-icon chart">Driving distance By Driver</a></li>
+			<li><a href="#/hr/drivetime" class="menu-icon chart">Working Time By Driver</a></li>
 			<button id="hrSearchOverview" type="button" class="btn btn-default panel-refresh pull-right"></button>
 		</ul>
 		<!-- menu end -->
+		<form name="hrOverviewForm" class="form-horizontal">
+
+			<!-- period begin -->
+			<period-picker from-date= "searchParams.from_date" to-date= "searchParams.to_date" search= "search"> </period-picker>
+			<!-- period end -->
+
+			<!-- Peroid Type begin -->
+			<div class="form-group">
+				<nav class="align-center">
+					<period-set week from-date= "searchParams.from_date" to-date= "searchParams.to_date" search="search"></period-set>
+					<period-set month from-date= "searchParams.from_date" to-date= "searchParams.to_date" search="search"></period-set>
+					<period-set year from-date= "searchParams.from_date" to-date= "searchParams.to_date" search="search"></period-set>
+				</nav>
+			</div>
+			<!-- Peroid Type begin -->
+		</form>
+
 	</div>
 </div>

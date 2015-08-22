@@ -14,29 +14,18 @@
 		<form name="reportGroupDriveForm" class="form-horizontal">
 
 			<!-- period begin -->
-			<div class="form-group">
-				<label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">period</label>
-				<div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
-					<div id="report-group-datepicker1" class="input-append date">
-						<input class="form-control" name="from_date" data-format="yyyy-MM-dd" type="text" ng-model="searchParams.from_date" placeholder="from">
-						</input>
-						<span class="add-on">
-							<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-						</span>
-					</div>
-				</div>
-
-				<span class="col-xs-1 col-sm-1 col-md-1 padding-clear align-center margin-t7">~</span>
-				<div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
-					<div id="report-group-datepicker2" class="input-append date">
-						<input class="form-control" name="to_date" data-format="yyyy-MM-dd" type="text" ng-model="searchParams.to_date" placeholder="to"></input>
-						<span class="add-on">
-							<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-						</span>
-					</div>
-				</div>
-			</div>
+			<period-picker from-date= "searchParams.from_date" to-date= "searchParams.to_date" search= "search"> </period-picker>
 			<!-- period end -->
+
+			<!-- Peroid Type begin -->
+			<div class="form-group">
+				<nav class="align-center">
+					<period-set week from-date= "searchParams.from_date" to-date= "searchParams.to_date" search="search"></period-set>
+					<period-set month from-date= "searchParams.from_date" to-date= "searchParams.to_date" search="search"></period-set>
+					<period-set year from-date= "searchParams.from_date" to-date= "searchParams.to_date" search="search"></period-set>
+				</nav>
+			</div>
+			<!-- Peroid Type begin -->
 
 		</form>
 
