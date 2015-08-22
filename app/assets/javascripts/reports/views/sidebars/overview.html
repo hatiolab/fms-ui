@@ -2,15 +2,15 @@
 	<div class="height-full" ng-show="true">
 		<!-- menu begin -->
 		<ul class="setting-sidemenu">
-			<li><a href="#/hr/overview" class="menu-icon chart active">Overview</a></li>
-			<li><a href="#/hr/overspeed" class="menu-icon chart">Over Speed</a></li>
-			<li><a href="#/hr/drivehabit" class="menu-icon chart">Driving Habit</a></li>
-			<li><a href="#/hr/drivedistance" class="menu-icon chart">Driving distance By Driver</a></li>
-			<li><a href="#/hr/drivetime" class="menu-icon chart">Working Time By Driver</a></li>
-			<button id="hrSearchOverview" type="button" class="btn btn-default panel-refresh pull-right"></button>
+			<li><a href="#/reports/overview" class="menu-icon chart active">Overview</a></li>
+			<li><a href="#/reports/group-drive" class="menu-icon group">Driving Summary By Group</a></li>
+			<li><a href="#/reports/fleet-drive" class="menu-icon fleets">Driving Summary By Fleet</a></li>
+			<li><a href="#/reports/group-alert" class="menu-icon group">Alert Summary By Group</a></li>
+			<li><a href="#/reports/fleet-alert" class="menu-icon fleets">Alert Summary By Fleet</a></li>
+			<button id="reportsSearchOverview" type="button" class="btn btn-default panel-refresh pull-right"></button>
 		</ul>
 		<!-- menu end -->
-		<form name="hrOverviewForm" class="form-horizontal">
+		<form name="reportOverviewForm" class="form-horizontal">
 
 			<!-- period begin -->
 			<period-picker from-date= "searchParams.from_date" to-date= "searchParams.to_date" search= "searchByCharType"> </period-picker>

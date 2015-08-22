@@ -18,7 +18,17 @@ class FleetSummariesController < ResourceMultiUpdateController
       fleets.name as fleet_name, 
       avg(fleet_summaries.velocity) as velocity, 
       sum(fleet_summaries.drive_time) as drive_time, 
-      sum(fleet_summaries.drive_dist) as drive_dist"
+      sum(fleet_summaries.drive_dist) as drive_dist,
+      sum(fleet_summaries.speed_off) as speed_off,
+      sum(fleet_summaries.speed_idle) as speed_idle,
+      sum(fleet_summaries.speed_slow) as speed_slow,
+      sum(fleet_summaries.speed_normal) as speed_normal,
+      sum(fleet_summaries.speed_high) as speed_high,
+      sum(fleet_summaries.speed_over) as speed_over,
+      sum(fleet_summaries.impact) as impact, 
+      sum(fleet_summaries.overspeed) as overspeed, 
+      sum(fleet_summaries.geofence) as geofence,
+      sum(fleet_summaries.emergency) as emergency"
 
     joinStr = "fleet_summaries INNER JOIN fleets ON fleet_summaries.fleet_id = fleets.id"
 

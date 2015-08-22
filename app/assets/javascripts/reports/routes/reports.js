@@ -17,6 +17,17 @@ angular.module('fmsReports').config(function($stateProvider, $urlRouterProvider)
 			}
 		}
 	})
+	.state('reports.overview', {
+		url: '/overview',
+		views: {
+			'sidebar-view@': {
+				template: '<reports-overview-search></reports-overview-search>'
+			},
+			'content-view@' : {
+				template: '<reports-overview-chart></reports-overview-chart>'
+			}
+		}
+	})
 
 	.state('reports.group-drive', {
 		url: '/group-drive',
