@@ -57,7 +57,7 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 				newHeight = newHeight - 325;
 
 			} else if(gridContainerId == 'monitor-side-info-alert-table-container') {
-				newHeight = newHeight - 325;
+				newHeight = newHeight - 350;
 
 			} else if(gridContainerId == 'geofence-view-table-container') {
 				newHeight = (newHeight - 240) / 2;
