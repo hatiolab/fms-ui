@@ -96,3 +96,5 @@ Gemfile.lock
 *.xlsx
 
 /public/uploads
+
+.ruby-gemset
