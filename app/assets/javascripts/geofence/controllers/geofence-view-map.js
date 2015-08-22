@@ -10,7 +10,7 @@ angular.module('fmsGeofence')
 		 * map option
 		 * @type {Object}
 		 */
-		$scope.mapOption = { center: { latitude: DEFAULT_LAT, longitude: DEFAULT_LNG }, zoom: 9, fit : true };
+		$scope.mapOption = { center: { latitude: DEFAULT_LAT, longitude: DEFAULT_LNG }, zoom: 9 };
 		/**
 		 * map control
 		 * @type {Object}
@@ -99,13 +99,12 @@ angular.module('fmsGeofence')
 			// Get polygon
 			RestApi.get('/polygons.json', { '_q[geofence_id-eq]' : geofence.id }, function(dataSet) {
 				$scope.setPolygon(dataSet.items);
-			});
-
-			// Search Fleets
-			RestApi.list('/geofence_groups.json', { '_q[geofence_id-eq]' : geofence.id }, function(items) {
-				var groupIdList = items.map(function(item) { return item.fleet_group_id });
-				RestApi.list('/fleets.json', { '_q[fleet_group_id-in]' : groupIdList.join(',') }, function(list) {
-					$scope.refreshFleets(list);
+				// Search Fleets
+				RestApi.list('/geofence_groups.json', { '_q[geofence_id-eq]' : geofence.id }, function(items) {
+					var groupIdList = items.map(function(item) { return item.fleet_group_id });
+					RestApi.list('/fleets.json', { '_q[fleet_group_id-in]' : groupIdList.join(',') }, function(list) {
+						$scope.refreshFleets(list);
+					});
 				});
 			});
 		});
@@ -197,6 +196,29 @@ angular.module('fmsGeofence')
 					$scope.addMarker(marker);
 				}
 			}
+
+			$scope.setBounds();
+		};
+
+		$scope.setBounds = function() {
+			if($scope.markers.length == 0 && $scope.polygon.path.length == 0)
+				return;
+
+			var startPoint = ($scope.markers && $scope.markers.length > 0) ? 
+											new google.maps.LatLng($scope.markers[0].lat, $scope.markers[0].lng) :
+											new google.maps.LatLng($scope.polygon.path[0].latitude, $scope.polygon.path[0].longitude);
+			var bounds = new google.maps.LatLngBounds(startPoint, startPoint);
+
+			angular.forEach($scope.markers, function(marker) {
+				bounds.extend(new google.maps.LatLng(marker.lat, marker.lng));
+			});
+
+			angular.forEach($scope.polygon.path, function(path) {
+				bounds.extend(new google.maps.LatLng(path.latitude, path.longitude));
+			});
+
+			var gmap = $scope.mapControl.getGMap();
+			gmap.fitBounds(bounds);			
 		};
 
 		/**

@@ -6,7 +6,6 @@
 		<ui-gmap-map-control template="polyButton.tpl.html" position="top-right" index="1" controller="mapWidgetCtrl"></ui-gmap-map-control-->
 
 		<ui-gmap-polygon
-			fit="polygon.option.fit"
 			static="polygon.option.static"
 			path="polygon.path"
 			stroke="polygon.option.stroke"
@@ -19,7 +18,7 @@
 		</ui-gmap-polygon>
 
 		<!-- markers -->
-		<ui-gmap-markers models="markers" coords="'self'" idKey="'_id'" events="'events'" icon="'icon'" fit="'mapOption.fit'" control="markerControl"></ui-gmap-markers>
+		<ui-gmap-markers models="markers" coords="'self'" idKey="'_id'" events="'events'" icon="'icon'" control="markerControl"></ui-gmap-markers>
 
     <!-- lines -->
     <ui-gmap-polylines models="polylines" path="'path'" stroke="'stroke'" visible="'visible'" geodesic="'geodesic'" control="polylineControl" static='true'></ui-gmap-polylines>
@@ -71,9 +70,9 @@
 					</table>
         </div>
 				<div class="col-xs-12 padding-clear detail-address margin-t5 map-window">address</div>
-        <div ng-show="'{{selectedMarker.trip_id}}' != ''" class="col-xs-12 padding-clear margin-t5">
+        <!--div ng-show="'{{selectedMarker.trip_id}}' != ''" class="col-xs-12 padding-clear margin-t5">
           <button ng-click="$parent.goTrip('{{selectedMarker.trip_id}}')" class="btn modal-btn-trip btn-success btn-sm pull-right">Go Trip</button>
-        </div>
+        </div-->
       </div>
 		</ui-gmap-window>
 
