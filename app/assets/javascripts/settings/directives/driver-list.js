@@ -15,10 +15,6 @@ angular.module('fmsSettings').directive('driverList', function() {
 .controller('driverListCtrl', function($rootScope, $scope, $resource, $element, GridUtils, FmsUtils, RestApi) {
 
 	/**
-	 * 사이드 바 토글 변수
-	 */
-	 $scope.isSidebarToggle = true;
-	/**
 	 * Driver List
 	 */
 	 $scope.items = [];

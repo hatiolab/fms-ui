@@ -60,7 +60,7 @@ angular.module('fmsHr').directive('hrOverviewSearch', function() {
 		//Sort Condition
 		searchParams.sort_field= $scope.sort_field;
 		searchParams.sort_value= $scope.sort_value;
-		searchParams.limit = 30;
+		searchParams.limit = 10;
 		return searchParams;
 	};
 
@@ -234,7 +234,8 @@ angular.module('fmsHr').directive('hrOverviewSearch', function() {
 	 $scope.setChartData = function(rawItems, chartData, field) {
 	 	for(var i = 0 ; i < rawItems.length ; i++) {
 	 		var rawItem = rawItems[i];
-	 		chartData.labels.push(rawItem.driver_code+' / '+rawItem.driver_name);
+	 		//chartData.labels.push(rawItem.driver_code + ' / ' + rawItem.driver_name);
+	 		chartData.labels.push(rawItem.driver_code);
 	 		chartData.data.push(Number(rawItem[field]));
 	 	};
 	 };

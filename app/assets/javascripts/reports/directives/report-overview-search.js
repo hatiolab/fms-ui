@@ -60,7 +60,7 @@ angular.module('fmsReports').directive('reportsOverviewSearch', function() {
 		//Sort Condition
 		searchParams.sort_field= $scope.sort_field;
 		searchParams.sort_value= $scope.sort_value;
-		searchParams.limit = 30;
+		searchParams.limit = 10;
 		return searchParams;
 	};
 

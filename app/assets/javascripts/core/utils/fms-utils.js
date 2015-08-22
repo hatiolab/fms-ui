@@ -10,19 +10,26 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 			var gridContainers = [
 				'monitor-alert-table-container', 
 				'monitor-fleet-table-container',
+				'monitor-side-info-trip-table-container',
+				'monitor-side-info-alert-table-container',
 				'geofence-view-table-container',
 				'geofence-setting-table-container',
 				'geofence-relation-table-container',
 				'setting-driver-table-container',
 				'setting-fleet-table-container',
 				'setting-group-relation-table-container',
-				'monitor-info-alert-table-container',
-				'monitor-info-trip-table-container',
-				'monitor-side-trip-table-container',
-				'monitor-side-trip-alert-table-container',
+				'hr-overspeed-table-container',
+				'hr-drivehabit-table-container',
+				'hr-drivetime-table-container',
+				'hr-drivedist-table-container',
+				'report-fleet-alert-table-container',
+				'report-fleet-drive-table-container',
+				'report-group-alert-table-container',
+				'report-group-drive-table-container'
 			];
 			
 			var me = this;
+
 			angular.forEach(gridContainers, function(gridContainerId) {
 				me.setGridContainerHieght(gridContainerId)
 			});
@@ -41,16 +48,22 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 			}
 
 			if(gridContainerId == 'monitor-alert-table-container') {
-				newHeight = newHeight - 323;
+				newHeight = newHeight - 340;
 
 			} else if(gridContainerId == 'monitor-fleet-table-container') {
 				newHeight = newHeight - 213;
+
+			} else if(gridContainerId == 'monitor-side-info-trip-table-container') {
+				newHeight = newHeight - 325;
+
+			} else if(gridContainerId == 'monitor-side-info-alert-table-container') {
+				newHeight = newHeight - 325;
 
 			} else if(gridContainerId == 'geofence-view-table-container') {
 				newHeight = (newHeight - 240) / 2;
 
 			} else if(gridContainerId == 'geofence-setting-table-container') {
-				newHeight = newHeight - 375;
+				newHeight = newHeight - 410;
 
 			} else if(gridContainerId == 'geofence-relation-table-container') {
 				newHeight = newHeight - 323;
@@ -67,17 +80,17 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 			} else if(gridContainerId == 'setting-group-relation-table-container') {
 				newHeight = newHeight - 323;
 
-			} else if(gridContainerId == 'monitor-info-alert-table-container') {
-				newHeight = 210;
+			} else if(gridContainerId == 'hr-overspeed-table-container' || gridContainerId == 'hr-drivehabit-table-container' || gridContainerId == 'hr-drivetime-table-container' || gridContainerId == 'hr-drivedist-table-container') {
+				newHeight = newHeight - 325;
 
-			} else if(gridContainerId == 'monitor-info-trip-table-container') {
-				newHeight = 210;
+			} else if(gridContainerId == 'report-fleet-alert-table-container') {
+				newHeight = newHeight - 420;
 
-			} else if(gridContainerId == 'monitor-side-trip-table-container') {
-				newHeight = (newHeight - 235) / 2;
+			} else if(gridContainerId == 'report-fleet-drive-table-container') {
+				newHeight = newHeight - 400;
 
-			} else if(gridContainerId == 'monitor-side-trip-alert-table-container') {
-				newHeight = (newHeight - 235) / 2;
+			} else if(gridContainerId == 'report-group-alert-table-container' || gridContainerId == 'report-group-drive-table-container') {
+				newHeight = newHeight - 325;
 			}
 
 			if(newHeight > 10) {

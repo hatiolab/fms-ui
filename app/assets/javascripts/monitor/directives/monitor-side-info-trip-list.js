@@ -1,23 +1,12 @@
-angular.module('fmsMonitor').directive('monitorSideTrips', function() { 
+angular.module('fmsMonitor').directive('monitorSideInfoTripList', function() { 
 	return { 
 		restrict: 'E',
-		controller: 'monitorSideTripsCtrl',
-		templateUrl: '/assets/monitor/views/sidebar/monitor-side-trips.html',
-		scope: {},
-		link : function(scope, element, attr, sideFleetsCtrl) {
-			// 버튼이 Directive Element 바깥쪽에 있어서 버튼 클릭함수를 이용 ...
-			var refreshButton = angular.element('.panel-refresh');
-			refreshButton.bind("click", function() {
-				var tripTab = angular.element('#tripTab');
-				// side-fleets 탭이 액티브 된 경우만 호출
-				if(tripTab.hasClass('active')) {
-					scope.search(scope.tablestate);
-				}
-			});
-		}
+		controller: 'monitorSideInfoTripListCtrl',
+		templateUrl: '/assets/monitor/views/sidebar/monitor-side-info-trip-list.html',
+		scope: {}
 	}; 
 })
-.controller('monitorSideTripsCtrl', function($rootScope, $scope, $resource, $element, GridUtils, FmsUtils, RestApi) {
+.controller('monitorSideInfoTripListCtrl', function($rootScope, $scope, $resource, $element, GridUtils, FmsUtils, RestApi) {
 	
 	/**
 	 * 기본 날짜 검색일 설정 
@@ -167,7 +156,7 @@ angular.module('fmsMonitor').directive('monitorSideTrips', function() {
 	$scope.afterSearch = function(dataSet) {
 		$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
 		$scope.numbering(dataSet.items, 1);
-		FmsUtils.setGridContainerHieght('monitor-side-trip-table-container');
+		FmsUtils.setGridContainerHieght('monitor-side-info-trip-table-container');
 	};
 
 	/**
@@ -224,17 +213,9 @@ angular.module('fmsMonitor').directive('monitorSideTrips', function() {
 	 */
 	$scope.init = function() {
 		/**
-		 * init date picker1
-		 */
-		FmsUtils.initDatePicker('monitor_side_trip_datepicker1', $scope.searchParams, 'etm_gte', $scope.search);
-		/**
-		 * init date picker2
-		 */
-		FmsUtils.initDatePicker('monitor_side_trip_datepicker2', $scope.searchParams, 'etm_lte', $scope.search);
-		/**
 		 * Table container size 설정 
 		 */
-		FmsUtils.setGridContainerHieght('monitor-side-trip-table-container');
+		FmsUtils.setGridContainerHieght('monitor-side-info-trip-table-container');
 	};
 
 	/**

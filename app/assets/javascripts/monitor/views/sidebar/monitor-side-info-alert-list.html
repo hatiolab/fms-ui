@@ -1,0 +1,31 @@
+<form class="form-horizontal">
+	<period-picker from-date="searchParams.ctm_gte" to-date="searchParams.ctm_lte" search="search">
+	</period-picker>
+
+	<div id="monitor-side-info-alert-table-container" class="search-table">
+		<table class="table table-striped table-hover" st-pagination-scroll st-table="items" st-pipe="search">
+			<thead>
+			  <tr>
+			  	<th>#</th>
+					<th></th>
+					<th>Type</th>
+					<th>Driver</th>
+					<th>Velocity</th>
+					<th>Occurred Time</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in items" ng-class="{active : item.active}" ng-click="goTrip(item)">
+					<td>{{item.no}}</td>
+					<td class="icon-td align-center" ng-click="showAlertWindow(item)">
+						<span class="{{item.typeClass}}"></span>
+					</td>
+					<td class="icon-td">{{item.eventType}}</td>
+					<td>{{item.driver.name}}</td>
+					<td>{{item.vlc}}</td>
+					<td>{{item.etm | date : 'medium'}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</form>

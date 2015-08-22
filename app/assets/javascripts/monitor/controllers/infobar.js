@@ -1,9 +1,5 @@
 angular.module('fmsMonitor').controller('InfobarCtrl', function($rootScope, $scope, GridUtils) {
-	
-	/**
-	 * Infobar toggle show / hide model
-	 */
-	$scope.isInfobarToggle = true;
+
 	/**
 	 * Infobar 높이 변경
 	 */

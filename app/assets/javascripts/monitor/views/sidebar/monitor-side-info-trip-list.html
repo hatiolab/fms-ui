@@ -1,0 +1,27 @@
+<form class="form-horizontal">
+	<period-picker from-date="searchParams.etm_gte" to-date="searchParams.etm_lte" search="search">
+	</period-picker>
+
+	<div id="monitor-side-info-trip-table-container" class="search-table">
+		<table class="table table-striped table-hover" st-pagination-scroll st-table="items" st-pipe="search">
+			<thead>
+			  <tr>
+			  	<th>#</th>
+					<th>Driver</th>
+					<th>Start Time</th>
+					<th>Finish Time</th>
+					<th>OverSpeed</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in items" ng-class="{active : item.active}" ng-click="goTrip(item)">
+					<td>{{item.no}}</td>
+					<td>{{item.did}}</td>
+					<td>{{item.stm | date : 'medium'}}</td>
+					<td>{{item.etm | date : 'medium'}}</td>
+					<td>{{item.c_ovr}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</form>

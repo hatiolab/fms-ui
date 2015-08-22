@@ -14,12 +14,16 @@ angular.module('fmsHr').directive('hrDrivedistanceSearch', function() {
 })
 .controller('hrDrivedistanceSearchCtrl', function($rootScope, $scope, $element, $compile, $timeout, GridUtils, FmsUtils, RestApi) {
 
-    /**
-     * 기본 날짜 검색일 설정 
-     */
-    var period = FmsUtils.getPeriodString(7);
-
-	$scope.searchParams={ from_date : period[0], to_date : period[1]};
+  /**
+   * 기본 날짜 검색일 설정 
+   */
+  var period = FmsUtils.getPeriodString(7);
+  /**
+   * 검색 조건 
+   * 
+   * @type {Object}
+   */
+	$scope.searchParams = { from_date : period[0], to_date : period[1] };
 	/**
 	 * Group List
 	 *
@@ -43,13 +47,23 @@ angular.module('fmsHr').directive('hrDrivedistanceSearch', function() {
 	 */
 	$scope.searchEnabled = false;
 	/**
-	 * Sort Field Name & Sort value
+	 * 검색 Sort 필드 
 	 * 
 	 * @type {String}
 	 */
 	$scope.sort_field = 'drive_dist';
+	/**
+	 * 검색 Sort 조건 
+	 * 
+	 * @type {String}
+	 */
 	$scope.sort_value = 'desc';
-	$scope.limit      = 30;
+	/**
+	 * Top 10만 조회 
+	 * 
+	 * @type {Number}
+	 */
+	$scope.limit      = 10;
 	/**
 	 * Chart Title
 	 * 
@@ -142,7 +156,7 @@ angular.module('fmsHr').directive('hrDrivedistanceSearch', function() {
 		var searchParams = {};
 
 		if(!params || FmsUtils.isEmpty(params)) {
-			return searchParams;
+			params = $scope.searchParams;
 		} 
 
 		searchParams["from_date"] = params.from_date;
@@ -164,15 +178,14 @@ angular.module('fmsHr').directive('hrDrivedistanceSearch', function() {
 	 * @return N/A
 	 */
 	$scope.search = function(tablestate) {
-		if(!$scope.checkSearch(tablestate)) {
-			return;
+		if($scope.checkSearch(tablestate)) {
+			var searchParams = $scope.beforeSearch();
+			$scope.doSearch(searchParams, function(dataSet) {
+				$scope.numbering(dataSet.items, 1);
+				$scope.items = dataSet.items;
+				$scope.afterSearch(dataSet);
+			});
 		}
-		var searchParams = $scope.beforeSearch();
-		$scope.doSearch(searchParams, function(dataSet) {
-			$scope.numbering(dataSet.items, 1);
-			$scope.items = dataSet.items;
-			$scope.afterSearch(dataSet);
-		});
 	};
 
 	/**
@@ -271,7 +284,7 @@ angular.module('fmsHr').directive('hrDrivedistanceSearch', function() {
 	  */
 	 $scope.afterSearch = function(dataSet) {
 	 	$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
-		FmsUtils.setGridContainerHieght('hr-drivedistance-table-container');
+		FmsUtils.setGridContainerHieght('hr-drivedist-table-container');
 		$scope.showTotalChart();
 	 };
 
