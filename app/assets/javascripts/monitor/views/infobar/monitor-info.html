@@ -4,6 +4,10 @@
 										<td class="info-value"><strong>{{trip.fid}}</strong> / {{trip.id}}</td>
 									</tr>
 									<tr>
+										<td class="info-label">Driver</td>
+										<td class="info-value">{{trip.did}}</td>
+									</tr>									
+									<tr>
 										<td class="info-label">Started at / Till</td>
 										<td class="info-value">{{trip.stm | date:'medium'}} / {{trip.etm | date :'medium'}}</td>
 									</tr>
@@ -32,7 +36,7 @@
 									</tr>
 								</table>
 								<!-- pagination begin -->
-								<div class="pagecontainer">
+								<!--div class="pagecontainer">
 									<nav class="pull-right padding-clear">
 								  	<ul class="pagination">
 								    <li class="padding-rl7 border-rl-lightgray" style="padding-top:3px;padding-bottom:8px">
@@ -53,5 +57,5 @@
 								    </li>
 								  </ul>
 									</nav>
-								</div>	
+								</div-->	
 								<!-- pagination end -->

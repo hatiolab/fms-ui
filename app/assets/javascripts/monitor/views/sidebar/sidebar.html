@@ -15,6 +15,13 @@
 	    		<strong>Alerts</strong>
 	    	</a>
 	    </li>
+
+	    <li id="tripTab" role="presentation">
+	    	<a href="#side-trip" aria-controls="profile" role="tab" data-toggle="tab">
+	    		<strong>Selected Trip</strong>
+	    	</a>
+	    </li>
+
 			<!--button type="button" class="btn btn-default panel-toggle pull-right" ng-click="isSidebarToggle = !isSidebarToggle"></button-->
 			<button type="button" class="btn btn-default panel-toggle pull-right"></button>
 			<button type="button" class="btn btn-default panel-refresh pull-right"></button>
@@ -31,6 +38,11 @@
 			<!-- alert tab -->
 			<div role="tabpanel" class="tab-pane" id="side-alerts">
 				<monitor-side-alerts></monitor-side-alerts>
+			</div>
+
+			<!-- trip tab -->
+			<div role="tabpanel" class="tab-pane" id="side-trip">
+				<monitor-side-trips></monitor-side-trips>
 			</div>
 	  </div>
 
