@@ -1,5 +1,23 @@
 <div ng-controller='MonitorMapCtrl'>
+	<script type="text/ng-template" id="control.viewmode.tpl.html">
+		<div>
+			<button class="btn btn-sm btn-primary" ng-class="{'btn-warning': danger}" ng-click="changeViewMode()">FLEET</button>
+			<button class="btn btn-sm btn-primary" ng-class="{'btn-warning': danger}" ng-click="changeViewMode()">TRIP</button>
+			<button class="btn btn-sm btn-primary" ng-class="{'btn-warning': danger}" ng-click="changeViewMode()">EVENT</button>
+	  </div>
+	</script>
+
+	<script type="text/ng-template" id="control.refresh.tpl.html">
+		<div>
+			<input type="checkbox">Auto Fit</input>
+			<input type="textbox">Refresh Time</input>
+	  </div>
+	</script>
+
 	<ui-gmap-google-map id='mapCanvas' center='mapOption.center' zoom='mapOption.zoom' control="mapControl">
+
+		<ui-gmap-map-control template="control.viewmode.tpl.html" controller="MapControlCtrl" position="top-left" index="1"></ui-gmap-map-control>
+		<ui-gmap-map-control template="control.refresh.tpl.html" controller="MapControlCtrl" position="top-right" index="1"></ui-gmap-map-control>
 
 		<!-- markers -->
 		<ui-gmap-markers models="markers" coords="'self'" idKey="'_id'" events="'events'" icon="'icon'" fit="'mapOption.fit'" control="markerControl"></ui-gmap-markers>

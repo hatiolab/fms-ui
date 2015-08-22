@@ -1,4 +1,9 @@
-angular.module('fmsMonitor').controller('MonitorMapCtrl', function($rootScope, $scope, $element, $timeout, $interval, ConstantSpeed, FmsUtils, RestApi) {
+angular.module('fmsMonitor').controller('MapControlCtrl', function ($scope) {
+		$scope.changeViewMode = function () {
+			alert('custom control clicked!');
+		};
+
+    }).controller('MonitorMapCtrl', function($rootScope, $scope, $element, $timeout, $interval, ConstantSpeed, FmsUtils, RestApi) {
 	
 	/**
 	 * 현재 선택된 Trip ID
