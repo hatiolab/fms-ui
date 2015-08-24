@@ -1,7 +1,7 @@
 <div ng-controller='MonitorMapCtrl'>
 	<script type="text/ng-template" id="control.viewmode.tpl.html">
 		<div>
-			<button class="btn btn-sm fleet-mode {{mode.cls}}" ng-class="{'btn-warning': danger}" ng-repeat="mode in viewModes"  ng-click="changeViewMode($event)">{{mode.name}}</button>
+			<button class="btn btn-sm fleet-mode {{mode.cls}}" ng-class="{'btn-warning': danger}" ng-repeat="mode in viewModes"  ng-click="changeViewMode(mode)">{{mode.name}}</button>
 	  </div>
 	</script>
 
