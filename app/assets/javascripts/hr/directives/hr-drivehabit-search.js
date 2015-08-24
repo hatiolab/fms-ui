@@ -111,7 +111,6 @@ angular.module('fmsHr').directive('hrDrivehabitSearch', function() {
 	 		chartData.labels.push(item.group_name);
 	 		chartData.series = series;
 	 	}
-	 	console.log(dataList);
 	 	for(var i = 0 ; i < fieldList.length ; i++) {
 	 		var field = fieldList[i];
 	 		chartData.data.push([]);

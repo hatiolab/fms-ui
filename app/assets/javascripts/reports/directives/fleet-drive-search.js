@@ -202,7 +202,6 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 		$scope.doSearch(searchParams, function(dataSet) {
 			$scope.numbering(dataSet.items, 1);
 			$scope.items = dataSet.items;
-			console.log($scope.items);
 			$scope.afterSearch(dataSet);
 		});
 	};

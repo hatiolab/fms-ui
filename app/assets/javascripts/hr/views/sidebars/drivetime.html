@@ -46,7 +46,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="item in items" ng-click="showItemChart(item)" ng-class="{active : item.active}">
+					<tr ng-repeat="item in items" ng-class="{active : item.active}"> <!-- ng-click="showItemChart(item)"  -->
 						<td>{{item.no}}</td>
 						<td>{{item.driver_code}}</td>
 						<td>{{item.driver_name}}</td>

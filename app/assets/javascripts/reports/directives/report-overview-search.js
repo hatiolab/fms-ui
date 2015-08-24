@@ -102,7 +102,6 @@ angular.module('fmsReports').directive('reportsOverviewSearch', function() {
 			$scope.items[target] = dataSet.items;
 			$scope.afterSearch($scope.items);
 		});
-		console.log('here');
 	};
 
 	 /**
