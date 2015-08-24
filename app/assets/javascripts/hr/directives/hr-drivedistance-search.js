@@ -74,25 +74,20 @@ angular.module('fmsHr').directive('hrDrivedistanceSearch', function() {
 	/**
 	 * Show Total Summary Chart
 	 */
-	$scope.showTotalChart = function() {
+	$scope.showTotalChart = function(list) {
 		// 선택 아이템 변경 
 		$scope.item = null;
 		$scope.chartTitle = "Driving distance By Driver";
 
-		var params = { from_date : $scope.searchParams['from_date'], to_date : $scope.searchParams['to_date']};
-
-		RestApi.list('/fleet_summaries/driver_summary.json', params, function(list) {
-			// 기존 차트 삭제 
-			var parent = $('div.report-content').parent();
-			$('div.report-content').remove();
-			var html = "<div class='report-content'><fms-bar-chart class='col-xs-12 col-sm-12' title='Driving distance By Driver'></fms-bar-chart></div>";
-			var el = $compile(html)($scope);
-		 	parent.append(el);
-
-		 	// send data to chart scope
-		 	$timeout.cancel();
-	   	$timeout($scope.sendTotalChartData, 250, true, list);
-	 	});
+		// 기존 차트 삭제 
+		var parent = $('div.report-content').parent();
+		$('div.report-content').remove();
+		var html = "<div class='report-content'><fms-bar-chart class='col-xs-12 col-sm-12' title='Driving distance By Driver'></fms-bar-chart></div>";
+		var el = $compile(html)($scope);
+	 	parent.append(el);
+	 	// send data to chart scope
+	 	$timeout.cancel();
+   		$timeout($scope.sendTotalChartData, 250, true, list);
 	};
 
 	/**
@@ -146,6 +141,45 @@ angular.module('fmsHr').directive('hrDrivedistanceSearch', function() {
 		}
 	};
 
+	/**
+	 * Show Selected Item Chart
+	 * 
+	 * @return N/A
+	 */
+	$scope.showItemChart = function(item) {
+		$scope.setActiveItem(item);
+		$scope.chartTitle = "Drive Distance Trend - " + item.driver_code + " (" + item.driver_name + ")";
+		var params = { driver_id : item.driver_id, 
+					   from_date : $scope.searchParams['from_date'], 
+					   to_date : $scope.searchParams['to_date'],
+					   sort_field : "date",
+					   sort_value : "asc"}
+
+		RestApi.list('/fleet_summaries/driver_summary.json', params, function(list) {
+			// 기존 차트 삭제 
+			var parent = $('div.report-content').parent();
+			$('div.report-content').remove();
+			var html = "<div class='report-content'><fms-bar-chart class='col-xs-12 col-sm-12' title='" + $scope.chartTitle + "'></fms-bar-chart></div>";
+			var el = $compile(html)($scope);
+		 	parent.append(el);
+		 	// send data to chart scope
+		 	$timeout.cancel();
+	   	$timeout($scope.sendItemChartData, 250, true, list);
+	 	});
+	};
+
+	/**
+	 * Send Driver Chart Data
+	 */
+	$scope.sendItemChartData = function(list) {
+	 	var barChartData = { title : $scope.chartTitle, labels : [], series : ['Over Speed Count'], data : [] };
+	 	for(var i = 0 ; i < list.length ; i++) {
+	 		var item = list[i];
+	 		barChartData.labels.push(item.date);
+	 		barChartData.data.push(Number(item.drive_dist));
+	 	};
+		$scope.$emit('bar-chart-data-change', barChartData);
+	};
 
 	/**
 	 * Rails Server의 스펙에 맞도록 파라미터 변경 ...
@@ -285,7 +319,7 @@ angular.module('fmsHr').directive('hrDrivedistanceSearch', function() {
 	 $scope.afterSearch = function(dataSet) {
 	 	$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
 		FmsUtils.setGridContainerHieght('hr-drivedist-table-container');
-		$scope.showTotalChart();
+		$scope.showTotalChart(dataSet.items);
 	 };
 
 	/**

@@ -58,28 +58,44 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 	 * @type {String}
 	 */
 	$scope.chartTitle = 'Over Speed Total Summary';
+	/**
+	 * 검색 Sort 필드 
+	 * 
+	 * @type {String}
+	 */
+	$scope.sort_field = 'speed_over';
+	/**
+	 * 검색 Sort 조건 
+	 * 
+	 * @type {String}
+	 */
+	$scope.sort_value = 'desc';
+	/**
+	 * Top 10만 조회 
+	 * 
+	 * @type {Number}
+	 */
+	$scope.limit = 10;
 
 	/**
 	 * Show Total Summary Chart
 	 */
-	$scope.showTotalChart = function() {
+	$scope.showTotalChart = function(list) {
 		// 선택 아이템 변경 
 		$scope.item = null;
 		$scope.chartTitle = "Over Speed Total Summary";
-		var params = { from_date : $scope.searchParams['from_date'], to_date : $scope.searchParams['to_date']};
+		
+		// 기존 차트 삭제 
+		var parent = $('div.report-content').parent();
+		$('div.report-content').remove();
+		var html = "<div class='report-content'><fms-bar-chart class='col-xs-12 col-sm-12' title='Over Speed Total Summary'></fms-bar-chart></div>";
+		var el = $compile(html)($scope);
+	 	parent.append(el);
 
-		RestApi.list('/fleet_summaries/driver_summary.json', params, function(list) {
-			// 기존 차트 삭제 
-			var parent = $('div.report-content').parent();
-			$('div.report-content').remove();
-			var html = "<div class='report-content'><fms-bar-chart class='col-xs-12 col-sm-12' title='Over Speed Total Summary'></fms-bar-chart></div>";
-			var el = $compile(html)($scope);
-		 	parent.append(el);
-
-		 	// send data to chart scope
-		 	$timeout.cancel();
+	 	// send data to chart scope
+	 	$timeout.cancel();
 	   	$timeout($scope.sendTotalChartData, 250, true, list);
-	 	});
+
 	};
 
 	/**
@@ -97,19 +113,6 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 		$scope.$emit('bar-chart-data-change', barChartData);
 	};
 
-	/**
-	 * active item
-	 * 
-	 * @param {Object}
-	 */
-	$scope.setActiveItem = function(activeItem) {
-		// 선택 아이템 변경 
-		$scope.item = activeItem;		
-		for (var i = 0; i < $scope.items.length; i++) {
-			var item = $scope.items[i];
-			item.active = (item.driver_id == $scope.item.driver_id);
-		}
-	};
 
 	/**
 	 * Show Selected Item Chart
@@ -119,7 +122,12 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 	$scope.showItemChart = function(item) {
 		$scope.setActiveItem(item);
 		$scope.chartTitle = "Over Speed Trend - " + item.driver_code + " (" + item.driver_name + ")";
-		var params = { driver_id : item.driver_id, from_date : $scope.searchParams['from_date'], to_date : $scope.searchParams['to_date']};
+		var params = { driver_id : item.driver_id, 
+					   from_date : $scope.searchParams['from_date'], 
+					   to_date 	: $scope.searchParams['to_date'],
+					   sort_field : "date",
+					   sort_value : "asc"}
+
 		RestApi.list('/fleet_summaries/driver_summary.json', params, function(list) {
 			// 기존 차트 삭제 
 			var parent = $('div.report-content').parent();
@@ -145,6 +153,19 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 	 	};
 		$scope.$emit('bar-chart-data-change', barChartData);
 	};
+	/**
+	 * active item
+	 * 
+	 * @param {Object}
+	 */
+	$scope.setActiveItem = function(activeItem) {
+		// 선택 아이템 변경 
+		$scope.item = activeItem;		
+		for (var i = 0; i < $scope.items.length; i++) {
+			var item = $scope.items[i];
+			item.active = (item.driver_id == $scope.item.driver_id);
+		}
+	};
 
 	/**
 	 * Rails Server의 스펙에 맞도록 파라미터 변경 ...
@@ -160,6 +181,9 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 
 		searchParams["from_date"] = params.from_date;
 		searchParams["to_date"] = params.to_date;
+		searchParams["sort_field"]= $scope.sort_field;
+		searchParams["sort_value"]= $scope.sort_value;
+		searchParams.limit = $scope.limit;
 
 	 	if(params.group) {
 	 		searchParams["group_id"] = params.group.id;
@@ -285,7 +309,7 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 	$scope.afterSearch = function(dataSet) {
 	 	$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
 		FmsUtils.setGridContainerHieght('hr-overspeed-table-container');
-		$scope.showTotalChart();
+		$scope.showTotalChart(dataSet.items);
 	};
 
 	/**

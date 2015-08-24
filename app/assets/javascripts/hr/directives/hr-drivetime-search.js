@@ -74,25 +74,22 @@ angular.module('fmsHr').directive('hrDrivetimeSearch', function() {
 	/**
 	 * Show Total Summary Chart
 	 */
-	$scope.showTotalChart = function() {
+	$scope.showTotalChart = function(list) {
 		// 선택 아이템 변경 
 		$scope.item = null;
 		$scope.chartTitle = "Working Time By Driver";
 
-		var params = { from_date : $scope.searchParams['from_date'], to_date : $scope.searchParams['to_date']};
+		// 기존 차트 삭제 
+		var parent = $('div.report-content').parent();
+		$('div.report-content').remove();
+		var html = "<div class='report-content'><fms-bar-chart class='col-xs-12 col-sm-12' title='Working Time By Driver'></fms-bar-chart></div>";
+		var el = $compile(html)($scope);
+	 	parent.append(el);
 
-		RestApi.list('/fleet_summaries/driver_summary.json', params, function(list) {
-			// 기존 차트 삭제 
-			var parent = $('div.report-content').parent();
-			$('div.report-content').remove();
-			var html = "<div class='report-content'><fms-bar-chart class='col-xs-12 col-sm-12' title='Working Time By Driver'></fms-bar-chart></div>";
-			var el = $compile(html)($scope);
-		 	parent.append(el);
 
-		 	// send data to chart scope
-		 	$timeout.cancel();
+	 	// send data to chart scope
+	 	$timeout.cancel();
 	   	$timeout($scope.sendTotalChartData, 250, true, list);
-	 	});
 	};
 
 	/**
@@ -105,6 +102,41 @@ angular.module('fmsHr').directive('hrDrivetimeSearch', function() {
 	 	var barChartData = { title : $scope.chartTitle, labels : [], data : [] };
 		$scope.setChartData(list, barChartData, ['drive_time'], ['Drive Time']);
 		$scope.$emit('bar-chart-data-list-change', barChartData);
+	};
+
+	$scope.showItemChart = function(item) {
+		$scope.setActiveItem(item);
+		$scope.chartTitle = "Working Time Trend - " + item.driver_code + " (" + item.driver_name + ")";
+		var params = { driver_id : item.driver_id, 
+					   from_date : $scope.searchParams['from_date'], 
+					   to_date : $scope.searchParams['to_date'],
+					   sort_field : "date",
+					   sort_value : "asc"}
+
+		RestApi.list('/fleet_summaries/driver_summary.json', params, function(list) {
+			// 기존 차트 삭제 
+			var parent = $('div.report-content').parent();
+			$('div.report-content').remove();
+			var html = "<div class='report-content'><fms-bar-chart class='col-xs-12 col-sm-12' title='" + $scope.chartTitle + "'></fms-bar-chart></div>";
+			var el = $compile(html)($scope);
+		 	parent.append(el);
+		 	// send data to chart scope
+		 	$timeout.cancel();
+	   	$timeout($scope.sendItemChartData, 250, true, list);
+	 	});
+	};
+
+	/**
+	 * Send Driver Chart Data
+	 */
+	$scope.sendItemChartData = function(list) {
+	 	var barChartData = { title : $scope.chartTitle, labels : [], series : ['Drive time'], data : [] };
+	 	for(var i = 0 ; i < list.length ; i++) {
+	 		var item = list[i];
+	 		barChartData.labels.push(item.date);
+	 		barChartData.data.push(Number(item.drive_time));
+	 	};
+		$scope.$emit('bar-chart-data-change', barChartData);
 	};
 
 	 /**
@@ -284,7 +316,7 @@ angular.module('fmsHr').directive('hrDrivetimeSearch', function() {
 	 $scope.afterSearch = function(dataSet) {
 	 	$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
 		FmsUtils.setGridContainerHieght('hr-drivetime-table-container');
-		$scope.showTotalChart();
+		$scope.showTotalChart(dataSet.items);
 	 };
 
 	/**
