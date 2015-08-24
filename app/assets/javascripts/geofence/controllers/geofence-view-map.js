@@ -92,7 +92,7 @@ angular.module('fmsGeofence')
 		 * @param  {String}
 		 * @param  handler function
 		 */
-		var geofenceSelectionListener = $rootScope.$on('geofence-item-selected', function(event, geofence) {
+		var geofenceSelectionListener = $rootScope.$on('geofence-event-all-selected', function(event, geofence, eventItems) {
 			$scope.geofence = geofence;
 			$scope.resetPolygon();
 
@@ -104,6 +104,7 @@ angular.module('fmsGeofence')
 					var groupIdList = items.map(function(item) { return item.fleet_group_id });
 					RestApi.list('/fleets.json', { '_q[fleet_group_id-in]' : groupIdList.join(',') }, function(list) {
 						$scope.refreshFleets(list);
+						$scope.refreshEvents(eventItems);
 					});
 				});
 			});
@@ -282,7 +283,7 @@ angular.module('fmsGeofence')
 		 * Refresh Event Markers
 		 */
 		$scope.refreshEvents = function(eventDataList) {
-			$scope.clearAll(null);
+			//$scope.clearAll(null);
 
 			if(eventDataList && eventDataList.length > 0) {
 				for(var i = 0 ; i < eventDataList.length ; i++) {

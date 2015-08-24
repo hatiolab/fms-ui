@@ -1,0 +1,27 @@
+<!-- data table begin -->
+<div id="geofence-alert-table-container" class="search-table">
+	<table class="table table-striped table-hover" st-pagination-scroll st-table="events" st-pipe="search">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Fleet</th>
+				<th>Driver</th>
+				<th>Geofence</th>
+				<th>Occurred Time</th>
+				<th>Type</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="eventAlert in events" ng-click="goItem(eventAlert)" ng-class="{active : eventAlert.active}">
+				<td>{{eventAlert.no}}</td>
+				<td>{{eventAlert.fid}}</td>
+				<td>{{eventAlert.driver.name}}</td>
+				<td>{{eventAlert.geofence.name}}</td>
+				<td>{{eventAlert.etm | date:'medium'}}</td>
+				<td>{{eventAlert.typ}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<!-- data table end -->
+<div ng-if="isLoading" class="loading"></div>

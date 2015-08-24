@@ -55,33 +55,9 @@
 		</ul>
 		<!-- geofence alert list end -->
 
-		<!-- data table begin -->
-		<div id="geofence-alert-table-container" class="search-table">
-			<table class="table table-striped table-hover" st-pagination-scroll st-table="alerts" st-pipe="searchAlerts">
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>Fleet</th>
-						<th>Driver</th>
-						<th>Occurred Time</th>
-						<th>Geofence</th>
-						<th>Type</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="item in alerts" ng-class="{active : item.active}" ng-click="showEventInfo(item)">
-						<td>{{item.no}}</td>
-						<td>{{item.fid}}</td>
-						<td>{{item.driver.name}}</td>
-						<td>{{item.geofence.name}}</td>
-						<td>{{item.etm | date:'medium'}}</td>
-						<td>{{item.typ}}</td>
-					</tr>
-				</tbody>
-			</table>
-			<div ng-if="isLoading" class="loading"></div>
-		</div>
-		<!-- data table end -->
+		<!-- event table begin -->
+		<event-list event-type='typ_geofence'> </event-list>
+		<!-- event table end -->
 
 	</div>
 </div>
