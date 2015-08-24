@@ -212,21 +212,10 @@ angular.module('fmsGeofence').directive('geofenceList', function() {
 	};		
 
 	/**
-	 * geofence item selected
-	 * 
-	 * @param  {eventName}
-	 * @param  handler function
-	 */
-	// var itemsChangeListener = $rootScope.$on('geofence-items-change', function(event, geofence) {
-	// 	$scope.resetItem();
-	// 	$scope.search($scope.tablestate);
-	// });
-
-	/**
 	 * Destroy Scope - RootScope Event Listener 정리 
 	 */
 	$scope.$on('$destroy', function(event) {
-	  itemsChangeListener();
+		// TODO
 	});
 	  
 });

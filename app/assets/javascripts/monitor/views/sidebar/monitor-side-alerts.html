@@ -108,7 +108,7 @@
 				<th>Driver</th>
 				<th>Occurred Time</th>
 				<th>Type</th>
-				<th>Trip</th>
+				<!--th>Trip</th-->
 			</tr>
 		</thead>
 		<tbody>
@@ -117,14 +117,12 @@
 				<td>{{item.fid}}</td>
 				<td>{{item.driver.name}}</td>
 				<td>{{item.etm | date:'medium'}}</td>
-				<!--td class="icon-td align-center" ng-click="showEventInfo(item)"-->
 				<td class="icon-td align-center">
 					<span class="{{item.typeClass}}"></span>
 				</td>
-				<!--td class="icon-td align-center" ng-click="goTrip(item)"-->
-				<td class="icon-td align-center">
+				<!--td class="icon-td align-center">
 					<span class="icon-trip" ng-show="item.tid != null && item.tid != ''"></span>
-				</td>
+				</td-->
 			</tr>
 		</tbody>
 	</table>

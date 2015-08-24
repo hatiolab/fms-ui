@@ -1,5 +1,5 @@
 angular.module('fmsGeofence')
-	.controller('GeofenceSettingMapCtrl', function($rootScope, $scope, $element, ModalUtils, RestApi) {
+	.controller('GeofenceSettingMapCtrl', function($rootScope, $scope, $element, uiGmapIsReady, ModalUtils, RestApi) {
 
 		/**
 		 * selected geofence
@@ -45,11 +45,11 @@ angular.module('fmsGeofence')
 			drawingControlOptions: {
 				position: google.maps.ControlPosition.TOP_CENTER,
 				drawingModes: [
-					//google.maps.drawing.OverlayType.POLYGON
-					//google.maps.drawing.OverlayType.MARKER,
-					//google.maps.drawing.OverlayType.CIRCLE,
-					//google.maps.drawing.OverlayType.POLYLINE,
-					//google.maps.drawing.OverlayType.RECTANGLE
+					google.maps.drawing.OverlayType.POLYGON,
+					google.maps.drawing.OverlayType.MARKER,
+					google.maps.drawing.OverlayType.CIRCLE,
+					google.maps.drawing.OverlayType.POLYLINE,
+					google.maps.drawing.OverlayType.RECTANGLE
 				]
 			},
 			polygonOptions: {
@@ -84,11 +84,16 @@ angular.module('fmsGeofence')
 
 				// Save Polygon 
 				$scope.savePolygon();
+			},
+
+			circlecomplete: function() {
+				alert('circle');
 			}
 		};
 
-		//uiGmapIsReady.promise().then(function(map_instances) {
-		//});
+		uiGmapIsReady.promise().then(function(map_instances) {
+			alert('uiGmapIs Ready');
+		});
 
 		/**
 		 * Set Polygon Drawing Mode

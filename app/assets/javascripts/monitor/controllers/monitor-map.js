@@ -1,4 +1,4 @@
-angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootScope, $scope) {
+angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootScope, $scope, $timeout) {
 
 	$scope.viewModes = [ 
 		{ mode: 'FLEET', name: 'FLEET', eventName : 'monitor-refresh-fleet', cls : 'btn-primary' }, 
@@ -185,22 +185,16 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 			$scope.initProgress();
 		}
 
-		$scope.mapOption.fit = false;
 		$scope.progressBar.start(maxCnt);
-	};
-
-	/**
-	 * End Progress Bar
-	 */
-	$scope.endProgress = function(gmap) {
-		$scope.progressBar.hide();
-		$scope.mapOption.fit = true;
+		$timeout($scope.monitorProgress, 100, true, maxCnt);
 	};
 
 	/**
 	 * Fit Bounds
 	 */
 	$scope.fitBounds = function() {
+		var gmap = $scope.mapControl.getGMap();
+
 		if($scope.refreshOption.autoFit && $scope.markers && $scope.markers.length > 0) {
 			var startPoint = new google.maps.LatLng($scope.markers[0].lat, $scope.markers[0].lng);
 			var bounds = new google.maps.LatLngBounds(startPoint, startPoint);
@@ -209,8 +203,21 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 				bounds.extend(new google.maps.LatLng(marker.lat, marker.lng));
 			});
 
-			var gmap = $scope.mapControl.getGMap();
 			gmap.fitBounds(bounds);	
+		}
+	};
+
+	/**
+	 * Monitor Progressing ...
+	 */
+	$scope.monitorProgress = function(totalMarkerCount) {
+		var gMarkerCount = $scope.markerControl.getGMarkers().length;
+		if(gMarkerCount >= totalMarkerCount) {
+			$scope.progressBar.setCurrent(gMarkerCount);
+			$scope.progressBar.hide();
+		} else {
+			$scope.progressBar.setCurrent(gMarkerCount);
+			$timeout($scope.monitorProgress, 100, true, totalMarkerCount);
 		}
 	};
 
@@ -230,9 +237,6 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 
 			// fit bounds
 			$scope.fitBounds();
-			
-			// end progress ...		
-			$scope.endProgress();
 		}
 	};
 
@@ -310,9 +314,6 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 
 			// fit bounds
 			$scope.fitBounds();
-
-			// end progress ...
-			$scope.endProgress();
 		}
 	};	
 
@@ -365,8 +366,6 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 			$scope.clearAll(null);
 			// 2. trip 그리기 
 			$scope.showTrip(dataSet, callback);
-			// end progrss ...
-			$scope.endProgress();
 		});
 	};
 
@@ -464,7 +463,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 */
 	$scope.addMarker = function(marker) {
 		$scope.markers.push(marker);
-		$scope.progressBar.updateBar(1);
+		//$scope.progressBar.updateBar(1);
 	};
 
 	/**
