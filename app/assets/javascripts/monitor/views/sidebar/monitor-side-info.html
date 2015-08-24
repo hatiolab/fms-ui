@@ -6,37 +6,40 @@
 
 	<monitor-side-info-trip></monitor-side-info-trip>
 
-	<ul class="setting-sidemenu">
+	<div class="tab-in-tab">
+		  <!-- Nav tabs -->
+		  <ul class="nav nav-tabs" role="tablist">
+		    <li id="infoTripTab" role="presentation" class="active">
+		    	<a href="#info-trips" aria-controls="profile" role="tab" data-toggle="tab">
+		    		<strong>Trip List</strong>
+		    	</a>
+		    </li>
+
+		    <li id="infoAlertTab" role="presentation">
+		    	<a href="#info-alerts" aria-controls="profile" role="tab" data-toggle="tab">
+		    		<strong>Alert List</strong>
+		    	</a>
+		    </li>    
+		  </ul>
+
+		  <!-- Tab panes -->
+		  <div class="tab-content">
+				<!-- trip tab -->
+				<div role="tabpanel" class="tab-pane active" id="info-trips">
+					<monitor-side-info-trip-list></monitor-side-info-trip-list>
+				</div>
+
+				<!-- alert tab -->
+				<div role="tabpanel" class="tab-pane" id="info-alerts">
+					<monitor-side-info-alert-list></monitor-side-info-alert-list>
+				</div>
+		  </div>	
+
+		<!--/form-->
+	</div>
+
+	<!-- <ul class="setting-sidemenu">
 		<li><a href="" class="menu-icon">Trips & Alerts</a></li>
-	</ul>
-
-  <!-- Nav tabs -->
-  <ul class="nav nav-tabs" role="tablist">
-    <li id="infoTripTab" role="presentation" class="active">
-    	<a href="#info-trips" aria-controls="profile" role="tab" data-toggle="tab">
-    		<strong>Trip List</strong>
-    	</a>
-    </li>
-
-    <li id="infoAlertTab" role="presentation">
-    	<a href="#info-alerts" aria-controls="profile" role="tab" data-toggle="tab">
-    		<strong>Alert List</strong>
-    	</a>
-    </li>    
-  </ul>
-
-  <!-- Tab panes -->
-  <div class="tab-content">
-		<!-- trip tab -->
-		<div role="tabpanel" class="tab-pane active" id="info-trips">
-			<monitor-side-info-trip-list></monitor-side-info-trip-list>
-		</div>
-
-		<!-- alert tab -->
-		<div role="tabpanel" class="tab-pane" id="info-alerts">
-			<monitor-side-info-alert-list></monitor-side-info-alert-list>
-		</div>
-  </div>	
-
-<!--/form-->
+	</ul> -->
+  
 </div>
