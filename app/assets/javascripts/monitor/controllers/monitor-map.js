@@ -1,12 +1,8 @@
-angular.module('fmsMonitor').controller('MapControlCtrl', function ($rootScope, $scope) {
+angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootScope, $scope) {
 
-	$scope.viewModes = [ {
-		mode: 'FLEET', name: 'FLEET', cls : 'btn-primary'
-	}, {
-		mode: 'EVENT', name: 'ALERT', cls : ''
-	}, {
-		mode: 'TRIP', name: 'TRIP', cls : ''
-	} ];
+	$scope.viewModes = [ { mode: 'FLEET', name: 'FLEET', cls : 'btn-primary' }, 
+											 { mode: 'EVENT', name: 'ALERT', cls : '' }, 
+											 { mode: 'TRIP', name: 'TRIP', cls : '' } ];
 
 	$scope.changeViewMode = function (event) {
 		if(event.target.textContent != 'TRIP') {
@@ -52,9 +48,43 @@ angular.module('fmsMonitor').controller('MapControlCtrl', function ($rootScope, 
 		modeChangeListener();
 	});	
 
-}).controller('MapControlCtrl2', function ($rootScope, $scope) {
+}).controller('MapRefreshControlCtrl', function ($rootScope, $scope, $timeout) {
+	/**
+	 * Map Refresh 여부, Map Refresh Interval, Map Auto Fit 여부 
+	 * @type {Object}
+	 */
+	$scope.refreshOption = { refresh : false, interval : 10, autoFit : true };
 
-}).controller('MonitorMapCtrl', function($rootScope, $scope, $element, $timeout, $interval, ConstantSpeed, FmsUtils, RestApi) {
+	/**
+	 * 1. Refresh 여부 값을 Setting에서 가져와서 초기화, 
+	 * 2. 여기서 Refresh 처리한 후 요청만 emit하기 
+	 */
+	$scope.$watchCollection('refreshOption', function(event) {
+		$scope.$emit('monitor-refresh-options-change', $scope.refreshOption);
+	});
+
+	/**
+	 * Refresh 설정이 변경된 경우 
+	 */	
+	$scope.$on('setting-map_refresh-change', function(evt, value) {
+		$scope.refreshOption.refresh = (!value || value == 'N') ? false : true;
+	});
+
+	/**
+	 * Refresh Interval 설정이 변경된 경우 
+	 */	
+	$scope.$on('setting-map_refresh_interval-change', function(evt, value) {
+		$scope.refreshOption.interval = value;
+	});
+
+	var refreshYn = $rootScope.getSetting('map_refresh');
+
+	$timeout(function() {
+		$scope.refreshOption.refresh = (!refreshYn || refreshYn == 'N') ? false : true;
+		$scope.refreshOption.interval = $rootScope.getIntSetting('map_refresh_interval');
+	}, 5 * 1000);
+
+}).controller('MonitorMapCtrl', function($rootScope, $scope, $element, $timeout, ConstantSpeed, FmsUtils, RestApi) {
 	
 	/**
 	 * View Mode - FLEET, TRIP, EVENT
@@ -76,6 +106,11 @@ angular.module('fmsMonitor').controller('MapControlCtrl', function ($rootScope, 
 	 * map control, marker control, polyline control
 	 */
 	$scope.mapControl = {}; $scope.markerControl = {}; $scope.polylineControl = {};
+	/**
+	 * Map Refresh 여부, Map Refresh Interval, Map Auto Fit 여부 
+	 * @type {Object}
+	 */
+	$scope.refreshOption = { refresh : false, interval : 10, autoFit : true };
 	/**
 	 * window show / hide switch model
 	 */
@@ -154,33 +189,42 @@ angular.module('fmsMonitor').controller('MapControlCtrl', function ($rootScope, 
 	};
 
 	/**
+	 * Fit Bounds
+	 */
+	$scope.fitBounds = function() {
+		if($scope.refreshOption.autoFit && $scope.markers && $scope.markers.length > 0) {
+			var startPoint = new google.maps.LatLng($scope.markers[0].lat, $scope.markers[0].lng);
+			var bounds = new google.maps.LatLngBounds(startPoint, startPoint);
+
+			angular.forEach($scope.markers, function(marker) {
+				bounds.extend(new google.maps.LatLng(marker.lat, marker.lng));
+			});
+
+			var gmap = $scope.mapControl.getGMap();
+			gmap.fitBounds(bounds);	
+		}
+	};
+
+	/**
 	 * Refresh Fleet Markers
 	 */
 	$scope.refreshFleets = function(fleets) {
-		if(!fleets || fleets.length == 0) {
-			return;
+		if(fleets && fleets.length > 0) {
+			// start progress ...		
+			$scope.startProgress(fleets.length);
+			$scope.clearAll(null);		
+			
+			for(var i = 0 ; i < fleets.length ; i++) {
+				var marker = $scope.fleetToMarker(fleets[i]);
+				$scope.addMarker(marker);
+			}
+
+			// fit bounds
+			$scope.fitBounds();
+			
+			// end progress ...		
+			$scope.endProgress();
 		}
-
-		// start progress ...		
-		$scope.startProgress(fleets.length);
-		$scope.clearAll(null);		
-		
-		//var gmap = $scope.mapControl.getGMap();
-		//var startPoint = new google.maps.LatLng(fleets[0].lat, fleets[0].lng);
-		//var bounds = new google.maps.LatLngBounds(startPoint, startPoint);
-
-		for(var i = 0 ; i < fleets.length ; i++) {
-			var marker = $scope.fleetToMarker(fleets[i]);
-			$scope.addMarker(marker);
-			$scope.progressBar.updateBar(1);
-			//bounds.extend(new google.maps.LatLng(marker.latitude, marker.longitude));
-		}
-
-		//gmap.setCenter(bounds.getCenter());
-		//gmap.fitBounds(bounds);
-		
-		// end progress ...		
-		$scope.endProgress();
 	};
 
 	/**
@@ -244,57 +288,45 @@ angular.module('fmsMonitor').controller('MapControlCtrl', function ($rootScope, 
 	 * Refresh Event Markers
 	 */
 	$scope.refreshEvents = function(eventDataList) {
-		if(!eventDataList || eventDataList.length == 0) {
-			return;
+		if(eventDataList && eventDataList.length > 0) {
+			// start progress ...		
+			$scope.startProgress(eventDataList.length);
+			$scope.clearAll(null);
+
+			for(var i = 0 ; i < eventDataList.length ; i++) {
+				var eventData = eventDataList[i];
+				var marker = $scope.eventToMarker(eventData);
+				$scope.addMarker(marker);
+			}
+
+			// fit bounds
+			$scope.fitBounds();
+
+			// end progress ...
+			$scope.endProgress();
 		}
-
-		// start progress ...		
-		$scope.startProgress(eventDataList.length);
-		$scope.clearAll(null);
-
-		for(var i = 0 ; i < eventDataList.length ; i++) {
-			var eventData = eventDataList[i];
-			var marker = $scope.eventToMarker(eventData);
-			$scope.addMarker(marker);
-		}
-
-		// end progress ...
-		$scope.endProgress();
 	};	
 
 	/**
 	 * 지도 초기화 
 	 */
 	$scope.clearAll = function(center) {
-		if(!$scope.markerControl || !$scope.markerControl.getGMarkers) {
-			return;
-		}
-
-		// clear markers
-		var gMarkers = $scope.markerControl.getGMarkers();
-		angular.forEach(gMarkers, function(marker) {
-			marker.setMap(null);
-		});
-
-		$scope.markerControl.getGMarkers().splice(0, gMarkers.length);
-		$scope.markerControl.clean();
-
-		angular.forEach($scope.markers, function(marker) {
-			marker = null;
-		});
-
-		$scope.markers.splice(0, $scope.markers.length);
-
-		// clear polylines
-		angular.forEach($scope.polylines, function(polyline) {
-			//polyline.path.splice(0, polyline.path.length);
-			polyline = null;
-		});
-
-		$scope.polylines.splice(0, $scope.polylines.length);
-
 		// 선택된 마커 해제 
 		$scope.changeMarker(null);
+
+		// clear polylines
+		angular.forEach($scope.polylines, function(polyline) { polyline = null; });
+		$scope.polylines.splice(0, $scope.polylines.length);
+
+		// clear markers
+		if($scope.markerControl && $scope.markerControl.getGMarkers) {
+			var gMarkers = $scope.markerControl.getGMarkers();
+			angular.forEach(gMarkers, function(marker) { marker.setMap(null); });
+			$scope.markerControl.getGMarkers().splice(0, gMarkers.length);
+			$scope.markerControl.clean();
+			angular.forEach($scope.markers, function(marker) { marker = null; });
+			$scope.markers.splice(0, $scope.markers.length);
+		}
 
 		if(center) {
 			$scope.mapOption.center = center;
@@ -306,7 +338,6 @@ angular.module('fmsMonitor').controller('MapControlCtrl', function ($rootScope, 
 	 */
 	$scope.goTrip = function(tripId, callback) {
 		$scope.changeViewMode('TRIP');
-		//$scope.viewMode = 'TRIP';
 
 		if(tripId) {
 			$scope.getTripDataSet(tripId, callback);
@@ -393,6 +424,9 @@ angular.module('fmsMonitor').controller('MapControlCtrl', function ($rootScope, 
 
 		// 현재 선택된 Trip을 변경 
 		$scope.changeCurrentTrip(trip);
+
+		// fit bounds
+		$scope.fitBounds();		
 
 		if(callback) {
 			// 0.5초 후 callback - event 선택 
@@ -647,7 +681,6 @@ angular.module('fmsMonitor').controller('MapControlCtrl', function ($rootScope, 
 	 */
 	var rootScopeListener1 = $rootScope.$on('monitor-fleet-list-change', function(evt, fleetItems) {
 		$scope.changeViewMode('FLEET');
-		//$scope.viewMode = 'FLEET';
 
 		if(fleetItems) {
 			$scope.refreshFleets(fleetItems);
@@ -688,7 +721,6 @@ angular.module('fmsMonitor').controller('MapControlCtrl', function ($rootScope, 
 	 * Sidebar에서 Event 조회시
 	 */
 	var rootScopeListener5 = $rootScope.$on('monitor-event-list-change', function(evt, eventItems) {
-		//$scope.viewMode = 'EVENT';
 		$scope.changeViewMode('EVENT');
 
 		if(eventItems && eventItems.length > 0) {
@@ -722,10 +754,23 @@ angular.module('fmsMonitor').controller('MapControlCtrl', function ($rootScope, 
 	});
 
 	/**
+	 * Refresh Option이 변경되었을 때 
+	 */
+	var rootScopeListener8 = $rootScope.$on('monitor-refresh-options-change', function(evt, refreshOption) {
+		$scope.refreshOption = refreshOption;
+		if($scope.refreshOption.refresh) {
+			$scope.refreshTimer();
+		} else {
+			$timeout.cancel();
+		}
+	});
+
+
+	/**
 	 * Scope destroy시 timeout 제거 
 	 */
 	$scope.$on('$destroy', function(event) {
-		$interval.cancel();
+		$timeout.cancel();
 		rootScopeListener1();
 		rootScopeListener2();
 		rootScopeListener3();
@@ -733,33 +778,18 @@ angular.module('fmsMonitor').controller('MapControlCtrl', function ($rootScope, 
 		rootScopeListener5();
 		rootScopeListener6();
 		rootScopeListener7();
+		rootScopeListener8();
 		$scope.clearAll(null);
-	});
-
-	/**
-	 * Refresh 설정이 변경된 경우 
-	 */	
-	$scope.$on('setting-map_refresh-change', function(evt, value) {
-		$scope.refreshTimer();
-	});
-
-	/**
-	 * Refresh Interval 설정이 변경된 경우 
-	 */	
-	$scope.$on('setting-map_refresh_interval-change', function(evt, value) {
-		$scope.refreshTimer();
 	});
 
 	/**
 	 * Refresh timer를 시작 
 	 */
 	$scope.refreshTimer = function() {
-		$interval.cancel();
-		var refresh = $rootScope.getSetting('map_refresh');
-		var interval = $rootScope.getIntSetting('map_refresh_interval');
-
-		if(refresh == 'Y' && interval && interval >= 1) {
-			$interval($scope.refreshMap, interval * 1000);
+		$timeout.cancel();
+		if($scope.refreshOption.refresh && $scope.refreshOption.interval >= 1) {
+			var interval = $scope.refreshOption.interval >= 10 ? $scope.refreshOption.interval : 10;
+			$timeout($scope.refreshMap, interval * 1000);
 		}
 	};
 
@@ -781,10 +811,5 @@ angular.module('fmsMonitor').controller('MapControlCtrl', function ($rootScope, 
 			}			
 		}
 	};
-
-	/**
-	 * start timer
-	 */
-	$scope.refreshTimer();
 
 });

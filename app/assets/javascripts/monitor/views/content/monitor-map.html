@@ -7,19 +7,19 @@
 
 	<script type="text/ng-template" id="control.refresh.tpl.html">
 		<div>
-			<input type="checkbox">Auto Fit</input>
-			<input type="checkbox">Refresh</input>
-			<input type="textbox">Refresh Time</input>
+			<input type="checkbox" ng-model="refreshOption.refresh">Refresh</input>
+			<input type="number" ng-model="refreshOption.interval">Interval</input>
+			<input type="checkbox" ng-model="refreshOption.autoFit">Auto Fit</input>
 	  </div>
 	</script>
 
 	<ui-gmap-google-map id='mapCanvas' center='mapOption.center' zoom='mapOption.zoom' control="mapControl">
 
-		<ui-gmap-map-control template="control.viewmode.tpl.html" controller="MapControlCtrl" position="top-left" index="1"></ui-gmap-map-control>
-		<ui-gmap-map-control template="control.refresh.tpl.html" controller="MapControlCtrl2" position="top-right" index="1"></ui-gmap-map-control>
+		<ui-gmap-map-control template="control.viewmode.tpl.html" controller="MapModeControlCtrl" position="top-left" index="1"></ui-gmap-map-control>
+		<ui-gmap-map-control template="control.refresh.tpl.html" controller="MapRefreshControlCtrl" position="top-right" index="1"></ui-gmap-map-control>
 
 		<!-- markers -->
-		<ui-gmap-markers models="markers" coords="'self'" idKey="'_id'" events="'events'" icon="'icon'" fit="'mapOption.fit'" control="markerControl"></ui-gmap-markers>
+		<ui-gmap-markers models="markers" coords="'self'" idKey="'_id'" events="'events'" icon="'icon'" control="markerControl"></ui-gmap-markers>
 
     <!-- lines -->
     <ui-gmap-polylines models="polylines" path="'path'" stroke="'stroke'" visible="'visible'" geodesic="'geodesic'" control="polylineControl" static='true'></ui-gmap-polylines>
