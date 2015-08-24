@@ -13,7 +13,7 @@ angular.module('fmsGeofence').directive('geofenceList', function() {
 	};
 })
 
-.controller('geofenceListCtrl', function($rootScope, $scope, $resource, $element, GridUtils, FmsUtils, ModalUtils, RestApi) {
+.controller('geofenceListCtrl', function($rootScope, $scope, $element, GridUtils, FmsUtils, ModalUtils, RestApi) {
 
 	/**
 	 * Geofence List
@@ -41,9 +41,8 @@ angular.module('fmsGeofence').directive('geofenceList', function() {
 	 */
 	$scope.normalizeSearchParams = function(params) {
 		var searchParams = {'_o[name]' : 'asc'};
-
 		if(!params || FmsUtils.isEmpty(params)) {
-			return searchParams;
+			params = $scope.searchParams;
 		} 
 
 		searchParams['_q[name-like]'] = params.name;
@@ -202,64 +201,6 @@ angular.module('fmsGeofence').directive('geofenceList', function() {
 	});
 
 	/**
-	 * save geofence
-	 * 
-	 * @return {[type]}
-	 */
-	$scope.saveItem = function() {
-		if(!$scope.checkValidForm()) {
-			return;
-		}
-
-		if($scope.item.id && $scope.item.id != '') {
-			var url = '/geofences/' + $scope.item.id + '.json';
-			var result = RestApi.update(url, null, {geofence : $scope.item});
-			result.$promise.then(function(data) {
-				$scope.search($scope.tablestate);
-			});
-
-		} else {
-			var result = RestApi.create('/geofences.json', null, {geofence : $scope.item});
-			result.$promise.then(function(data) {
-				$scope.search($scope.tablestate);
-			});
-		}
-	};
-
-	/**
-	 * Check form validation
-	 * 
-	 * @return N/A
-	 */
-	$scope.checkValidForm = function() {
-		if(!$scope.item.name || $scope.item.name == '') {
-			ModalUtils.alert('sm', 'Alert', 'Name must not be empty!');
-			return false;
-		}
-
-		return true;
-	};
-
-	/**
-	 * delete polygon
-	 * 
-	 * @return {[type]}
-	 */
-	$scope.deleteItem = function() {
-		if(!$scope.item.id || $scope.item.id == '') {
-			return;
-		}
-
-		ModalUtils.confirm('sm', 'Confirmation', 'Are you sure to delete?', function() {
-			var result = RestApi.delete('/geofences/' + $scope.item.id + '.json', null);
-			result.$promise.then(function(data) {
-				$scope.resetItem();
-				$scope.search($scope.tablestate);
-			});
-		});
-	};
-
-	/**
 	 * reset polygon
 	 * 
 	 * @return {[type]}
@@ -268,7 +209,6 @@ angular.module('fmsGeofence').directive('geofenceList', function() {
 		$scope.item.id = '';
 		$scope.item.name = '';
 		$scope.item.description = '';
-		$scope.$emit('geofence-item-new', $scope.item);
 	};		
 
 	/**
