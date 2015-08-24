@@ -1,19 +1,29 @@
 angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootScope, $scope) {
 
-	$scope.viewModes = [ { mode: 'FLEET', name: 'FLEET', cls : 'btn-primary' }, 
-											 { mode: 'EVENT', name: 'ALERT', cls : '' }, 
-											 { mode: 'TRIP', name: 'TRIP', cls : '' } ];
+	$scope.viewModes = [ 
+		{ mode: 'FLEET', name: 'FLEET', eventName : 'monitor-refresh-fleet', cls : 'btn-primary' }, 
+		{ mode: 'EVENT', name: 'ALERT', eventName : 'monitor-refresh-event', cls : '' }, 
+		{ mode: 'TRIP',  name: 'TRIP',  eventName : 'monitor-refresh-trip',  cls : '' } 
+	];
 
-	$scope.changeViewMode = function (event) {
-		if(event.target.textContent != 'TRIP') {
-			$scope.changeModeAction(event.target.textContent);
-		}
+	/**
+	 * View 모드 변경 버튼 클릭시 View 모드 변경  
+	 */
+	$scope.changeViewMode = function(modeItem) {
+		angular.forEach($scope.viewModes, function(viewMode) {
+			if(viewMode.mode == modeItem.mode) {
+				$scope.$emit(modeItem.eventName, '');
+			}
+		});		
 	};
 
+	/**
+	 * View 모드가 변경되었는지 체크, 즉 이전에 선택된 것과 비교 
+	 */
 	$scope.checkChangeMode = function(mode) {
 		for(var i = 0 ; i < $scope.viewModes.length ; i++) {
 			var viewMode = $scope.viewModes[i];
-			if(viewMode.cls != '' && (viewMode.mode == mode || viewMode.name == mode)) {
+			if(viewMode.cls != '' && viewMode.mode == mode) {
 				return false;
 			} 
 		}
@@ -21,23 +31,22 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		return true;
 	};
 
-	$scope.changeModeButtonClass = function(mode) {
-		angular.forEach($scope.viewModes, function(viewMode) {
-			viewMode.cls = (viewMode.mode == mode || viewMode.name == mode) ? 'btn-primary' : '';
-		});
+	/**
+	 * Button Class 변경 
+	 */
+	$scope.changeButtonClass = function(mode) {
+		for(var i = 0 ; i < $scope.viewModes.length ; i++) {
+			var viewMode = $scope.viewModes[i];
+			viewMode.cls = (viewMode.mode == mode) ? 'btn-primary' : '';
+		}
 	};
 
-	$scope.changeModeAction = function(mode) {
-		angular.forEach($scope.viewModes, function(viewMode) {
-			if(mode != 'TRIP' && (viewMode.mode == mode || viewMode.name == mode)) {
-				$scope.$emit('monitor-refresh-' + viewMode.mode.toLowerCase(), '');
-			}
-		});		
-	};
-
+	/**
+	 * mode change listener
+	 */
 	var modeChangeListener = $rootScope.$on('monitor-view-mode-change', function(event, mode) {
 		if($scope.checkChangeMode(mode)) {
-			$scope.changeModeButtonClass(mode);
+			$scope.changeButtonClass(mode);
 		}
 	});
 
@@ -74,7 +83,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 * Refresh Interval 설정이 변경된 경우 
 	 */	
 	$scope.$on('setting-map_refresh_interval-change', function(evt, value) {
-		$scope.refreshOption.interval = value;
+		$scope.refreshOption.interval = parseInt(value);
 	});
 
 	var refreshYn = $rootScope.getSetting('map_refresh');
@@ -765,6 +774,18 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		}
 	});
 
+	/**
+	 * Trip Refresh 이벤트  
+	 */
+	var rootScopeListener9 = $rootScope.$on('monitor-refresh-trip', function(evt, tripId) {
+		if(tripId && tripId != '') {
+			$scope.currentTripId = tripId;
+		}
+
+		if($scope.currentTripId) {
+			$scope.goTrip($scope.currentTripId);
+		}
+	});
 
 	/**
 	 * Scope destroy시 timeout 제거 
@@ -779,6 +800,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		rootScopeListener6();
 		rootScopeListener7();
 		rootScopeListener8();
+		rootScopeListener9();
 		$scope.clearAll(null);
 	});
 

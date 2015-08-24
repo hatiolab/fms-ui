@@ -4,7 +4,7 @@
 
 	  <!-- Nav tabs -->
 	  <ul class="nav nav-tabs" role="tablist">
-	    <li id="fleetTab" role="presentation" class="active">
+	    <!--li id="fleetTab" role="presentation" class="active">
 	    	<a href="#side-fleets" aria-controls="home" role="tab" data-toggle="tab" ng-click="showRefreshButton()">
 	    		<strong>Fleets</strong>
 	    	</a>
@@ -20,6 +20,12 @@
 	    	<a href="#side-info" aria-controls="profile" role="tab" data-toggle="tab" ng-click="hideRefreshButton()">
 	    		<strong>Selected Trip</strong>
 	    	</a>
+	    </li-->
+
+	    <li role="presentation" class="{{tab.active}}" ng-repeat="tab in tabs">
+	    	<a ng-href="#{{tab.id}}" aria-controls="home" role="tab" data-toggle="tab" ng-click="selectTab(tab)">
+	    		<strong>{{tab.name}}</strong>
+	    	</a>
 	    </li>
 
 			<button type="button" class="btn btn-default panel-toggle pull-right"></button>
@@ -28,17 +34,12 @@
 
 	  <!-- Tab panes -->
 	  <div class="tab-content">	  
-	  	<!-- fleet tab -->
 	  	<div role="tabpanel" class="tab-pane active" id="side-fleets">
 	    	<monitor-side-fleets></monitor-side-fleets>
-	    </div>
-	    
-			<!-- alert tab -->
+	    </div>	    
 			<div role="tabpanel" class="tab-pane" id="side-alerts">
 				<monitor-side-alerts></monitor-side-alerts>
 			</div>
-
-			<!-- trip tab -->
 			<div role="tabpanel" class="tab-pane" id="side-info">
 				<monitor-side-info></monitor-side-info>
 			</div>
