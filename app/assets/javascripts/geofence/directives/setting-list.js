@@ -146,7 +146,7 @@ angular.module('fmsGeofence').directive('settingList', function() {
 	 * @return N/A
 	 */
 	$scope.doSearch = function(params, callback) {
-		RestApi.search('/geofences.json', params, function(dataSet) {
+		RestApi.search('/geofences/list.json', params, function(dataSet) {
 			callback(dataSet);
 		});
 	};

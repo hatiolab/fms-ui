@@ -35,12 +35,14 @@
 					<tr>
 						<th>Name</th>
 						<th>Description</th>
+						<th>Groups</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr ng-repeat="item in items" ng-click="goItem(item)" ng-class="{active : item.active}">
 						<td>{{item.name}}</td>
 						<td>{{item.description}}</td>
+						<td>{{item.groups}}</td>
 					</tr>
 				</tbody>
 			</table>
