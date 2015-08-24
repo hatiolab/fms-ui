@@ -1,6 +1,40 @@
 class GeofencesController < ResourceMultiUpdateController
 
 public 
+  #
+  # GET Geofence list
+  #
+  def list
+    select = 
+      "geofences.id, geofences.name, geofences.description, 
+      geofence_groups.fleet_group_id as group_id, fleet_groups.name as group_name"
+
+    joinStr = "geofence_groups
+               inner join geofences on geofence_groups.geofence_id = geofences.id
+               inner join fleet_groups on geofence_groups.fleet_group_id = fleet_groups.id"
+
+    orderStr = "geofences.name asc, fleet_groups.name asc"
+
+    sql = GeofenceGroup.select(select).joins(joinStr).order(orderStr).to_sql
+    geofences = GeofenceGroup.connection.select_all(sql)
+    tempItems = geofences.group_by { |g| g["id"] }.collect { |key, value| value[0] }
+    items = JSON.parse(tempItems.to_json)
+
+    items.each do |item|
+      groups = geofences.select { |geofence| item["id"].to_s == geofence["id"].to_s }.collect { |g| g["group_name"] }
+      item["groups"] = groups.join(',')
+    end
+    results = { :success => true, :total => items.size, :items => items }
+
+    respond_to do |format|
+      format.xml  { render :xml => results }
+      format.json { render :json => results }
+    end
+  end
+
+  #
+  # GET Polygons of geofence
+  #
   def polygons
     geofence = Geofence.find(params[:id])
     @collection = geofence.polygons

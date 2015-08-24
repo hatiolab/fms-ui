@@ -112,6 +112,7 @@ Trkvue::Engine.routes.draw do
 			post :update_multiple
 			get :show_by_name
 			get :export
+			get :list
 		end
     member do
       post :update_multiple_polygons
