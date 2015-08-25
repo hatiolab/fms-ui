@@ -22,7 +22,7 @@ public
 
     items.each do |item|
       groups = geofences.select { |geofence| item["id"].to_s == geofence["id"].to_s }.collect { |g| g["group_name"] }
-      item["groups"] = groups.join(',')
+      item["groups"] = groups.uniq.join(',')
     end
     results = { :success => true, :total => items.size, :items => items }
 
