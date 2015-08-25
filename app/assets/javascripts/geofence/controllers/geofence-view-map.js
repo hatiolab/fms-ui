@@ -648,6 +648,16 @@ angular.module('fmsGeofence')
 		};
 
 		/**
+		* Content View Resize 이벤트  
+		*/
+		$scope.$on('content-view-resize', function(evt) {
+			if($scope.mapControl) {
+				var gmap = $scope.mapControl.getGMap();
+				google.maps.event.trigger(gmap, 'resize');
+			}
+		});
+		
+		/**
 		 * Sidebar에서 Fleet 조회시
 		 */
 		var rootScopeListener1 = $rootScope.$on('geofence-fleet-list-change', function(evt, fleetItems) {

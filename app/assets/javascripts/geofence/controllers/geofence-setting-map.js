@@ -1,5 +1,5 @@
 angular.module('fmsGeofence')
-	.controller('GeofenceSettingMapCtrl', function($rootScope, $scope, $element, uiGmapIsReady, ModalUtils, RestApi) {
+	.controller('GeofenceSettingMapCtrl', function($rootScope, $scope, $element, ModalUtils, RestApi) {
 
 		/**
 		 * selected geofence
@@ -86,10 +86,6 @@ angular.module('fmsGeofence')
 				$scope.savePolygon();
 			}
 		};
-
-		// uiGmapIsReady.promise().then(function(map_instances) {
-		// 	alert('uiGmapIs Ready');
-		// });
 
 		/**
 		 * Set Polygon Drawing Mode
@@ -213,6 +209,16 @@ angular.module('fmsGeofence')
 			RestApi.get('/polygons.json', { '_q[geofence_id-eq]' : geofence.id }, function(dataSet) {
 				$scope.setPolygon(dataSet.items);
 			});
+		});
+
+		/**
+		* Content View Resize 이벤트  
+		*/
+		$scope.$on('content-view-resize', function(evt) {
+			if($scope.mapControl) {
+				var gmap = $scope.mapControl.getGMap();
+				google.maps.event.trigger(gmap, 'resize');
+			}
 		});
 
 		/**

@@ -222,7 +222,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 * Monitor Progressing ...
 	 */
 	$scope.monitorProgress = function(totalMarkerCount) {
-		if($scope.markerControl) {
+		if($scope.markerControl && $scope.markerControl.getGMarkers) {
 			var drawingCount = $scope.markerControl.getGMarkers().length;
 			if(drawingCount >= totalMarkerCount) {
 				$scope.progressBar.setCurrent(drawingCount);
@@ -809,6 +809,16 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 
 		if($scope.currentTripId) {
 			$scope.goTrip($scope.currentTripId);
+		}
+	});
+
+	/**
+	 * Content View Resize 이벤트  
+	 */
+	$scope.$on('content-view-resize', function(evt) {
+		if($scope.mapControl) {
+			var gmap = $scope.mapControl.getGMap();
+			google.maps.event.trigger(gmap, 'resize');
 		}
 	});
 
