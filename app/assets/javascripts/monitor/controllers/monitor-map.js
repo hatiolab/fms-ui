@@ -218,13 +218,17 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 * Monitor Progressing ...
 	 */
 	$scope.monitorProgress = function(totalMarkerCount) {
-		var drawingCount = $scope.markerControl.getGMarkers().length;
-		if(drawingCount >= totalMarkerCount) {
-			$scope.progressBar.setCurrent(drawingCount);
-			$scope.progressBar.hide();
+		if($scope.markerControl) {
+			var drawingCount = $scope.markerControl.getGMarkers().length;
+			if(drawingCount >= totalMarkerCount) {
+				$scope.progressBar.setCurrent(drawingCount);
+				$scope.progressBar.hide();
+			} else {
+				$scope.progressBar.setCurrent(drawingCount);
+				$timeout($scope.monitorProgress, 100, true, totalMarkerCount);
+			}
 		} else {
-			$scope.progressBar.setCurrent(drawingCount);
-			$timeout($scope.monitorProgress, 100, true, totalMarkerCount);
+			$scope.progressBar.hide();
 		}
 	};
 
