@@ -105,18 +105,27 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
 	 * @return {Object}
 	 */
 	$scope.save = function() {
-		if (!$scope.checkValidForm()) {
-			return;
-		}
+		if ($scope.checkValidForm()) {
+			if ($scope.item.id && $scope.item.id != '') {
+				var url = '/geofences/' + $scope.item.id + '.json';
+				var result = RestApi.update(url, null, { geofence: $scope.item });
+				result.$promise.then(
+					function(data) { 
+						$scope.updateRelations(); 
+					}, function(error) {
+						ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
+					}
+				);
 
-		if ($scope.item.id && $scope.item.id != '') {
-			var url = '/geofences/' + $scope.item.id + '.json';
-			var result = RestApi.update(url, null, { geofence: $scope.item });
-			result.$promise.then(function(data) { $scope.updateRelations(); });
-
-		} else {
-			var result = RestApi.create('/geofences.json', null, { geofence: $scope.item });
-			result.$promise.then(function(data) { $scope.updateRelations(); });
+			} else {
+				var result = RestApi.create('/geofences.json', null, { geofence: $scope.item });
+				result.$promise.then(
+					function(data) { 
+						$scope.updateRelations(); 
+					}, function(error) {
+						ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
+					});
+			}
 		}
 	};
 
@@ -159,9 +168,12 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
 		if (relationItems.length > 0) {
 			var url = '/geofence_groups/update_multiple.json';
 			var result = RestApi.updateMultiple(url, null, relationItems);
-			result.$promise.then(function(data) {
-				$scope.searchGeoGroups();
-			});
+			result.$promise.then(
+				function(data) {
+					$scope.searchGeoGroups();
+				}, function(error) {
+					ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
+				});
 		}
 	};
 
@@ -174,10 +186,13 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
 		if ($scope.item.id && $scope.item.id != '') {
 			ModalUtils.confirm('sm', 'Confirmation', 'Are you sure to delete?', function() {
 				var result = RestApi.delete('/geofences/' + $scope.item.id + '.json', null);
-				result.$promise.then(function(data) {
-					$scope.new();
-					$scope.refreshList();
-				});
+				result.$promise.then(
+					function(data) {
+						$scope.new();
+						$scope.refreshList();
+					}, function(error) {
+						ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
+					});
 			});
 		}
 	};
