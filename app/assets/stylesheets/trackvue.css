@@ -1,6 +1,7 @@
 /*  layout */
 html,body{height:100%;}
 *:focus{outline:none;box-shadow:none;-webkit-box-shadow:none;}
+.width-full{width:100% !important;}
 .height-full{height:91%;}
 .height-100p{height:100%;}
 .padding-clear{padding:0 !important;}
