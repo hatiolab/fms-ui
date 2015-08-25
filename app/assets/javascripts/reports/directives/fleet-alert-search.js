@@ -24,12 +24,6 @@ angular.module('fmsReports').directive('fleetAlertSearch', function() {
 	 */
 	$scope.searchParams = { 'from_date' : period[0], 'to_date' : period[1] };
 	/**
-	 * 사이드 바 토글 변수
-	 *
-	 * @type {Boolean}
-	 */
-	$scope.isSidebarToggle = true;
-	/**
 	 * Group List
 	 *
 	 * @type {Array}
@@ -47,12 +41,6 @@ angular.module('fmsReports').directive('fleetAlertSearch', function() {
 	 * @type {Boolean}
 	 */
 	$scope.searchEnabled = false;
-	/**
-	 * Fleet Group 모델 
-	 * 
-	 * @type {Array}
-	 */
-	// $scope.groups = [];
 	/**
 	 * Chart Title
 	 * 
@@ -139,50 +127,34 @@ angular.module('fmsReports').directive('fleetAlertSearch', function() {
 	  * $scope.sort_field {[string]} the field you should sort from database
 	  * $scope.sort_value {[string]} asc/desc default asc
 	  */
-	 
 	$scope.setsort = function(sort_field){
-		var sortClass = $element.find('#'+sort_field)[0].className;
-		$scope.sort_value= {};
+		var sortClass = $element.find('#' + sort_field)[0].className;
+		$scope.sort_value = {};
 		$scope.sort_field = sort_field;
 
-		if(sortClass =="st-sort-ascent"){
-			$scope.sort_value ="asc";
-		}else if(sortClass =="st-sort-descent"){
-			$scope.sort_value ="desc";
-		}else{
-			$scope.sort_value ="desc";
+		if(sortClass == "st-sort-ascent") {
+			$scope.sort_value = "asc";
+		} else if(sortClass == "st-sort-descent") {
+			$scope.sort_value = "desc";
+		} else {
+			$scope.sort_value = "desc";
 		}
 	};
 	
-	/**
-	 * Search Fleet Groups
-	 */
-	// $scope.findGroups = function(params) {
-	// 	RestApi.list('/fleet_groups.json', params, function(dataSet) {
-	// 		$scope.groups = dataSet;
-	// 	});
-	// };
-
 	/**
 	 * Rails Server의 스펙에 맞도록 파라미터 변경 ...
 	 *
 	 * @param  {Object}
 	 */
 	$scope.normalizeSearchParams = function(params) {
-		//Sort Condition
-		if($scope.sort_field&&$scope.sort_value){
-			var searchParams = { sort_field : $scope.sort_field, sort_value : $scope.sort_value };
-		}
-
-		// var searchParams = {};
+		var searchParams = { sort_field : $scope.sort_field, sort_value : $scope.sort_value };
 
 		if(!params || FmsUtils.isEmpty(params)) {
-			return searchParams;
+			params = $scope.searchParams;
 		} 
 
 		searchParams["from_date"] = params.from_date;
 		searchParams["to_date"] = params.to_date;
-
 	 	if(params.group) {
 	 		searchParams["group_id"] = params.group.id;
 	 	}
@@ -277,11 +249,11 @@ angular.module('fmsReports').directive('fleetAlertSearch', function() {
 	  * 
 	  * @return {Object}
 	  */
-	 $scope.beforeSearch = function() {
+	$scope.beforeSearch = function() {
 	 	var searchParams = $scope.normalizeSearchParams($scope.searchParams);
 	 	$scope.setPageQueryInfo(searchParams, $scope.tablestate.pagination, 0, GridUtils.getGridCountPerPage());
 	 	return searchParams;
-	 };
+	};
 
 	 /**
 	  * infinite scorll directive에서 호출 
@@ -290,11 +262,11 @@ angular.module('fmsReports').directive('fleetAlertSearch', function() {
 	  * @param  {Function}
 	  * @return N/A
 	  */
-	 $scope.doSearch = function(params, callback) {
+	$scope.doSearch = function(params, callback) {
 	 	RestApi.search('/fleet_summaries/event_summary.json', params, function(dataSet) {
 	 		callback(dataSet);
 	 	});
-	 };
+	};
 
 	 /**
 	  * infinite scorll directive에서 호출 
@@ -302,11 +274,11 @@ angular.module('fmsReports').directive('fleetAlertSearch', function() {
 	  * @param  {Object}
 	  * @return N/A
 	  */
-	 $scope.afterSearch = function(dataSet) {
+	$scope.afterSearch = function(dataSet) {
 	 	$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
 		FmsUtils.setGridContainerHieght('report-fleet-alert-table-container');
 		$scope.sendChartData();
-	 };
+	};
 
 	/**
 	 * [watch drivers SearchParams in page scope, if changed trigger pageFleets in same scope]
@@ -318,18 +290,5 @@ angular.module('fmsReports').directive('fleetAlertSearch', function() {
 			$scope.search($scope.tablestate);
 		}
 	});
-
-	/**
-	 * 초기화 함수 
-	 * 
-	 * @return N/A
-	 */
-	$scope.init = function() {
-	};
-
-	/**
-	 * 초기화 
-	 */
-	$scope.init();
 
 });

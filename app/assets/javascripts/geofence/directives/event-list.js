@@ -1,42 +1,27 @@
-angular.module('fmsGeofence')
-.directive('eventList', function() {
+angular.module('fmsGeofence').directive('eventList', function() {
 	return {
 		restrict: 'E',
-		scope:{
-			eventType:'@'
-		},
+		scope: { eventType:'@' },
 		templateUrl: '/assets/geofence/views/sidebars/event-list.html',
-		controller: function ($rootScope, $scope, $resource, $element, GridUtils, FmsUtils, RestApi)
-		{
+		controller: function ($rootScope, $scope, $resource, $element, GridUtils, FmsUtils, RestApi) {
 			/**
 			 * 기본 날짜 검색일 설정 
 			 */
-			var toDateStr = FmsUtils.formatDate(new Date(), 'yyyy-MM-dd');
-			var fromDate = FmsUtils.addDate(new Date(), -6);
-			var fromDateStr = FmsUtils.formatDate(fromDate, 'yyyy-MM-dd');
+		  var period = FmsUtils.getPeriodString(7);
 			/**
 			 * event_type from other directive
 			 */
-			var event_type ={}; 
+			var event_type = {}; 
 			/**
 			 * 조회 조건
 			 */
-			$scope.searchParams = {
-				'ctm_gte': fromDateStr,
-				'ctm_lte': toDateStr
-			};
+			$scope.searchParams = { 'ctm_gte' : period[0], 'ctm_lte' : period[1] };
 			/**
 			 * Search DataSet
 			 * 
 			 * @type {Object}
 			 */
 			$scope.events = [];
-			/**
-			 * Page Information - Total Record Count & Total Page
-			 * 
-			 * @type {Object}
-			 */
-			$scope.pageInfo = { total: 0, total_page: 0, current_page: 0 };
 			/**
 			 * smart table object
 			 */
@@ -50,15 +35,18 @@ angular.module('fmsGeofence')
 			 * @type {Object}
 			 */
 			$scope.geofence = null;
+			/**
+			 * For Loading Indicator
+			 * @type {Boolean}
+			 */
+			$scope.isLoading = false;			
 
 			/**
 			 * Normalize parameters
 			 */
 			$scope.normalizeSearchParams = function(params) {
 
-				var searchParams = {
-					'_o[ctm]': 'desc'
-				};
+				var searchParams = { '_o[ctm]': 'desc' };
 				// convert date to number
 				FmsUtils.buildDateConds(searchParams, 'ctm', params['ctm_gte'], params['ctm_lte']);
 
@@ -76,21 +64,24 @@ angular.module('fmsGeofence')
 
 				var typeArr = [];
 
-				if ($scope.eventType=='typ_impact') {
+				if ($scope.eventType == 'typ_impact') {
 					typeArr.push(params['typ_impact']);
 				}
 
-				if ($scope.eventType=='typ_speed') {
+				if ($scope.eventType == 'typ_speed') {
 					typeArr.push(params['typ_speed']);
 				}
 
-				if ($scope.eventType=='typ_geofence') {
+				if ($scope.eventType == 'typ_geofence') {
 					typeArr.push('I');
 					typeArr.push('O');
+				}
+
+				if($scope.geofence && $scope.geofence.id) {
 					searchParams["_q[gid-eq]"] = $scope.geofence.id;
 				}
 
-				if ($scope.eventType=='typ_emergency') {
+				if ($scope.eventType == 'typ_emergency') {
 					typeArr.push(params['typ_emergency']);
 				}
 
@@ -104,31 +95,18 @@ angular.module('fmsGeofence')
 				return searchParams;
 			};
 
-
 			/**
 			 * search events
 			 */
 			$scope.search = function(tablestate) {
-				if (!$scope.searchEnabled) {
-					$scope.searchEnabled = true;
-					$scope.tablestate = tablestate;
-					$scope.tablestate.pagination.number = GridUtils.getGridCountPerPage();
-					$scope.isLoading = false;
-					return;
+				if($scope.checkSearch(tablestate)) {
+					var searchParams = $scope.beforeSearch();
+					$scope.doSearch(searchParams, function(dataSet) {
+						$scope.numbering(dataSet.items, 1);
+						$scope.items = dataSet.items;
+						$scope.afterSearch(dataSet);
+					});
 				}
-
-				if (tablestate) {
-					$scope.tablestate = tablestate;
-				}
-
-				var searchParams = $scope.beforeSearch();
-				// $scope.setPageQueryInfo(searchParams, $scope.tablestate.pagination, 0, GridUtils.getGridCountPerPage());
-
-				$scope.doSearch(searchParams, function(dataSet) {
-					$scope.numbering(dataSet.items, 1);
-					$scope.events = dataSet.items;
-					$scope.afterSearch(dataSet);
-				});
 			};
 
 			/**
@@ -167,15 +145,30 @@ angular.module('fmsGeofence')
 			 * @param {Number}
 			 */
 			$scope.setPageReultInfo = function(total_count, total_page, current_page) {
-				$scope.pageInfo.total = total_count;
-				$scope.pageInfo.total_page = total_page;
-				$scope.pageInfo.current_page = current_page;
-
 				if ($scope.tablestate && $scope.tablestate.pagination) {
 					$scope.tablestate.pagination.totalItemCount = total_count;
 					$scope.tablestate.pagination.numberOfPages = total_page;
 					$scope.tablestate.pagination.currentPage = current_page;
 				}
+			};
+
+			/**
+			 * Check Search
+			 * 
+			 * @return {Boolean}
+			 */
+			$scope.checkSearch = function(tablestate) {
+				if(!$scope.searchEnabled) {
+					$scope.searchEnabled = true;
+					$scope.tablestate = tablestate;
+					$scope.tablestate.pagination.number = GridUtils.getGridCountPerPage();
+				}
+
+				if(tablestate) {
+					$scope.tablestate = tablestate;
+				}
+
+				return true;
 			};
 
 			/**
@@ -211,13 +204,12 @@ angular.module('fmsGeofence')
 			 * @return N/A
 			 */
 			$scope.afterSearch = function(dataSet) {
+				$scope.isLoading = false;
 				$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
 				// Map에 정보를 전달하여 지도에 표시하게 한다.
 				//$scope.$emit('geofence-event-list-change', $scope.events);
 				$scope.$emit('geofence-event-all-selected', $scope.geofence, $scope.events);
-				// Grid Container를 새로 설정한다.
 				FmsUtils.setGridContainerHieght('geofence-alert-table-container');
-				$scope.isLoading = false;
 			};
 
 			/**
@@ -253,6 +245,13 @@ angular.module('fmsGeofence')
 				if ($scope.searchEnabled) {
 					$scope.search($scope.tablestate);
 				}
+			});			
+			/**
+			 * Geofence 선택시 
+			 */
+			var geofenceSelectListener = $rootScope.$on('geofence-item-selected', function(event, geofence) {
+				$scope.geofence = geofence
+				$scope.search(geofence);
 			});
 
 			/**
@@ -261,20 +260,7 @@ angular.module('fmsGeofence')
 			$scope.$on('$destroy', function(event) {
 				geofenceSelectListener();
 			});
-			
-			var geofenceSelectListener = $rootScope.$on('geofence-item-selected', function(event, geofence) {
-				$scope.geofence = geofence
-				$scope.search(geofence);
-			});
 
-			/**
-			 * 초기화 함수 
-			 */
-			$scope.init = function() {
-				$scope.isLoading = false;
-			};
-
-			$scope.init();
 		}
 	};
 })

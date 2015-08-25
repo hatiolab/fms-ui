@@ -93,21 +93,23 @@ angular.module('fmsGeofence')
 		 * @param  handler function
 		 */
 		var geofenceSelectionListener = $rootScope.$on('geofence-event-all-selected', function(event, geofence, eventItems) {
-			$scope.geofence = geofence;
-			$scope.resetPolygon();
+			if(geofence) {
+				$scope.geofence = geofence;
+				$scope.resetPolygon();
 
-			// Get polygon
-			RestApi.get('/polygons.json', { '_q[geofence_id-eq]' : geofence.id }, function(dataSet) {
-				$scope.setPolygon(dataSet.items);
-				// Search Fleets
-				RestApi.list('/geofence_groups.json', { '_q[geofence_id-eq]' : geofence.id }, function(items) {
-					var groupIdList = items.map(function(item) { return item.fleet_group_id });
-					RestApi.list('/fleets.json', { '_q[fleet_group_id-in]' : groupIdList.join(',') }, function(list) {
-						$scope.refreshFleets(list);
-						$scope.refreshEvents(eventItems);
+				// Get polygon
+				RestApi.get('/polygons.json', { '_q[geofence_id-eq]' : geofence.id }, function(dataSet) {
+					$scope.setPolygon(dataSet.items);
+					// Search Fleets
+					RestApi.list('/geofence_groups.json', { '_q[geofence_id-eq]' : geofence.id }, function(items) {
+						var groupIdList = items.map(function(item) { return item.fleet_group_id });
+						RestApi.list('/fleets.json', { '_q[fleet_group_id-in]' : groupIdList.join(',') }, function(list) {
+							$scope.refreshFleets(list);
+							$scope.refreshEvents(eventItems);
+						});
 					});
-				});
-			});
+				});				
+			}
 		});
 
 	  /**
