@@ -199,7 +199,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	/**
 	 * Fit Bounds
 	 */
-	$scope.fitBounds = function() {
+	$scope.fitBounds = function(callback) {
 		var gmap = $scope.mapControl.getGMap();
 
 		if($scope.refreshOption.autoFit && $scope.markers && $scope.markers.length > 0) {
@@ -210,7 +210,11 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 				bounds.extend(new google.maps.LatLng(marker.lat, marker.lng));
 			});
 
-			gmap.fitBounds(bounds);	
+			gmap.fitBounds(bounds);
+
+			if(callback) {
+				$timeout(callback, 500);
+			}
 		}
 	};
 
@@ -249,7 +253,6 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 				$scope.addMarker(marker);
 			}
 
-			// fit bounds
 			$scope.fitBounds();
 		}
 	};
@@ -329,7 +332,6 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 				$scope.addMarker(marker);
 			}
 
-			// fit bounds
 			$scope.fitBounds();
 		}
 	};	
@@ -464,12 +466,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		$scope.changeCurrentTrip(trip);
 
 		// fit bounds
-		$scope.fitBounds();		
-
-		if(callback) {
-			// 0.5초 후 callback - event 선택 
-			$timeout(callback, 500);
-		}
+		$scope.fitBounds(callback);
 	};
 
 	/**
