@@ -178,13 +178,20 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	};
 
 	/**
-	 * Start Progress Bar
+	 * Ready Progress Bar : 서버 사이드 호출 전 
 	 */
-	$scope.startProgress = function(maxCnt) {
+	$scope.readyProgress = function() {
 		if(!$scope.progressBar) {
 			$scope.initProgress();
 		}
 
+		$scope.progressBar.ready('Loading data ...');
+	};	
+
+	/**
+	 * Start Progress Bar : 서버에서 데이터를 받은 후 시작 
+	 */
+	$scope.startProgress = function(maxCnt) {
 		$scope.progressBar.start(maxCnt);
 		$timeout($scope.monitorProgress, 100, true, maxCnt);
 	};
@@ -211,12 +218,12 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 * Monitor Progressing ...
 	 */
 	$scope.monitorProgress = function(totalMarkerCount) {
-		var gMarkerCount = $scope.markerControl.getGMarkers().length;
-		if(gMarkerCount >= totalMarkerCount) {
-			$scope.progressBar.setCurrent(gMarkerCount);
+		var drawingCount = $scope.markerControl.getGMarkers().length;
+		if(drawingCount >= totalMarkerCount) {
+			$scope.progressBar.setCurrent(drawingCount);
 			$scope.progressBar.hide();
 		} else {
-			$scope.progressBar.setCurrent(gMarkerCount);
+			$scope.progressBar.setCurrent(drawingCount);
 			$timeout($scope.monitorProgress, 100, true, totalMarkerCount);
 		}
 	};
@@ -226,9 +233,12 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 */
 	$scope.refreshFleets = function(fleets) {
 		if(fleets && fleets.length > 0) {
+			// ready progress
+			$scope.readyProgress();
+			// clear all map data
+			$scope.clearAll(null);
 			// start progress ...		
 			$scope.startProgress(fleets.length);
-			$scope.clearAll(null);		
 			
 			for(var i = 0 ; i < fleets.length ; i++) {
 				var marker = $scope.fleetToMarker(fleets[i]);
@@ -247,27 +257,27 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		$scope.resetMapWindowAddress();
 		var latitude = lat ? lat : marker.lat;
 		var longitude = lng ? lng : marker.lng;
-    var geocoder = new google.maps.Geocoder();
-    var latlng = new google.maps.LatLng(latitude, longitude);
+		var geocoder = new google.maps.Geocoder();
+		var latlng = new google.maps.LatLng(latitude, longitude);
 
-    geocoder.geocode({ 'latLng': latlng }, function (results, status) {
-    	var address = null;
+		geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+			var address = null;
 
-    	if (status == google.maps.GeocoderStatus.OK) {
-    		if (results[1]) {
-    			address = results[1].formatted_address;
+			if (status == google.maps.GeocoderStatus.OK) {
+				if (results[1]) {
+					address = results[1].formatted_address;
 
-        } else {
-          address = 'Location not found';
-        }
-      } else {
-        address = 'Geocoder failed due to: ' + status;
-      }
+				} else {
+					address = 'Location not found';
+				}
+			} else {
+				address = 'Geocoder failed due to: ' + status;
+			}
 
 			if(callback) {
 				callback(marker, address);
-			}      
-    });
+			}
+		});
 	};
 
 	/**
@@ -302,9 +312,12 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 */
 	$scope.refreshEvents = function(eventDataList) {
 		if(eventDataList && eventDataList.length > 0) {
+			// ready progress
+			$scope.readyProgress();
+			// clear all map data 
+			$scope.clearAll(null);			
 			// start progress ...		
 			$scope.startProgress(eventDataList.length);
-			$scope.clearAll(null);
 
 			for(var i = 0 ; i < eventDataList.length ; i++) {
 				var eventData = eventDataList[i];
@@ -352,21 +365,34 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		if(tripId) {
 			$scope.getTripDataSet(tripId, callback);
 		}
-	};	
+	};
 
 	/**
 	 * Get trip data set
 	 */
 	$scope.getTripDataSet = function(tripId, callback) {
+		// 0. ready progress
+		$scope.readyProgress();
 		// 1. invoke rest api
-		RestApi.get('/trips/' + tripId + '/trip_set.json', {}, function(dataSet) {
-			// start progress : Trip Count (1) + Batch Count + Track Count + Event Count
-			$scope.startProgress(1 + dataSet.batches.length + dataSet.tracks.length + dataSet.events.length);			
-			// 1. map 초기화 
-			$scope.clearAll(null);
-			// 2. trip 그리기 
-			$scope.showTrip(dataSet, callback);
-		});
+		RestApi.get('/trips/' + tripId + '/trip_set.json', {}, 
+			// success
+			function(dataSet) {
+				// 2. 호출이 완료되었으면 진행 + 1
+				$scope.progressBar.updateBar(1);				
+				// 3. Total Count : Trip (1) + Batch Count + Track Count + Event Count
+				$scope.startProgress(1 + dataSet.batches.length + dataSet.tracks.length + dataSet.events.length);
+				// 4. 호출이 완료되었으면 진행 + 1
+				$scope.progressBar.updateBar(1);
+				// 5. Map Data Reset
+				$scope.clearAll(null);
+				// 6. Map Data Reset이 되었다면 진행 + 1
+				$scope.progressBar.updateBar(1);
+				// 7. trip 그리기 
+				$scope.showTrip(dataSet, callback);
+			// error
+			}, function(error) {
+				$scope.progressBar.hide();
+			});
 	};
 
 	/**
@@ -463,7 +489,6 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 */
 	$scope.addMarker = function(marker) {
 		$scope.markers.push(marker);
-		//$scope.progressBar.updateBar(1);
 	};
 
 	/**

@@ -75,6 +75,12 @@ progressBar = function(opts) {
       document.getElementById(mapDiv).children[0].appendChild(div);
   }
 
+  var ready = function(message) {
+      bar.style.width = '0%';
+      text.innerHTML = message;
+      div.style.display = 'block';    
+  }
+
   var start = function(total_) {
     if (parseInt(total_) === total_ && total_ > 0) {
       total = total_;
@@ -132,6 +138,7 @@ progressBar = function(opts) {
 
   return {
     draw:         draw,
+    ready:        ready,
     start:        start,
     updateBar:    updateBar,
     hide:         hide,
