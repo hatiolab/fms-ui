@@ -49,7 +49,6 @@ angular.module('fmsHr').directive('hrOverviewSearch', function() {
 		$scope.searchByCharType();
 	}
 
-
 	/**
 	 * 검색 조건 
 	 *
@@ -134,7 +133,7 @@ angular.module('fmsHr').directive('hrOverviewSearch', function() {
 	  */
 	 $scope.afterSearch = function(dataSet) {
 		$scope.sendDrivingTimeChatData('Working Time By Driver', dataSet.drive_time);
-		$scope.sendDrivingDistChartData('Driving distance By Driver', dataSet.drive_dist);
+		$scope.sendDrivingDistChartData('Driving Distance By Driver', dataSet.drive_dist);
 		$scope.sendOverspeedChartData('Overspeed', dataSet.overspeed);
 		$scope.sendImpactChartData('Impact Count', dataSet.impact);
 		$scope.sendGeofenceChartData('Geofence Count', dataSet.geofence);
@@ -234,8 +233,7 @@ angular.module('fmsHr').directive('hrOverviewSearch', function() {
 	 $scope.setChartData = function(rawItems, chartData, field) {
 	 	for(var i = 0 ; i < rawItems.length ; i++) {
 	 		var rawItem = rawItems[i];
-	 		//chartData.labels.push(rawItem.driver_code + ' / ' + rawItem.driver_name);
-	 		chartData.labels.push(rawItem.driver_code);
+	 		chartData.labels.push(rawItem.driver_name);
 	 		chartData.data.push(Number(rawItem[field]));
 	 	};
 	 };

@@ -8,6 +8,7 @@ class CreateTrips < ActiveRecord::Migration
 			t.string :fvr, :null => false, :limit => 32
 			t.string :did, :null => false, :limit => 32
 			t.string :sts, :null => false, :limit => 1
+			t.float :dst
 			t.float :s_lat, :null => false
 			t.float :s_lng, :null => false
 			t.float :lat

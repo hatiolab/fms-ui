@@ -25,12 +25,6 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 	 */
 	$scope.searchParams = { 'from_date' : period[0], 'to_date' : period[1] };
 	/**
-	 * 사이드 바 토글 변수
-	 *
-	 * @type {Boolean}
-	 */
-	$scope.isSidebarToggle = true;
-	/**
 	 * Group List
 	 *
 	 * @type {Array}
@@ -107,7 +101,7 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 	 	var barChartData = { title : $scope.chartTitle, labels : [], series : ['Over Speed Count'], data : [] };
 	 	for(var i = 0 ; i < list.length ; i++) {
 	 		var item = list[i];
-	 		barChartData.labels.push(item.driver_code+' / '+item.driver_name);
+	 		barChartData.labels.push(item.driver_name);
 	 		barChartData.data.push(Number(item.speed_over));
 	 	};
 		$scope.$emit('bar-chart-data-change', barChartData);

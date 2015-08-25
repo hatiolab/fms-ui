@@ -9,14 +9,14 @@ public
       "geofences.id, geofences.name, geofences.description, 
       geofence_groups.fleet_group_id as group_id, fleet_groups.name as group_name"
 
-    joinStr = "geofence_groups
-               inner join geofences on geofence_groups.geofence_id = geofences.id
-               inner join fleet_groups on geofence_groups.fleet_group_id = fleet_groups.id"
+    joinStr = "geofences
+               left outer join geofence_groups on geofences.id = geofence_groups.geofence_id
+               left outer join fleet_groups on geofence_groups.fleet_group_id = fleet_groups.id"
 
     orderStr = "geofences.name asc, fleet_groups.name asc"
 
-    sql = GeofenceGroup.select(select).joins(joinStr).order(orderStr).to_sql
-    geofences = GeofenceGroup.connection.select_all(sql)
+    sql = Geofence.select(select).joins(joinStr).order(orderStr).to_sql
+    geofences = Geofence.connection.select_all(sql)
     tempItems = geofences.group_by { |g| g["id"] }.collect { |key, value| value[0] }
     items = JSON.parse(tempItems.to_json)
 

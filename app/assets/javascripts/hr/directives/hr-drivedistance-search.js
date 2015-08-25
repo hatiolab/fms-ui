@@ -69,7 +69,7 @@ angular.module('fmsHr').directive('hrDrivedistanceSearch', function() {
 	 * 
 	 * @type {String}
 	 */
-	$scope.chartTitle = 'Driving distance By Driver';
+	$scope.chartTitle = 'Driving Distance By Driver';
 
 	/**
 	 * Show Total Summary Chart
@@ -77,12 +77,12 @@ angular.module('fmsHr').directive('hrDrivedistanceSearch', function() {
 	$scope.showTotalChart = function(list) {
 		// 선택 아이템 변경 
 		$scope.item = null;
-		$scope.chartTitle = "Driving distance By Driver";
+		$scope.chartTitle = "Driving Distance By Driver";
 
 		// 기존 차트 삭제 
 		var parent = $('div.report-content').parent();
 		$('div.report-content').remove();
-		var html = "<div class='report-content'><fms-bar-chart class='col-xs-12 col-sm-12' title='Driving distance By Driver'></fms-bar-chart></div>";
+		var html = "<div class='report-content'><fms-bar-chart class='col-xs-12 col-sm-12' title='Driving Distance By Driver'></fms-bar-chart></div>";
 		var el = $compile(html)($scope);
 	 	parent.append(el);
 	 	// send data to chart scope
@@ -96,7 +96,7 @@ angular.module('fmsHr').directive('hrDrivedistanceSearch', function() {
 	 * @return N/A
 	 */
 	$scope.sendTotalChartData = function(list) {
-		$scope.chartTitle = 'Driving distance By Driver';
+		$scope.chartTitle = 'Driving Distance By Driver';
 	 	var barChartData = { title : $scope.chartTitle, labels : [], data : [] };
 		$scope.setChartData(list, barChartData, ['drive_dist'], ['Drive distance']);
 		$scope.$emit('bar-chart-data-list-change', barChartData);
@@ -113,9 +113,10 @@ angular.module('fmsHr').directive('hrDrivedistanceSearch', function() {
 	$scope.setChartData = function(dataList, chartData, fieldList, series) {
 	 	for(var i = 0 ; i <  $scope.items.length ; i++) {
 	 		var item =  $scope.items[i];
-	 		chartData.labels.push(item.driver_code+'/'+item.driver_name);
+	 		chartData.labels.push(item.driver_name);
 	 		chartData.series = series;
 	 	}
+	 	
 	 	for(var i = 0 ; i < fieldList.length ; i++) {
 	 		var field = fieldList[i];
 	 		chartData.data.push([]);

@@ -15,6 +15,7 @@ class Trip
   field :etm, type: Integer
   field :utm, type: Integer
   field :sts, type: String
+  field :dst, type: Float
   field :s_lat, type: Float
   field :s_lng, type: Float
   field :lat, type: Float

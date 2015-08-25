@@ -18,7 +18,7 @@ angular.module('fmsMonitor').controller('SidebarCtrl', function($rootScope, $sco
 		cls : '' 
 	}, { 
 		id: 'side-info', 	 
-		name: 'Selected Trip', 
+		name: 'Trip', 
 		showRefreshBtn : false, 
 		eventName : 'monitor-refresh-trip', 
 		cls : '' 

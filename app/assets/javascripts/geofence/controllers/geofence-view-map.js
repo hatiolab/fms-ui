@@ -202,17 +202,11 @@ angular.module('fmsGeofence')
 		};
 
 		$scope.setBounds = function() {
-			if($scope.markers.length == 0 && $scope.polygon.path.length == 0)
+			if($scope.polygon.path.length == 0)
 				return;
 
-			var startPoint = ($scope.markers && $scope.markers.length > 0) ? 
-											new google.maps.LatLng($scope.markers[0].lat, $scope.markers[0].lng) :
-											new google.maps.LatLng($scope.polygon.path[0].latitude, $scope.polygon.path[0].longitude);
+			var startPoint = new google.maps.LatLng($scope.polygon.path[0].latitude, $scope.polygon.path[0].longitude);
 			var bounds = new google.maps.LatLngBounds(startPoint, startPoint);
-
-			angular.forEach($scope.markers, function(marker) {
-				bounds.extend(new google.maps.LatLng(marker.lat, marker.lng));
-			});
 
 			angular.forEach($scope.polygon.path, function(path) {
 				bounds.extend(new google.maps.LatLng(path.latitude, path.longitude));

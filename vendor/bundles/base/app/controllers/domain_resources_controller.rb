@@ -5,7 +5,8 @@ class DomainResourcesController < InheritedResources::Base
   include Exportable
   include Transactionable
 
-  respond_to :xml, :json, :xls
+  #respond_to :xml, :json, :xls
+  respond_to :html, :xml, :json
 
   before_filter :authenticate_user!, :set_current_user
   

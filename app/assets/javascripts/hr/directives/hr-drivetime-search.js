@@ -130,7 +130,7 @@ angular.module('fmsHr').directive('hrDrivetimeSearch', function() {
 	 * Send Driver Chart Data
 	 */
 	$scope.sendItemChartData = function(list) {
-	 	var barChartData = { title : $scope.chartTitle, labels : [], series : ['Drive time'], data : [] };
+	 	var barChartData = { title : $scope.chartTitle, labels : [], series : ['Drive Time'], data : [] };
 	 	for(var i = 0 ; i < list.length ; i++) {
 	 		var item = list[i];
 	 		barChartData.labels.push(item.date);
@@ -150,7 +150,7 @@ angular.module('fmsHr').directive('hrDrivetimeSearch', function() {
 	$scope.setChartData = function(dataList, chartData, fieldList, series) {
 	 	for(var i = 0 ; i <  $scope.items.length ; i++) {
 	 		var item =  $scope.items[i];
-	 		chartData.labels.push(item.driver_code+'/'+item.driver_name);
+	 		chartData.labels.push(item.driver_name);
 	 		chartData.series = series;
 	 	}
 	 	for(var i = 0 ; i < fieldList.length ; i++) {
