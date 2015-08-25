@@ -84,16 +84,12 @@ angular.module('fmsGeofence')
 
 				// Save Polygon 
 				$scope.savePolygon();
-			},
-
-			circlecomplete: function() {
-				alert('circle');
 			}
 		};
 
-		uiGmapIsReady.promise().then(function(map_instances) {
-			alert('uiGmapIs Ready');
-		});
+		// uiGmapIsReady.promise().then(function(map_instances) {
+		// 	alert('uiGmapIs Ready');
+		// });
 
 		/**
 		 * Set Polygon Drawing Mode
