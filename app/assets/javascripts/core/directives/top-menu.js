@@ -7,7 +7,7 @@ angular.module('fmsCore').directive('topMenu', function() {
 	}; 
 })
 
-.controller('topMenuCtrl', function($rootScope, $scope, $element, ConstantSpeed, FmsUtils, RestApi) {
+.controller('topMenuCtrl', function($rootScope, $location, $scope, $element, ConstantSpeed, FmsUtils, RestApi) {
 
 	$scope.items = [ {
 		name : 'Map', 
@@ -35,13 +35,24 @@ angular.module('fmsCore').directive('topMenu', function() {
 		href : '#/settings/drivers',
 		active : false
 	} ];
+	$scope.firstload ='true';
 
 	$scope.setActive = function(activeItem) {
+		$rootScope.toggleButtonhide=true;
 		for(var i = 0 ; i < $scope.items.length ; i++) {
 			var item = $scope.items[i];
 			item.active = (item.name == activeItem.name);
+			if(item.active&&(item.name=='Map'||item.name=='Geofence')){
+				$rootScope.toggleButtonhide=false;
+			}
+			if(item.active && $scope.firstload){
+				$scope.firstload =false;
+				$location.path(item.href);
+			}
 		}
 	};
+
+	$scope.setActive($scope.items[0]);
 
 	$rootScope.$on('settings-value-change', function(event, setting) {
 		for(var i=0; i<setting.length; i++){

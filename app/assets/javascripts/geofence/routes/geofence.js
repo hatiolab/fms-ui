@@ -8,7 +8,7 @@ angular.module('fmsGeofence').config(function($stateProvider, $urlRouterProvider
 		url: '/geofence',
 		views: {
 			'sidebar-view': {
-				template: '<geofence-list></geofence-list>'
+				template: '<geofence-list toggle-switch></geofence-list>'
 			},
 			'content-view' : {
 				templateUrl: '/assets/geofence/views/contents/geofence-view.html'
@@ -20,7 +20,7 @@ angular.module('fmsGeofence').config(function($stateProvider, $urlRouterProvider
 		url: '/settings',
 		views: {
 			'sidebar-view@': {
-				template: '<setting-list></setting-list>'
+				template: '<setting-list toggle-switch></setting-list>'
 			},
 			'content-view@' : {
 				templateUrl : '/assets/geofence/views/contents/settings.html'
@@ -32,7 +32,7 @@ angular.module('fmsGeofence').config(function($stateProvider, $urlRouterProvider
 		url: '/relations',
 		views: {
 			'sidebar-view@': {
-				template: '<relation-list></relation-list>'
+				template: '<relation-list toggle-switch></relation-list>'
 			},
 			'content-view@' : {
 				template: '<relation-detail></relation-detail>'
