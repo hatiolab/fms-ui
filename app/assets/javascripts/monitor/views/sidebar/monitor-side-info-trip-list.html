@@ -7,6 +7,7 @@
 			<thead>
 			  <tr>
 			  	<th>#</th>
+			  	<!--th>ID</th-->
 					<th>Driver</th>
 					<th>Start Time</th>
 					<th>Finish Time</th>
@@ -16,7 +17,8 @@
 			<tbody>
 				<tr ng-repeat="item in items" ng-class="{active : item.active}" ng-click="goTrip(item)">
 					<td>{{item.no}}</td>
-					<td>{{item.did}}</td>
+					<!--td>{{item.id}}</td-->
+					<td>{{item.driver ? item.driver.name : ''}}</td>
 					<td>{{item.stm | date : 'medium'}}</td>
 					<td>{{item.etm | date : 'medium'}}</td>
 					<td>{{item.c_ovr}}</td>

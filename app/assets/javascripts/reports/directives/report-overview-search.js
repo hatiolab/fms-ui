@@ -31,7 +31,7 @@ angular.module('fmsReports').directive('reportsOverviewSearch', function() {
 	 */
 	$scope.items = [];
 	/**
-	 * [drivers init 처음 전체 페이지 로딩시는 fleet data 자동조회 하지 않는다.]
+	 * 검색 가능한 지 여부 
 	 * @type {Boolean}
 	 */
 	$scope.searchEnabled = true;
@@ -47,8 +47,7 @@ angular.module('fmsReports').directive('reportsOverviewSearch', function() {
 		period = FmsUtils.getPeriodString(periodType);
 		$scope.searchParams = { 'from_date' : period[0], 'to_date' : period[1] };
 		$scope.searchByCharType();
-	}
-
+	};
 
 	/**
 	 * 검색 조건 
@@ -133,9 +132,9 @@ angular.module('fmsReports').directive('reportsOverviewSearch', function() {
 	  * @return N/A
 	  */
 	 $scope.afterSearch = function(dataSet) {
-		$scope.sendDrivingTimeChatData('Working Time By Driver', dataSet.drive_time);
-		$scope.sendDrivingDistChartData('Driving distance By Driver', dataSet.drive_dist);
-		$scope.sendOverspeedChartData('Overspeed', dataSet.overspeed);
+		$scope.sendDrivingTimeChatData('Working Time By Fleet', dataSet.drive_time);
+		$scope.sendDrivingDistChartData('Driving distance By Fleet', dataSet.drive_dist);
+		$scope.sendOverspeedChartData('Overspeed Count', dataSet.overspeed);
 		$scope.sendImpactChartData('Impact Count', dataSet.impact);
 		$scope.sendGeofenceChartData('Geofence Count', dataSet.geofence);
 		$scope.sendEmergencyChartData('Emergency Count', dataSet.emergency);

@@ -43,10 +43,7 @@
 						      <img ng-src="{{selectedMarker.driver.img ? selectedMarker.driver.img : '/assets/ph_user.png'}}"/>
 						    </div>
 						  </div>
-						</div>	
-	          <!-- <img src="/assets/ph_car.png"/>
-	          <img src="/assets/ph_user.png" hidden/>
-						<button>Toggle photo</button-->
+						</div>
 	        </div>
 	        <div class="pull-left">
 		        <table class="detail-info-table">
@@ -69,36 +66,17 @@
 						</table>
 	        </div>
 					<div class="col-xs-12 padding-clear detail-address margin-t5 map-window">address</div>
-	        <!--div ng-show="'{{selectedMarker.trip_id}}' != ''" class="col-xs-12 padding-clear margin-t5">
-	          <button ng-click="$parent.goTrip('{{selectedMarker.trip_id}}')" class="btn modal-btn-trip btn-success btn-sm pull-right">Go Trip</button-->
-	        </div>
-		</ui-gmap-window>
+	      </div>
+			</ui-gmap-window>
 
 	    <!-- event marker window -->
 	    <ui-gmap-window id="eventWindow" coords="selectedMarker" 
 	      show="windowSwitch.showEventInfo" closeClick="switchOffAll()">
 	      <div>
-	        <div>Event ID <strong>{{selectedMarker.id}}</strong></div>
-	        <pip-video 
-	        		video-url="{{selectedMarker.vdo}}"
-	        		front-video-url="{{selectedMarker.f_vdo}}"
-	            rear-video-url="{{selectedMarker.r_vdo}}"
-	            audio-url="{{selectedMarker.ado}}">
-	        </pip-video>
+	        <div>Geofence Event ID <strong>{{selectedMarker.id}}</strong></div>
+	        <div>Geofence <strong>{{selectedMarker.geofence.name}} / {{selectedMarker.typ == 'O' ? 'OUT' : 'IN'}}</strong></div>
 	        <div class="detial-time">Occurred at <strong>{{selectedMarker.etm | date:'medium'}}</strong></div>
 	        <div class="detail-address map-window">address</div>
-					<div class="detail-item margin-t10">
-						<span class="modal-icon dot-gray">Speed</span>
-						<span class="{{selectedMarker.typeClass}}"></span> {{selectedMarker.vlc}}
-					</div>
-					<div class="detail-item">
-						<span class="modal-icon dot-gray">G-X</span>
-						<strong>{{selectedMarker.gx}}</strong>
-						<span class="modal-icon dot-gray">G-Y</span>
-						<strong>{{selectedMarker.gy}}</strong>
-						<span class="modal-icon dot-gray">G-Z</span>
-						<strong>{{selectedMarker.gz}}</strong>
-					</div>
 	      </div>
 	    </ui-gmap-window>	
 

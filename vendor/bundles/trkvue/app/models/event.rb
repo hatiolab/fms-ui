@@ -41,6 +41,16 @@ class Event
     @driver
   end
 
+  def geofence= (geofence)
+    @geofence = geofence
+  end
+
+  def geofence
+    @geofence = Geofence.where(:id => self.gid).first unless @geofence
+    @geofence = Geofence.new(:id => self.gid, :name => self.gid, :description => self.gid) unless @geofence
+    @geofence
+  end  
+
   before_destroy do |document|
     if(self.vdo && !self.vdo.empty? && self.vdo.length > 35)
       require 'fileutils'

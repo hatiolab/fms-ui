@@ -5,7 +5,7 @@
 	</tr>
 	<tr>
 		<td class="info-label">Driver</td>
-		<td class="info-value">{{trip.did}}</td>
+		<td class="info-value">{{trip.driver? trip.driver.code : ''}} / {{trip.driver ? trip.driver.name : ''}}</td>
 	</tr>									
 	<tr>
 		<td class="info-label">Started at / Till</td>
@@ -35,8 +35,9 @@
 		<td class="info-value">{{trip.fromAddress}}</td>
 	</tr>
 </table>
-<!-- pagination begin -->
-<!--div class="pagecontainer">
+
+<!-- pagination begin
+<div class="pagecontainer">
 	<nav class="pull-right padding-clear">
   	<ul class="pagination">
     <li class="padding-rl7 border-rl-lightgray" style="padding-top:3px;padding-bottom:8px">
@@ -57,5 +58,4 @@
     </li>
   </ul>
 	</nav>
-</div-->	
-<!-- pagination end -->
+</div>pagination end -->

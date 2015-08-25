@@ -7,8 +7,8 @@
 				<th>Fleet</th>
 				<th>Driver</th>
 				<th>Geofence</th>
-				<th>Occurred Time</th>
 				<th>Type</th>
+				<th>Occurred Time</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -17,8 +17,8 @@
 				<td>{{eventAlert.fid}}</td>
 				<td>{{eventAlert.driver.name}}</td>
 				<td>{{eventAlert.geofence.name}}</td>
+				<td>{{eventAlert.typ == 'I' ? 'IN' : 'OUT'}}</td>
 				<td>{{eventAlert.etm | date:'medium'}}</td>
-				<td>{{eventAlert.typ}}</td>
 			</tr>
 		</tbody>
 	</table>

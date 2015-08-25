@@ -3,10 +3,9 @@ class TripsController < MongoController
   public
 
   def index
-    respond_to do |format|
-      format.xml { render :xml => searching(Trip, params) } 
-      format.json { render :json => searching(Trip, params) }
-    end
+    result = searching(Trip, params)
+    @collection = result[:items]
+    @total_count = result[:total]
   end
   
   def show
@@ -25,6 +24,8 @@ class TripsController < MongoController
     trip = Trip.find(params[:id])
     # 1. fleet
     fleet = Fleet.find_by_name(trip.fid)
+    tripItem = JSON.parse(trip.to_json)
+    tripItem[:driver] = { :id => fleet.driver.id, :code => fleet.driver.code, :name => fleet.driver.name } if fleet.driver
     # 2. batches
     batches = Batch.all_of({'tid' => trip.id}).order("id asc")
     # 3. tracks
@@ -32,7 +33,8 @@ class TripsController < MongoController
     # 4. events
     events = Event.all_of({'tid' => trip.id}).order("id asc")    
     # 5. result
-    result = {:fleet => fleet, :trip => trip, :batches => batches, :tracks => tracks, :events => events, :success => true}
+    #result = {:fleet => fleet, :trip => tripItem, :batches => batches, :tracks => tracks, :events => events, :success => true}
+    result = {:trip => tripItem, :batches => batches, :tracks => tracks, :events => events, :success => true}
 
     respond_to do |format|
       format.xml { render :xml => result } 

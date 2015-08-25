@@ -42,11 +42,11 @@
 						<th>#</th>
 						<th>Driver ID</th>
 						<th>Name</th>
-						<th>Drive time</th>
+						<th>Working Time (min.)</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="item in items" ng-class="{active : item.active}"> <!-- ng-click="showItemChart(item)"  -->
+					<tr ng-repeat="item in items" ng-class="{active : item.active}">
 						<td>{{item.no}}</td>
 						<td>{{item.driver_code}}</td>
 						<td>{{item.driver_name}}</td>
