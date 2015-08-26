@@ -53,6 +53,13 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 	 */
 	$scope.chartTitle = 'Over Speed Total Summary';
 	/**
+	 * Top 10만 조회 
+	 * 
+	 * @type {Number}
+	 */
+	$scope.limit = 10;
+
+	/**
 	 * 검색 Sort 필드 
 	 * 
 	 * @type {String}
@@ -64,13 +71,25 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 	 * @type {String}
 	 */
 	$scope.sort_value = 'desc';
-	/**
-	 * Top 10만 조회 
-	 * 
-	 * @type {Number}
-	 */
-	$scope.limit = 10;
+	 /**
+	  * [sort condition setup]
+	  * @param  {[string]} the field you should sort from database
+	  * $scope.sort_field {[string]} the field you should sort from database
+	  * $scope.sort_value {[string]} asc/desc default asc
+	  */
+	$scope.setsort = function(sort_field){
+		var sortClass = $element.find('#' + sort_field)[0].className;
+		$scope.sort_value = {};
+		$scope.sort_field = sort_field;
 
+		if(sortClass == "st-sort-ascent") {
+			$scope.sort_value = "asc";
+		} else if(sortClass == "st-sort-descent") {
+			$scope.sort_value = "desc";
+		} else {
+			$scope.sort_value = "desc";
+		}
+	};
 	/**
 	 * Show Total Summary Chart
 	 */
