@@ -101,3 +101,4 @@ Gemfile.lock
 .ruby-gemset
 
 nohup.out
+config/mongoid.yml
