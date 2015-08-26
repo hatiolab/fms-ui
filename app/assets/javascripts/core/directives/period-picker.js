@@ -13,38 +13,24 @@
            },
           controller: function ($scope)
           {
-              /**
-               * data picker init
-               */
-              $(function() {
-                var datePick = $('#fromdatepicker').datetimepicker({
-                  language : 'en',
-                  pickTime : false,
-                  autoclose : true
-                })
-                .on('changeDate', function(fev) {
-                  $scope.fromDate = FmsUtils.formatDate(fev.date, 'yyyy-MM-dd');
-                  datePick.data('datetimepicker').hide();
-                  if(typeof $scope.search == 'function'){
-                     $scope.search();
-                  }
-                });
-              });
-      
-              $(function() {
-                var datePick = $('#todatepicker').datetimepicker({
-                  language : 'en',
-                  pickTime : false,
-                  autoclose : true
-                })
-                .on('changeDate', function(fev) {
-                  $scope.toDate = FmsUtils.formatDate(fev.date, 'yyyy-MM-dd'); 
-                  datePick.data('datetimepicker').hide();
-                  if(typeof $scope.search == 'function'){
-                     $scope.search();
-                  }
-                });
-              });
+              $scope.fromDt ={};
+              $scope.fromDt.opened = false;
+
+              $scope.toDt ={};
+              $scope.toDt.opened = false;
+              $scope.format = 'yyyy-MM-dd';
+              
+              $scope.clear = function () {
+                $scope.dt = null;
+              };
+
+              $scope.open = function(name, $event) {
+                if(name=="fromDate"){
+                  $scope.fromDt.opened = true;
+                }else if(name=="toDate"){
+                  $scope.toDt.opened = true;
+                }
+              };
           },
           templateUrl: '/assets/core/views/period-picker.html'
     }
