@@ -39,16 +39,16 @@
 				<thead>
 					<tr>
 						<th>#</th>
-						<th>Driver ID</th>
-						<th>Name</th>
-						<th>Slow</th>
-						<th>Normal</th>
-						<th>High</th>
-						<th>Over</th>
+						<th id="driver_code" st-sort="driver_code" ng-click="setsort('driver_code')">Driver ID</th>
+						<th id="driver_name" st-sort="driver_name" ng-click="setsort('driver_name')">Name</th>
+						<th id="speed_slow" st-sort="speed_slow" ng-click="setsort('speed_slow')">Slow</th>
+						<th id="speed_normal" st-sort="speed_normal" ng-click="setsort('speed_normal')">Normal</th>
+						<th id="speed_high" st-sort="speed_high" ng-click="setsort('speed_high')">High</th>
+						<th id="speed_over" st-sort="speed_over" ng-click="setsort('speed_over')">Over</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="item in items" ng-class="{active : item.active}"> <!-- ng-click="showItemChart(item)"  -->
+					<tr ng-repeat="item in items" ng-click="showItemChart(item)" ng-class="{active : item.active}"> 
 						<td>{{item.no}}</td>
 						<td>{{item.driver_code}}</td>
 						<td>{{item.driver_name}}</td>

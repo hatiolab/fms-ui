@@ -60,6 +60,38 @@ angular.module('fmsHr').directive('hrDrivehabitSearch', function() {
 	 * @type {String}
 	 */
 	$scope.chartTitle = 'Driving Habit Total Summary';
+	/**
+	 * 검색 Sort 필드 
+	 * 
+	 * @type {String}
+	 */
+	$scope.sort_field = 'driver_code';
+	/**
+	 * 검색 Sort 조건 
+	 * 
+	 * @type {String}
+	 */
+	$scope.sort_value = 'desc';
+	 /**
+	  * [sort condition setup]
+	  * @param  {[string]} the field you should sort from database
+	  * $scope.sort_field {[string]} the field you should sort from database
+	  * $scope.sort_value {[string]} asc/desc default asc
+	  */
+	$scope.setsort = function(sort_field){
+		var sortClass = $element.find('#' + sort_field)[0].className;
+		$scope.sort_value = {};
+		$scope.sort_field = sort_field;
+
+		if(sortClass == "st-sort-ascent") {
+			$scope.sort_value = "asc";
+		} else if(sortClass == "st-sort-descent") {
+			$scope.sort_value = "desc";
+		} else {
+			$scope.sort_value = "desc";
+		}
+	};
+
 
 	/**
 	 * Show Total Summary Chart
@@ -69,19 +101,19 @@ angular.module('fmsHr').directive('hrDrivehabitSearch', function() {
 		$scope.item = null;
 		$scope.chartTitle = "Over Speed Total Summary";
 
-		var params = { from_date : $scope.searchParams['from_date'], to_date : $scope.searchParams['to_date']};
+		var params = { from_date : $scope.searchParams['from_date'], to_date : $scope.searchParams['to_date'],limit : 10};
 
-		RestApi.list('/fleet_group_summaries/driver_summary.json', params, function(list) {
+		RestApi.list('/fleet_summaries/driver_summary.json', params, function(list) {
 			// 기존 차트 삭제 
 			var parent = $('div.report-content').parent();
 			$('div.report-content').remove();
-			var html = "<div class='report-content'><fms-bar-chart class='col-xs-12 col-sm-12' title='Driving Habit Total Summary'></fms-bar-chart></div>";
+			var html = "<div class='report-content'><fms-bar-chart class='col-xs-12 col-sm-6' title='Driving Habit Speed Slow Summary'></fms-bar-chart><fms-bar-chart class='col-xs-12 col-sm-6' title='Driving Habit Speed High Summary'></fms-bar-chart></div>";
 			var el = $compile(html)($scope);
 		 	parent.append(el);
 
 		 	// send data to chart scope
 		 	$timeout.cancel();
-	   	$timeout($scope.sendTotalChartData, 250, true, list);
+	   		$timeout($scope.sendTotalChartData, 250, true, list);
 	 	});
 	};
 
@@ -91,9 +123,14 @@ angular.module('fmsHr').directive('hrDrivehabitSearch', function() {
 	 * @return N/A
 	 */
 	$scope.sendTotalChartData = function(list) {
-		$scope.chartTitle = 'Driving Habit Total Summary';
+		$scope.chartTitle = 'Driving Habit Speed Slow Summary';
 	 	var barChartData = { title : $scope.chartTitle, labels : [], data : [] };
-		$scope.setChartData(list, barChartData, ['speed_slow', 'speed_normal', 'speed_high', 'speed_over'], ['Slow Count', 'Normal Count', 'High Count', 'Over Count']);
+		$scope.setChartData(list, barChartData, ['speed_slow'], ['Slow Speed Count']);
+		$scope.$emit('bar-chart-data-list-change', barChartData);
+
+		$scope.chartTitle = 'Driving Habit Speed High Summary';
+	 	var barChartData = { title : $scope.chartTitle, labels : [], data : [] };
+		$scope.setChartData(list, barChartData, ['speed_high'], ['High Speed Count']);
 		$scope.$emit('bar-chart-data-list-change', barChartData);
 	};
 
@@ -108,7 +145,7 @@ angular.module('fmsHr').directive('hrDrivehabitSearch', function() {
 	$scope.setChartData = function(dataList, chartData, fieldList, series) {
 	 	for(var i = 0 ; i < dataList.length ; i++) {
 	 		var item = dataList[i];
-	 		chartData.labels.push(item.group_name);
+	 		chartData.labels.push(item.driver_name);
 	 		chartData.series = series;
 	 	}
 	 	for(var i = 0 ; i < fieldList.length ; i++) {

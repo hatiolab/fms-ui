@@ -47,18 +47,6 @@ angular.module('fmsHr').directive('hrDrivedistanceSearch', function() {
 	 */
 	$scope.searchEnabled = false;
 	/**
-	 * 검색 Sort 필드 
-	 * 
-	 * @type {String}
-	 */
-	$scope.sort_field = 'drive_dist';
-	/**
-	 * 검색 Sort 조건 
-	 * 
-	 * @type {String}
-	 */
-	$scope.sort_value = 'desc';
-	/**
 	 * Top 10만 조회 
 	 * 
 	 * @type {Number}
@@ -70,6 +58,37 @@ angular.module('fmsHr').directive('hrDrivedistanceSearch', function() {
 	 * @type {String}
 	 */
 	$scope.chartTitle = 'Driving Distance By Driver';
+	/**
+	 * 검색 Sort 필드 
+	 * 
+	 * @type {String}
+	 */
+	$scope.sort_field = 'drive_dist';
+	/**
+	 * 검색 Sort 조건 
+	 * 
+	 * @type {String}
+	 */
+	$scope.sort_value = 'desc';
+	 /**
+	  * [sort condition setup]
+	  * @param  {[string]} the field you should sort from database
+	  * $scope.sort_field {[string]} the field you should sort from database
+	  * $scope.sort_value {[string]} asc/desc default asc
+	  */
+	$scope.setsort = function(sort_field){
+		var sortClass = $element.find('#' + sort_field)[0].className;
+		$scope.sort_value = {};
+		$scope.sort_field = sort_field;
+
+		if(sortClass == "st-sort-ascent") {
+			$scope.sort_value = "asc";
+		} else if(sortClass == "st-sort-descent") {
+			$scope.sort_value = "desc";
+		} else {
+			$scope.sort_value = "desc";
+		}
+	};
 
 	/**
 	 * Show Total Summary Chart
