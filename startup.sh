@@ -1,0 +1,1 @@
+nohup unicorn -E production -c config/unicorn.rb &
