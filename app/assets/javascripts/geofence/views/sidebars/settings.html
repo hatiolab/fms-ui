@@ -36,6 +36,7 @@
 						<th>Name</th>
 						<th>Description</th>
 						<th>Groups</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -43,6 +44,9 @@
 						<td>{{item.name}}</td>
 						<td>{{item.description}}</td>
 						<td>{{item.groups}}</td>
+						<td class="icon-td align-center" ng-click="assignGroup(item)">
+							<button class="btn btn-in-pagination">Assign</button>
+						</td>
 					</tr>
 				</tbody>
 			</table>

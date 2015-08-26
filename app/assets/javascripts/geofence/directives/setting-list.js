@@ -13,7 +13,7 @@ angular.module('fmsGeofence').directive('settingList', function() {
 	};
 })
 
-.controller('settingListCtrl', function($rootScope, $scope, $resource, $element, GridUtils, FmsUtils, ModalUtils, RestApi) {
+.controller('settingListCtrl', function($rootScope, $scope, $resource, $element, $state, GridUtils, FmsUtils, ModalUtils, RestApi) {
 
 	/**
 	 * Geofence List
@@ -267,6 +267,13 @@ angular.module('fmsGeofence').directive('settingList', function() {
 					ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
 				});
 		});
+	};
+
+	/**
+	 * Assign Group
+	 */
+	$scope.assignGroup = function(geofence) {
+		$state.go('geofence.relations', { 'geofence': geofence }, { reload : true });
 	};
 
 	/**
