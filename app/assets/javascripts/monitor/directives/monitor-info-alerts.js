@@ -49,34 +49,6 @@ angular.module('fmsMonitor').directive('monitorInfoAlerts', function() {
 	$scope.items = [];
 
 	/**
-	 * Date Picker
-	 */
-	$(function() {
-		var fromDt = $('#monitor_info_alert_datepicker1').datetimepicker({
-			language : 'en',
-			pickTime : false,
-			autoclose : true
-		}).on('changeDate', function(fev) {
-			$scope.searchParams.ctm_gte = FmsUtils.formatDate(fev.date, 'yyyy-MM-dd');
-			$scope.search(null);
-			fromDt.data('datetimepicker').hide();
-		});
-	});
-
-	$(function() {
-		var toDt = $('#monitor_info_alert_datepicker2').datetimepicker({
-			language : 'en',
-			pickTime : false,
-			autoclose : true
-		}).on('changeDate', function(tev) {
-			FmsUtils.addDate(tev.date, -1);
-			$scope.searchParams.ctm_lte = FmsUtils.formatDate(tev.date, 'yyyy-MM-dd');
-			$scope.search(null);
-			toDt.data('datetimepicker').hide();
-		});
-	});
-
-	/**
 	 * Normalize parameters
 	 */
 	$scope.normalizeSearchParams = function() {

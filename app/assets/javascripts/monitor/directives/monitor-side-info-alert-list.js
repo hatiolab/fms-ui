@@ -204,7 +204,12 @@ angular.module('fmsMonitor').directive('monitorSideInfoAlertList', function() {
 		 */
 		FmsUtils.setGridContainerHieght('monitor-side-info-alert-table-container');
 	};
-
+	
+	$scope.$watchCollection('searchParams', function() {
+		if($scope.searchEnabled) {
+			$scope.search($scope.tablestate);
+		}
+	});
 	/**
 	 * 초기화 
 	 */

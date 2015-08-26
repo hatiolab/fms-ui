@@ -19,7 +19,7 @@
               $scope.toDt ={};
               $scope.toDt.opened = false;
               $scope.format = 'yyyy-MM-dd';
-              
+
               $scope.clear = function () {
                 $scope.dt = null;
               };
@@ -47,6 +47,7 @@
            },
           controller: function ($scope)
           {
+            console.log('ng-model');
             this.setSearchPeriod = function(periodType){
               period = FmsUtils.getPeriodString(periodType);
               $scope.fromDate = period[0];

@@ -258,6 +258,10 @@ angular.module('fmsHr').directive('hrOverviewSearch', function() {
 		}
 	};
 
+	$scope.$watchCollection('searchParams', function() {
+		$scope.searchByCharType($scope.tablestate);
+	});
+
 	/**
 	 * 초기화 함수 
 	 * 

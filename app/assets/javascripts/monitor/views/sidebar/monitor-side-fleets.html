@@ -1,16 +1,8 @@
 <form name="fleetForm" class="form-horizontal">
 
 	<!-- group begin -->
-	<div class="form-group">
-    <label class="col-xs-12 col-sm-3 col-md-2 control-label">Group</label>
-    <div class="col-xs-11 col-sm-7 col-md-6 padding-clear">
-      <select name="group" class="form-control" ng-model="searchParams.group" ng-init="selected=''"
-       ng-options="group.name for group in groups" >
-      	<option></option>
-			</select>
-    </div>
-	</div>
-	<!-- group end -->
+	<option-list groups option-name ='group' option-model ="searchParams.group"></option-list>
+	<!-- group End -->
 
 	<!-- speed begin -->
 	<div class="form-group">

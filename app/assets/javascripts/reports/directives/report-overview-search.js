@@ -257,6 +257,10 @@ angular.module('fmsReports').directive('reportsOverviewSearch', function() {
 			$scope.sort_value ="desc";
 		}
 	};
+	
+	$scope.$watchCollection('searchParams', function() {
+		$scope.searchByCharType($scope.tablestate);
+	});
 
 	/**
 	 * 초기화 함수 

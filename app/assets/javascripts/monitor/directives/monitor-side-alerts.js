@@ -55,34 +55,6 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	$scope.searchEnabled = false;
 
 	/**
-	 * Date Picker Handling
-	 * 
-	 * @param  {[type]}
-	 * @return {[type]}
-	 */
-	$(function() {
-		var fromDt = $('#monitor-side-alert-datepicker1').datetimepicker({
-			language: 'en',
-			pickTime: false,
-			autoclose: true
-		}).on('changeDate', function(fev) {
-			$scope.searchParams["ctm_gte"] = FmsUtils.formatDate(fev.date, 'yyyy-MM-dd');
-			fromDt.data('datetimepicker').hide();
-		});
-	});
-
-	$(function() {
-		var toDt = $('#monitor-side-alert-datepicker2').datetimepicker({
-			language: 'en',
-			pickTime: false,
-			autoclose: true
-		}).on('changeDate', function(tev) {
-			$scope.searchParams["ctm_lte"] = FmsUtils.formatDate(tev.date, 'yyyy-MM-dd');
-			toDt.data('datetimepicker').hide();
-		});
-	});
-
-	/**
 	 * Normalize parameters
 	 */
 	$scope.normalizeSearchParams = function(params) {

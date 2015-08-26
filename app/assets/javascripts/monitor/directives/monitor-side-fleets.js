@@ -70,15 +70,6 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	};
 
 	/**
-	 * Search Fleet Groups
-	 */
-	$scope.findGroups = function(params) {
-		RestApi.list('/fleet_groups.json', params, function(dataSet) {
-			$scope.groups = dataSet;
-		});
-	};
-
-	/**
 	 * search events
 	 */
 	 $scope.search = function(tablestate) {
@@ -252,7 +243,6 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 	 */
 	$scope.init = function() {
 		$scope.isLoading = false;
-		$scope.findGroups(null);
 	};
 
 	$scope.init();
