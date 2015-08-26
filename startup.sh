@@ -1,1 +1,1 @@
-nohup unicorn -E production -c config/unicorn.rb &
+nohup bundle exec unicorn -E production -c config/unicorn.rb &
