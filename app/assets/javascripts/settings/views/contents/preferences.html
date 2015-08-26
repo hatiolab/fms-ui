@@ -2,7 +2,7 @@
 	<form class="form-horizontal">
 		<!-- interval fieldset begin -->
 		<fieldset>
-			<legend>Interval</legend>
+			<legend>Monitor</legend>
 			<div class="form-group col-xs-12 col-sm-6">
 				<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">Batch Interval</label>
 				<div class="col-xs-7 col-sm-8 col-md-8">
@@ -35,8 +35,8 @@
 				</div>
 			</div>
 
-			<div class="form-group col-xs-12 col-sm-12" >
-				<label class="control-label col-xs-5 col-sm-2 col-md-2 padding-clear">Map Refresh</label>
+			<div class="form-group col-xs-12 col-sm-6" >
+				<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">Map Refresh</label>
 				<div class="radio pull-left">
 					<label class="pull-left"><input type="radio" name="MapRefresh" id="optionsRadios1" value="Y" ng-model="settings.map_refresh" checked> Yes</label>
 						<div class="pull-left" ng-show="settings.map_refresh=='Y'">
@@ -45,7 +45,15 @@
 						</div>
 				</div>
 				<div class="radio pull-left">
-					<label class="pull-left"><input type="radio" name="MapRefresh" id="optionsRadios2" value="N" ng-model="settings.map_refresh"> No</label>
+					<label class="pull-left">
+						<input type="radio" name="MapRefresh" id="optionsRadios2" value="N" ng-model="settings.map_refresh"> No</label>
+				</div>
+			</div>
+
+			<div class="form-group col-xs-12 col-sm-6">
+				<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">Movie Base URL</label>
+				<div class="col-xs-7 col-sm-8 col-md-8">
+					<input type="text" min="1" class="form-control max-w200 pull-left" ng-model='settings.content_base_url'></input>
 				</div>
 			</div>
 			

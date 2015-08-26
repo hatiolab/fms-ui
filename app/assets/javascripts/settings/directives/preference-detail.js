@@ -11,34 +11,14 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 	})
 	.controller('preferenceDetailCtrl', function($rootScope, $scope, $filter, $resource, $element, RestApi, ModalUtils) {
 
-		
-		/**
-		 * Rails Server의 스펙에 맞도록 파라미터 변경 ...
-		 *
-		 * @param  {Object}
-		 */
-		$scope.normalizeSearchParams = function(params) {
-			var searchParams = {'_o[name]' : 'asc'};
-
-			if(!params || FmsUtils.isEmpty(params)) {
-				return searchParams;
-			} 
-
-			return searchParams;
-		};
-
 		/**
 		 * Search Groups
 		 */
 		$scope.searchPreferences = function(searchParams) {
-
-			searchParams = $scope.normalizeSearchParams(searchParams);
-
-			$scope.doSearch(searchParams, function(dataSet) {
+			$scope.doSearch({ '_o[name]' : 'asc', 'limit' : 1000 }, function(dataSet) {
 				$scope.items = dataSet.items;
 				$scope.afterSearch(dataSet.items);
 			});
-
 		};
 
 		/**
@@ -66,6 +46,7 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 				'distance_unit' : $scope.getByName(dataSet,'distance_unit').value,
 				'gps_interval' : Number($scope.getByName(dataSet,'gps_interval').value),
 				'map_refresh_interval' : Number($scope.getByName(dataSet,'map_refresh_interval').value),
+				'content_base_url' : $scope.getByName(dataSet,'content_base_url').value,
 				'speed_high' : Number($scope.getByName(dataSet,'speed_high').value),
 				'speed_over' : Number($scope.getByName(dataSet,'speed_over').value),
 				'speed_slow' : Number($scope.getByName(dataSet,'speed_slow').value),
@@ -86,10 +67,10 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 		};
 
 		/**
-		 * 
+		 * get setting by name
 		 */
 		$scope.getByName = function (dataSet, param) {
-			var result = $filter('filter')(dataSet, {'name':param})[0];
+			var result = $filter('filter')(dataSet, {'name' : param})[0];
 			return result;
 		}
 
@@ -99,7 +80,6 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 		 * @return N/A
 		 */
 		$scope.checkValidForm = function() {
-
 			if($scope.settings['map_refresh'] && $scope.settings['map_refresh'] == 'Y') {
 				if(!$scope.settings['map_refresh_interval'] || $scope.settings['map_refresh_interval'] < 1) {
 					$scope.showAlerMsg("Input Value unvaliable", "Map Refresh Interval is required, if Map Refresh option selected!");
@@ -127,25 +107,25 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 		 * @return {Object}
 		 */
 		$scope.save = function() {
-			var items = [];
-
-			for(var i =0; i<$scope.items.length; i++){
-				var item = $scope.items[i];
-				items.push({
-					id : item.id,
+			var items = $scope.items.map(function(item) {
+				return { 
+					id : item.id, 
 					name : item.name,
 					value : $scope.settings[item.name].toString(),
-					_cud_flag_ : "u"
-				});
-			}
+					_cud_flag_ : 'u'
+				};
+			});
 
 			if (items.length > 0) {
 				var url = '/settings/update_multiple.json';
 				var result = RestApi.updateMultiple(url, null, items);
-				result.$promise.then(function(data) {
-					$scope.refreshSetting(items);
-					$scope.showAlerMsg("Success", "Success to save!");
-				});
+				result.$promise.then(
+					function(data) {
+						$scope.refreshSetting(items);
+						$scope.showAlerMsg("Success", "Success to save!");
+					}, function(error) {
+						ModalUtils.alert('sm', 'Error', error.data);
+					});
 			}
 		};	
 
@@ -157,6 +137,6 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 		$scope.refreshSetting = function(settings) {
 			$scope.$emit('settings-value-change', settings);
 			$scope.searchPreferences();
-		}
+		};
 
 	});

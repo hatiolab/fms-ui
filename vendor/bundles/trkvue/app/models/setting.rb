@@ -18,4 +18,8 @@ class Setting < ActiveRecord::Base
 		Setting.where("name = ?", name).first.value.to_i
 	end
 
+	def self.getValue(name)
+		Setting.where("name = ?", name).first.value
+	end
+
 end

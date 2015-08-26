@@ -98,3 +98,5 @@ Gemfile.lock
 /public/uploads
 
 .ruby-gemset
+
+nohup.out

@@ -21,7 +21,7 @@
       BRAND_NAME = currentDomain.brand_name;
       BRAND_IMAGE_URL = currentDomain.brand_image;
       CONTENT_IMAGE_URL = currentDomain.content_image;
-      CONTENT_BASE_URL = '<%= GlobalConfig.content_base_url %>';
+      CONTENT_BASE_URL = "<%= Setting.getValue('content_base_url') %>";
       DEFAULT_LAT = <%= GlobalConfig.default_lat %>;
       DEFAULT_LNG = <%= GlobalConfig.default_lng %>;
     </script>
