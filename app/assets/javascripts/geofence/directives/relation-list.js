@@ -13,7 +13,7 @@ angular.module('fmsGeofence').directive('relationList', function() {
 	};
 })
 
-.controller('relationListCtrl', function($rootScope, $scope, $resource, $element, GridUtils, FmsUtils, ModalUtils, RestApi) {
+.controller('relationListCtrl', function($rootScope, $scope, $resource, $element, $stateParams, GridUtils, FmsUtils, ModalUtils, RestApi) {
 
 	/**
 	 * Geofence List
@@ -151,6 +151,8 @@ angular.module('fmsGeofence').directive('relationList', function() {
 		});
 	};
 
+	$scope.isFirst = true;
+
 	/**
 	 * infinite scorll directive에서 호출 
 	 * 
@@ -161,6 +163,11 @@ angular.module('fmsGeofence').directive('relationList', function() {
 		$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
 		// grid container를 새로 설정한다.
 		FmsUtils.setGridContainerHieght('geofence-setting-table-container');
+		// goItem
+		if($scope.isFirst && $stateParams.geofence)	{
+			$scope.isFirst = false;
+			$scope.goItem($stateParams.geofence);
+		}
 	};
 
 	/**

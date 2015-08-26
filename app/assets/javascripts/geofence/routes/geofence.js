@@ -30,6 +30,7 @@ angular.module('fmsGeofence').config(function($stateProvider, $urlRouterProvider
 
 	.state('geofence.relations', {
 		url: '/relations',
+		params: { 'geofence' : null },
 		views: {
 			'sidebar-view@': {
 				template: '<relation-list toggle-switch></relation-list>'
