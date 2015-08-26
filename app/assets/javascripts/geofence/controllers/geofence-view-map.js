@@ -93,21 +93,23 @@ angular.module('fmsGeofence')
 		 * @param  handler function
 		 */
 		var geofenceSelectionListener = $rootScope.$on('geofence-event-all-selected', function(event, geofence, eventItems) {
-			$scope.geofence = geofence;
-			$scope.resetPolygon();
+			if(geofence) {
+				$scope.geofence = geofence;
+				$scope.resetPolygon();
 
-			// Get polygon
-			RestApi.get('/polygons.json', { '_q[geofence_id-eq]' : geofence.id }, function(dataSet) {
-				$scope.setPolygon(dataSet.items);
-				// Search Fleets
-				RestApi.list('/geofence_groups.json', { '_q[geofence_id-eq]' : geofence.id }, function(items) {
-					var groupIdList = items.map(function(item) { return item.fleet_group_id });
-					RestApi.list('/fleets.json', { '_q[fleet_group_id-in]' : groupIdList.join(',') }, function(list) {
-						$scope.refreshFleets(list);
-						$scope.refreshEvents(eventItems);
+				// Get polygon
+				RestApi.get('/polygons.json', { '_q[geofence_id-eq]' : geofence.id }, function(dataSet) {
+					$scope.setPolygon(dataSet.items);
+					// Search Fleets
+					RestApi.list('/geofence_groups.json', { '_q[geofence_id-eq]' : geofence.id }, function(items) {
+						var groupIdList = items.map(function(item) { return item.fleet_group_id });
+						RestApi.list('/fleets.json', { '_q[fleet_group_id-in]' : groupIdList.join(',') }, function(list) {
+							$scope.refreshFleets(list);
+							$scope.refreshEvents(eventItems);
+						});
 					});
-				});
-			});
+				});				
+			}
 		});
 
 	  /**
@@ -202,17 +204,11 @@ angular.module('fmsGeofence')
 		};
 
 		$scope.setBounds = function() {
-			if($scope.markers.length == 0 && $scope.polygon.path.length == 0)
+			if($scope.polygon.path.length == 0)
 				return;
 
-			var startPoint = ($scope.markers && $scope.markers.length > 0) ? 
-											new google.maps.LatLng($scope.markers[0].lat, $scope.markers[0].lng) :
-											new google.maps.LatLng($scope.polygon.path[0].latitude, $scope.polygon.path[0].longitude);
+			var startPoint = new google.maps.LatLng($scope.polygon.path[0].latitude, $scope.polygon.path[0].longitude);
 			var bounds = new google.maps.LatLngBounds(startPoint, startPoint);
-
-			angular.forEach($scope.markers, function(marker) {
-				bounds.extend(new google.maps.LatLng(marker.lat, marker.lng));
-			});
 
 			angular.forEach($scope.polygon.path, function(path) {
 				bounds.extend(new google.maps.LatLng(path.latitude, path.longitude));

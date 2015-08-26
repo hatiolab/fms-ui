@@ -12,8 +12,10 @@ class CreateDrivers < ActiveRecord::Migration
 			t.string :division, :limit => 32
 			t.string :phone_no, :limit => 32
 			t.string :mobile_no, :limit => 32
-			t.string :address, :limit => 255
+			t.float :work_time, :default => 0
+			t.float :distance, :default => 0
 			t.integer :point, :default => 0
+			t.string :address, :limit => 255
 			t.string :img, :limit => 255
 			t.userstamps
 			t.timestamps

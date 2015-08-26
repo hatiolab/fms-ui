@@ -11,7 +11,7 @@ class CreateGeofenceGroups < ActiveRecord::Migration
 			t.timestamps
 		end
 
-		add_index :geofence_groups, [:fleet_group_id, :geofence_id], :name => :ix_geofence_groups_0
+		add_index :geofence_groups, [:fleet_group_id, :geofence_id, :alarm_type], :name => :ix_geofence_groups_0
 	end
 
 end

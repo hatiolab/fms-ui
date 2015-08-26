@@ -214,15 +214,22 @@ angular.module('fmsGeofence').directive('settingList', function() {
 		if($scope.item.id && $scope.item.id != '') {
 			var url = '/geofences/' + $scope.item.id + '.json';
 			var result = RestApi.update(url, null, {geofence : $scope.item});
-			result.$promise.then(function(data) {
-				$scope.search($scope.tablestate);
-			});
+			result.$promise.then(
+				function(data) {
+					$scope.search($scope.tablestate);
+				}, function(error) {
+					ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
+				});
 
 		} else {
 			var result = RestApi.create('/geofences.json', null, {geofence : $scope.item});
-			result.$promise.then(function(data) {
-				$scope.search($scope.tablestate);
-			});
+			result.$promise.then(
+				function(data) {
+					$scope.search($scope.tablestate);
+				}, function(error) {
+					console.log(error);
+					ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
+				});
 		}
 	};
 
@@ -252,10 +259,13 @@ angular.module('fmsGeofence').directive('settingList', function() {
 
 		ModalUtils.confirm('sm', 'Confirmation', 'Are you sure to delete?', function() {
 			var result = RestApi.delete('/geofences/' + $scope.item.id + '.json', null);
-			result.$promise.then(function(data) {
-				$scope.resetItem();
-				$scope.search($scope.tablestate);
-			});
+			result.$promise.then(
+				function(data) {
+					$scope.resetItem();
+					$scope.search($scope.tablestate);
+				}, function(error) {
+					ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
+				});
 		});
 	};
 

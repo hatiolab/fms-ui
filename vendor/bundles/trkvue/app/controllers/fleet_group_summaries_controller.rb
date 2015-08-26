@@ -25,7 +25,7 @@ public
 
     groupStr = "fleet_group_summaries.fleet_group_id, fleet_groups.name"
 
-    orderStr = "#{sort_field} #{sort_value}" # default name asc
+    orderStr = params[:sort_field] ? "#{sort_field} #{sort_value}" : "fleet_groups.name asc"
 
   	total = FleetGroupSummary.where(cond).count
     sql = FleetGroupSummary.select(select).joins(joinStr).where(cond).group(groupStr).order(orderStr).to_sql
@@ -40,7 +40,7 @@ public
 
   def driver_summary
     from_date, to_date = params[:from_date], params[:to_date]
-    sort_field, sort_value = params[:sort_field], params[:sort_value] #sort condition
+    sort_field, sort_value = params[:sort_field], params[:sort_value]
     cond = ["(fleet_group_summaries.sum_day between ? and ?)", from_date, to_date]
 
     select = 
@@ -61,7 +61,7 @@ public
 
     groupStr = "fleet_groups.id, fleet_groups.name"
 
-    orderStr = "#{sort_field} #{sort_value}" # default name asc
+    orderStr = params[:sort_field] ? "#{sort_field} #{sort_value}" : "fleet_groups.name asc"
 
     total = FleetGroupSummary.where(cond).count
     sql = FleetGroupSummary.select(select).joins(joinStr).where(cond).group(groupStr).order(orderStr).to_sql
@@ -98,7 +98,7 @@ public
 
     groupStr = "fleet_group_summaries.fleet_group_id, fleet_groups.name"
 
-    orderStr = "#{sort_field} #{sort_value}" # default code asc
+    orderStr = params[:sort_field] ? "#{sort_field} #{sort_value}" : "fleet_groups.name asc"
     
     total = FleetGroupSummary.where(cond).count
     sql = FleetGroupSummary.select(select).joins(joinStr).where(cond).group(groupStr).order(orderStr).to_sql

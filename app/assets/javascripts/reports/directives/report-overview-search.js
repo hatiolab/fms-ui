@@ -132,8 +132,8 @@ angular.module('fmsReports').directive('reportsOverviewSearch', function() {
 	  * @return N/A
 	  */
 	 $scope.afterSearch = function(dataSet) {
-		$scope.sendDrivingTimeChatData('Working Time By Fleet', dataSet.drive_time);
-		$scope.sendDrivingDistChartData('Driving distance By Fleet', dataSet.drive_dist);
+		$scope.sendDrivingTimeChatData('Driving Time By Fleet', dataSet.drive_time);
+		$scope.sendDrivingDistChartData('Driving Distance By Fleet', dataSet.drive_dist);
 		$scope.sendOverspeedChartData('Overspeed Count', dataSet.overspeed);
 		$scope.sendImpactChartData('Impact Count', dataSet.impact);
 		$scope.sendGeofenceChartData('Geofence Count', dataSet.geofence);
