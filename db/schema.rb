@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150712073535) do
+ActiveRecord::Schema.define(version: 20150812050639) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -256,9 +256,9 @@ ActiveRecord::Schema.define(version: 20150712073535) do
   end
 
   create_table "drivers", force: :cascade do |t|
-    t.integer  "domain_id",              null: false
-    t.string   "code",       limit: 32,  null: false
-    t.string   "name",       limit: 64,  null: false
+    t.integer  "domain_id",                          null: false
+    t.string   "code",       limit: 32,              null: false
+    t.string   "name",       limit: 64,              null: false
     t.string   "social_id",  limit: 32
     t.string   "email",      limit: 64
     t.string   "title",      limit: 32
@@ -266,6 +266,7 @@ ActiveRecord::Schema.define(version: 20150712073535) do
     t.string   "phone_no",   limit: 32
     t.string   "mobile_no",  limit: 32
     t.string   "address",    limit: 255
+    t.integer  "point",                  default: 0
     t.string   "img",        limit: 255
     t.integer  "creator_id"
     t.integer  "updater_id"
@@ -354,6 +355,52 @@ ActiveRecord::Schema.define(version: 20150712073535) do
   add_index "error_logs", ["domain_id", "created_at"], name: "ix_error_log_1", using: :btree
   add_index "error_logs", ["domain_id", "issue_date"], name: "ix_error_log_0", using: :btree
 
+  create_table "event_group_summaries", force: :cascade do |t|
+    t.integer  "domain_id",                             null: false
+    t.integer  "fleet_group_id"
+    t.string   "sum_day",        limit: 10,             null: false
+    t.string   "sum_year",       limit: 4,              null: false
+    t.string   "sum_month",      limit: 2,              null: false
+    t.string   "sum_week",       limit: 3,              null: false
+    t.integer  "impact",                    default: 0
+    t.integer  "geofence",                  default: 0
+    t.integer  "emergency",                 default: 0
+    t.integer  "gsensor",                   default: 0
+    t.integer  "overspeed",                 default: 0
+    t.integer  "creator_id"
+    t.integer  "updater_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "event_group_summaries", ["domain_id", "fleet_group_id", "sum_day"], name: "ix_event_group_sum_0", unique: true, using: :btree
+  add_index "event_group_summaries", ["domain_id", "fleet_group_id"], name: "ix_event_group_sum_1", using: :btree
+  add_index "event_group_summaries", ["domain_id", "sum_day"], name: "ix_event_group_sum_2", using: :btree
+  add_index "event_group_summaries", ["domain_id", "sum_year", "sum_month"], name: "ix_event_group_sum_3", using: :btree
+
+  create_table "event_summaries", force: :cascade do |t|
+    t.integer  "domain_id",                         null: false
+    t.integer  "fleet_id"
+    t.string   "sum_day",    limit: 10,             null: false
+    t.string   "sum_year",   limit: 4,              null: false
+    t.string   "sum_month",  limit: 2,              null: false
+    t.string   "sum_week",   limit: 3,              null: false
+    t.integer  "impact",                default: 0
+    t.integer  "geofence",              default: 0
+    t.integer  "emergency",             default: 0
+    t.integer  "gsensor",               default: 0
+    t.integer  "overspeed",             default: 0
+    t.integer  "creator_id"
+    t.integer  "updater_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "event_summaries", ["domain_id", "fleet_id", "sum_day"], name: "ix_event_sum_0", unique: true, using: :btree
+  add_index "event_summaries", ["domain_id", "fleet_id"], name: "ix_event_sum_1", using: :btree
+  add_index "event_summaries", ["domain_id", "sum_day"], name: "ix_event_sum_2", using: :btree
+  add_index "event_summaries", ["domain_id", "sum_year", "sum_month"], name: "ix_event_sum_3", using: :btree
+
   create_table "events", force: :cascade do |t|
     t.string  "dom",   limit: 16,  null: false
     t.string  "fid",   limit: 32,  null: false
@@ -408,6 +455,37 @@ ActiveRecord::Schema.define(version: 20150712073535) do
 
   add_index "expansion_codes", ["domain_id", "name"], name: "ix_exp_code_0", unique: true, using: :btree
 
+  create_table "fleet_group_summaries", force: :cascade do |t|
+    t.integer  "domain_id",                               null: false
+    t.integer  "fleet_group_id"
+    t.string   "sum_day",        limit: 10,               null: false
+    t.string   "sum_year",       limit: 4,                null: false
+    t.string   "sum_month",      limit: 2,                null: false
+    t.string   "sum_week",       limit: 3,                null: false
+    t.float    "velocity",                  default: 0.0
+    t.float    "drive_dist",                default: 0.0
+    t.float    "drive_time",                default: 0.0
+    t.integer  "impact",                    default: 0
+    t.integer  "geofence",                  default: 0
+    t.integer  "emergency",                 default: 0
+    t.integer  "overspeed",                 default: 0
+    t.integer  "speed_off",                 default: 0
+    t.integer  "speed_idle",                default: 0
+    t.integer  "speed_slow",                default: 0
+    t.integer  "speed_normal",              default: 0
+    t.integer  "speed_high",                default: 0
+    t.integer  "speed_over",                default: 0
+    t.integer  "creator_id"
+    t.integer  "updater_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "fleet_group_summaries", ["domain_id", "fleet_group_id", "sum_day"], name: "ix_fleet_group_sum_0", unique: true, using: :btree
+  add_index "fleet_group_summaries", ["domain_id", "fleet_group_id"], name: "ix_fleet_group_sum_1", using: :btree
+  add_index "fleet_group_summaries", ["domain_id", "sum_day"], name: "ix_fleet_group_sum_2", using: :btree
+  add_index "fleet_group_summaries", ["domain_id", "sum_year", "sum_month"], name: "ix_fleet_group_sum_3", using: :btree
+
   create_table "fleet_groups", force: :cascade do |t|
     t.integer  "domain_id",               null: false
     t.string   "name",        limit: 32,  null: false
@@ -419,6 +497,38 @@ ActiveRecord::Schema.define(version: 20150712073535) do
   end
 
   add_index "fleet_groups", ["domain_id", "name"], name: "ix_fleet_groups_0", unique: true, using: :btree
+
+  create_table "fleet_summaries", force: :cascade do |t|
+    t.integer  "domain_id",                             null: false
+    t.integer  "fleet_id"
+    t.integer  "driver_id"
+    t.string   "sum_day",      limit: 10,               null: false
+    t.string   "sum_year",     limit: 4,                null: false
+    t.string   "sum_month",    limit: 2,                null: false
+    t.string   "sum_week",     limit: 3,                null: false
+    t.float    "velocity",                default: 0.0
+    t.float    "drive_dist",              default: 0.0
+    t.float    "drive_time",              default: 0.0
+    t.integer  "impact",                  default: 0
+    t.integer  "geofence",                default: 0
+    t.integer  "emergency",               default: 0
+    t.integer  "overspeed",               default: 0
+    t.integer  "speed_off",               default: 0
+    t.integer  "speed_idle",              default: 0
+    t.integer  "speed_slow",              default: 0
+    t.integer  "speed_normal",            default: 0
+    t.integer  "speed_high",              default: 0
+    t.integer  "speed_over",              default: 0
+    t.integer  "creator_id"
+    t.integer  "updater_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "fleet_summaries", ["domain_id", "fleet_id", "sum_day"], name: "ix_fleet_sum_0", unique: true, using: :btree
+  add_index "fleet_summaries", ["domain_id", "fleet_id"], name: "ix_fleet_sum_1", using: :btree
+  add_index "fleet_summaries", ["domain_id", "sum_day"], name: "ix_fleet_sum_2", using: :btree
+  add_index "fleet_summaries", ["domain_id", "sum_year", "sum_month"], name: "ix_fleet_sum_3", using: :btree
 
   create_table "fleets", force: :cascade do |t|
     t.integer  "domain_id",                  null: false
