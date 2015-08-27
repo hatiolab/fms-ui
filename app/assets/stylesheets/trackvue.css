@@ -195,11 +195,11 @@ label input[type="checkbox"]{margin-right:5px;}
 /* fix for Twitter Bootstrap handling of responsive images */
 .angular-google-map img {max-width: none;}
 
-.backward-layer{width:430px;}
+.backward-layer{width:400px;height:267px;}
 .forward-layer{width:180px;position:absolute;top:0px;left:263px;
 -webkit-box-shadow: -5px 6px 5px 0px rgba(0,0,0,0.2);-moz-box-shadow: -5px 6px 5px 0px rgba(0,0,0,0.2);box-shadow: -5px 6px 5px 0px rgba(0,0,0,0.2);z-index:1000;}
-.pip-container img{max-width:380px;}
-.pip-container img.forward-layer{width:160px;top:5px;left:231px;}
+.pip-container img{max-width:380px;max-height:230px;}
+.pip-container img.forward-layer{width:160px;height:100px;top:5px;left:231px;}
 .modal-btn-trip{background-image:url(/assets/icon-modal.png);background-position:112% 7px;padding:5px 15px 4px 10px !important;}
 .modal-btn-trip:hover{background-image:url(/assets/icon-modal.png);}
 .detail-time strong{display:block;}
@@ -399,3 +399,25 @@ background:url('/assets/icon-table-context.png') 0 -94px no-repeat;height:16px;w
 .map-control button.btn-primary{background-position:0 1px;color:#fff;font-weight:bold;}
 .map-control button.btn-primary:hover{background-color:transparent;}
 .map-control:nth-child(even) button{margin:0 5px;}
+
+/* date picker */
+.date .dropdown-menu{padding:0 0 10px 0;overflow:hidden;}
+.date .dropdown-menu thead tr:first-child{background-color:#425169;}
+.date .dropdown-menu thead tr:first-child .glyphicon{background:url('/assets/icon-datepicker.png') 4px 1px no-repeat;width:20px;display:block;height:16px;opacity:.5;}
+.date .dropdown-menu thead tr:first-child .glyphicon:hover{opacity:1;}
+.date .dropdown-menu thead tr:first-child .glyphicon.glyphicon-chevron-right{background-position:6px -49px;}
+.date .dropdown-menu thead tr:first-child button{border:none;background-color:transparent;padding:5px 5px;color:#fff;font-size:13px;}
+.date .dropdown-menu thead tr:last-child{background-color:#efefef;border-bottom:1px solid #ccc;font-size:11px;color:#999;}
+.date .dropdown-menu thead tr:last-child th{padding:2px 0;font-weight:normal;}
+.date .dropdown-menu tbody tr{border-bottom:1px dotted #efefef;}
+.date .dropdown-menu tbody button{border:none;background-color:transparent;border-right:none;}
+.date .dropdown-menu tbody .text-muted{color:#ccc;}
+.date .dropdown-menu tbody .btn:active,.date .dropdown-menu tbody .btn.active{
+	background-color:#41c3ff;padding:5px 9px;
+	-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:none;
+	-webkit-border-radius:15px;-moz-border-radius:15px;border-radius:15px;
+	color:#fff;
+}
+.date .dropdown-menu thead th:last-child,.date .dropdown-menu tbody td:last-child button{color:#006699;}
+.date .dropdown-menu thead th:nth-child(2),.date .dropdown-menu tbody td:nth-child(2) button{color:#d45d3d;}
+.date .dropdown-menu tbody td:first-child{border-right:1px solid #efefef;background-color:#f1f6fe;color:#8a95a5;}
