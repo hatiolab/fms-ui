@@ -9,7 +9,7 @@
     "angular-bootstrap": "latest",
     "ng-file-upload": "latest",
     "Chart.js": "latest",
-    "tc-angular-chartjs": "latest",
-    "angular-chart.js": "latest"
+    "angular-chart.js": "latest",
+    "angular-cookies": "latest"
   }
 }
