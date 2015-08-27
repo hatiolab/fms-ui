@@ -23,7 +23,7 @@ class Terminology < ActiveRecord::Base
       terms.group_by(&:category).reduce({}) do |resource, (category, terms)|
         resource[category] = terms.reduce({}) do |cat, term|
           cat[term.name] = term.display unless term.display.blank?
-          cat[term.name + '.short'] = term.display_short unless term.display_short.blank?
+          #cat[term.name + '.short'] = term.display_short unless term.display_short.blank?
           cat
         end
         resource
