@@ -30,7 +30,7 @@ label input[type="checkbox"]{margin-right:5px;}
 .status-check.orange.active{background-position:-601px -400px;}
 .status-check.red.active{background-position:-601px -500px;}
 
-.table th{background:url(/assets/bg-th.png) 0 100% repeat-x;color:#8a95a5;border:1px solid #e9ebf0;border-width:0  1px;border-right-color:#bfcfda;border-bottom-color:#e9ebf0;border-left-color:#f4f5f8;padding:6px 8px !important;}
+.table th{background:url(/assets/bg-th.png) 0 100% repeat-x #f7f8fa;color:#8a95a5;border:1px solid #e9ebf0;border-width:0  1px;border-right-color:#bfcfda;border-bottom-color:#e9ebf0;border-left-color:#f4f5f8;padding:6px 8px !important;}
 .icon-trip{background:url(/assets/icon-sidepanel.png) 0 -150px no-repeat;display:inline-block;width:15px;height:18px;cursor:pointer;}
 .align-left{text-align:left !important;}
 .align-center{text-align:center !important;}
@@ -285,6 +285,18 @@ font-size:12px;color:#666;}
 .table-context .icon-minus{background:url(/assets/icon-table-context.png) 8px -43px no-repeat;margin-left:-1px;}
 .table-context .icon-plus:hover{background-position:-42px 7px;}
 .table-context .icon-minus:hover{background-position:-42px -43px;}
+
+/* report style */
+.report-content .panel-heading{background:url(/assets/bg-th.png) 0 100% repeat-x #f7f8fa;padding:7px 10px;color:#798ca8;}
+.report-content .panel-heading:before{content:'';
+background:url('/assets/icon-chart-header.png') no-repeat;height:16px;width:23px;padding-left:30px;}
+.report-content .type-bar .panel-heading:before{background-position:0 0;}
+.report-content .type-pie .panel-heading:before{background-position:0 -50px;}
+.report-content .type-line .panel-heading:before{background-position:0 -100px;}
+.report-content .panel-default{border-color:#bfcfda;}
+.chart-legend li span, .bar-legend li span, .line-legend li span, .pie-legend li span, .radar-legend li span, .polararea-legend li span, .doughnut-legend li span{width:15px;height:10px;top:4px;}
+.chart-container{padding-top:7px;}
+.bar-legend{margin-top:3px;margin-bottom:3px;}
 
 /*for loading animation*/
 .loading {
