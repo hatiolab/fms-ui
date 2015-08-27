@@ -340,9 +340,6 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	$scope.clearAll = function(center) {
 		// 선택된 마커 해제 
 		$scope.changeMarker(null);
-		// clear polylines
-		angular.forEach($scope.polylines, function(polyline) { polyline = null; });
-		$scope.polylines.splice(0, $scope.polylines.length);
 
 		// clear markers
 		if($scope.markerControl && $scope.markerControl.getGMarkers) {
@@ -353,6 +350,25 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 			angular.forEach($scope.markers, function(marker) { marker = null; });
 			$scope.markers.splice(0, $scope.markers.length);
 		}
+
+		// clear polylines
+		var plurals = $scope.polylineControl.getPlurals().values();
+		for(var i = 0 ; i < plurals.length ; i++) {
+			var plural = plurals[i];
+			if(plural && plural.clonedModel) {
+				var paths = plural.clonedModel.path;
+				angular.forEach(paths, function(path) { path = null; });
+				plural.clonedModel.path.splice(0, paths.length);
+			}
+
+			if(plural && plural.gObject) {
+				plural.gObject.setMap(null);
+			}
+		}
+
+		angular.forEach($scope.polylines, function(polyline) { polyline = null; });
+		$scope.polylines.splice(0, $scope.polylines.length);
+		$scope.polylineControl.clean();
 
 		if(center) {
 			$scope.mapOption.center = center;
@@ -380,18 +396,24 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		RestApi.get('/trips/' + tripId + '/trip_set.json', {}, 
 			// success
 			function(dataSet) {
+				// 1. filter tracks
+				var tripSet = $scope.filterTrip(dataSet);
 				// 2. 호출이 완료되었으면 진행 + 1
-				$scope.progressBar.updateBar(1);				
-				// 3. Total Count : Trip (Start, End) + Batch Count + Track Count + Event Count
-				$scope.startProgress(2 + dataSet.batches.length + dataSet.tracks.length + dataSet.events.length);
-				// 4. 호출이 완료되었으면 진행 + 1
 				$scope.progressBar.updateBar(1);
-				// 5. Map Data Reset
+				// 3. Data
+				var trip = tripSet[0];
+				var batches = tripSet[1];
+				var tracks = tripSet[2];				
+				// 4. Total Count : Track Count
+				$scope.startProgress(tracks.length);
+				// 5. 호출이 완료되었으면 진행 + 1
+				$scope.progressBar.updateBar(1);
+				// 6. Map Data Reset
 				$scope.clearAll(null);
-				// 6. Map Data Reset이 되었다면 진행 + 1
+				// 7. Map Data Reset이 되었다면 진행 + 1
 				$scope.progressBar.updateBar(1);
-				// 7. trip 그리기 
-				$scope.showTrip(dataSet, callback);
+				// 8. trip 그리기 
+				$scope.showTrip(trip, batches, tracks, callback);
 			// error
 			}, function(error) {
 				$scope.progressBar.hide();
@@ -399,55 +421,71 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	};
 
 	/**
-	 * Show Trip
+	 * Trip, Batch와 Track이 포인트가 일치하는 Track은 제거하고 소팅하여 리턴 
 	 */
-	$scope.showTrip = function(tripDataSet, callback) {
-
+	$scope.filterTrip = function(tripDataSet) {
 		var trip = tripDataSet.trip;
 		var batches = tripDataSet.batches;
-		var tracks = tripDataSet.tracks;
-		var events = tripDataSet.events;
-		var tracks = tracks.concat(events);
+		var tracks = tripDataSet.tracks.concat(tripDataSet.events);
 
-		// tracks, events 정렬 
+		// sort by time tracks, events
 		tracks.sort(function(a, b) {
 			var aTime = a.ttm ? a.ttm : a.etm;
 			var bTime = b.ttm ? b.ttm : b.etm;
 			return (aTime < bTime) ? -1 : (aTime > bTime) ? 1 : 0;
 		});
 
+		return [trip, batches, tracks];
+	};
+
+	/**
+	 * Show Trip
+	 */
+	$scope.showTrip = function(trip, batches, tracks, callback) {
+
 		// 1. trip start
 		$scope.addMarker($scope.tripToMarker(trip, 'start'));
+		var batchSize = batches.length;
+		var zIndex = 1;
 
 		// 2. batches
-		for(var i = 0 ; i < batches.length ; i++) {
+		for(var i = 0 ; i < batchSize ; i++) {
 			var batch = batches[i];
 
 			// 2.1 batch start
-			$scope.addMarker($scope.batchToMarker(batch, 'start'));
+			//$scope.addMarker($scope.batchToMarker(batch, 'start'));
 
 			// 2.2 tracks & events : 시간순
 			var markerSize = tracks.length;
 			for(var j = 0 ; j < markerSize ; j++) {
 				var m = tracks[j];
 				if(m.bid == batch.id) {
-					$scope.addMarker(m.ttm ? $scope.trackToMarker(m) : $scope.eventToMarker(m));
+					if(m.lat != batch.lat && m.lng != batch.lng) {
+						var marker = $scope.addMarker(m.ttm ? $scope.trackToMarker(m) : $scope.eventToMarker(m));
+						marker.zIndex = zIndex + 1;
+					}
 				}
 			}
 
 			// 2.3 batch end
-			if(batch.sts == '2') {
-				$scope.addMarker($scope.batchToMarker(batch, 'end'));
-			}
+			//$scope.addMarker($scope.batchToMarker(batch, 'end'));
 		}
 
 		// 3. trip end
 		if(trip.sts == '2') {
-			$scope.addMarker($scope.tripToMarker(trip, 'end'));
+			$scope.addMarker($scope.tripToMarker(trip, 'end'));	
+		} else {
+			$scope.addMarker($scope.lastTripToMarker(trip));
 		}
 
 		// 4. Draw Line 
-		$scope.showLine(trip);
+		$scope.polylines.push({
+			id : trip.id, 
+			geodesic : true, 
+			visible : true,
+			stroke : { color: '#FF0000', opacity: 1.0, weight: 4 },
+			path : $scope.markers,
+		});
 
 		// 5. Speed Class 설정 
 		FmsUtils.setSpeedClass(trip, trip.vlc);
@@ -455,24 +493,8 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		// 6. 현재 선택된 Trip을 변경 
 		$scope.changeCurrentTrip(trip);
 
-		// fit bounds
+		// 7. fit bounds
 		$scope.fitBounds(callback);
-	};
-
-	/**
-	 * Add Marker To Line 
-	 */
-	$scope.showLine = function(trip) {
-		var tripLine = {
-			id : trip.id, geodesic : true, visible : true, path : [],
-			stroke : { color: '#FF0000', opacity: 1.0, weight: 4 }
-		};
-
-		$scope.polylines.push(tripLine);
-		var size = $scope.markers.length;
-
-		for(var i = 0 ; i < size ; i++)
-			tripLine.path.push({latitude : $scope.markers[i].lat, longitude : $scope.markers[i].lng});
 	};
 
 	/**
@@ -496,6 +518,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 */
 	$scope.addMarker = function(marker) {
 		$scope.markers.push(marker);
+		return marker;
 	};
 
 	/**
@@ -552,11 +575,12 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 */
 	$scope.tripToMarker = function(trip, type) {
 		var marker = angular.copy(trip);
-		marker._id = 'trip-' + trip.id;
+		marker._id = 'trip-' + trip.id + '-' + type;
 		marker.latitude = (type == 'start') ? trip.s_lat : trip.lat;
 		marker.longitude = (type == 'start') ? trip.s_lng : trip.lng;
 		marker.icon = $scope.getTripMarkerIcon(trip, type);
 		marker.type = type;
+		marker.options = { zIndex : google.maps.Marker.MAX_ZINDEX + 1 };
 		marker.events = {
 			click : function(e) {
 				$scope.addMarkerClickEvent(e, 'showTripInfo');
@@ -564,6 +588,26 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		};
 		return marker;
 	};	
+
+	/**
+	 * Trip을 Fleet으로 변환 
+	 */
+	$scope.lastTripToMarker = function(trip) {
+		var type = 'end';
+		var marker = angular.copy(trip);
+		marker._id = 'trip-' + trip.id + '-' + type;
+		marker.latitude = trip.lat;
+		marker.longitude = trip.lng;
+		marker.icon = $scope.getFleetMarkerIcon(trip, type);
+		marker.type = type;
+		marker.options = { zIndex : google.maps.Marker.MAX_ZINDEX + 1 };
+		marker.events = {
+			click : function(e) {
+				$scope.addMarkerClickEvent(e, 'showTripInfo');
+			}
+		};
+		return marker;
+	};
 
 	/**
 	 * convert batch to marker
@@ -575,6 +619,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		marker.longitude = (type == 'start') ? batch.s_lng : batch.lng;
 		marker.icon = $scope.getBatchMarkerIcon(batch, type);
 		marker.type = type;
+		marker.options = { zIndex : google.maps.Marker.MAX_ZINDEX - 1 };
 		marker.events = {
 			click : function(e) {
 				$scope.addMarkerClickEvent(e, 'showBatchInfo');
@@ -873,6 +918,8 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 				$scope.$emit('monitor-refresh-event', 1);
 			}			
 		}
+
+		$scope.refreshTimer();	
 	};
 
 });

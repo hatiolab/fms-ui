@@ -16,10 +16,11 @@
 	<ui-gmap-google-map id='mapCanvas' center='mapOption.center' zoom='mapOption.zoom' control="mapControl" fit="false">
 
 		<ui-gmap-map-control template="control.viewmode.tpl.html" controller="MapModeControlCtrl" position="top-center" index="1"></ui-gmap-map-control>
+
 		<ui-gmap-map-control template="control.refresh.tpl.html" controller="MapRefreshControlCtrl" position="bottom-right" index="1"></ui-gmap-map-control>
 
 		<!-- markers -->
-		<ui-gmap-markers models="markers" coords="'self'" idKey="'_id'" events="'events'" icon="'icon'" control="markerControl"></ui-gmap-markers>
+		<ui-gmap-markers models="markers" coords="'self'" idKey="'_id'" events="'events'" icon="'icon'" control="markerControl" options="'options'"></ui-gmap-markers>
 
     <!-- lines -->
     <ui-gmap-polylines models="polylines" path="'path'" stroke="'stroke'" visible="'visible'" geodesic="'geodesic'" control="polylineControl" static='true'></ui-gmap-polylines>
@@ -57,12 +58,16 @@
 	            <td>{{selectedMarker.name}}</td>
 	          </tr>
 	          <tr>
-	            <th class="modal-icon dot-gray">Model</th>
-	            <td>{{selectedMarker.car_model}}</td>
+	            <th class="modal-icon dot-gray">Group</th>
+	            <td>{{selectedMarker.fleet_group ? selectedMarker.fleet_group.name : ''}}</td>
 	          </tr>
 	          <tr>
 	            <th class="modal-icon dot-gray">Car No.</th>
 	            <td>{{selectedMarker.car_no}}</td>
+	          </tr>	          
+	          <tr>
+	            <th class="modal-icon dot-gray">Model</th>
+	            <td>{{selectedMarker.car_model}}</td>
 	          </tr>
 	          <tr>
 	            <th class="modal-icon dot-gray">Drivers</th>
@@ -85,12 +90,12 @@
 					<span class="modal-icon dot-gray">Trip ID</span>
 					<strong>{{selectedMarker.id}} [ {{selectedMarker.type}} ]</strong>
 				</div>
-        <div class="detail-item">
-					<span class="modal-icon dot-gray min-w100">Recorded at</span>
+        <div class="detail-item margin-t5">
+					<span class="modal-icon dot-gray min-w100">Started at</span>
 					{{selectedMarker.stm | date:'medium'}}
 				</div>
         <div class="detail-item">
-					<span class="modal-icon dot-gray min-w100">Trip Started at</span>
+					<span class="modal-icon dot-gray min-w100">Saved at</span>
 					{{selectedMarker.stm | date:'medium'}}
 				</div>
       </div>
@@ -104,13 +109,13 @@
 					<span class="modal-icon dot-gray">Batch ID</span>
 					<strong>{{selectedMarker.id}} [ {{selectedMarker.type}} ]</strong>
 				</div>
-        <div class="detail-item">
-					<span class="modal-icon dot-gray min-w100">Recorded at</span>
-					{{selectedMarker.utm | date:'medium'}}
+        <div class="detail-item margin-t5">
+					<span class="modal-icon dot-gray min-w100">Started at</span>
+					{{selectedMarker.stm | date:'medium'}}
 				</div>
         <div class="detail-item">
-					<span class="modal-icon dot-gray min-w100">Batch Started at</span>
-					{{selectedMarker.stm | date:'medium'}}
+					<span class="modal-icon dot-gray min-w100">Saved at</span>
+					{{selectedMarker.utm | date:'medium'}}
 				</div>
       </div>
     </ui-gmap-window>
@@ -122,20 +127,20 @@
         <div>Track ID : <strong>{{selectedMarker.id}}</strong></div>
         <pip-image front-image-url="{{selectedMarker.f_img}}" rear-image-url="{{selectedMarker.r_img}}">
         </pip-image>
-        <div class="detail-item margin-t10">
-					<span class="modal-icon dot-gray min-w100">Recorded at</span>
-					{{selectedMarker.ctm | date:'medium'}}
+        <div class="detail-item margin-t5">
+					<span class="modal-icon dot-gray min-w100">Occurred at</span>
+					{{selectedMarker.ttm | date:'medium'}}
 				</div>
         <div class="detail-item">
-					<span class="modal-icon dot-gray min-w100">Started at</span>
-					{{selectedMarker.ttm | date:'medium'}}
+					<span class="modal-icon dot-gray min-w100">Saved at</span>
+					{{selectedMarker.ctm | date:'medium'}}
 				</div>
         <div class="detail-item">
 					<span class="modal-icon dot-gray">Speed</span>
 					<span class="{{selectedMarker.typeClass}}"></span>{{selectedMarker.vlc}}
 				</div>
 				
-				<div class="detail-item">
+				<div class="detail-item margin-t5">
 					<span class="modal-icon dot-gray">G-X</span>
 					<strong>{{selectedMarker.gx}}</strong>
 					<span class="modal-icon dot-gray">G-Y</span>
@@ -158,9 +163,9 @@
             rear-video-url="{{selectedMarker.r_vdo}}"
             audio-url="{{selectedMarker.ado}}">
         </pip-video>
-        <div class="detial-time">Occurred at <strong>{{selectedMarker.etm | date:'medium'}}</strong></div>
+        <div class="detial-time margin-t5">Occurred at <strong>{{selectedMarker.etm | date:'medium'}}</strong></div>
         <div class="detail-address map-window">address</div>
-				<div class="detail-item margin-t10">
+				<div class="detail-item margin-t5">
 					<span class="modal-icon dot-gray">Speed</span>
 					<span class="{{selectedMarker.typeClass}}"></span> {{selectedMarker.vlc}}
 				</div>
