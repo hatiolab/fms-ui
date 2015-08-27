@@ -222,7 +222,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	$scope.monitorProgress = function(totalMarkerCount) {
 		if($scope.markerControl && $scope.markerControl.getGMarkers) {
 			var drawingCount = $scope.markerControl.getGMarkers().length;
-			if(drawingCount >= totalMarkerCount) {
+			if(drawingCount >= totalMarkerCount - 3) {
 				$scope.progressBar.setCurrent(drawingCount);
 				$scope.progressBar.hide();
 			} else {
@@ -352,23 +352,27 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		}
 
 		// clear polylines
-		var plurals = $scope.polylineControl.getPlurals().values();
-		for(var i = 0 ; i < plurals.length ; i++) {
-			var plural = plurals[i];
-			if(plural && plural.clonedModel) {
-				var paths = plural.clonedModel.path;
-				angular.forEach(paths, function(path) { path = null; });
-				plural.clonedModel.path.splice(0, paths.length);
+		if($scope.polylineControl && $scope.polylineControl.getPlurals) {
+			var plurals = $scope.polylineControl.getPlurals().values();
+			for(var i = 0 ; i < plurals.length ; i++) {
+				var plural = plurals[i];
+
+				if(plural && plural.clonedModel) {
+					var paths = plural.clonedModel.path;
+					angular.forEach(paths, function(path) { path = null; });
+					plural.clonedModel.path.splice(0, paths.length);
+				}
+
+				if(plural && plural.gObject) {
+					plural.gObject.setMap(null);
+				}
 			}
 
-			if(plural && plural.gObject) {
-				plural.gObject.setMap(null);
-			}
+			$scope.polylineControl.clean();
 		}
 
 		angular.forEach($scope.polylines, function(polyline) { polyline = null; });
 		$scope.polylines.splice(0, $scope.polylines.length);
-		$scope.polylineControl.clean();
 
 		if(center) {
 			$scope.mapOption.center = center;
@@ -455,13 +459,11 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 			//$scope.addMarker($scope.batchToMarker(batch, 'start'));
 
 			// 2.2 tracks & events : 시간순
-			var markerSize = tracks.length;
-			for(var j = 0 ; j < markerSize ; j++) {
+			var trackSize = tracks.length;
+			for(var j = 0 ; j < trackSize ; j++) {
 				var m = tracks[j];
 				if(m.bid == batch.id) {
-					if(m.lat != batch.lat && m.lng != batch.lng) {
-						$scope.addMarker(m.ttm ? $scope.trackToMarker(m) : $scope.eventToMarker(m));
-					}
+					$scope.addMarker(m.ttm ? $scope.trackToMarker(m) : $scope.eventToMarker(m));
 				}
 			}
 
