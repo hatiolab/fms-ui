@@ -446,7 +446,6 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		// 1. trip start
 		$scope.addMarker($scope.tripToMarker(trip, 'start'));
 		var batchSize = batches.length;
-		var zIndex = 1;
 
 		// 2. batches
 		for(var i = 0 ; i < batchSize ; i++) {
@@ -461,8 +460,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 				var m = tracks[j];
 				if(m.bid == batch.id) {
 					if(m.lat != batch.lat && m.lng != batch.lng) {
-						var marker = $scope.addMarker(m.ttm ? $scope.trackToMarker(m) : $scope.eventToMarker(m));
-						marker.zIndex = zIndex + 1;
+						$scope.addMarker(m.ttm ? $scope.trackToMarker(m) : $scope.eventToMarker(m));
 					}
 				}
 			}
