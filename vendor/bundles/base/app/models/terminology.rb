@@ -19,7 +19,7 @@ class Terminology < ActiveRecord::Base
   def self.to_resource locale
     @@resource_json ||= {}
     @@resource_json["#{Domain.current_domain.id}:#{locale}"] ||= begin
-      terms = select([:category, :name, :display, :display_short]).where(locale: locale).order(:category, :name)
+      terms = select([:category, :name, :display]).where(locale: locale, description: 'FMS-UI').order(:category, :name)
       terms.group_by(&:category).reduce({}) do |resource, (category, terms)|
         resource[category] = terms.reduce({}) do |cat, term|
           cat[term.name] = term.display unless term.display.blank?
