@@ -1,0 +1,1 @@
+json.(@terminology, :id, :description, :locale, :category, :name, :display)

@@ -200,8 +200,6 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 * Fit Bounds
 	 */
 	$scope.fitBounds = function(callback) {
-		var gmap = $scope.mapControl.getGMap();
-
 		if($scope.refreshOption.autoFit && $scope.markers && $scope.markers.length > 0) {
 			var startPoint = new google.maps.LatLng($scope.markers[0].lat, $scope.markers[0].lng);
 			var bounds = new google.maps.LatLngBounds(startPoint, startPoint);
@@ -210,10 +208,10 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 				bounds.extend(new google.maps.LatLng(marker.lat, marker.lng));
 			});
 
-			gmap.fitBounds(bounds);
+			$scope.mapControl.getGMap().fitBounds(bounds);
 
 			if(callback) {
-				$timeout(callback, 500);
+				$timeout(callback, 1000);
 			}
 		}
 	};
@@ -342,7 +340,6 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	$scope.clearAll = function(center) {
 		// 선택된 마커 해제 
 		$scope.changeMarker(null);
-
 		// clear polylines
 		angular.forEach($scope.polylines, function(polyline) { polyline = null; });
 		$scope.polylines.splice(0, $scope.polylines.length);
@@ -385,8 +382,8 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 			function(dataSet) {
 				// 2. 호출이 완료되었으면 진행 + 1
 				$scope.progressBar.updateBar(1);				
-				// 3. Total Count : Trip (1) + Batch Count + Track Count + Event Count
-				$scope.startProgress(1 + dataSet.batches.length + dataSet.tracks.length + dataSet.events.length);
+				// 3. Total Count : Trip (Start, End) + Batch Count + Track Count + Event Count
+				$scope.startProgress(2 + dataSet.batches.length + dataSet.tracks.length + dataSet.events.length);
 				// 4. 호출이 완료되었으면 진행 + 1
 				$scope.progressBar.updateBar(1);
 				// 5. Map Data Reset
@@ -407,12 +404,19 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	$scope.showTrip = function(tripDataSet, callback) {
 
 		var trip = tripDataSet.trip;
-		var fleet = tripDataSet.fleet;
 		var batches = tripDataSet.batches;
 		var tracks = tripDataSet.tracks;
 		var events = tripDataSet.events;
+		var tracks = tracks.concat(events);
 
-		// 1. trip
+		// tracks, events 정렬 
+		tracks.sort(function(a, b) {
+			var aTime = a.ttm ? a.ttm : a.etm;
+			var bTime = b.ttm ? b.ttm : b.etm;
+			return (aTime < bTime) ? -1 : (aTime > bTime) ? 1 : 0;
+		});
+
+		// 1. trip start
 		$scope.addMarker($scope.tripToMarker(trip, 'start'));
 
 		// 2. batches
@@ -422,36 +426,18 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 			// 2.1 batch start
 			$scope.addMarker($scope.batchToMarker(batch, 'start'));
 
-			// 2.2 batch polyline
-			var batchline = {
-				id : batch.id,
-				path : [],
-				geodesic : true,
-				visible : true,
-				stroke : { color: '#FF0000', opacity: 1.0, weight: 4 }
-			};
-
-			$scope.polylines.push(batchline);
-
-			// 2.3 tracks
-			for(var j = 0 ; j < tracks.length ; j++) {
-				if(tracks[j].bid == batch.id) {
-					$scope.addMarker($scope.trackToMarker(tracks[j]));
-					batchline.path.push({latitude : tracks[j].lat, longitude : tracks[j].lng});
+			// 2.2 tracks & events : 시간순
+			var markerSize = tracks.length;
+			for(var j = 0 ; j < markerSize ; j++) {
+				var m = tracks[j];
+				if(m.bid == batch.id) {
+					$scope.addMarker(m.ttm ? $scope.trackToMarker(m) : $scope.eventToMarker(m));
 				}
 			}
 
-			// 2.4 events
-			for(var k = 0 ; k < events.length ; k++) {
-				if(events[k].bid == batch.id) {
-					$scope.addMarker($scope.eventToMarker(events[k]));
-				}
-			}
-
-			// 2.5 batch end
+			// 2.3 batch end
 			if(batch.sts == '2') {
 				$scope.addMarker($scope.batchToMarker(batch, 'end'));
-				batchline.path.push({latitude : batch.lat, longitude : batch.lng});
 			}
 		}
 
@@ -460,13 +446,33 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 			$scope.addMarker($scope.tripToMarker(trip, 'end'));
 		}
 
+		// 4. Draw Line 
+		$scope.showLine(trip);
+
+		// 5. Speed Class 설정 
 		FmsUtils.setSpeedClass(trip, trip.vlc);
 
-		// 현재 선택된 Trip을 변경 
+		// 6. 현재 선택된 Trip을 변경 
 		$scope.changeCurrentTrip(trip);
 
 		// fit bounds
 		$scope.fitBounds(callback);
+	};
+
+	/**
+	 * Add Marker To Line 
+	 */
+	$scope.showLine = function(trip) {
+		var tripLine = {
+			id : trip.id, geodesic : true, visible : true, path : [],
+			stroke : { color: '#FF0000', opacity: 1.0, weight: 4 }
+		};
+
+		$scope.polylines.push(tripLine);
+		var size = $scope.markers.length;
+
+		for(var i = 0 ; i < size ; i++)
+			tripLine.path.push({latitude : $scope.markers[i].lat, longitude : $scope.markers[i].lng});
 	};
 
 	/**
