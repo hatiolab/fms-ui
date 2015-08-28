@@ -1,5 +1,8 @@
 <div class="report-content">
-	
-	<fms-bar-chart class="col-xs-12 col-sm-12" title="Driving Distance By Driver"></fms-bar-chart>
-
+	<div class ="{{item.container_cls}}" ng-model="item">
+		<div class="panel-heading">
+			<translate name-param ="item.title" category="title"></translate>
+		</div>
+		<canvas id="base" class="chart-base" chart-type="item.type" data="item.data" labels="item.labels" legend="true" series="item.series"></canvas>
+	</div>
 </div>

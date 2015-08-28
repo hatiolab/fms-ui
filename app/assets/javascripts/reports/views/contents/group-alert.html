@@ -1,7 +1,7 @@
 <div class="report-content">
 	<div class ="{{item.container_cls}}" ng-repeat="item in items">
 		<div class="panel-heading">
-			<translate name-param ="item.title" category="label"></translate>
+			<translate name-param ="item.title" category="title"></translate>
 		</div>
 		<canvas id="base" class="chart-base" chart-type="item.type" data="item.data" labels="item.labels" legend="true" series="item.series"></canvas>
 	</div>

@@ -4,8 +4,8 @@ angular.module('fmsHr').directive('hrOverviewSearch', function() {
 		controller: 'hrOverviewSearchCtrl',
 		templateUrl: '/assets/hr/views/sidebars/overview.html',
 		scope: {},
-		link : function(scope, element, attr, fleetSearchCtrl) {
-			var refreshButton = element.find('#hrSearchOverview');
+		link : function(scope, element, attr, hrOverviewSearchCtrl) {
+			var refreshButton = element.find('#btnHrOverview');
 			refreshButton.bind("click", function() {
 				scope.search();
 			});

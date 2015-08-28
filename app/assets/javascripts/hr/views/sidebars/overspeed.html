@@ -9,21 +9,16 @@
 			<li><a href="#/hr/drivehabit">Driving Habit</a></li>
 			<li><a href="#/hr/drivedistance">Driving Distance By Driver</a></li>
 			<li><a href="#/hr/drivetime">Working Time By Driver</a></li>
-			<button id="hrSearchOverspeed" type="button" class="btn btn-default panel-refresh pull-right"></button>
+			<button id="btnHrOverspeed" type="button" class="btn btn-default panel-refresh pull-right"></button>
 		</ul>
 		<!-- menu end -->
 
 		<form name="hrOverspeedForm" class="form-horizontal">
 
-			<!-- group begin -->
-			<option-list groups option-name ='group' option-model ="searchParams.group"></option-list>
-			<!-- group End -->
+			<option-list groups option-name ='Group' option-model ="searchParams.group"></option-list>
 
-			<!-- period begin -->
-			<period-picker from-date= "searchParams.from_date" to-date= "searchParams.to_date" search= "search"> </period-picker>
-			<!-- period end -->
+			<period-picker from-date= "searchParams.from_date" to-date= "searchParams.to_date" search= "search"></period-picker>
 
-			<!-- Peroid Type begin -->
 			<div class="form-group">
 				<nav class="align-center">
 					<period-set week from-date= "searchParams.from_date" to-date= "searchParams.to_date" search="search"></period-set>
@@ -31,7 +26,6 @@
 					<period-set year from-date= "searchParams.from_date" to-date= "searchParams.to_date" search="search"></period-set>
 				</nav>
 			</div>
-			<!-- Peroid Type begin -->
 
 		</form>
 

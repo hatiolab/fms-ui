@@ -6,7 +6,7 @@ angular.module('fmsHr').directive('hrOverviewChart', function() {
 		scope: {}
 	}; 
 })
-.controller('hrOverviewCtrl', function($rootScope, $scope, $element, ModalUtils, RestApi) {
+.controller('hrOverviewCtrl', function($rootScope, $scope, $element) {
 
 	$scope.items = [ {
 		chartId: 'hr-overview-1',
@@ -29,7 +29,7 @@ angular.module('fmsHr').directive('hrOverviewChart', function() {
 	}, {
 		chartId: 'hr-overview-3',
 		type:'Bar',
-		title : 'Overspeed', 
+		title : 'Overspeed Count', 
 		container_cls : 'panel panel-default type-bar col-xs-12 col-sm-6',
 		series:['Overspeed Count'],
 		sort_field :'overspeed',

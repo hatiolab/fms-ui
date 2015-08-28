@@ -7,7 +7,7 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 		link : function(scope, element, attr, fleetDriveSearchCtrl) {
 			var refreshButton = element.find('#btnReportFleetDrive');
 			refreshButton.bind("click", function() {
-				scope.search(scope.tablestate);
+				scope.search();
 			});
 		}
 	}; 
@@ -91,7 +91,7 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 		};
 
 	 	if($scope.searchParams.group) {
-	 		params.group_id = params.group.id;
+	 		params.group_id = $scope.searchParams.group.id;
 	 	}
 
 	 	return params;

@@ -15,7 +15,7 @@ angular.module('fmsReports').directive('fleetAlertChart', function() {
 	$scope.item = {
 		chart_id : 'report-fleet-alert-1',
 		type : 'Bar',		
-		title : 'Impact', 
+		title : 'Impact Count', 
 		sort_field : 'impact',
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-12',
 		series : ['Impact Count'],
