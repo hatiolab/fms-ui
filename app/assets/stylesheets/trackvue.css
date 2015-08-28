@@ -247,11 +247,12 @@ font-size:12px;color:#666;}
 .setting-sidemenu li .menu-icon.overspeed{background-position:10px -494px;}
 .setting-sidemenu li .menu-icon.chart{background-position:10px -594px;}*/
 
-.setting-sidemenu:first-child{list-style:none;background-color:#fff;padding:0;margin:0;}
-.setting-sidemenu:first-child .submenu-title{background-color:#00a0c6;padding:3px 0 2px 8px;color:#fff;font-size:14px;text-transform:uppercase;}
-.setting-sidemenu:first-child a{background:url(/assets/icon-submenu.png) 99% -43px no-repeat;border-bottom:1px solid #e5e5e5;margin:0 15px;padding:5px 0 5px 4px;display:block;}
-.setting-sidemenu:first-child a.active{background-position:99% 7px;color:#018aab;font-weight:bold;text-decoration:underline;}
-.setting-sidemenu:first-child li:last-child a{margin-bottom:10px;}
+.side-panel .submenu-title{background-color:#00a0c6;padding:3px 0 2px 8px;color:#fff;font-size:14px;text-transform:uppercase;}
+.setting-sidemenu{list-style:none;background-color:#fff;padding:0;margin:0;}
+.setting-sidemenu.list5-scroll{height:135px;overflow-x:hidden;overflow-y:auto;}
+.setting-sidemenu a{background:url(/assets/icon-submenu.png) 99% -43px no-repeat;border-bottom:1px solid #e5e5e5;margin:0 15px;padding:5px 0 5px 4px;display:block;}
+.setting-sidemenu a.active{background-position:99% 7px;color:#018aab;font-weight:bold;text-decoration:underline;}
+.setting-sidemenu li:last-child a{margin-bottom:10px;}
 
 .setting-sidemenu .panel-refresh{margin:0 9px 0 0;}
 .setting-sidemenu+form{background-color:#cedde7;padding:10px 0 1px 10px !important;border-top:2px solid #AAB8C1;}
