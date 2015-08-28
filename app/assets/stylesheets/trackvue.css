@@ -414,7 +414,7 @@ background:url('/assets/icon-table-context.png') 0 -94px no-repeat;height:16px;w
 
 /* date picker */
 .date .dropdown-menu{padding:0 0 10px 0;overflow:hidden;}
-.date .dropdown-menu thead tr:first-child{background-color:#425169;}
+.date .dropdown-menu thead tr:first-child{background-color:#425169 !important;}
 .date .dropdown-menu thead tr:first-child .glyphicon{background:url('/assets/icon-datepicker.png') 4px 1px no-repeat;width:20px;display:block;height:16px;opacity:.5;}
 .date .dropdown-menu thead tr:first-child .glyphicon:hover{opacity:1;}
 .date .dropdown-menu thead tr:first-child .glyphicon.glyphicon-chevron-right{background-position:6px -49px;}
@@ -424,12 +424,15 @@ background:url('/assets/icon-table-context.png') 0 -94px no-repeat;height:16px;w
 .date .dropdown-menu tbody tr{border-bottom:1px dotted #efefef;}
 .date .dropdown-menu tbody button{border:none;background-color:transparent;border-right:none;}
 .date .dropdown-menu tbody .text-muted{color:#ccc;}
+.date .dropdown-menu thead th:last-child,.date .dropdown-menu tbody td:last-child button{color:#006699;}
+.date .dropdown-menu thead th:nth-child(2),.date .dropdown-menu tbody td:nth-child(2) button{color:#d45d3d;}
+.date .dropdown-menu tbody td:first-child{border-right:1px solid #efefef;background-color:#f1f6fe;color:#8a95a5;}
+.date .dropdown-menu table[ng-switch-when="month"] td:last-child button{color:#333 !important;}
+.date .dropdown-menu table[ng-switch-when="month"] tbody td:first-child{border:none;background-color:transparent;color:#333 !important;}
+.date .dropdown-menu table[ng-switch-when="month"] tbody td:nth-child(2) button{color:#333 !important;}
 .date .dropdown-menu tbody .btn:active,.date .dropdown-menu tbody .btn.active{
 	background-color:#41c3ff;padding:5px 9px;
 	-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:none;
 	-webkit-border-radius:15px;-moz-border-radius:15px;border-radius:15px;
-	color:#fff;
 }
-.date .dropdown-menu thead th:last-child,.date .dropdown-menu tbody td:last-child button{color:#006699;}
-.date .dropdown-menu thead th:nth-child(2),.date .dropdown-menu tbody td:nth-child(2) button{color:#d45d3d;}
-.date .dropdown-menu tbody td:first-child{border-right:1px solid #efefef;background-color:#f1f6fe;color:#8a95a5;}
+.date .dropdown-menu tbody .btn:active span,.date .dropdown-menu tbody .btn.active span{color:#fff !important;}
