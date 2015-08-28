@@ -6,6 +6,7 @@ Trkvue::Engine.routes.draw do
 			post :update_multiple
 			get :show_by_name
 			get :export
+			put :upsert
 		end
 	end
 

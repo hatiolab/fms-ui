@@ -1,0 +1,1 @@
+json.(@dictionary, :id, :description, :locale, :category, :name, :display)
