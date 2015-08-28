@@ -28,7 +28,31 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 	/**
 	 * Data
 	 */
-	$scope.items = [];
+	$scope.dataset = [ {
+		labels :[],
+		sort_field :'drive_time',
+		data : [[]]
+	}, {
+		labels : [],
+		sort_field :'drive_time',
+		data : [[]]
+	}, {
+		labels : [],
+		sort_field :'drive_dist',
+		data : [[]]
+	},{
+		labels :[],
+		sort_field :'drive_dist',
+		data : [[]],
+	}, {
+		labels : [],
+		sort_field :'velocity',
+		data : [[]]
+	}, {
+		labels :[],
+		sort_field :'velocity',
+		data : [[]]
+	} ];
 	/**
 	 * Smart Table
 	 */
@@ -64,7 +88,6 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 		}
 		return searchParams;
 	};
-
 	/**
 	 * Search Drivers
 	 * 
@@ -182,13 +205,8 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 	 $scope.afterSearch = function(dataSet) {
 	 	$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
 		FmsUtils.setGridContainerHieght('report-group-drive-table-container');
-
-		// 1. Driving Time Chart Data - Bar && Donut
-		$scope.sendDrivingTimeChatData('Driving Time', dataSet.items);
-		// 2. Driving Distance Chart Data - Bar && Pie
-		$scope.sendDrivingDistChartData('Driving Distance', dataSet.items);
-		// 3. Velocity Chart Data - Line && Polararea
-		$scope.sendVelocityChartData('Average Velocity', dataSet.items);
+		console.log(dataSet.items);
+		$scope.sendDrivingChatData(dataSet.items);
 	 };
 
 	 /**
@@ -197,52 +215,14 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 	  * @param  {Array}
 	  * @return N/A
 	  */
-	 $scope.sendDrivingTimeChatData = function(title, items) {
-	 	// 1. Bar Chart
-	 	var barChartData = { title : title, labels : [], data : [], series : ['Driving Time (min.)'] };
-	 	$scope.setChartData(items, barChartData, 'drive_time');
-	 	$scope.$emit('bar-chart-data-change', barChartData);
-	 	
-	 	// 2. Donought Chart
-	 	var donutChartData = { title : title, labels : [], data : [] };
-	 	$scope.setChartData(items, donutChartData, 'drive_time');
-	 	$scope.$emit('donut-chart-data-change', donutChartData);
-	 };
-
-	 /**
-	  * Build Driving Distance Chart Data 
-	  * 
-	  * @param  {Array}
-	  * @return N/A
-	  */
-	 $scope.sendDrivingDistChartData = function(title, items) {
-	 	// 1. Bar Chart
-	 	var barChartData = { title : title, labels : [], data : [], series : ['Driving Distance (km)'] };
-	 	$scope.setChartData(items, barChartData, 'drive_dist');
-	 	$scope.$emit('bar-chart-data-change', barChartData);
-	 	
-	 	// 2. Donought Chart
-	 	var pieChartData = { title : title, labels : [], data : [] };
-	 	$scope.setChartData(items, pieChartData, 'drive_dist');
-	 	$scope.$emit('pie-chart-data-change', pieChartData);
-	 };
-
-	 /**
-	  * Build Velocity Chart Data 
-	  * 
-	  * @param  {Array}
-	  * @return N/A
-	  */
-	 $scope.sendVelocityChartData = function(title, items) {
-	 	// 1. Line Chart
-	 	var lineChartData = { title : title, labels : [], data : [], series : ['Average Velocity'] };
-	 	$scope.setChartData(items, lineChartData, 'velocity');
-	 	$scope.$emit('line-chart-data-change', lineChartData);
-	 	
-	 	// 2. Donought Chart
-	 	var polarareaChartData = { title : title, labels : [], data : [] };
-	 	$scope.setChartData(items, polarareaChartData, 'velocity');
-	 	$scope.$emit('polararea-chart-data-change', polarareaChartData);
+	 $scope.sendDrivingChatData = function(items) {
+	 	$scope.setChartData(items,$scope.dataset[0],$scope.dataset[0].sort_field);
+	 	$scope.setChartData(items,$scope.dataset[1],$scope.dataset[1].sort_field);
+	 	$scope.setChartData(items,$scope.dataset[2],$scope.dataset[2].sort_field);
+	 	$scope.setChartData(items,$scope.dataset[3],$scope.dataset[3].sort_field);
+	 	$scope.setChartData(items,$scope.dataset[4],$scope.dataset[4].sort_field);
+	 	$scope.setChartData(items,$scope.dataset[5],$scope.dataset[5].sort_field);
+	 	$scope.$emit('report-drive-items-change', $scope.dataset);
 	 };
 
 	 /**
@@ -257,7 +237,7 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 	 	for(var i = 0 ; i < rawItems.length ; i++) {
 	 		var rawItem = rawItems[i];
 	 		chartData.labels.push(rawItem.group_name);
-	 		chartData.data.push(Number(rawItem[field]));
+	 		chartData.data[0].push(Number(rawItem[field]));
 	 	};
 	 };
 
@@ -299,6 +279,7 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 	 * @return N/A
 	 */
 	$scope.init = function() {
+		$scope.$emit('report-drive-items-change', $scope.dataset);
 	};
 
 	/**
