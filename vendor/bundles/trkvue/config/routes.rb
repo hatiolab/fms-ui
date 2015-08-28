@@ -1,6 +1,14 @@
 Trkvue::Engine.routes.draw do
   
   # RESOURCES BEGIN BLOCK DON'T REMOVE
+	resources :dictionaries do
+		collection do
+			post :update_multiple
+			get :show_by_name
+			get :export
+		end
+	end
+
 	resources :event_group_summaries do
 		collection do
 			post :update_multiple
