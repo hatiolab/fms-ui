@@ -296,6 +296,8 @@ background:url('/assets/icon-chart-header.png') no-repeat;height:16px;width:23px
 .chart-legend li span, .bar-legend li span, .line-legend li span, .pie-legend li span, .radar-legend li span, .polararea-legend li span, .doughnut-legend li span{width:15px;height:10px;top:4px;}
 .chart-container{padding-top:7px;}
 .bar-legend{margin-top:3px;margin-bottom:3px;}
+.report-list{padding:5px 0 5px 10px;}
+.report-list .dropdown-menu{min-width:300px;}
 
 /*for loading animation*/
 .loading {
