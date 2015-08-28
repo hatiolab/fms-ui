@@ -1,4 +1,5 @@
 <div class="col-xs-4 col-md-4 side-panel">
+
 	<div class="height-full" ng-show="true">
 		<!-- menu begin -->
 		<div class="submenu-title">report</div>
@@ -8,24 +9,20 @@
 			<li><a href="#/reports/fleet-drive">Driving Summary By Fleet</a></li>
 			<li><a href="#/reports/group-alert">Alert Summary By Group</a></li>
 			<li><a href="#/reports/fleet-alert">Alert Summary By Fleet</a></li>
-			<button id="reportsSearchOverview" type="button" class="btn btn-default panel-refresh pull-right"></button>
+			<button id="btnReportOverview" type="button" class="btn btn-default panel-refresh pull-right"></button>
 		</ul>
 		<!-- menu end -->
-		<form name="reportOverviewForm" class="form-horizontal">
 
-			<!-- period begin -->
-			<period-picker from-date= "searchParams.from_date" to-date= "searchParams.to_date" search= "searchByCharType"> </period-picker>
-			<!-- period end -->
-			<!-- Peroid Type begin -->
+		<form name="reportOverviewForm" class="form-horizontal">
+			<period-picker from-date= "searchParams.from_date" to-date= "searchParams.to_date" search="search"></period-picker>
 			<div class="form-group">
 				<nav class="align-center">
-					<period-set week from-date= "searchParams.from_date" to-date= "searchParams.to_date" search="searchByCharType"></period-set>
-					<period-set month from-date= "searchParams.from_date" to-date= "searchParams.to_date" search="searchByCharType"></period-set>
-					<period-set year from-date= "searchParams.from_date" to-date= "searchParams.to_date" search="searchByCharType"></period-set>
+					<period-set week from-date="searchParams.from_date" to-date="searchParams.to_date" search="search"></period-set>
+					<period-set month from-date="searchParams.from_date" to-date="searchParams.to_date" search="search"></period-set>
+					<period-set year from-date="searchParams.from_date" to-date="searchParams.to_date" search="search"></period-set>
 				</nav>
 			</div>
-			<!-- Peroid Type begin -->
 		</form>
-
 	</div>
+
 </div>

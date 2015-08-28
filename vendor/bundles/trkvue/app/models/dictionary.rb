@@ -18,9 +18,10 @@ class Dictionary < ActiveRecord::Base
 
 	validates :display, length: { maximum: 1000 }, :strict => true
 
-	validates_uniqueness_of :locale, :category, :name, :strict => true, :scope => :domain_id
+  validates_uniqueness_of :name, :strict => true, :scope => [:domain_id, :locale, :category]
 
   before_save :expire_dictionary_cache
+  
   before_destroy :expire_dictionary_cache
   
   def self.to_resource locale

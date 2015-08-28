@@ -26,12 +26,6 @@ angular.module('fmsHr').directive('hrDrivehabitSearch', function() {
 	 */
 	$scope.searchParams = { 'from_date' : period[0], 'to_date' : period[1] };
 	/**
-	 * 사이드 바 토글 변수
-	 *
-	 * @type {Boolean}
-	 */
-	$scope.isSidebarToggle = true;
-	/**
 	 * Group List
 	 *
 	 * @type {Array}

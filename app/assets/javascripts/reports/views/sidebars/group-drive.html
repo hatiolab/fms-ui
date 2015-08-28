@@ -9,25 +9,21 @@
 			<li><a href="#/reports/fleet-drive">Driving Summary By Fleet</a></li>
 			<li><a href="#/reports/group-alert">Alert Summary By Group</a></li>
 			<li><a href="#/reports/fleet-alert">Alert Summary By Fleet</a></li>
-			<button id="reportSearchGroupDrive" type="button" class="btn btn-default panel-refresh pull-right"></button>
+			<button id="btnReportGroupDrive" type="button" class="btn btn-default panel-refresh pull-right"></button>
 		</ul>
 		<!-- menu end -->
 
 		<form name="reportGroupDriveForm" class="form-horizontal">
 
-			<!-- period begin -->
-			<period-picker from-date= "searchParams.from_date" to-date= "searchParams.to_date" search= "search"> </period-picker>
-			<!-- period end -->
+			<period-picker from-date="searchParams.from_date" to-date="searchParams.to_date" search="search"> </period-picker>
 
-			<!-- Peroid Type begin -->
 			<div class="form-group">
 				<nav class="align-center">
-					<period-set week from-date= "searchParams.from_date" to-date= "searchParams.to_date" search="search"></period-set>
-					<period-set month from-date= "searchParams.from_date" to-date= "searchParams.to_date" search="search"></period-set>
-					<period-set year from-date= "searchParams.from_date" to-date= "searchParams.to_date" search="search"></period-set>
+					<period-set week from-date="searchParams.from_date" to-date="searchParams.to_date" search="search"></period-set>
+					<period-set month from-date="searchParams.from_date" to-date="searchParams.to_date" search="search"></period-set>
+					<period-set year from-date="searchParams.from_date" to-date="searchParams.to_date" search="search"></period-set>
 				</nav>
 			</div>
-			<!-- Peroid Type begin -->
 
 		</form>
 

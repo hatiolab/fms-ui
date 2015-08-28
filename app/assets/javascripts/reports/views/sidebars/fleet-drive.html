@@ -9,21 +9,16 @@
 			<li><a href="#/reports/fleet-drive" class="active">Driving Summary By Fleet</a></li>
 			<li><a href="#/reports/group-alert">Alert Summary By Group</a></li>
 			<li><a href="#/reports/fleet-alert">Alert Summary By Fleet</a></li>
-			<button id="reportSearchFleetDrive" type="button" class="btn btn-default panel-refresh pull-right"></button>
+			<button id="btnReportFleetDrive" type="button" class="btn btn-default panel-refresh pull-right"></button>
 		</ul>
 		<!-- menu end -->
 
 		<form name="reportFleetDriveForm" class="form-horizontal">
 
-			<!-- group begin -->
-			<option-list groups option-name ='group' option-model ="searchParams.group"></option-list>
-			<!-- group End -->
+			<option-list groups option-name ='Group' option-model ="searchParams.group"></option-list>
 
-			<!-- period begin -->
 			<period-picker from-date= "searchParams.from_date" to-date= "searchParams.to_date" search= "search"> </period-picker>
-			<!-- period end -->
 
-			<!-- Peroid Type begin -->
 			<div class="form-group">
 				<nav class="align-center">
 					<period-set week from-date= "searchParams.from_date" to-date= "searchParams.to_date" search="search"></period-set>
@@ -31,7 +26,6 @@
 					<period-set year from-date= "searchParams.from_date" to-date= "searchParams.to_date" search="search"></period-set>
 				</nav>
 			</div>
-			<!-- Peroid Type begin -->
 
 			<!-- type begin -->
 			<div class="form-group">
@@ -39,28 +33,22 @@
 				<div class="col-xs-11 col-sm-9 col-md-10 padding-clear">
 					<div class="radio">
 						<label>
-							<input type="radio" ng-model="chartTitle" value="Driving Time" ng-click="showChart('fms-line-chart')">
-								<span class="type-icon overspeed"></span>Driving Time
+							<input type="radio" ng-model="chartId" value="report-fleet-drive-1" ng-click="showChart()">
+								<!--span class="type-icon overspeed"></span-->Driving Time
 						</label>
 					</div>
 					<div class="radio">
 						<label>
-							<input type="radio" ng-model="chartTitle" value="Driving Distance" ng-click="showChart('fms-line-chart')">
-								<span class="type-icon geofence"></span>Driving Distance
+							<input type="radio" ng-model="chartId" value="report-fleet-drive-2" ng-click="showChart()">
+								<!--span class="type-icon geofence"></span-->Driving Distance
 						</label>
 					</div>
 					<div class="radio">
 						<label>
-							<input type="radio" ng-model="chartTitle" value="Average Velocity" ng-click="showChart('fms-line-chart')">
-								<span class="type-icon impact"></span>Average Velocity
+							<input type="radio" ng-model="chartId" value="report-fleet-drive-3" ng-click="showChart()">
+								<!--span class="type-icon impact"></span-->Average Velocity
 						</label>
 					</div>
-					<!--div class="radio">
-						<label>
-							<input type="radio" ng-model="chartName" value="Speed Trend" ng-click="showChart('fms-radar-chart')">
-								<span class="type-icon emergency"></span>Speed Trend
-						</label>
-					</div-->
 				</div>
 			</div>
 			<!-- type end -->

@@ -1,13 +1,8 @@
 <div class="report-content">
-	
-<!-- 	<fms-stackedbar-chart class="col-xs-12 col-sm-12" title="Alert Count"></fms-stackedbar-chart> -->
-
-	<fms-doughnut-chart class="col-xs-12 col-sm-6" title="Impact Count"></fms-doughnut-chart>
-
-	<fms-pie-chart class="col-xs-12 col-sm-6" title="Overspeed Count"></fms-pie-chart>
-
-	<fms-bar-chart class="col-xs-12 col-sm-6" title="Geofence Count"></fms-bar-chart>
-
-	<fms-line-chart class="col-xs-12 col-sm-6" title="Emergency Count"></fms-line-chart>
-
+	<div class ="{{item.container_cls}}" ng-repeat="item in items">
+		<div class="panel-heading">
+			<translate name-param ="item.title" category="label"></translate>
+		</div>
+		<canvas id="base" class="chart-base" chart-type="item.type" data="item.data" labels="item.labels" legend="true" series="item.series"></canvas>
+	</div>
 </div>

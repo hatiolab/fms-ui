@@ -1,8 +1,8 @@
 <div class="report-content">
-	<fms-bar-chart class="col-xs-12 col-sm-6" title="Working Time By Driver"></fms-bar-chart>
-	<fms-bar-chart class="col-xs-12 col-sm-6" title="Driving Distance By Driver"></fms-bar-chart>
-	<fms-bar-chart class="col-xs-12 col-sm-6" title="Overspeed"></fms-bar-chart>
-	<fms-line-chart class="col-xs-12 col-sm-6" title="Geofence Count"></fms-line-chart>
-	<fms-line-chart class="col-xs-12 col-sm-6" title="Impact Count"></fms-line-chart>
-	<fms-line-chart class="col-xs-12 col-sm-6" title="Emergency Count"></fms-line-chart>
+	<div class ="{{item.container_cls}}" ng-repeat="item in items"> <!-- ng-repeat="item in items" -->
+		<div class="panel-heading">
+			<translate name-param ="item.title" category="label"></translate>
+		</div>
+		<canvas id="base" class="chart-base" chart-type="item.type" data="item.data" labels="item.labels" legend="true" series="item.series"></canvas>
+	</div>
 </div>

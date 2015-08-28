@@ -6,7 +6,8 @@ angular.module('fmsReports').directive('reportsOverviewChart', function() {
 		scope: {}
 	}; 
 })
-.controller('reportsOverviewCtrl', function($rootScope, $scope, $element, ModalUtils, RestApi) {
+.controller('reportsOverviewCtrl', function($rootScope, $scope, $element) {
+
 	$scope.items = [ {
 		chartId: 'report-overview-1',
 		title : 'Driving Time By Fleet', 
@@ -19,8 +20,8 @@ angular.module('fmsReports').directive('reportsOverviewChart', function() {
 	}, {
 		chartId: 'report-overview-2',
 		title : 'Driving Distance By Fleet', 
-		container_cls : 'panel panel-default type-bar col-xs-12 col-sm-6',
-		type:'Bar',
+		container_cls : 'panel panel-default type-line col-xs-12 col-sm-6',
+		type:'Line',
 		labels : [],
 		sort_field :'drive_dist',
 		data : [[]],
@@ -46,8 +47,8 @@ angular.module('fmsReports').directive('reportsOverviewChart', function() {
 	}, {
 		chartId: 'report-overview-5',
 		title : 'Geofence Count', 
-		container_cls : 'panel panel-default type-line col-xs-12 col-sm-6',
-		type:'Line',
+		container_cls : 'panel panel-default type-bar col-xs-12 col-sm-6',
+		type:'Bar',
 		labels : [],
 		sort_field :'emergency',
 		data : [[]],
@@ -63,13 +64,18 @@ angular.module('fmsReports').directive('reportsOverviewChart', function() {
 		series:['Emergency Count']
 	} ];
 
-	var itemsChangeListener = $rootScope.$on('report-overview-items-change', function(event, items) {
-		for(var i = 0 ; i < items.length ; i++) {
-	 		var item = items[i];
-	 		$scope.items[i].labels = item.labels;
-	 		$scope.items[i].data=item.data;
-	 	};
-	 	console.log($scope.items);
+	/**
+	 * Report Item이 변경되었을 경우
+	 */
+	var itemsChangeListener = $rootScope.$on('report-overview-item-change', function(event, item) {		
+		var selectedItem = $scope.items.filter(function(element, index, array) {
+			return element.chartId == item.chartId;
+		});
+
+		if(selectedItem && selectedItem.length > 0) {
+			selectedItem[0].labels = item.labels;
+			selectedItem[0].data = item.data;
+		}
 	});
 
 	/**

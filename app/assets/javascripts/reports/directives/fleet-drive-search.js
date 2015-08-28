@@ -4,8 +4,8 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 		controller: 'fleetDriveSearchCtrl',
 		templateUrl: '/assets/reports/views/sidebars/fleet-drive.html',
 		scope: {},
-		link : function(scope, element, attr, fleetSearchCtrl) {
-			var refreshButton = element.find('#reportSearchFleetDrive');
+		link : function(scope, element, attr, fleetDriveSearchCtrl) {
+			var refreshButton = element.find('#btnReportFleetDrive');
 			refreshButton.bind("click", function() {
 				scope.search(scope.tablestate);
 			});
@@ -13,321 +13,209 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 	}; 
 })
 .controller('fleetDriveSearchCtrl', function($rootScope, $scope, $element, $compile, $timeout, GridUtils, FmsUtils, RestApi) {
-
 	/**
-	 * 기본 날짜 검색일 설정 
-	 */
-	var period = FmsUtils.getPeriodString(3);
-	/**
-	 * 검색 조건 모델 
-	 *
+	 * Chart Item
 	 * @type {Object}
 	 */
-	$scope.searchParams = { 'from_date' : period[0], 'to_date' : period[1] };
+	$scope.chartItems = [ {
+		chart_id : 'report-fleet-drive-1',
+		type : 'Line',		
+		title : 'Driving Time', 
+		sort_field : 'drive_time',
+		container_cls : 'panel panel-default type-line col-xs-12 col-sm-12',
+		series : ['Driving Time (min.)'],
+		labels : [],
+		data : []
+	}, {
+		chart_id : 'report-fleet-drive-2',
+		type : 'Line',
+		sort_field : 'drive_dist',
+		title : 'Driving Distance', 
+		container_cls : 'panel panel-default type-line col-xs-12 col-sm-12',
+		series : ['Driving Distance (km)'],
+		labels : [],
+		data : []
+	}, {
+		chart_id : 'report-fleet-drive-3',
+		type : 'Line',
+		sort_field : 'velocity',
+		title : 'Average Velocity', 
+		container_cls : 'panel panel-default type-line col-xs-12 col-sm-12',
+		series : ['Average Velocity (km/h)'],
+		labels : [],
+		data : []
+	} ];
 	/**
-	 * 사이드 바 토글 변수
-	 *
-	 * @type {Boolean}
+	 * Selected Chart
+	 * @type {Object}
 	 */
-	$scope.isSidebarToggle = true;
+	$scope.chartId = $scope.chartItems[0].chart_id;
 	/**
-	 * Group List
-	 *
+	 * 테이블 바인딩 데이터 
 	 * @type {Array}
 	 */
 	$scope.items = [];
 	/**
-	 * Smart Table
-	 *
+	 * 검색 조건 모델 
 	 * @type {Object}
 	 */
-	$scope.tablestate = null;
+	$scope.searchParams = { 'from_date' : '', 'to_date' : '' };
 	/**
-	 * 최초에 자동조회 하지 않는다.
-	 * 
-	 * @type {Boolean}
-	 */
-	$scope.searchEnabled = false;
-	/**
-	 * Fleet Group 모델 
-	 * 
-	 * @type {Array}
-	 */
-	// $scope.groups = [];
-	/**
-	 * Chart Title
-	 * 
+	 * Sort Field Name
 	 * @type {String}
 	 */
-	$scope.chartTitle = 'Driving Time';
-
+	$scope.sort_field = 'drive_time';
 	/**
-	 * Sort Field Name & Sort value
-	 * 
+	 * Sort value
 	 * @type {String}
 	 */
-	$scope.sort_field = 'drive_time'
-	$scope.sort_value = 'desc'
-
+	$scope.sort_value = 'desc';
 	/**
-	 * Show Chart
-	 * 
-	 * @return N/A
+	 * TOP_RANK
+	 * @type {Number}
 	 */
-	$scope.showChart = function(chartType) {
-		// 기존 차트 삭제 
-		var parent = $('div.report-content').parent();
-		$('div.report-content').remove();
-		var html = "<div class='report-content'>" + $scope.newChartHtml(chartType) + "</div>";
-		var el = $compile(html)($scope);
-	 	parent.append(el);
-
-	 	// send data to chart scope
-	 	$timeout.cancel();
-   	$timeout($scope.sendChartData, 100);
-	};
+	$scope.TOP_RANK = 30;
 
 	/**
-	 * 새로운 차트를 생성한다.
-	 * 
-	 * @return {String}
-	 */
-	$scope.newChartHtml = function(chartType) {
-		return "<" + chartType + " class='col-xs-12 col-sm-12' title='" + $scope.chartTitle + "'></" + chartType + ">";
-	};
-
-	/**
-	 * Send Chart Data
-	 * 
-	 * @return N/A
-	 */
-	$scope.sendChartData = function() {
-		// Line Chart로 
-	 	var lineChartData = { title : $scope.chartTitle, labels : [], data : [] };
-
-		if($scope.chartTitle == 'Average Velocity') {
-			$scope.setChartData(lineChartData, 'velocity', ['Average Velocity']);
-		} else if($scope.chartTitle == 'Driving Distance') {
-			$scope.setChartData(lineChartData, 'drive_dist', ['Driving Distance (km)']);
-		} else if($scope.chartTitle == 'Driving Time') {
-			$scope.setChartData(lineChartData, 'drive_time', ['Driving Time (min.)']);
-		} else {
-			return;
-		}
-
-		$scope.$emit('line-chart-data-change', lineChartData);
-	};
-
-	/**
-	* Set Chart Data
-	* 
-	* @param {Object}
-	* @param {String}
-	*/
-	$scope.setChartData = function(chartData, field, series) {
-		for(var i = 0 ; i < $scope.items.length ; i++) {
-			var item = $scope.items[i];
-			chartData.labels.push(item.fleet_name);
-			chartData.data.push(Number(item[field]));
-			chartData.series = series;
-		};
-	};
-
-	/**
-	* [sort condition setup]
-	* @param  {[string]} the field you should sort from database
-	* $scope.sort_field {[string]} the field you should sort from database
-	* $scope.sort_value {[string]} asc/desc default asc
-	*/
-	$scope.setsort = function(sort_field){
-		var sortClass = $element.find('#'+sort_field)[0].className;
-		$scope.sort_value= {};
-		$scope.sort_field = sort_field;
-
-		if(sortClass =="st-sort-ascent"){
-			$scope.sort_value ="asc";
-		}else if(sortClass =="st-sort-descent"){
-			$scope.sort_value ="desc";
-		}else{
-			$scope.sort_value ="desc";
-		}
-	};
-	/**
-	 * Search Fleet Groups
-	 */
-	// $scope.findGroups = function(params) {
-	// 	RestApi.list('/fleet_groups.json', params, function(dataSet) {
-	// 		$scope.groups = dataSet;
-	// 	});
-	// };
-
-	/**
-	 * Rails Server의 스펙에 맞도록 파라미터 변경 ...
+	 * 검색 조건 
 	 *
 	 * @param  {Object}
 	 */
-	$scope.normalizeSearchParams = function(params) {
-		//Sort Condition
-		if($scope.sort_field&&$scope.sort_value){
-			var searchParams = { sort_field : $scope.sort_field, sort_value : $scope.sort_value };
-		}
+	$scope.normalizeSearchParams = function() {
+		var params = { 
+			from_date : $scope.searchParams.from_date,
+			to_date : $scope.searchParams.to_date,
+			sort_field : $scope.sort_field,  
+			sort_value : $scope.sort_value, 
+			limit : $scope.TOP_RANK
+		};
 
-		if(!params || FmsUtils.isEmpty(params)) {
-			return searchParams;
-		} 
-
-		searchParams["from_date"] = params.from_date;
-		searchParams["to_date"] = params.to_date;
-
-	 	if(params.group) {
-	 		searchParams["group_id"] = params.group.id;
+	 	if($scope.searchParams.group) {
+	 		params.group_id = params.group.id;
 	 	}
 
-		return searchParams;
+	 	return params;
 	};
 
 	/**
-	 * Search
+	 * 차트 데이터 조회  
+	 *
+	 * @param  {Object}
+	 */
+	$scope.search = function() {
+		var searchParams = $scope.beforeSearch();
+		$scope.doSearch(searchParams, function(dataSet) {
+			$scope.afterSearch(dataSet);
+		});
+	}
+
+	/**
+	 * infinite scorll directive에서 호출 
+	 * 
+	 * @return {Object}
+	 */
+	$scope.beforeSearch = function() {
+		return $scope.normalizeSearchParams();
+	};
+
+	/**
+	 * 데이터 조회  
+	 * 
+	 * @param  {Object}
+	 * @param  {Function}
+	 * @return N/A
+	 */
+	$scope.doSearch = function(params, callback) {
+		RestApi.search('/fleet_summaries/summary.json', params, function(dataSet) {
+			callback(dataSet);
+		});
+	};
+
+	/**
+	 * 데이터 조회 후 ... 
 	 * 
 	 * @param  {Object}
 	 * @return N/A
 	 */
-	$scope.search = function(tablestate) {
-		if(!$scope.checkSearch(tablestate)) {
-			return;
-		}
-
-		var searchParams = $scope.beforeSearch();
-
-		$scope.doSearch(searchParams, function(dataSet) {
-			$scope.numbering(dataSet.items, 1);
-			$scope.items = dataSet.items;
-			$scope.afterSearch(dataSet);
-		});
+	$scope.afterSearch = function(dataSet) {
+		$scope.numbering(dataSet.items);
+		$scope.items = dataSet.items;
+		$scope.showChart();
+		FmsUtils.setGridContainerHieght('report-fleet-drive-table-container');
 	};
 
 	/**
 	 * Items Numbering
 	 * 
 	 * @param  {Array}
-	 * @param  {Number}
 	 * @return N/A
 	 */
-	 $scope.numbering = function(items, startNo) {
-	 	for(var i = 0 ; i < items.length ; i++) {
-	 		var item = items[i];
-	 		item.no = i + 1;
-	 		item.velocity = Math.round(item.velocity);
-	 	}
-	 };
-
-	 /**
-	  * 페이지네이션 검색 정보를 설정한다. 
-	  *
-	  * @param {Object}
-	  * @param {Object}
-	  * @param {Number}
-	  * @param {Number}
-	  */
-	 $scope.setPageQueryInfo = function(searchParams, pagination, start, limit) {
-	 	searchParams.start = start;
-	 	searchParams.limit = limit;
-	 	pagination.start = start;
-	 	pagination.number = limit;
-	 };
-
-	 /**
-	  * 페이지네이션 결과 정보를 설정한다. 
-	  * 
-	  * @param {Number}
-	  * @param {Number}
-	  * @param {Number}
-	  */
-	$scope.setPageReultInfo = function(total_count, total_page, current_page) {
-		if($scope.tablestate && $scope.tablestate.pagination) {
-			$scope.tablestate.pagination.totalItemCount = total_count;
-			$scope.tablestate.pagination.numberOfPages = total_page;
-			$scope.tablestate.pagination.currentPage = current_page;
+	$scope.numbering = function(items) {
+		for(var i = 0 ; i < items.length ; i++) {
+			items[i].no = i + 1;
+			items[i].velocity = Math.round(items[i].velocity);
 		}
 	};
 
 	/**
-	 * Check Search
-	 * 
-	 * @return {Boolean}
+	 * Show Chart
 	 */
-	$scope.checkSearch = function(tablestate) {
-		if(!$scope.searchEnabled) {
-			$scope.searchEnabled = true;
-			$scope.tablestate = tablestate;
-			$scope.tablestate.pagination.number = GridUtils.getGridCountPerPage();
-		}
+	$scope.showChart = function() {
+		var chartItem = $scope.chartItems.filter(function(chartItem) {
+			return $scope.chartId == chartItem.chart_id;
+		});
 
-		if(tablestate) {
-			$scope.tablestate = tablestate;
-		}
+		if(chartItem && chartItem.length > 0) {
+			chartItem = chartItem[0];
 
-		return true;
+			var labels = []; data = []; dataSize = $scope.items.length;
+			for(var i = 0 ; i < $scope.items.length ; i++) {
+				var currentItem = $scope.items[i];
+				labels.push(currentItem.fleet_name);
+				data.push(Number(currentItem[chartItem.sort_field]));
+			};
+
+			chartItem.labels = labels;
+			chartItem.data[0] = data;		
+			$scope.$emit('report-fleet-driver-item-change', chartItem);
+		}		
 	};
 
-	 /**
-	  * infinite scorll directive에서 호출 
-	  * 
-	  * @return {Object}
-	  */
-	 $scope.beforeSearch = function() {
-	 	var searchParams = $scope.normalizeSearchParams($scope.searchParams);
-	 	$scope.setPageQueryInfo(searchParams, $scope.tablestate.pagination, 0, GridUtils.getGridCountPerPage());
-	 	return searchParams;
-	 };
-
-	 /**
-	  * infinite scorll directive에서 호출 
-	  * 
-	  * @param  {Object}
-	  * @param  {Function}
-	  * @return N/A
-	  */
-	 $scope.doSearch = function(params, callback) {
-	 	RestApi.search('/fleet_summaries/summary.json', params, function(dataSet) {
-	 		callback(dataSet);
-	 	});
-	 };
-
-	 /**
-	  * infinite scorll directive에서 호출 
-	  * 
-	  * @param  {Object}
-	  * @return N/A
-	  */
-	 $scope.afterSearch = function(dataSet) {
-	 	$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
-		FmsUtils.setGridContainerHieght('report-fleet-drive-table-container');
-		$scope.sendChartData();
-	 };
-
 	/**
-	 * [watch drivers SearchParams in page scope, if changed trigger pageFleets in same scope]
-	 * @param  $scope.searchParams
-	 * @return null
+	 * Sort 이벤트 발생시 
+	 * @param {String} 서버 측에 보낼 소트 필드 
+	 */
+	$scope.setsort = function(sort_field) {
+		$scope.sort_field = sort_field;
+		var sortClass = $element.find('#' + sort_field)[0].className;
+		if(sortClass == "st-sort-ascent") {
+			$scope.sort_value = "asc";
+		} else if(sortClass == "st-sort-descent") {
+			$scope.sort_value = "desc";
+		} else {
+			$scope.sort_value = "desc";
+		}
+	};
+	
+	/**
+	 * SearchParams에 대한 Watch
 	 */
 	$scope.$watchCollection('searchParams', function() {
-		if($scope.searchEnabled) {
-			$scope.search($scope.tablestate);
-		}
+		$scope.search();
 	});
 
 	/**
-	 * 초기화 함수 
-	 * 
-	 * @return N/A
+	 * 검색 기간 설정 
+	 * @param {String} Week, Month, Year
 	 */
-	$scope.init = function() {
+	$scope.setSearchPeriod = function(periodType) {
+		var period = FmsUtils.getPeriodString(periodType);
+		$scope.searchParams = { 'from_date' : period[0], 'to_date' : period[1] };
 	};
 
 	/**
-	 * 초기화 
+	 * 검색 기간 설정 
 	 */
-	$scope.init();
+	$scope.setSearchPeriod('week');
 
 });
