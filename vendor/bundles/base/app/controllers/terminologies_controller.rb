@@ -3,11 +3,12 @@ class TerminologiesController < ResourceMultiUpdateController
 public 
 	def upsert
 		obj = params['terminology']
-		conds = [obj['description'], obj['locale'], obj['category'], obj['name']]
-		@terminology = Terminology.where("description = ? and locale = ? and category = ? and name = ?", conds).first
+		debug_print obj
+		conds = ["description = ? and locale = ? and category = ? and name = ?", obj['description'], obj['locale'], obj['category'], obj['name']]
+		@terminology = Terminology.where(conds).first
 
 		unless(@terminology)
-			@terminology = Terminology.create!(obj)
+			@terminology = Terminology.create(name: obj['name'], description: obj['description'], locale: obj['locale'], category: obj['category'], display: obj['display'])
 		else
 			@terminology.display = obj['display']
 			@terminology.save!

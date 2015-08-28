@@ -17,7 +17,7 @@
       login.current_domain_id = currentDomain.id;
       login.current_domain_name = currentDomain.name;
 
-      LOCALE_RESOURCE = <%=raw Dictionary.to_resource(cookies[:locale] || current_user.locale) %>;
+      LOCALE_RESOURCE = <%=raw Terminology.to_resource(cookies[:locale] || current_user.locale) %>;
       BRAND_NAME = currentDomain.brand_name;
       BRAND_IMAGE_URL = currentDomain.brand_image;
       CONTENT_IMAGE_URL = currentDomain.content_image;

@@ -17,15 +17,19 @@ class Terminology < ActiveRecord::Base
   before_destroy :expire_resource_json_cache
   
   def self.to_resource locale
+
+    debug_print locale
     @@resource_json ||= {}
     @@resource_json["#{Domain.current_domain.id}:#{locale}"] ||= begin
-      terms = select([:id, :category, :name, :display]).where(locale: locale, description: 'FMS-UI').order(:category, :name)
+      terms = select([:category, :name, :display]).where(locale: locale, description: 'FMS-UI').order(:category, :name)
       terms.group_by(&:category).reduce({}) do |resource, (category, terms)|
         resource[category] = terms.reduce({}) do |cat, term|
           cat[term.name] = term.display unless term.display.blank?
           #cat[term.name + '.short'] = term.display_short unless term.display_short.blank?
           cat
         end
+        debug_print resource
+        
         resource
       end.to_json
     end
@@ -38,6 +42,9 @@ class Terminology < ActiveRecord::Base
 private
   
   def expire_resource_json_cache
+    debug_print "expire_resource_json_cache #{self.domain_id}:#{self.locale}"
+    debug_print @@resource_json
     @@resource_json["#{self.domain_id}:#{self.locale}"] = nil if defined? @@resource_json
+    debug_print @@resource_json
   end
 end

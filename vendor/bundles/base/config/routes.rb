@@ -113,7 +113,7 @@ Base::Engine.routes.draw do
       get :locale_resource
       post :import
       get :export
-      post :upsert
+      put :upsert
 		end
   end
   
