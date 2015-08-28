@@ -1,8 +1,16 @@
 <div class="modal-header">
-<h3 class="modal-title">{{ title }}</h3>
+	<h3 class="modal-title">
+		<translate name-param ="title" category="label"> </translate>
+	</h3>
 </div>
-<div class="modal-body">{{ msg }}</div>
+<div class="modal-body">
+	<translate name-param ="msg" category="msg"> </translate>
+</div>
 <div class="modal-footer">
-	<button class="btn btn-primary" ng-click="ok()">OK</button>
-	<button class="btn btn-warning" ng-click="cancel()" ng-show="showCancelButton">Cancel</button>
+	<button class="btn btn-primary" ng-click="ok()">
+		<translate name-value ="ok" category="button" display="OK"> </translate>
+	</button>
+	<button class="btn btn-warning" ng-click="cancel()" ng-show="showCancelButton">
+		<translate name-value ="cancel" category="button" display="Cancel"> </translate>
+	</button>
 </div>

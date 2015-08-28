@@ -296,7 +296,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 		var divAddrs = $element.find("div.detail-address.map-window");
 	 		for(var i = 0 ; i < divAddrs.length ; i++) {
 	 			var divAddr = divAddrs[i];
-	 			divAddr.innerHTML = 'Location : ' + address;
+	 			divAddr.innerHTML = '<translate name-value="location" category="label" display="Location "></translate> :'+address;
 	 		}
 	 	}
 	 };

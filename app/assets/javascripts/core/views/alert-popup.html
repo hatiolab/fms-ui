@@ -3,5 +3,8 @@
   			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-  		  <strong><button type="button" ng-click="alert('test')">{{title}}</button></a></strong>{{time | date : 'medium'}}
+  		  <strong>
+  		  <button type="button" ng-click="alert('test')">
+  		  	<translate name-param ="title" category="button"></translate>
+  		  </button></strong>{{time | date : 'medium'}}
   		</div>

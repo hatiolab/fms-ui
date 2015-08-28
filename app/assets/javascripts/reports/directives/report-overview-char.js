@@ -8,5 +8,16 @@ angular.module('fmsReports').directive('reportsOverviewChart', function() {
 })
 .controller('reportsOverviewCtrl', function($rootScope, $scope, $element, ModalUtils, RestApi) {
 
+
+	var itemsChangeListener = $rootScope.$on('report-overview-items-change', function(event, items) {
+		$scope.items = items;
+	});
+
+	/**
+	 * Scope destroy시 
+	 */
+	$scope.$on('$destroy', function(event) {
+		itemsChangeListener();
+	});		
 	// --------------------------- E N D ----------------------------
 });

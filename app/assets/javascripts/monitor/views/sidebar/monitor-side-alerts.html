@@ -6,7 +6,9 @@
 
 	<!-- vehicle begin -->
 	<div class="form-group">
-    <label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">vehicle</label>
+    <!-- <label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">vehicle</label> -->
+    <translate for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label" name-value ="vehicle" category="label" display="vehicle">
+    </translate>
     <div class="col-xs-11 col-sm-7 col-md-6 padding-clear">
       <select name="fleet" class="form-control" ng-model="searchParams.fleet" ng-init="selected=''"
        ng-options="fleet.name for fleet in fleets" >
@@ -22,30 +24,36 @@
 
 	<!-- type begin -->
 	<div class="form-group">
-	  <label class="col-xs-12 col-sm-3 col-md-2 control-label">type</label>
+	  <!-- <label class="col-xs-12 col-sm-3 col-md-2 control-label">type</label> -->
+	  <translate for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label" name-value ="type" category="label" display="type">
+    	</translate>
 		<div class="col-xs-11 col-sm-9 col-md-10 padding-clear">
 			<div class="checkbox">
 				<label>
 					<input type="checkbox" ng-model="searchParams.typ_impact" ng-true-value="'G'">
-						<span class="type-icon impact"></span>impact
+					<span class="type-icon impact"></span>
+					<translate name-value ="impact" category="label" display="impact"></translate>
 				</label>
 			</div>
 			<div class="checkbox">
 				<label>
 					<input type="checkbox" ng-model="searchParams.typ_speed" ng-true-value="'V'">
-						<span class="type-icon overspeed"></span>over speed
+						<span class="type-icon overspeed"></span>
+						<translate name-value ="overSpeed" category="label" display="over speed"></translate>
 				</label>
 			</div>
 			<div class="checkbox">
 				<label>
 					<input type="checkbox" ng-model="searchParams.typ_geofence" ng-true-value="'I'">
-						<span class="type-icon geofence"></span>geofence
+						<span class="type-icon geofence"></span>
+						<translate name-value ="geofence" category="label" display="geofence"></translate>
 				</label>
 			</div>
 			<div class="checkbox">
 				<label>
 					<input type="checkbox" ng-model="searchParams.typ_emergency" ng-true-value="'B'">
-						<span class="type-icon emergency"></span>emergency
+						<span class="type-icon emergency"></span>
+						<translate name-value ="emergency" category="label" display="emergency"></translate>
 				</label>
 			</div>
 		</div>
@@ -57,7 +65,8 @@
 <!-- status begin -->
 <div class="status">
 	<div class="pull-left col-xs-12 col-sm-5 col-md-5">
-		total : <strong>{{tablestate.pagination.totalItemCount}}</strong>
+		<translate name-value ="total" category="label" display="total"> : </translate>
+		<strong>{{tablestate.pagination.totalItemCount}}</strong>
 		<!--start : <strong>{{tablestate.pagination.start}}</strong>
 		page : <strong>{{tablestate.pagination.currentPage}} / {{tablestate.pagination.numberOfPages}}</strong-->
 	</div>
@@ -75,12 +84,12 @@
 	<table class="table table-striped table-hover" st-pagination-scroll st-table="items" st-pipe="search">
 		<thead>
 			<tr>
-				<th>#</th>
-				<th>Fleet</th>
-				<th>Driver</th>
-				<th>Geofence</th>
-				<th>Occurred Time</th>
-				<th>Type</th>
+				<th><translate name-value ="no" category="label" display="#"></translate></th>
+				<th><translate name-value ="fleet" category="label" display="Fleet"></translate></th>
+				<th><translate name-value ="driver" category="label" display="Driver"></translate></th>
+				<th><translate name-value ="geofence" category="label" display="Geofence"></translate></th>
+				<th><translate name-value ="occurredAt" category="label" display="Occurred Time"></translate></th>
+				<th><translate name-value ="type" category="label" display="Type"></translate></th>
 			</tr>
 		</thead>
 		<tbody>

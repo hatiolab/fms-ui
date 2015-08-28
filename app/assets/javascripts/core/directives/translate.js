@@ -44,11 +44,11 @@
             var local_res = {}
            // local_res = {type : $scope.type, name : $scope.name);
            //description, display(local languege), locale, name, category
-           local_res = { category : $scope.category, name : $scope.nameParam, display:$scope.text, locale: $cookies.get('locale'), description:'FMS-UI' };
+           local_res = { category : $scope.category, name : $scope.nameParam, display:$scope.text, locale: $cookies.get('locale') };
            if(login.admin_flag){
               ModalUtils.change('large', 'Multilanguege Modifier','', local_res ,function(data){
-                var url = '/terminologies/upsert.json';
-                var result = RestApi.update(url, null, {terminology : local_res});
+                var url = '/dictionaries/upsert.json';
+                var result = RestApi.update(url, null, {dictionary : local_res});
                    result.$promise.then(function(data) {
                       if(!LOCALE_RESOURCE[local_res.category]){
                         LOCALE_RESOURCE[local_res.category]={};
@@ -61,14 +61,14 @@
             }
           }
 
-          $scope.$on("start-multilangue-setting-mode", function () {
-            this.translation();
-          })
+          // $scope.$on("start-multilangue-setting-mode", function () {
+          //   this.translation();
+          // })
 
-          $scope.$on("end-multilangue-setting-mode", function () {
-            this.translation();
-            $scope.isTranslated='';
-          })
+          // $scope.$on("end-multilangue-setting-mode", function () {
+          //   this.translation();
+          //   $scope.isTranslated='';
+          // })
 
         },
         link: function(scope, element, attrs, ctrl, transclude) {

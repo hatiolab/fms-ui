@@ -14,6 +14,61 @@ angular.module('fmsReports').directive('reportsOverviewSearch', function() {
 })
 .controller('reportsOverviewSearchCtrl', function($rootScope, $scope, $element, $compile, $timeout, GridUtils, FmsUtils, RestApi) {
 
+	$scope.items = [ {
+		chartId: 'report-overview-1',
+		title : 'Driving Time By Fleet', 
+		chart_icon_cls : 'panel panel-default type-bar',
+		chart_type_cls:'chart chart-bar',
+		labels :[],
+		sort_field :'drive_time',
+		data : [[]],
+		series:['Driving Time (km)']
+	}, {
+		chartId: 'report-overview-2',
+		title : 'Driving Distance By Fleet', 
+		chart_icon_cls : 'panel panel-default type-bar',
+		chart_type_cls:'chart chart-bar',
+		labels : [],
+		sort_field :'drive_dist',
+		data : [[]],
+		series:['Driving Distance (km)']
+	}, {
+		chartId: 'report-overview-3',
+		title : 'Overspeed Count', 
+		chart_icon_cls : 'panel panel-default type-bar',
+		chart_type_cls:'chart chart-bar',
+		labels : [],
+		sort_field :'overspeed',
+		data : [[]],
+		series:['Overspeed Count']
+	},{
+		chartId: 'report-overview-4',
+		title : 'Impact Count', 
+		chart_icon_cls : 'panel panel-default type-line',
+		chart_type_cls:'chart chart-line',
+		labels :[],
+		sort_field :'impact',
+		data : [[]],
+		series:['Impact Count']
+	}, {
+		chartId: 'report-overview-5',
+		title : 'Geofence Count', 
+		chart_icon_cls : 'panel panel-default type-line',
+		chart_type_cls:'chart chart-line',
+		labels : [],
+		sort_field :'emergency',
+		data : [[]],
+		series:['Geofence Count']
+	}, {
+		chartId: 'report-overview-6',
+		title : 'Emergency Count', 
+		chart_icon_cls : 'panel panel-default type-line',
+		chart_type_cls:'chart chart-line',
+		labels :[],
+		sort_field :'geofence',
+		data : [[]],
+		series:['Emergency Count']
+	} ];
 	/**
 	 * 기본 날짜 검색일 설정 
 	 */
@@ -29,7 +84,7 @@ angular.module('fmsReports').directive('reportsOverviewSearch', function() {
 	/**
 	 * Data
 	 */
-	$scope.items = [];
+	//$scope.items = [];
 	/**
 	 * 검색 가능한 지 여부 
 	 * @type {Boolean}
@@ -64,29 +119,10 @@ angular.module('fmsReports').directive('reportsOverviewSearch', function() {
 	};
 
 	$scope.searchByCharType=function(){
-		$scope.items['drive_dist']= {};
-		$scope.sort_field = 'drive_dist';
-		$scope.search('drive_dist');
-
-		$scope.items['drive_time']= {};
-		$scope.sort_field = 'drive_time';
-		$scope.search('drive_time');
-
-		$scope.items['overspeed']= {};
-		$scope.sort_field = 'overspeed';
-		$scope.search('overspeed');
-
-		$scope.items['impact']= {};
-		$scope.sort_field = 'impact';
-		$scope.search('impact');
-
-		$scope.items['emergency']= {};
-		$scope.sort_field = 'emergency';
-		$scope.search('emergency');
-
-		$scope.items['geofence']= {};
-		$scope.sort_field = 'geofence';
-		$scope.search('geofence');
+		for(var i=0; i<$scope.items.length; i++){
+			$scope.sort_field = $scope.items[i].sort_field;
+			$scope.search(i);
+		}
 	}
 	/**
 	 * Search Drivers
@@ -98,8 +134,8 @@ angular.module('fmsReports').directive('reportsOverviewSearch', function() {
 		var searchParams = $scope.beforeSearch();
 
 		$scope.doSearch(searchParams, function(dataSet) {
-			$scope.items[target] = dataSet.items;
-			$scope.afterSearch($scope.items);
+			// $scope.items[target].data = dataSet.items;
+			$scope.afterSearch(dataSet,target);
 		});
 	};
 
@@ -131,97 +167,9 @@ angular.module('fmsReports').directive('reportsOverviewSearch', function() {
 	  * @param  {Object}
 	  * @return N/A
 	  */
-	 $scope.afterSearch = function(dataSet) {
-		$scope.sendDrivingTimeChatData('Driving Time By Fleet', dataSet.drive_time);
-		$scope.sendDrivingDistChartData('Driving Distance By Fleet', dataSet.drive_dist);
-		$scope.sendOverspeedChartData('Overspeed Count', dataSet.overspeed);
-		$scope.sendImpactChartData('Impact Count', dataSet.impact);
-		$scope.sendGeofenceChartData('Geofence Count', dataSet.geofence);
-		$scope.sendEmergencyChartData('Emergency Count', dataSet.emergency);
+	 $scope.afterSearch = function(dataSet,target) {
+	 	 $scope.setChartData(dataSet.items,$scope.items[target],$scope.sort_field);
 	 };
-
-	 /**
-	  * Build Driving Time Chart Data 
-	  * 
-	  * @param  {Array}
-	  * @return N/A
-	  */
-	 $scope.sendDrivingTimeChatData = function(title, items) {
-	 	// 1. Bar Chart
-	 	var barChartData = { title : title, labels : [], data : [], series : ['Driving Time (km)'] };
-	 	$scope.setChartData(items, barChartData, 'drive_time');
-
-	 	// send data to chart scope
-		$timeout(function() {$scope.$emit('bar-chart-data-change', barChartData)}, 200);
-	 };
-
-	 /**
-	  * Build Driving Distance Chart Data 
-	  * 
-	  * @param  {Array}
-	  * @return N/A
-	  */
-	 $scope.sendDrivingDistChartData = function(title, items) {
-	 	// 1. Bar Chart
-	 	var barChartData = { title : title, labels : [], data : [], series : ['Driving Distance (km)'] };
-	 	$scope.setChartData(items, barChartData, 'drive_dist');
-	 	// send data to chart scope
-		$timeout(function() {$scope.$emit('bar-chart-data-change', barChartData)}, 200);
-	 };
-
-	 /**
-	  * Build Over Speed Chart Data 
-	  * 
-	  * @param  {Array}
-	  * @return N/A
-	  */
-	 $scope.sendOverspeedChartData = function(title, items) {
-	 	var barChartData = { title : title, labels : [], data : [], series : ['Overspeed'] };
-	 	$scope.setChartData(items, barChartData, 'speed_over');
-	 	// send data to chart scope
-		$timeout(function() {$scope.$emit('bar-chart-data-change', barChartData)}, 200);
-	 };
-
-	 /**
-	  * Build Over Speed Chart Data 
-	  * 
-	  * @param  {Array}
-	  * @return N/A
-	  */
-	 $scope.sendImpactChartData = function(title, items) {
-	 	var lineChartData = { title : title, labels : [], data : [], series : ['Impact'] };
-	 	$scope.setChartData(items, lineChartData, 'impact');
-	 	// send data to chart scope
-		$timeout(function() {$scope.$emit('line-chart-data-change', lineChartData)}, 200);
-	 };
-
-	 /**
-	  * Build Over Speed Chart Data 
-	  * 
-	  * @param  {Array}
-	  * @return N/A
-	  */
-	 $scope.sendEmergencyChartData = function(title, items) {
-	 	var lineChartData = { title : title, labels : [], data : [], series : ['Emergency'] };
-	 	$scope.setChartData(items, lineChartData, 'emergency');
-	 	// send data to chart scope
-		$timeout(function() {$scope.$emit('line-chart-data-change', lineChartData)}, 200);
-	 };
-
-	 /**
-	  * Build Over Speed Chart Data 
-	  * 
-	  * @param  {Array}
-	  * @return N/A
-	  */
-	 $scope.sendGeofenceChartData = function(title, items) {
-	 	var lineChartData = { title : title, labels : [], data : [], series : ['Geofence'] };
-	 	$scope.setChartData(items, lineChartData, 'geofence');
-	 	// send data to chart scope
-		$timeout(function() {$scope.$emit('line-chart-data-change', lineChartData)}, 200);
-	 };
-
-
 	 /**
 	  * Set Chart Data
 	  * 
@@ -234,10 +182,9 @@ angular.module('fmsReports').directive('reportsOverviewSearch', function() {
 	 	for(var i = 0 ; i < rawItems.length ; i++) {
 	 		var rawItem = rawItems[i];
 	 		chartData.labels.push(rawItem.fleet_name);
-	 		chartData.data.push(Number(rawItem[field]));
+	 		chartData.data[0].push(Number(rawItem[field]));
 	 	};
 	 };
-
 	/**
 	* [sort condition setup]
 	* @param  {[string]} the field you should sort from database
@@ -271,13 +218,17 @@ angular.module('fmsReports').directive('reportsOverviewSearch', function() {
 		/**
 		 * init date picker1
 		 */
-		FmsUtils.initDatePicker('hr-overview-datepicker1', $scope.searchParams, 'from_date', $scope.search);
+		// FmsUtils.initDatePicker('hr-overview-datepicker1', $scope.searchParams, 'from_date', $scope.search);
 		/**
 		 * init date picker2
 		 */
-		FmsUtils.initDatePicker('hr-overview-datepicker2', $scope.searchParams, 'to_date', $scope.search);
+		// FmsUtils.initDatePicker('hr-overview-datepicker2', $scope.searchParams, 'to_date', $scope.search);
 
-		$scope.searchByCharType();
+		// $scope.searchByCharType();
+
+		$timeout.cancel();
+		$timeout(function() { $scope.$emit('report-overview-items-change', $scope.items) }, 1000);
+
 	};
 
 	/**
