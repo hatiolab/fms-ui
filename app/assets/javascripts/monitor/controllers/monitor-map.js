@@ -536,7 +536,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 			$scope.selectedMarker = marker;
 			$scope.switchOn(switchName);
 
-			if(marker.latitude > 0 && marker.longitude > 0) {
+			if(marker.latitude != 0 && marker.longitude != 0) {
 				$scope.getAddress(marker, null, null, $scope.updateMapWindowAddress);
 			}
 		}
@@ -593,19 +593,22 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 * Trip을 Fleet으로 변환 
 	 */
 	$scope.lastTripToMarker = function(trip) {
+		var marker = null;
+
+		var tracks = $scope.markers.filter(function(m) { return m.ttm && m.lat == trip.lat && m.lng == trip.lng; });
+		if(tracks && tracks.length > 0) {
+			track = tracks[tracks.length - 1];
+			marker = $scope.trackToMarker(track);
+			marker.ttm = trip.etm;
+		} else {
+			marker = $scope.tripToMarker(trip, 'end');
+		}
+
 		var type = 'end';
-		var marker = angular.copy(trip);
 		marker._id = 'trip-' + trip.id + '-' + type;
-		marker.latitude = trip.lat;
-		marker.longitude = trip.lng;
 		marker.icon = $scope.getFleetMarkerIcon(trip, type);
 		marker.type = type;
 		marker.options = { zIndex : google.maps.Marker.MAX_ZINDEX + 1 };
-		marker.events = {
-			click : function(e) {
-				$scope.addMarkerClickEvent(e, 'showTripInfo');
-			}
-		};
 		return marker;
 	};
 
