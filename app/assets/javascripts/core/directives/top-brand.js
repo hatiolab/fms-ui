@@ -11,5 +11,4 @@ angular.module('fmsCore').directive('topBrand', function() {
 		$rootScope.sidebarSwitch = !$rootScope.sidebarSwitch;
 		$rootScope.$broadcast('togglebar-change');
 	}
-	
 });
