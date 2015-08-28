@@ -15,59 +15,29 @@ angular.module('fmsReports').directive('reportsOverviewSearch', function() {
 .controller('reportsOverviewSearchCtrl', function($rootScope, $scope, $element, $compile, $timeout, GridUtils, FmsUtils, RestApi) {
 
 	$scope.items = [ {
-		chartId: 'report-overview-1',
-		title : 'Driving Time By Fleet', 
-		chart_icon_cls : 'panel panel-default type-bar',
-		chart_type_cls:'chart chart-bar',
 		labels :[],
 		sort_field :'drive_time',
-		data : [[]],
-		series:['Driving Time (km)']
+		data : [[]]
 	}, {
-		chartId: 'report-overview-2',
-		title : 'Driving Distance By Fleet', 
-		chart_icon_cls : 'panel panel-default type-bar',
-		chart_type_cls:'chart chart-bar',
 		labels : [],
 		sort_field :'drive_dist',
-		data : [[]],
-		series:['Driving Distance (km)']
+		data : [[]]
 	}, {
-		chartId: 'report-overview-3',
-		title : 'Overspeed Count', 
-		chart_icon_cls : 'panel panel-default type-bar',
-		chart_type_cls:'chart chart-bar',
 		labels : [],
 		sort_field :'overspeed',
-		data : [[]],
-		series:['Overspeed Count']
+		data : [[]]
 	},{
-		chartId: 'report-overview-4',
-		title : 'Impact Count', 
-		chart_icon_cls : 'panel panel-default type-line',
-		chart_type_cls:'chart chart-line',
 		labels :[],
 		sort_field :'impact',
 		data : [[]],
-		series:['Impact Count']
 	}, {
-		chartId: 'report-overview-5',
-		title : 'Geofence Count', 
-		chart_icon_cls : 'panel panel-default type-line',
-		chart_type_cls:'chart chart-line',
 		labels : [],
 		sort_field :'emergency',
-		data : [[]],
-		series:['Geofence Count']
+		data : [[]]
 	}, {
-		chartId: 'report-overview-6',
-		title : 'Emergency Count', 
-		chart_icon_cls : 'panel panel-default type-line',
-		chart_type_cls:'chart chart-line',
 		labels :[],
 		sort_field :'geofence',
-		data : [[]],
-		series:['Emergency Count']
+		data : [[]]
 	} ];
 	/**
 	 * 기본 날짜 검색일 설정 
@@ -123,6 +93,7 @@ angular.module('fmsReports').directive('reportsOverviewSearch', function() {
 			$scope.sort_field = $scope.items[i].sort_field;
 			$scope.search(i);
 		}
+		$scope.$emit('report-overview-items-change', $scope.items);
 	}
 	/**
 	 * Search Drivers
@@ -224,11 +195,7 @@ angular.module('fmsReports').directive('reportsOverviewSearch', function() {
 		 */
 		// FmsUtils.initDatePicker('hr-overview-datepicker2', $scope.searchParams, 'to_date', $scope.search);
 
-		// $scope.searchByCharType();
-
-		$timeout.cancel();
-		$timeout(function() { $scope.$emit('report-overview-items-change', $scope.items) }, 1000);
-
+		$scope.searchByCharType();
 	};
 
 	/**
