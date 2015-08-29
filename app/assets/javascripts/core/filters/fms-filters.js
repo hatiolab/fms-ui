@@ -1,6 +1,12 @@
 angular.module('fmsCore')
-	.filter('fms-time', function() { 
+	.filter('fmstime', function($filter) { 
 		return function(input) { 
-			return input + '-test';
+			if(input) {
+				var format = 'short';
+				var timezone = '+0900';
+				return $filter('date')(input, format, timezone);
+			} else {
+				return input;
+			}
 		}; 
 	});

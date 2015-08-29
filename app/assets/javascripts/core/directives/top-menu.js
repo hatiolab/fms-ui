@@ -7,7 +7,7 @@ angular.module('fmsCore').directive('topMenu', function() {
 	}; 
 })
 
-.controller('topMenuCtrl', function($rootScope, $location, $scope, $element, ConstantSpeed, FmsUtils, RestApi) {
+.controller('topMenuCtrl', function($rootScope, $location, $scope, $element, ConstantSpeed, GridUtils, RestApi) {
 
 	$scope.items = [ {
 		name : 'Map', 
@@ -157,7 +157,7 @@ angular.module('fmsCore').directive('topMenu', function() {
 	 * Window Resize 시 모든 그리드 켄테이너의 Height 조정 
 	 */
   $(window).on("resize.doResize", function () {
-  	FmsUtils.resetAllGridContainerHeight();
+  	GridUtils.resetAllGridContainerHeight();
   });
 
 	/**
