@@ -4,24 +4,24 @@ angular.module('fmsMonitor').controller('SidebarCtrl', function($rootScope, $sco
 	 * Tabs Model
 	 * @type {Array}
 	 */
-	$scope.tabs = [  { 
+	$scope.tabs = [ { 
 		id: 'side-fleets', 
 		name: 'Fleets',
 		showRefreshBtn : true,
 		eventName : 'monitor-refresh-fleet', 
-		cls : 'active' 
+		active : true
 	}, { 
 		id: 'side-alerts', 
 		name: 'Alerts', 				
 		showRefreshBtn : true,  
 		eventName : 'monitor-refresh-event', 
-		cls : '' 
+		active : false
 	}, { 
 		id: 'side-info', 	 
 		name: 'Trip', 
 		showRefreshBtn : false, 
 		eventName : 'monitor-refresh-trip', 
-		cls : '' 
+		active : false
 	} ];
 
 	/**
@@ -37,13 +37,54 @@ angular.module('fmsMonitor').controller('SidebarCtrl', function($rootScope, $sco
 	};
 
 	/**
-	 * Tab 선택
+	 * Sidebar UI에서 사용자가 직접 Tab 선택시 on-click
 	 */
 	$scope.selectTab = function(tab) {
 		$scope.toggleRefreshButton(tab.showRefreshBtn);
 		if(tab.eventName != '') {
 			$scope.$emit(tab.eventName, '');
 		}
+
+		/**
+		 * send to alert indicator
+		 */
+		$scope.$emit('new-alert-count-reset', 0);
 	};
+
+	/**
+	 * 다른 곳의 이벤트에 따라 Tab을 이동해야 할 경우 Tab 이동 
+	 */
+	$scope.moveTab = function(tabId) {
+		var selectedTab = $scope.tabs.filter(function(tab) { return tab.id == tabId; });
+
+		if(selectedTab && selectedTab.length > 0) {
+			var tab = selectedTab[0];
+			$scope.selectTab(tab);
+		
+			for(var i = 0 ; i < $scope.tabs.length ; i++) {
+				var curTab = $scope.tabs[i];
+				curTab.active = false;
+				$element.find('#' + curTab.id).removeClass('active');
+			}
+
+			tab.active = true;
+			var tabContent = $element.find('#' + tab.id);
+			tabContent.addClass('active');
+		}
+	};
+
+	/**
+	 * Move to listener
+	 */
+	var moveListener = $rootScope.$on('go-to-monitor', function(event, tabId) {
+		$scope.moveTab(tabId);
+	});
+
+	/**
+	 * Scope destroy시 timeout 제거 
+	 */
+	$scope.$on('$destroy', function(event) {
+		moveListener();
+	});
 
 });

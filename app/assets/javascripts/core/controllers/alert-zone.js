@@ -45,7 +45,9 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 
    		if(!$scope.addAlert(alert)) {
    			$scope.lastSearchAlertTime = alertData.alert.ctm + 1000;
-   		}   		
+   		}
+
+   		$scope.$emit('new-alert-count-change', 1);		
 
    	} else {
    		$scope.lastSearchAlertTime = new Date().getTime() + 10;
@@ -156,6 +158,12 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 	 * Refresh timer를 시작 
 	 */
 	 $scope.searchNewAlert = function() {
+ 		var oldestOne = $scope.alertList.pop();
+ 		if(oldestOne) {
+ 			$scope.removeAlert(oldestOne.id);
+ 			$('#alert_' + oldestOne.id).remove();
+ 		}
+
  		RestApi.get('/events/' + $scope.lastSearchAlertTime + '/latest_one.json', {}, function(alert) {
  			$scope.setAlert(alert);
  		});
@@ -174,7 +182,8 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 	 $scope.goTrip = function(alertId, goTrip) {
 	 	$scope.removeAlert(alertId);
  		$('#alert_' + alertId).remove();
- 		$scope.redrawPopups();	 	
+ 		$scope.$emit('new-alert-count-change', -1);
+ 		$scope.redrawPopups();
 
 	 	if('Y' == goTrip) {
 		 	RestApi.get('/events/' + alertId + '.json', {}, function(alert) {

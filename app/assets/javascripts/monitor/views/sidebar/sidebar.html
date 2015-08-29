@@ -1,28 +1,9 @@
-<!-- side panel begin -->
 <div class="col-xs-4 col-md-4 side-panel" toggle-switch ng-controller="SidebarCtrl" >
 	<div class="height-full">
 
 	  <!-- Nav tabs -->
 	  <ul class="nav nav-tabs" role="tablist">
-	    <!--li id="fleetTab" role="presentation" class="active">
-	    	<a href="#side-fleets" aria-controls="home" role="tab" data-toggle="tab" ng-click="showRefreshButton()">
-	    		<strong>Fleets</strong>
-	    	</a>
-	    </li>
-
-	    <li id="alertTab" role="presentation">
-	    	<a href="#side-alerts" aria-controls="profile" role="tab" data-toggle="tab" ng-click="showRefreshButton()">
-	    		<strong>Alerts</strong>
-	    	</a>
-	    </li>
-
-	    <li id="infoTab" role="presentation">
-	    	<a href="#side-info" aria-controls="profile" role="tab" data-toggle="tab" ng-click="hideRefreshButton()">
-	    		<strong>Selected Trip</strong>
-	    	</a>
-	    </li-->
-
-	    <li role="presentation" class="{{tab.active}}" ng-repeat="tab in tabs">
+	    <li role="presentation" class="{{tab.active ? 'active' : ''}}" ng-repeat="tab in tabs">
 	    	<a ng-href="#{{tab.id}}" aria-controls="home" role="tab" data-toggle="tab" ng-click="selectTab(tab)">
 	    		<strong><translate name-param ="tab.name" category="tab"></translate></strong>
 	    	</a>
@@ -47,4 +28,3 @@
 
 	</div>
 </div>
-<!-- side panel end -->

@@ -10,9 +10,9 @@
       <ul class="nav navbar-nav navbar-right">
         <% if user_signed_in? %>
           <top-profile username="<%= current_user.name %>"></top-profile>
+          <alert-indicator></alert-indicator>
         <% end %>
       </ul>
-			<dic class="nav navbar-nav navbar-right alert-count"><span>12</span></div>
     </div>
   </div>
 </nav>
