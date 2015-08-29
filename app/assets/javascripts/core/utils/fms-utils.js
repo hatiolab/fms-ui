@@ -56,11 +56,11 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 			} else if(gridContainerId == 'monitor-side-info-trip-table-container' || gridContainerId == 'monitor-side-info-alert-table-container') {
 				newHeight = newHeight - 360;
 
-			} else if(gridContainerId == 'geofence-view-table-container') {
-				newHeight = (newHeight - 240) / 2;
+			} else if(gridContainerId == 'geofence-view-table-container' || gridContainerId == 'geofence-alert-table-container') {
+				newHeight = (newHeight - 250) / 2;
 
 			} else if(gridContainerId == 'geofence-setting-table-container') {
-				newHeight = newHeight - 410;
+				newHeight = newHeight - 440;
 
 			} else if(gridContainerId == 'geofence-relation-table-container') {
 				newHeight = newHeight - 323;

@@ -160,6 +160,7 @@ angular.module('fmsGeofence').directive('geofenceList', function() {
 		$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
 		// grid container를 새로 설정한다.
 		FmsUtils.setGridContainerHieght('geofence-view-table-container');
+		FmsUtils.setGridContainerHieght('geofence-alert-table-container');
 	};
 
 	/**
