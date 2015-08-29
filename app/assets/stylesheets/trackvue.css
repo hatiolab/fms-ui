@@ -49,6 +49,7 @@ label input[type="checkbox"]{margin-right:5px;}
 .margin-r15{margin-right:15px !important;}
 .margin-l15{margin-left:15px !important;}
 .margin-t20{margin-top:20px;}
+.margin-mt5{margin-top:-5px;}
 
 .min-w100{display:inline-block;width:100px;}
 .padding-t4{padding-top:4px !important;}
@@ -224,6 +225,8 @@ th.modal-icon.dot-gray{background-position:0 -39px !important;border:none;paddin
 .authform h3{background:url(/assets/brand-black.png) 0 3px no-repeat;padding-top:1px;padding-left:140px;min-height:27px;font-size:18px;color:#585858;}
 @media(max-width: 600px){.authform{background:url(/assets/image-intro.png) no-repeat;background-size:90%;width:400px;min-height:300px;margin:auto;margin-top:50px;}}
 @media(max-width: 600px){.authform form{margin-left:5%;padding-top:210px;width:80%;}}
+.login-side{border-top:1px dotted #c4d9e8;position:relative;top:5px;padding-top:5px;}
+.login-side a{background:url(/assets/icon-submenu.png) no-repeat;padding:0 10px 0 17px;}
 
 /* alert popup */
 .alert-popup{position:absolute;top:55px;right:5px;min-width:200px;background-color:#fff;border:none;border-left:24px solid #f03d01;padding:10px 5px 10px 7px;
