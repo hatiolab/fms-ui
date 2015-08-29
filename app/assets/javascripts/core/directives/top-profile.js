@@ -10,6 +10,7 @@ angular.module('fmsCore').directive('topProfile', function() {
 .controller('topProfileCtrl', function($rootScope, $scope, $element, $window, $cookies) {
 
 	$scope.changeLocale = function(locale) {
+		login.locale = locale;
 		$cookies.put('locale', locale);
 		$window.location.reload();
 	};

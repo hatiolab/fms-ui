@@ -35,18 +35,24 @@ angular.module('fmsCore').directive('topMenu', function() {
 		href : '#/settings/drivers',
 		active : false
 	} ];
-	$scope.firstload ='true';
+
+	/**
+	 * 화면에 최초에 들어올 경우 
+	 */
+	$scope.firstload = true;
 
 	$scope.setActive = function(activeItem) {
-		$rootScope.toggleButtonhide=true;
+		$rootScope.toggleButtonhide = true;
+
 		for(var i = 0 ; i < $scope.items.length ; i++) {
 			var item = $scope.items[i];
 			item.active = (item.name == activeItem.name);
-			if(item.active&&(item.name=='Map'||item.name=='Geofence')){
-				$rootScope.toggleButtonhide=false;
+			if(item.active && (item.name == 'Map' || item.name == 'Geofence')) {
+				$rootScope.toggleButtonhide = false;
 			}
-			if(item.active && $scope.firstload){
-				$scope.firstload =false;
+
+			if(item.active && $scope.firstload) {
+				$scope.firstload = false;
 				$location.path(item.href);
 			}
 		}
@@ -54,10 +60,15 @@ angular.module('fmsCore').directive('topMenu', function() {
 
 	$scope.setActive($scope.items[0]);
 
-	$rootScope.$on('settings-value-change', function(event, setting) {
-		for(var i=0; i<setting.length; i++){
+	/**
+	 * 세팅값이 변경되면 캐쉬를 업데이트한다. 
+	 */
+	var settingChangeListener = $rootScope.$on('settings-value-change', function(event, setting) {
+		for(var i = 0; i < setting.length; i++) {
 			$rootScope.setSetting(setting[i].name, setting[i].value);
 		}
+
+		$rootScope.setTimeFormat();
 	});
 
 	/**
@@ -72,6 +83,7 @@ angular.module('fmsCore').directive('topMenu', function() {
 				$rootScope.setSetting(settings[i].name, settings[i].value);
 			}
 
+			$rootScope.setTimeFormat();
 			$rootScope.$broadcast('settings-all-ready');
 		});
 	};
@@ -98,6 +110,30 @@ angular.module('fmsCore').directive('topMenu', function() {
 		var eventName = 'setting-' + name + '-change';
 		$rootScope.$broadcast(eventName, value);
 	};
+
+	/**
+	 * Time Format
+	 * @type {String}
+	 */
+	$rootScope.dateFimeFormat = 'yyyy-MM-dd HH:mm:ss (Z)';
+
+	/**
+	 * Setting값으로 TimeFormat을 리턴한다.
+	 * 
+	 * @return {String}
+	 */
+	$rootScope.getTimeFormat = function() {
+		return $rootScope.dateFimeFormat;
+	};
+
+	/**
+	 * Setting값으로 TimeFormat을 설정한다.
+	 */
+	$rootScope.setTimeFormat = function() {
+		var dateFormat = $rootScope.getSetting('format_date');
+		var timeFormat = $rootScope.getSetting('format_time');
+		$rootScope.dateFimeFormat = dateFormat + ' ' + timeFormat + ' (Z)';
+	};	
 
 	/**
 	 * Get speed level by setting
@@ -164,6 +200,7 @@ angular.module('fmsCore').directive('topMenu', function() {
 	 * Destroy hook
 	 */
   $scope.$on("$destroy",function () {
+  	settingChangeListener();
     $(window).off("resize.doResize");
   });	
 

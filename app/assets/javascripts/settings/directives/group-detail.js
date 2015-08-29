@@ -7,7 +7,7 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 			link: function(scope, element, attr, groupDetailCtrl) {}
 		};
 	})
-	.controller('groupDetailCtrl', function($rootScope, $scope, $resource, $element, $filter, ModalUtils, FmsUtils, RestApi) {
+	.controller('groupDetailCtrl', function($rootScope, $scope, $resource, $element, $filter, ModalUtils, GridUtils, RestApi) {
 
 		/**
 		 * Selected Group Item

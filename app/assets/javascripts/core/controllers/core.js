@@ -1,8 +1,13 @@
-// 현재 사용 안 함, 추후 문제없으면 제거 
+/**
+ * 현재 사용 안 함, 추후 문제없으면 제거 
+ */
 angular.module('fmsCore').controller('CoreCtrl', function($rootScope, $scope, ConstantSpeed, FmsUtils, RestApi) {
 
+	/**
+	 * Setting값이 변경되었을 때 
+	 */
 	$rootScope.$on('settings-value-change', function(event, setting) {
-		for(var i=0; i<setting.length; i++){
+		for(var i = 0; i < setting.length; i++) {
 			$rootScope.setSetting(setting[i].name, setting[i].value);
 		}
 	});
