@@ -12,56 +12,86 @@ angular.module('fmsReports').directive('reportsOverviewChart', function() {
 		chartId: 'report-overview-1',
 		title : 'Driving Time By Fleet', 
 		container_cls : 'panel panel-default type-bar col-xs-12 col-sm-6',
-		type:'Bar',
-		labels :[],
-		sort_field :'drive_time',
+		type : 'Bar',
+		colors : [ {
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#80D1FA",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(220,220,220,1)"			
+		} ],
+		series:['Driving Time (km)'],
 		data : [[]],
-		series:['Driving Time (km)']
+		labels :[]
 	}, {
 		chartId: 'report-overview-2',
 		title : 'Driving Distance By Fleet', 
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-6',
-		type:'Line',
+		type : 'Line',
+		colors : [ {
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#4EBCAD",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(151,187,205,1)"			
+		} ],		
+		series:['Driving Distance (km)'],
 		labels : [],
-		sort_field :'drive_dist',
-		data : [[]],
-		series:['Driving Distance (km)']
+		data : [[]]
 	}, {
 		chartId: 'report-overview-3',
 		title : 'Overspeed Count', 
 		container_cls : 'panel panel-default type-bar col-xs-12 col-sm-6',
-		type:'Bar',
+		type : 'Bar',
+		colors : [ {
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#84C867",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(151,187,205,1)"			
+		} ],		
+		series:['Overspeed Count'],
 		labels : [],
-		sort_field :'overspeed',
 		data : [[]],
-		series:['Overspeed Count']
 	},{
 		chartId: 'report-overview-4',
 		title : 'Impact Count', 
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-6',
-		type:'Line',
+		type : 'Line',
+		colors : [ {
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#FC787B",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(151,187,205,1)"			
+		} ],		
+		series:['Impact Count'],
 		labels :[],
-		sort_field :'impact',
 		data : [[]],
-		series:['Impact Count']
 	}, {
 		chartId: 'report-overview-5',
 		title : 'Geofence Count', 
 		container_cls : 'panel panel-default type-bar col-xs-12 col-sm-6',
-		type:'Bar',
+		type : 'Bar',
+		colors : [ {
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#FFD600",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(151,187,205,1)"			
+		} ],		
+		series:['Geofence Count'],
 		labels : [],
-		sort_field :'emergency',
 		data : [[]],
-		series:['Geofence Count']
 	}, {
 		chartId: 'report-overview-6',
 		title : 'Emergency Count', 
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-6',
-		type:'Line',
-		labels :[],
-		sort_field :'geofence',
+		type : 'Line',
+		colors : [ {
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#F69F40",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(151,187,205,1)"			
+		} ],		
+		series:['Emergency Count'],
+		labels : [],		
 		data : [[]],
-		series:['Emergency Count']
 	} ];
 
 	/**

@@ -7,7 +7,6 @@ angular.module('fmsHr').directive('hrOverviewChart', function() {
 	}; 
 })
 .controller('hrOverviewCtrl', function($rootScope, $scope, $element) {
-
 	$scope.items = [ {
 		chartId: 'hr-overview-1',
 		type:'Bar',
@@ -15,6 +14,12 @@ angular.module('fmsHr').directive('hrOverviewChart', function() {
 		container_cls : 'panel panel-default type-bar col-xs-12 col-sm-6',
 		series:['Driving Time (km)'],
 		sort_field :'drive_time',
+		colors : [ {
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#80D1FA",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(220,220,220,1)"			
+		} ],
 		labels :[],
 		data : [[]]
 	}, {
@@ -24,6 +29,12 @@ angular.module('fmsHr').directive('hrOverviewChart', function() {
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-6',
 		series:['Driving Distance (km)'],
 		sort_field :'drive_dist',
+		colors : [ {
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#4EBCAD",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(151,187,205,1)"			
+		} ],
 		labels : [],
 		data : [[]]
 	}, {
@@ -33,6 +44,12 @@ angular.module('fmsHr').directive('hrOverviewChart', function() {
 		container_cls : 'panel panel-default type-bar col-xs-12 col-sm-6',
 		series:['Overspeed Count'],
 		sort_field :'overspeed',
+		colors : [ {
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#84C867",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(151,187,205,1)"			
+		} ],
 		labels : [],
 		data : [[]]
 	},{
@@ -42,6 +59,12 @@ angular.module('fmsHr').directive('hrOverviewChart', function() {
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-6',
 		series:['Impact Count'],
 		sort_field :'geofence',
+		colors : [ {
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#FC787B",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(151,187,205,1)"			
+		} ],
 		labels :[],
 		data : [[]]
 	}, {
@@ -51,6 +74,12 @@ angular.module('fmsHr').directive('hrOverviewChart', function() {
 		container_cls : 'panel panel-default type-bar col-xs-12 col-sm-6',
 		series:['Geofence Count'],
 		sort_field :'impact',
+		colors : [ {
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#FFD600",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(151,187,205,1)"			
+		} ],
 		labels : [],
 		data : [[]]
 	}, {
@@ -60,6 +89,12 @@ angular.module('fmsHr').directive('hrOverviewChart', function() {
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-6',
 		series:['Emergency Count'],
 		sort_field :'emergency',
+		colors : [ {
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#F69F40",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(151,187,205,1)"			
+		} ],
 		labels :[],
 		data : [[]]
 	} ];
