@@ -195,7 +195,7 @@ angular.module('fmsSettings').directive('fleetList', function() {
 	 $scope.afterSearch = function(dataSet) {
 	 	$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
 		// grid container를 새로 설정한다.
-		FmsUtils.setGridContainerHieght('setting-fleet-table-container');
+		GridUtils.setGridContainerHieght('setting-fleet-table-container');
 	 };
 
 	/**

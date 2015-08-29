@@ -156,7 +156,7 @@ angular.module('fmsMonitor').directive('monitorInfoAlerts', function() {
 	 	$scope.numbering(dataSet.items);
 		FmsUtils.setEventTypeClasses($scope.items);
 		FmsUtils.setEventTypeNames($scope.items);
-		FmsUtils.setGridContainerHieght('monitor-info-alert-table-container');
+		GridUtils.setGridContainerHieght('monitor-info-alert-table-container');
 	 };
 
 	/**

@@ -249,7 +249,7 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 			$scope.item = group;
 			$scope.searchGeoGroups();
 			$scope.searchGeofences();
-			FmsUtils.setGridContainerHieght('setting-group-relation-table-container');
+			GridUtils.setGridContainerHieght('setting-group-relation-table-container');
 		});
 
 	  /**

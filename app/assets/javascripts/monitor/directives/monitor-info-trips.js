@@ -144,7 +144,7 @@ angular.module('fmsMonitor').directive('monitorInfoTrips', function() {
 	 $scope.afterSearch = function(dataSet) {
 	 	$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
 	 	$scope.numbering(dataSet.items);
-		FmsUtils.setGridContainerHieght('monitor-info-trip-table-container');
+		GridUtils.setGridContainerHieght('monitor-info-trip-table-container');
 	 };
 
 	/**

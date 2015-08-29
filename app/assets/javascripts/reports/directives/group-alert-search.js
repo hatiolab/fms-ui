@@ -110,7 +110,7 @@ angular.module('fmsReports').directive('groupAlertSearch', function() {
 		$scope.numbering(dataSet.items);
 		$scope.items = dataSet.items;
 		$scope.sendAlertChatData($scope.items);
-		FmsUtils.setGridContainerHieght('report-group-alert-table-container');
+		GridUtils.setGridContainerHieght('report-group-alert-table-container');
 	};
 
 	/**

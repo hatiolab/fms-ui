@@ -266,7 +266,7 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
 		$scope.item = item;
 		$scope.searchGroups();
 		$scope.searchGeoGroups();
-		FmsUtils.setGridContainerHieght('geofence-relation-table-container');
+		GridUtils.setGridContainerHieght('geofence-relation-table-container');
 	});
 
   /**

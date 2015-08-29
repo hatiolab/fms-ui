@@ -119,7 +119,7 @@ angular.module('fmsHr').directive('hrDrivedistanceSearch', function() {
 		$scope.numbering(dataSet.items);
 		$scope.items = dataSet.items;
 		$scope.showChart();
-		FmsUtils.setGridContainerHieght('hr-drivedist-table-container');
+		GridUtils.setGridContainerHieght('hr-drivedist-table-container');
 	};
 
 	/**
@@ -513,7 +513,7 @@ angular.module('fmsHr').directive('hrDrivedistanceSearch', function() {
 	//   */
 	//  $scope.afterSearch = function(dataSet) {
 	//  	$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
-	// 	FmsUtils.setGridContainerHieght('hr-drivedist-table-container');
+	// 	GridUtils.setGridContainerHieght('hr-drivedist-table-container');
 	// 	$scope.showTotalChart(dataSet.items);
 	//  };
 

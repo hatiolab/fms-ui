@@ -118,7 +118,7 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 		$scope.numbering(dataSet.items);
 		$scope.items = dataSet.items;
 		$scope.showChart();
-		FmsUtils.setGridContainerHieght('hr-overspeed-table-container');
+		GridUtils.setGridContainerHieght('hr-overspeed-table-container');
 	};
 
 	/**

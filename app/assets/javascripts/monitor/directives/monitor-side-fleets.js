@@ -170,7 +170,7 @@ angular.module('fmsMonitor').directive('monitorSideFleets', function() {
 		FmsUtils.setSpeedClasses($scope.items);
 		$scope.speedRangeSummaries = FmsUtils.getSpeedSummaries($scope.items);
 		$scope.$emit('monitor-fleet-list-change', $scope.items);
-		FmsUtils.setGridContainerHieght('monitor-fleet-table-container');
+		GridUtils.setGridContainerHieght('monitor-fleet-table-container');
 		$scope.isLoading = false;
 	 };	
 

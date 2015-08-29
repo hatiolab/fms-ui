@@ -113,7 +113,7 @@ angular.module('fmsHr').directive('hrDrivehabitSearch', function() {
 		$scope.numbering(dataSet.items);
 		$scope.items = dataSet.items;
 		$scope.sendChatData($scope.items);
-		FmsUtils.setGridContainerHieght('hr-drivehabit-table-container');
+		GridUtils.setGridContainerHieght('hr-drivehabit-table-container');
 	};
 
 	/**
@@ -525,7 +525,7 @@ angular.module('fmsHr').directive('hrDrivehabitSearch', function() {
 	//   */
 	//  $scope.afterSearch = function(dataSet) {
 	//  	$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
-	// 	FmsUtils.setGridContainerHieght('hr-drivehabit-table-container');
+	// 	GridUtils.setGridContainerHieght('hr-drivehabit-table-container');
 	// 	$scope.showTotalChart();
 	//  };
 

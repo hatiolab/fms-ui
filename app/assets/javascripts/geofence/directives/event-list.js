@@ -209,7 +209,7 @@ angular.module('fmsGeofence').directive('eventList', function() {
 				// Map에 정보를 전달하여 지도에 표시하게 한다.
 				//$scope.$emit('geofence-event-list-change', $scope.events);
 				$scope.$emit('geofence-event-all-selected', $scope.geofence, $scope.events);
-				FmsUtils.setGridContainerHieght('geofence-alert-table-container');
+				GridUtils.setGridContainerHieght('geofence-alert-table-container');
 			};
 
 			/**

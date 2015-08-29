@@ -151,7 +151,7 @@ angular.module('fmsReports').directive('fleetAlertSearch', function() {
 		$scope.numbering(dataSet.items);
 		$scope.items = dataSet.items;
 		$scope.showChart();
-		FmsUtils.setGridContainerHieght('report-fleet-alert-table-container');
+		GridUtils.setGridContainerHieght('report-fleet-alert-table-container');
 	};
 
 	/**

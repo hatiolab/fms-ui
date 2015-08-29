@@ -118,7 +118,7 @@ angular.module('fmsHr').directive('hrDrivetimeSearch', function() {
 		$scope.numbering(dataSet.items);
 		$scope.items = dataSet.items;
 		$scope.showChart();
-		FmsUtils.setGridContainerHieght('hr-drivetime-table-container');
+		GridUtils.setGridContainerHieght('hr-drivetime-table-container');
 	};
 
 	/**

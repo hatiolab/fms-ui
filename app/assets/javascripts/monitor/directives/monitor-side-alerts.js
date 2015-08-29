@@ -239,7 +239,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 		// Map에 정보를 전달하여 지도에 표시하게 한다.
 		$scope.$emit('monitor-event-list-change', $scope.items);
 		// Grid Container를 새로 설정한다.
-		FmsUtils.setGridContainerHieght('monitor-alert-table-container');
+		GridUtils.setGridContainerHieght('monitor-alert-table-container');
 		$scope.isLoading = false;
 	};
 

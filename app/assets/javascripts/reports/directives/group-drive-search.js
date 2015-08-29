@@ -114,7 +114,7 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 		$scope.numbering(dataSet.items);
 		$scope.items = dataSet.items;
 		$scope.sendDrivingChatData($scope.items);
-		FmsUtils.setGridContainerHieght('report-group-drive-table-container');
+		GridUtils.setGridContainerHieght('report-group-drive-table-container');
 	};
 
 	/**

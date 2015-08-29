@@ -156,7 +156,7 @@ angular.module('fmsMonitor').directive('monitorSideInfoTripList', function() {
 	$scope.afterSearch = function(dataSet) {
 		$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
 		$scope.numbering(dataSet.items, 1);
-		FmsUtils.setGridContainerHieght('monitor-side-info-trip-table-container');
+		GridUtils.setGridContainerHieght('monitor-side-info-trip-table-container');
 		$scope.setActiveItem($scope.trip);
 	};
 
@@ -216,7 +216,7 @@ angular.module('fmsMonitor').directive('monitorSideInfoTripList', function() {
 		/**
 		 * Table container size 설정 
 		 */
-		FmsUtils.setGridContainerHieght('monitor-side-info-trip-table-container');
+		GridUtils.setGridContainerHieght('monitor-side-info-trip-table-container');
 	};
 
 	/**

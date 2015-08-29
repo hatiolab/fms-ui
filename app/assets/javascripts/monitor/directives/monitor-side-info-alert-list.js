@@ -148,7 +148,7 @@ angular.module('fmsMonitor').directive('monitorSideInfoAlertList', function() {
 		$scope.numbering(dataSet.items, 1);
 		FmsUtils.setEventTypeClasses($scope.items);
 		FmsUtils.setEventTypeNames($scope.items);
-		FmsUtils.setGridContainerHieght('monitor-side-info-alert-table-container');
+		GridUtils.setGridContainerHieght('monitor-side-info-alert-table-container');
 	};
 
 	/**
@@ -202,7 +202,7 @@ angular.module('fmsMonitor').directive('monitorSideInfoAlertList', function() {
 		/**
 		 * Table container size 설정 
 		 */
-		FmsUtils.setGridContainerHieght('monitor-side-info-alert-table-container');
+		GridUtils.setGridContainerHieght('monitor-side-info-alert-table-container');
 	};
 	
 	$scope.$watchCollection('searchParams', function() {
