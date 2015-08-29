@@ -93,7 +93,7 @@
 				<td>{{item.fid}}</td>
 				<td>{{item.driver ? item.driver.name : ''}}</td>
 				<td>{{item.geofence ? item.geofence.name : ''}}</td>
-				<td>{{item.etm | date:'medium'}}</td>
+				<td>{{item.etm | fmstime}}</td>
 				<td class="icon-td align-center">
 					<span class="{{item.typeClass}}"></span>
 				</td>

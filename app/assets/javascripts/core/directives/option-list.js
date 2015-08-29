@@ -6,7 +6,7 @@
   
     return { 
       restrict: 'E',
-      scope:{
+      scope: {
         optionModel : '=',
         optionName : '@'
       },

@@ -59,6 +59,7 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 				'alarm_emergency' : $scope.getByName(dataSet,'alarm_emergency').value,
 				'alarm_geofence' : $scope.getByName(dataSet,'alarm_geofence').value,
 				'alarm_overspeed' : $scope.getByName(dataSet,'alarm_overspeed').value,
+				'timezone' : $scope.getByName(dataSet,'timezone').value,
 				'format_date' : $scope.getByName(dataSet,'format_date').value,
 				'format_time' : $scope.getByName(dataSet,'format_time').value,
 				'default_count_per_page' : $scope.getByName(dataSet,'default_count_per_page').value,

@@ -19,8 +19,8 @@
 					<td>{{item.no}}</td>
 					<!--td>{{item.id}}</td-->
 					<td>{{item.driver ? item.driver.name : ''}}</td>
-					<td>{{item.stm | date : 'medium'}}</td>
-					<td>{{item.etm | date : 'medium'}}</td>
+					<td>{{item.stm | fmstime}}</td>
+					<td>{{item.etm | fmstime}}</td>
 					<td>{{item.c_ovr}}</td>
 				</tr>
 			</tbody>

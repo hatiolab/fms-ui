@@ -135,7 +135,7 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 	 	popupStr += "<div class='" + alert.typeClass + "'></div>";
 	 	popupStr += "<button type='button' class='close' data-dismiss='alert' aria-label='Close' ng-click=\"goTrip('" + alert.id + "', 'N')\">";
 	 	popupStr += "<span aria-hidden='true'>&times;</span></button>";
-	 	popupStr += "<strong><button type='button' ng-click=\"goTrip('" + alert.id + "', 'Y')\">" + alert.title + "</button></a></strong>{{" + alert.time + " | date : 'medium'}}";
+	 	popupStr += "<strong><button type='button' ng-click=\"goTrip('" + alert.id + "', 'Y')\">" + alert.title + "</button></a></strong>{{" + alert.time + " | fmstime}}";
 	 	popupStr += "</div>";		
 	 	var el = $compile(popupStr)($scope);
 	 	$element.append(el);

@@ -81,33 +81,23 @@
 		<!-- date time format begin -->
 		<fieldset>
 			<legend>Data & Time format</legend>
+
 			<label class="control-label col-xs-2 col-sm-1 col-md-1 padding-clear align-left">Date</label>
-			<div class="radio col-xs-5 col-sm-3 col-md-3">
-				<label>
-					<input type="radio" name="dnt-d" id="optionsRadios1" value="yyyy-MM-dd" ng-model="settings.format_date" checked>
-					YYYY-MM-DD
-				</label>
-			</div>
-			<div class="radio col-xs-5 col-sm-3 col-md-3">
-				<label>
-					<input type="radio" name="dnt-d" id="optionsRadios2" ng-model="settings.format_date" value="dd/MM/yyyy">
-					DD/MM/YYYY
-				</label>
-			</div>
+			<code-list dateformat option-model ="settings.format_date"></code-list>
+
 			<div class="col-xs-12"></div>
 			<label class="control-label col-xs-2 col-sm-1 col-md-1 padding-clear align-left">Time</label>
+			<code-list timeformat option-model ="settings.format_time"></code-list>
+
+			<div class="col-xs-12"></div>
+			<label class="control-label col-xs-2 col-sm-1 col-md-1 padding-clear align-left">Timezone</label>
 			<div class="radio col-xs-5 col-sm-3 col-md-3">
-				<label>
-					<input type="radio" name="dnt-t" id="optionsRadios1" value="AM/PM" ng-model="settings.format_time" checked>
-					AM/PM
-				</label>
+				<label><input type="radio" id="optionsTimezone1" value="Local" ng-model="settings.timezone" checked>Local</label>
 			</div>
 			<div class="radio col-xs-5 col-sm-3 col-md-3">
-				<label>
-					<input type="radio" name="dnt-t" id="optionsRadios2" value="24HR" ng-model="settings.format_time" >
-					24HR
-				</label>
+				<label><input type="radio" id="optionsTimezone2" value="UTC" ng-model="settings.timezone">UTC</label>
 			</div>
+
 		</fieldset>
 		<!-- date time format end -->
 		
@@ -142,23 +132,23 @@
 			<legend>Alarm</legend>
 			
 			<div class="checkbox">
-				<label><input type="checkbox" ng-model='settings.alarm_impact' ng-true-value="'Y'" ng-false-value="'N'"> Impact</label>
+				<label><input type="checkbox" ng-model='settings.alarm_impact' ng-true-value="'Y'" ng-false-value="'N'">Impact</label>
 			</div>
 			
 			<div class="checkbox">
-				<label><input type="checkbox" ng-model='settings.alarm_emergency' ng-true-value="'Y'" ng-false-value="'N'"> Emergency Button</label>
+				<label><input type="checkbox" ng-model='settings.alarm_emergency' ng-true-value="'Y'" ng-false-value="'N'">Emergency Button</label>
 			</div>
 			
 			<div class="checkbox">
-				<label><input type="checkbox" ng-model='settings.alarm_g_sensor' ng-true-value="'Y'" ng-false-value="'N'"> G sensor</label>
+				<label><input type="checkbox" ng-model='settings.alarm_g_sensor' ng-true-value="'Y'" ng-false-value="'N'">G sensor</label>
 			</div>
 			
 			<div class="checkbox">
-				<label><input type="checkbox" ng-model='settings.alarm_overspeed' ng-true-value="'Y'" ng-false-value="'N'"> OverSpeed</label>
+				<label><input type="checkbox" ng-model='settings.alarm_overspeed' ng-true-value="'Y'" ng-false-value="'N'">OverSpeed</label>
 			</div>
 			
 			<div class="checkbox">
-				<label><input type="checkbox" ng-model='settings.alarm_geofence' ng-true-value="'Y'" ng-false-value="'N'"> Geofence</label>
+				<label><input type="checkbox" ng-model='settings.alarm_geofence' ng-true-value="'Y'" ng-false-value="'N'">Geofence</label>
 			</div>
 		</fieldset>
 		<!-- alarm range end -->

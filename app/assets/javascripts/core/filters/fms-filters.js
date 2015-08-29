@@ -1,10 +1,13 @@
 angular.module('fmsCore')
-	.filter('fmstime', function($filter) { 
+	.filter('fmstime', function($rootScope, $filter) { 
 		return function(input) { 
 			if(input) {
-				var format = 'short';
-				var timezone = '+0900';
-				return $filter('date')(input, format, timezone);
+				var timezone = $rootScope.getSetting('timezone');
+				if(!timezone || timezone == 'Local') {
+					return $filter('date')(input, $rootScope.dateFimeFormat);
+				} else {
+					return $filter('date')(input, $rootScope.dateFimeFormat, '+0000');
+				}
 			} else {
 				return input;
 			}
