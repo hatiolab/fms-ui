@@ -75,7 +75,7 @@
 	      <div>
 	        <div>Geofence Event ID <strong>{{selectedMarker.id}}</strong></div>
 	        <div>Geofence <strong>{{selectedMarker.geofence.name}} / {{selectedMarker.typ == 'O' ? 'OUT' : 'IN'}}</strong></div>
-	        <div class="detial-time">Occurred at <strong>{{selectedMarker.etm | date:'medium'}}</strong></div>
+	        <div class="detial-time">Occurred at <strong>{{selectedMarker.etm | fmstime}}</strong></div>
 	        <div class="detail-address map-window">address</div>
 	      </div>
 	    </ui-gmap-window>	

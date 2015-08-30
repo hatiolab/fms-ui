@@ -1,0 +1,30 @@
+<div>
+  <div class="pip-container">
+    <video ng-attr-src="{{ frontVideoUrl }}" controls xmediagroup="pip" class="backward-layer"></video>
+    <video ng-attr-src="{{ rearVideoUrl }}" xmediagroup="pip" class="forward-layer"></video>
+    <audio ng-attr-src="{{ audioUrl }}" xmediagroup="pip" hidden></audio>
+  </div>
+  <div><a target="_self" href="{{ videoUrl }}" download="video.mp4">[Download]</a><div>
+
+  <div class="detail-item">
+    <translate class="modal-icon dot-gray" name-value="EventId" category="label" display ="Event ID"></translate>
+    <strong>{{ eventId }}</strong>
+  </div>        
+  <div class="detail-item">
+    <translate class="modal-icon dot-gray" name-value="OccurredAt" category="label" display ="Occurred at"></translate>
+    <strong>{{ occurredAt }}</strong>
+  </div>
+  <div class="detail-item">
+    <translate class="modal-icon dot-gray"  name-value="Speed" category="label" display ="Speed"></translate>
+    <span class="selectedMarker.typeClass"></span> {{ velocity }}
+  </div>
+  <div class="detail-item">
+    <span class="modal-icon dot-gray">G-X</span>
+    <strong>{{ gx }}</strong>
+    <span class="modal-icon dot-gray">G-Y</span>
+    <strong>{{ gy }}</strong>
+    <span class="modal-icon dot-gray">G-Z</span>
+    <strong>{{ gz }}</strong>
+  </div>
+  <div class="detail-address map-window margin-t5">{{ address }}</div>
+</div>

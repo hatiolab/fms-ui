@@ -42,12 +42,22 @@ angular.module('pip', [])
             scope: {},
             controller: 'pipVideoCtrl',
             link: function(scope, $element, a) {
-
+                if(!a.videoUrl || a.videoUrl == '') {
+                    return;
+                }
+                //alert(a.videoUrl);
                 scope.videoUrl = a.videoUrl;
-
                 scope.frontVideoUrl = a.frontVideoUrl;
                 scope.rearVideoUrl = a.rearVideoUrl;
                 scope.audioUrl = a.audioUrl;
+
+                scope.eventId = a.eventId;
+                scope.occurredAt = a.occurredAt;
+                scope.velocity = a.velocity;
+                scope.gx = a.gx;
+                scope.gy = a.gy;
+                scope.gz = a.gz;
+                scope.address = a.address;
 
                 $element.on('click', '.pip-container video.forward-layer', function(e){
                     var video = e.target;
@@ -96,17 +106,18 @@ angular.module('pip', [])
                 });                
 
             },
-            template: '' +
-                '<div class="pip-container" ng-if="frontVideoUrl != null && frontVideoUrl != \'\'">' +
-                '   <video ng-attr-src="{{ frontVideoUrl }}" controls xmediagroup="pip" class="backward-layer"></video>' +
-                '   <video ng-attr-src="{{ rearVideoUrl }}" xmediagroup="pip" class="forward-layer"></video>' +
-                '   <audio ng-attr-src="{{ audioUrl }}" xmediagroup="pip" hidden></audio>' +
-                '</div>' +
-                '<div ng-if="frontVideoUrl">' +
-                    '<a target="_self" href="{{ videoUrl }}" download="video.mp4">' +
-                        '[Download]' +
-                    '</a>' +
-                '<div>'
+            templateUrl : '/assets/monitor/views/content/pip-video.html'
+            // template: '' +
+            //     '<div class="pip-container" ng-if="frontVideoUrl != null && frontVideoUrl != \'\'">' +
+            //     '   <video ng-attr-src="{{ frontVideoUrl }}" controls xmediagroup="pip" class="backward-layer"></video>' +
+            //     '   <video ng-attr-src="{{ rearVideoUrl }}" xmediagroup="pip" class="forward-layer"></video>' +
+            //     '   <audio ng-attr-src="{{ audioUrl }}" xmediagroup="pip" hidden></audio>' +
+            //     '</div>' +
+            //     '<div ng-if="frontVideoUrl">' +
+            //         '<a target="_self" href="{{ videoUrl }}" download="video.mp4">' +
+            //             '[Download]' +
+            //         '</a>' +
+            //     '<div>'
         };
     })
     .directive('pipImage', function() {

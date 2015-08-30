@@ -93,7 +93,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		$scope.refreshOption.interval = $rootScope.getIntSetting('map_refresh_interval');
 	}, 5 * 1000);
 
-}).controller('MonitorMapCtrl', function($rootScope, $scope, $element, $timeout, ConstantSpeed, FmsUtils, RestApi) {
+}).controller('MonitorMapCtrl', function($rootScope, $scope, $element, $timeout, ConstantSpeed, FmsUtils, ModalUtils, RestApi) {
 	
 	/**
 	 * View Mode - FLEET, TRIP, EVENT
@@ -110,7 +110,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	/**
 	 * map marker models for fleets, map polyline model for tracks, currently selected marker, progress bar
 	 */
-	$scope.markers = [], $scope.polylines = [], $scope.selectedMarker = null; $scope.progressBar = null;
+	$scope.markers = [], $scope.polylines = [], $scope.selectedMarker = null; $scope.progressBar = null;	
 	/**
 	 * map control, marker control, polyline control
 	 */
@@ -128,7 +128,8 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		showTripInfo : false,
 		showBatchInfo : false,
 		showTrackInfo : false,
-		showEventInfo : false
+		showEventInfo : false,
+		showMovieInfo : false
 	};
 
 	/**
@@ -148,9 +149,11 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 * window information switch off all
 	 */
 	$scope.switchOffAll = function() {
+		//$scope.resetMapWindowAddress();
+
 		for (property in $scope.windowSwitch) {
 			$scope.windowSwitch[property] = false;
-		}		
+		}
 	};
 
 	/**
@@ -180,12 +183,12 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	/**
 	 * Ready Progress Bar : 서버 사이드 호출 전 
 	 */
-	$scope.readyProgress = function() {
+	$scope.readyProgress = function(msg) {
 		if(!$scope.progressBar) {
 			$scope.initProgress();
 		}
 
-		$scope.progressBar.ready('Loading data ...');
+		$scope.progressBar.ready(msg === undefined ? 'Loading data ...' : msg);
 	};	
 
 	/**
@@ -259,7 +262,6 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 * Get address from lat, lng
 	 */
 	$scope.getAddress = function(marker, lat, lng, callback) {
-		$scope.resetMapWindowAddress();
 		var latitude = lat ? lat : marker.lat;
 		var longitude = lng ? lng : marker.lng;
 		var geocoder = new google.maps.Geocoder();
@@ -267,11 +269,9 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 
 		geocoder.geocode({ 'latLng': latlng }, function (results, status) {
 			var address = null;
-
 			if (status == google.maps.GeocoderStatus.OK) {
 				if (results[1]) {
 					address = results[1].formatted_address;
-
 				} else {
 					address = 'Location not found';
 				}
@@ -296,7 +296,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 		var divAddrs = $element.find("div.detail-address.map-window");
 	 		for(var i = 0 ; i < divAddrs.length ; i++) {
 	 			var divAddr = divAddrs[i];
-	 			divAddr.innerHTML = '<translate name-value="location" category="label" display="Location "></translate> :'+address;
+	 			divAddr.innerHTML = '<div id="movieAssignable"></div><translate name-value="location" category="label" display="Location"></translate> : ' + address;
 	 		}
 	 	}
 	 };
@@ -533,14 +533,74 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 			$scope.switchOffAll();
 
 		} else if($scope.selectedMarker != marker) {
-			$scope.selectedMarker = marker;
-			$scope.switchOn(switchName);
+			// showMovieInfo
+			if(marker.vdo && marker.vdo != '') {
+				$scope.changeMovieMarker(marker);
 
-			if(marker.latitude != 0 && marker.longitude != 0) {
-				$scope.getAddress(marker, null, null, $scope.updateMapWindowAddress);
+			// other
+			} else {
+				if(marker.latitude != 0 && marker.longitude != 0) {
+					$scope.getAddress(marker, null, null, $scope.updateMapWindowAddress);
+				}
+
+				if(marker.f_img && marker.f_img != '' && marker.f_img.indexOf('http') < 0) {
+					marker.f_img = CONTENT_BASE_URL + marker.f_img;
+					marker.r_img = CONTENT_BASE_URL + marker.r_img;
+				}
+
+				$scope.selectedMarker = marker;
+				$scope.switchOn(switchName);
 			}
 		}
 	};
+
+	/**
+	 * Movie Marker를 변경한다.
+	 */
+	$scope.changeMovieMarker = function(marker) {
+		if(marker.vdo.indexOf('http') < 0) {
+			marker.vdo = CONTENT_BASE_URL + marker.vdo;
+			marker.f_vdo = CONTENT_BASE_URL + marker.f_vdo;
+			marker.r_vdo = CONTENT_BASE_URL + marker.r_vdo;
+			marker.ado = CONTENT_BASE_URL + marker.ado;
+		}
+
+		if(marker.latitude != 0 && marker.longitude != 0) {
+			$scope.readyProgress('Loading Movie....');
+			$scope.startProgressForMovie();
+
+			$scope.getAddress(marker, null, null, function(marker, address) {
+				$scope.monitorProgressForMovie(true);
+				marker.address = address;
+				$scope.selectedMarker = marker;
+				$scope.switchOn('showMovieInfo');
+			});
+		}	else {
+			$scope.selectedMarker = marker;
+			$scope.switchOn('showMovieInfo');			
+		}
+	};
+
+	/**
+	 * 동영상 로딩 시작 ...
+	 */
+	$scope.startProgressForMovie = function() {
+		$scope.progressBar.start(100);
+		$timeout($scope.monitorProgressForMovie, 100, true, false);
+	};
+
+	/**
+	 * Monitor Progressing ...
+	 */
+	$scope.monitorProgressForMovie = function(stopFlag) {
+		if(stopFlag) {
+			$scope.progressBar.setCurrent(100);
+			$scope.progressBar.hide();
+		} else {
+			$scope.progressBar.setCurrent($scope.progressBar.getCurrent() + 1);
+			$timeout($scope.monitorProgressForMovie, 100, true, false);
+		}
+	};	
 
 	/**
 	 * add marker click event
@@ -642,15 +702,6 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		marker.ctm = parseInt(track.ctm);
 		marker.utm = parseInt(track.utm);
 		marker.ttm = parseInt(track.ttm);
-
-		if(marker.f_img && marker.f_img != '' && marker.f_img.indexOf('http') < 0) {
-			marker.f_img = CONTENT_BASE_URL + marker.f_img;
-		}
-		
-		if(marker.r_img && marker.r_img != '' && marker.r_img.indexOf('http') < 0) {
-			marker.r_img = CONTENT_BASE_URL + marker.r_img;
-		}
-		
 		marker.icon = $scope.getTrackMarkerIcon(track);
 		marker.events = {
 			click : function(e) {
@@ -668,23 +719,6 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		marker._id = evt.id + '-' + evt.typ;
 		marker.latitude = evt.lat;
 		marker.longitude = evt.lng;
-		
-		if(marker.vdo && marker.vdo != '' && marker.vdo.indexOf('http') < 0) {
-			marker.vdo = CONTENT_BASE_URL + marker.vdo;
-		}
-		
-		if(marker.f_vdo && marker.f_vdo != '' && marker.f_vdo.indexOf('http') < 0) {
-			marker.f_vdo = CONTENT_BASE_URL + marker.f_vdo;
-		}
-
-		if(marker.r_vdo && marker.r_vdo != '' && marker.r_vdo.indexOf('http') < 0) {
-			marker.r_vdo = CONTENT_BASE_URL + marker.r_vdo;
-		}
-
-		if(marker.ado && marker.ado != '' && marker.ado.indexOf('http') < 0) {
-			marker.ado = CONTENT_BASE_URL + marker.ado;
-		}
-
 		marker.icon = $scope.getEventMarkerIcon(evt);
 		marker.events = {
 			click : function(e) {

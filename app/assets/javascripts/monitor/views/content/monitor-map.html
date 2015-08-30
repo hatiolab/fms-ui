@@ -1,7 +1,7 @@
 <div ng-controller='MonitorMapCtrl'>
 	<script type="text/ng-template" id="control.viewmode.tpl.html">
 		<div class="map-control">
-			<button class="btn btn-sm fleet-mode {{mode.cls}}" ng-class="{'btn-warning': danger}" ng-repeat="mode in viewModes"  ng-click="changeViewMode(mode)">
+			<button class="btn btn-sm fleet-mode {{mode.cls}}" ng-class="{'btn-warning': danger}" ng-repeat="mode in viewModes" ng-click="changeViewMode(mode)">
 				<translate name-param="mode.name" category="label"></translate>
 			</button>
 	  </div>
@@ -9,8 +9,8 @@
 
 	<script type="text/ng-template" id="control.refresh.tpl.html">
 		<div class="refresh-control">
-			<input type="checkbox" ng-model="refreshOption.refresh"> Refresh every</input>
-			<input type="number" ng-model="refreshOption.interval" class="margin-l10 max-w50"> sec.</input>
+			<input type="checkbox" ng-model="refreshOption.refresh"> Refresh Every</input>
+			<input type="number" ng-model="refreshOption.interval" class="margin-l10 max-w50"> Sec.</input>
 			<input type="checkbox" ng-model="refreshOption.autoFit" class="margin-l10"> Auto Fit</input>
 	  </div>
 	</script>
@@ -94,11 +94,11 @@
 				</div>
         <div class="detail-item margin-t5">
 					<span class="modal-icon dot-gray min-w100">Started at</span>
-					{{selectedMarker.stm | date:'medium'}}
+					{{selectedMarker.stm | fmstime}}
 				</div>
         <div class="detail-item">
 					<span class="modal-icon dot-gray min-w100">Saved at</span>
-					{{selectedMarker.stm | date:'medium'}}
+					{{selectedMarker.stm | fmstime}}
 				</div>
       </div>
     </ui-gmap-window>
@@ -113,11 +113,11 @@
 				</div>
         <div class="detail-item margin-t5">
 					<span class="modal-icon dot-gray min-w100">Started at</span>
-					{{selectedMarker.stm | date:'medium'}}
+					{{selectedMarker.stm | fmstime}}
 				</div>
         <div class="detail-item">
 					<span class="modal-icon dot-gray min-w100">Saved at</span>
-					{{selectedMarker.utm | date:'medium'}}
+					{{selectedMarker.utm | fmstime}}
 				</div>
       </div>
     </ui-gmap-window>
@@ -129,29 +129,29 @@
         <div>Track ID : <strong>{{selectedMarker.id}}</strong></div>
         <pip-image front-image-url="{{selectedMarker.f_img}}" rear-image-url="{{selectedMarker.r_img}}">
         </pip-image>
-		<div class="detail-item margin-t5">
-			<span class="modal-icon dot-gray min-w100">Occurred at</span>
-			{{selectedMarker.ttm | date:'medium'}}
-		</div>
+				<div class="detail-item margin-t5">
+					<span class="modal-icon dot-gray min-w100">Occurred at</span>
+					{{selectedMarker.ttm | fmstime}}
+				</div>
 		
-		<div class="detail-item">
-			<span class="modal-icon dot-gray min-w100">Saved at</span>
-			{{selectedMarker.ctm | date:'medium'}}
-		</div>
+				<div class="detail-item">
+					<span class="modal-icon dot-gray min-w100">Saved at</span>
+					{{selectedMarker.ctm | fmstime}}
+				</div>
 
-		<div class="detail-item">
-			<span class="modal-icon dot-gray">Speed</span>
-			<span class="{{selectedMarker.typeClass}}"></span>{{selectedMarker.vlc}}
-		</div>
+				<div class="detail-item">
+					<span class="modal-icon dot-gray">Speed</span>
+					<span class="{{selectedMarker.typeClass}}"></span>{{selectedMarker.vlc}}
+				</div>
 		
-		<div class="detail-item margin-t5">
-			<span class="modal-icon dot-gray">G-X</span>
-			<strong>{{selectedMarker.gx}}</strong>
-			<span class="modal-icon dot-gray">G-Y</span>
-			<strong>{{selectedMarker.gy}}</strong>
-			<span class="modal-icon dot-gray">G-Z</span>
-			<strong>{{selectedMarker.gz}}</strong>
-		</div>	
+				<div class="detail-item margin-t5">
+					<span class="modal-icon dot-gray">G-X</span>
+					<strong>{{selectedMarker.gx}}</strong>
+					<span class="modal-icon dot-gray">G-Y</span>
+					<strong>{{selectedMarker.gy}}</strong>
+					<span class="modal-icon dot-gray">G-Z</span>
+					<strong>{{selectedMarker.gz}}</strong>
+				</div>	
         
       </div>
     </ui-gmap-window>
@@ -161,35 +161,47 @@
       show="windowSwitch.showEventInfo" closeClick="switchOffAll()">
       <div>
         <div class="detail-item">
-	        <translate class="modal-icon dot-gray" name-value="eventId" category="label" display ="Event ID"> </translate>
+	        <translate class="modal-icon dot-gray" name-value="EventId" category="label" display ="Event ID"></translate>
 	        <strong>{{selectedMarker.id}}</strong>
-        </div>
-        <pip-video 
-        		video-url="{{selectedMarker.vdo}}"
-        		front-video-url="{{selectedMarker.f_vdo}}"
-            rear-video-url="{{selectedMarker.r_vdo}}"
-            audio-url="{{selectedMarker.ado}}">
-        </pip-video>
+        </div>        
         <div class="detail-item">
-        	<translate class="modal-icon dot-gray" name-value="occurredAt" category="label" display ="Occurred at "> </translate>
-        	<strong>{{selectedMarker.etm | date:'medium'}}</strong>
+        	<translate class="modal-icon dot-gray" name-value="OccurredAt" category="label" display ="Occurred at"></translate>
+        	<strong>{{selectedMarker.etm | fmstime}}</strong>
         </div>
+				<div class="detail-item">
+					<translate class="modal-icon dot-gray"  name-value="Speed" category="label" display ="Speed"></translate>
+					<span class="{{selectedMarker.typeClass}}"></span> {{selectedMarker.vlc}}
+				</div>
+				<div class="detail-item margin-t5">
+					<span class="modal-icon dot-gray">G-X</span>
+					<strong>{{selectedMarker.gx}}</strong>
+					<span class="modal-icon dot-gray">G-Y</span>
+					<strong>{{selectedMarker.gy}}</strong>
+					<span class="modal-icon dot-gray">G-Z</span>
+					<strong>{{selectedMarker.gz}}</strong>
+				</div>
         <div class="detail-address map-window">
-        	<translate name-value="address" category="label" display ="address"> </translate>
-        </div>
-		<div class="detail-item">
-			<translate class="modal-icon dot-gray"  name-value="speed" category="label" display ="Speed"> </translate>
-			<span class="{{selectedMarker.typeClass}}"></span> {{selectedMarker.vlc}}
-		</div>
-		<div class="detail-item margin-t5">
-			<span class="modal-icon dot-gray">G-X</span>
-			<strong>{{selectedMarker.gx}}</strong>
-			<span class="modal-icon dot-gray">G-Y</span>
-			<strong>{{selectedMarker.gy}}</strong>
-			<span class="modal-icon dot-gray">G-Z</span>
-			<strong>{{selectedMarker.gz}}</strong>
-		</div>
+        	<translate name-value="Address" category="label" display="Address"></translate>
+        </div>				
       </div>
+    </ui-gmap-window>
+
+    <!-- movie window -->    
+    <ui-gmap-window id="movieWindow" coords="selectedMarker" 
+      show="windowSwitch.showMovieInfo" closeClick="switchOffAll()">
+			<pip-video
+					event-id="{{selectedMarker.id}}"
+					occurred-at="{{selectedMarker.etm | fmstime}}"
+					velocity="{{selectedMarker.vlc}}"
+      		gx="{{selectedMarker.gx}}"
+      		gy="{{selectedMarker.gy}}"
+      		gz="{{selectedMarker.gz}}"
+      		address="{{selectedMarker.address}}"
+      		video-url="{{selectedMarker.vdo}}"
+      		front-video-url="{{selectedMarker.f_vdo}}"
+          rear-video-url="{{selectedMarker.r_vdo}}"
+          audio-url="{{selectedMarker.ado}}">
+      </pip-video>      
     </ui-gmap-window>
 
 	</ui-gmap-google-map>

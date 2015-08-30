@@ -44,7 +44,7 @@ angular.module('fmsCore').factory('ModalUtils', function($modal, $log) {
      * @return N/A
      */
     alert : function(size, title, msg) {
-      $modal.open({
+      var modalInst = $modal.open({
         animation: true,
         templateUrl: '/assets/core/views/modal-popup.html',
         controller: 'ModalPopupCtrl',
@@ -56,6 +56,8 @@ angular.module('fmsCore').factory('ModalUtils', function($modal, $log) {
           local_res:function() {return ''}
         }
       });
+
+      return modalInst;
     },
 
     /**
