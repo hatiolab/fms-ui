@@ -62,8 +62,7 @@ angular.module('pip', [])
                 $element.on('click', '.pip-container video.forward-layer', function(e){
                     var video = e.target;
 
-                    var mediagroup = $(video).attr('xmediagroup');
-                    $('video[xmediagroup=' + mediagroup + ']').not(video).each(function(){
+                    $element.find('video').not(video).each(function(){
                         $(this).prop('controls', false);
                         $(this).removeClass("backward-layer").addClass("forward-layer");
                     });
@@ -75,8 +74,7 @@ angular.module('pip', [])
                 $element.on('play', 'video.backward-layer', function(e) {
                     var video = e.target;
 
-                    var mediagroup = $(video).attr('xmediagroup');
-                    $('video,audio[xmediagroup=' + mediagroup + ']').not(video).each(function(){
+                    $element.find('video,audio').not(video).each(function(){
                         this.currentTime = video.currentTime;
                         this.play();
                     });
@@ -85,8 +83,7 @@ angular.module('pip', [])
                 $element.on('pause', 'video.backward-layer', function(e) {
                     var video = e.target;
 
-                    var mediagroup = $(video).attr('xmediagroup');
-                    $('video,audio[xmediagroup=' + mediagroup + ']').not(video).each(function(){
+                    $element.find('video,audio').not(video).each(function(){
                         this.pause();
                         this.currentTime = video.currentTime;
                     });
@@ -95,29 +92,45 @@ angular.module('pip', [])
                 $element.on('seeked', 'video.backward-layer', function(e) {
                     var video = e.target;
 
-                    var mediagroup = $(video).attr('xmediagroup');
-                    $('video,audio[xmediagroup=' + mediagroup + ']').not(video).each(function(){
+                    $element.find('video,audio').not(video).each(function(){
                         this.currentTime = video.currentTime;
                     });
                 });
 
-                $element.on('canplay', 'video.backward-layer', function(e) {
-                    $element.find('video.backward-layer').trigger('play');
+                var canplay_front_video = false;
+                var canplay_rear_video = false;
+                var canplay_audio = false;
+
+                $element.on('canplay', 'video.front-video', function(e) {
+                    if(canplay_front_video)
+                        return;
+                    canplay_front_video = true;
+
+                    if(canplay_front_video && canplay_rear_video && canplay_audio) {
+                        $element.find('video,audio').each(function() {this.play();});
+                    }
+                });                
+                $element.on('canplay', 'video.rear-video', function(e) {
+                    if(canplay_rear_video)
+                        return;
+                    canplay_rear_video = true;
+
+                    if(canplay_front_video && canplay_rear_video && canplay_audio) {
+                        $element.find('video,audio').each(function() {this.play();});
+                    }
+                });                
+                $element.on('canplay', 'audio', function(e) {
+                    if(canplay_audio)
+                        return;
+                    canplay_audio = true;
+
+                    if(canplay_front_video && canplay_rear_video && canplay_audio) {
+                        $element.find('video,audio').each(function() {this.play();});
+                    }
                 });                
 
             },
             templateUrl : '/assets/monitor/views/content/pip-video.html'
-            // template: '' +
-            //     '<div class="pip-container" ng-if="frontVideoUrl != null && frontVideoUrl != \'\'">' +
-            //     '   <video ng-attr-src="{{ frontVideoUrl }}" controls xmediagroup="pip" class="backward-layer"></video>' +
-            //     '   <video ng-attr-src="{{ rearVideoUrl }}" xmediagroup="pip" class="forward-layer"></video>' +
-            //     '   <audio ng-attr-src="{{ audioUrl }}" xmediagroup="pip" hidden></audio>' +
-            //     '</div>' +
-            //     '<div ng-if="frontVideoUrl">' +
-            //         '<a target="_self" href="{{ videoUrl }}" download="video.mp4">' +
-            //             '[Download]' +
-            //         '</a>' +
-            //     '<div>'
         };
     })
     .directive('pipImage', function() {
@@ -130,7 +143,7 @@ angular.module('pip', [])
                 scope.rearImageUrl = a.rearImageUrl;
 
                 $element.on('click', '.pip-container img.forward-layer', function(){
-                    $(".backward-layer").removeClass("backward-layer").addClass("forward-layer");
+                    $element.find(".backward-layer").removeClass("backward-layer").addClass("forward-layer");
                     $(this).addClass("backward-layer").removeClass("forward-layer");
                 })
             },

@@ -1,8 +1,8 @@
 <div>
   <div class="pip-container">
-    <video ng-attr-src="{{ frontVideoUrl }}" controls xmediagroup="pip" class="backward-layer"></video>
-    <video ng-attr-src="{{ rearVideoUrl }}" xmediagroup="pip" class="forward-layer"></video>
-    <audio ng-attr-src="{{ audioUrl }}" xmediagroup="pip" hidden></audio>
+    <video ng-attr-src="{{ frontVideoUrl }}" controls class="front-video backward-layer"></video>
+    <video ng-attr-src="{{ rearVideoUrl }}" class="rear-video forward-layer"></video>
+    <audio ng-attr-src="{{ audioUrl }}" hidden></audio>
   </div>
   <div><a target="_self" href="{{ videoUrl }}" download="video.mp4">[Download]</a><div>
 
