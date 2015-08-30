@@ -6,13 +6,19 @@ angular.module('fmsHr').directive('hrOverviewChart', function() {
 		scope: {}
 	}; 
 })
-.controller('hrOverviewCtrl', function($rootScope, $scope, $element) {
+.controller('hrOverviewCtrl', function($rootScope, $scope, $element, $filter) {
+	/**
+	 * Unit
+	 */
+	var timeunit = $filter('timeunit')('');
+	var distunit = $filter('distunit')('');
+
 	$scope.items = [ {
 		chartId: 'hr-overview-1',
 		type:'Bar',
-		title : 'Working Time By Driver', 
+		title : 'Working Time By Driver (' + timeunit + ')',
 		container_cls : 'panel panel-default type-bar col-xs-12 col-sm-6',
-		series:['Driving Time (km)'],
+		series:['Driving Time (' + timeunit + ')'],
 		sort_field :'drive_time',
 		colors : [ {
 			strokeColor: "rgba(151,187,205,0.5)",
@@ -25,9 +31,9 @@ angular.module('fmsHr').directive('hrOverviewChart', function() {
 	}, {
 		chartId: 'hr-overview-2',
 		type:'Line',
-		title : 'Driving Distance By Driver', 
+		title : 'Driving Distance By Driver (' + distunit + ')',
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-6',
-		series:['Driving Distance (km)'],
+		series:['Driving Distance (' + distunit + ')'],
 		sort_field :'drive_dist',
 		colors : [ {
 			strokeColor: "rgba(151,187,205,0.5)",

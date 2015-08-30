@@ -35,8 +35,7 @@
 
 <!-- table begin -->
 <div id="monitor-fleet-table-container" class="search-table">
-	<table class="table table-striped table-hover" st-pagination-scroll 
-				 st-table="items" st-pipe="search" >
+	<table class="table table-striped table-hover" st-pagination-scroll st-table="items" st-pipe="search" >
 		<thead>
 		  <tr>
 		  	<th>#</th>
@@ -53,9 +52,9 @@
 				<td>{{item.name}}</td>
 				<td>{{item.driver.name}}</td>
 				<td>{{item.car_no}}</td>
-				<td><span class="{{item.typeClass}}"></span>{{item.velocity}}km/h</td>
+				<td><span class="{{item.typeClass}}"></span>{{item.velocity | fmsvelocity:true}}</td>
 				<td class="icon-td align-center" ng-click="goTrip(item)">
-						<span class="icon-trip" ng-show="item.trip_id != null && item.trip_id != ''" ></span>
+					<span class="icon-trip" ng-show="item.trip_id != null && item.trip_id != ''" ></span>
 				</td>
 			</tr>
 		</tbody>

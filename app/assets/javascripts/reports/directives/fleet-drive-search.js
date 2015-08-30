@@ -12,7 +12,14 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 		}
 	}; 
 })
-.controller('fleetDriveSearchCtrl', function($rootScope, $scope, $element, $compile, $timeout, GridUtils, FmsUtils, RestApi) {
+.controller('fleetDriveSearchCtrl', function($rootScope, $scope, $element, $compile, $timeout, $filter, GridUtils, FmsUtils, RestApi) {
+	/**
+	 * Time, Distance, Speed Unit
+	 */
+	var timeunit = $filter('timeunit')('');
+	var distunit = $filter('distunit')('');
+	var speedunit = $filter('speedunit')('');
+
 	/**
 	 * Chart Item
 	 * @type {Object}
@@ -20,28 +27,30 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 	$scope.chartItems = [ {
 		chart_id : 'report-fleet-drive-1',
 		type : 'Line',		
-		title : 'Driving Time', 
+		title : 'Driving Time (' + timeunit + ')', 
 		sort_field : 'drive_time',
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-12',
-		series : ['Driving Time (min.)'],
+		series : ['Driving Time (' + timeunit + ')'],
 		labels : [],
 		data : []
 	}, {
 		chart_id : 'report-fleet-drive-2',
 		type : 'Line',
 		sort_field : 'drive_dist',
-		title : 'Driving Distance', 
+		title : 'Driving Distance (' + distunit + ')',
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-12',
-		series : ['Driving Distance (km)'],
+		series : ['Driving Distance (' + distunit + ')'],
+		filter : 'fmsdistance',
 		labels : [],
 		data : []
 	}, {
 		chart_id : 'report-fleet-drive-3',
 		type : 'Line',
 		sort_field : 'velocity',
-		title : 'Average Velocity', 
+		title : 'Average Velocity (' + speedunit + ')',
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-12',
-		series : ['Average Velocity (km/h)'],
+		series : ['Average Velocity (' + speedunit + ')'],
+		filter : 'fmsvelocity',
 		labels : [],
 		data : []
 	} ];
@@ -172,7 +181,13 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 			for(var i = 0 ; i < $scope.items.length ; i++) {
 				var currentItem = $scope.items[i];
 				labels.push(currentItem.fleet_name);
-				data.push(Number(currentItem[chartItem.sort_field]));
+				var val = Number(currentItem[chartItem.sort_field]);
+
+				if(chartItem.filter) {
+					data.push($filter(chartItem.filter)(val));
+				} else {
+					data.push(val);
+				}
 			};
 
 			chartItem.labels = labels;

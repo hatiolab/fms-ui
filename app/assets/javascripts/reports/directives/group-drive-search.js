@@ -12,7 +12,7 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 		}
 	}; 
 })
-.controller('groupDriveSearchCtrl', function($rootScope, $scope, $element, GridUtils, FmsUtils, RestApi) {
+.controller('groupDriveSearchCtrl', function($rootScope, $scope, $element, $filter, GridUtils, FmsUtils, RestApi) {
 	/**
 	 * 차트 바인딩 데이터 
 	 */
@@ -21,13 +21,13 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 	}, {
 		chartId : 'report-driver-group-2', sort_field :'drive_time', labels : [], data : []
 	}, {
-		chartId : 'report-driver-group-3', sort_field :'drive_dist', labels : [], data : []
+		chartId : 'report-driver-group-3', sort_field :'drive_dist', labels : [], data : [], filter : 'fmsdistance'
 	},{
-		chartId : 'report-driver-group-4', sort_field :'drive_dist', labels :[], data : []
+		chartId : 'report-driver-group-4', sort_field :'drive_dist', labels :[], data : [], filter : 'fmsdistance'
 	}, {
-		chartId : 'report-driver-group-5', sort_field :'velocity', labels : [], data : []
+		chartId : 'report-driver-group-5', sort_field :'velocity', labels : [], data : [], filter : 'fmsvelocity'
 	}, {
-		chartId : 'report-driver-group-6', sort_field :'velocity', labels :[], data : []
+		chartId : 'report-driver-group-6', sort_field :'velocity', labels :[], data : [], filter : 'fmsvelocity'
 	} ];
 	/**
 	 * 테이블 바인딩 데이터 
@@ -161,7 +161,13 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 		for(var i = 0 ; i < dataSize ; i++) {			
 			var currentItem = dataList[i];
 			labels.push(currentItem.group_name);
-			data.push(Number(currentItem[field]));
+			var val = Number(currentItem[field]);
+
+			if(chartData.filter) {
+				data.push($filter(chartData.filter)(val));
+			} else {
+				data.push(val);
+			}			
 		};
 
 		chartData.labels = labels; 

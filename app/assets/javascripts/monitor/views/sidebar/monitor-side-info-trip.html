@@ -17,7 +17,7 @@
 	</tr-->
 	<tr>
 		<td class="info-label">Last Speed</td>
-		<td class="info-value speed-status"><span class="{{trip.typeClass}}"></span><strong>{{trip.vlc}} Km/h</strong></td>
+		<td class="info-value speed-status"><span class="{{trip.typeClass}}"></span><strong>{{trip.vlc | fmsvelocity : true}}</strong></td>
 	</tr>
 	<tr>
 		<td class="info-label">Vehicle Status</td>

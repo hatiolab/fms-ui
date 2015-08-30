@@ -7,8 +7,8 @@
 			<li><a href="#/hr/overview">Overview</a></li>
 			<li><a href="#/hr/overspeed">Over Speed</a></li>
 			<li><a href="#/hr/drivehabit">Driving Habit</a></li>
-			<li><a href="#/hr/drivedistance" class="active">Driving Distance By Driver</a></li>
-			<li><a href="#/hr/drivetime">Working Time By Driver</a></li>
+			<li><a href="#/hr/drivedistance" class="active">Driving Distance By Driver ({{'' | distunit}})</a></li>
+			<li><a href="#/hr/drivetime">Working Time By Driver ({{'' | timeunit}})</a></li>
 			<button id="btnHrDriveDistance" type="button" class="btn btn-default panel-refresh pull-right"></button>
 		</ul>
 		<!-- menu end -->
@@ -37,7 +37,7 @@
 						<th>#</th>
 						<th id="driver_code" st-sort="driver_code" ng-click="setsort('driver_code')">Driver ID</th>
 						<th id="driver_name" st-sort="driver_name" ng-click="setsort('driver_name')">Name</th>
-						<th id="drive_dist" st-sort="drive_dist" ng-click="setsort('drive_dist')">Drive Distance (km)</th>
+						<th id="drive_dist" st-sort="drive_dist" ng-click="setsort('drive_dist')">Drive Distance</th>
 					</tr>
 				</thead>
 				<tbody>

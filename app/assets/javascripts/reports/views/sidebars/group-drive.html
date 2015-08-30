@@ -34,18 +34,18 @@
 					<tr>
 						<th st-sort="no">#</th>
 						<th>Group</th>
-						<th id="drive_time" st-sort="drive_time" ng-click="setsort('drive_time')">Driving Time (min.)</th>
-						<th id="drive_dist" st-sort="drive_dist" ng-click="setsort('drive_dist')">Driving Dist. (km)</th>
-						<th id="velocity" st-sort="velocity" ng-click="setsort('velocity')">Velocity (km/h)</th>
+						<th id="drive_time" st-sort="drive_time" ng-click="setsort('drive_time')">Driving Time</th>
+						<th id="drive_dist" st-sort="drive_dist" ng-click="setsort('drive_dist')">Driving Dist.</th>
+						<th id="velocity" st-sort="velocity" ng-click="setsort('velocity')">Velocity</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr ng-repeat="item in items" ng-click="goItem(item)" ng-class="{active : item.active}">
 						<td>{{item.no}}</td>
 						<td>{{item.group_name}}</td>
-						<td>{{item.drive_time}}</td>
-						<td>{{item.drive_dist}}</td>
-						<td>{{item.velocity}}</td>
+						<td>{{item.drive_time | fmsworktime : true}}</td>
+						<td>{{item.drive_dist | fmsdistance : true}}</td>
+						<td>{{item.velocity | fmsvelocity : true}}</td>
 					</tr>
 				</tbody>
 			</table>

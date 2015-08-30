@@ -12,14 +12,14 @@ angular.module('fmsReports').directive('reportsOverviewSearch', function() {
 		}
 	}; 
 })
-.controller('reportsOverviewSearchCtrl', function($rootScope, $scope, $element, $timeout, FmsUtils, RestApi) {
+.controller('reportsOverviewSearchCtrl', function($rootScope, $scope, $element, $filter, FmsUtils, RestApi) {
 	/**
 	 * 차트 바인딩 데이터 
 	 */
 	$scope.items = [ {
 		chartId : 'report-overview-1', sort_field :'drive_time', labels :[], data : []
 	}, {
-		chartId : 'report-overview-2', sort_field :'drive_dist', labels : [], data : []
+		chartId : 'report-overview-2', sort_field :'drive_dist', labels : [], data : [], filter : 'fmsdistance'
 	}, {
 		chartId : 'report-overview-3', sort_field :'overspeed', labels : [], data : []
 	},{
@@ -119,7 +119,7 @@ angular.module('fmsReports').directive('reportsOverviewSearch', function() {
 	 * @return N/A
 	 */
 	$scope.afterSearch = function(dataSet, index) {
-		$scope.setChartData(dataSet.items, index, $scope.sort_field);
+		$scope.setChartData(dataSet.items, index, $scope.items[index].sort_field);
 	};
 
 	/**
@@ -141,7 +141,13 @@ angular.module('fmsReports').directive('reportsOverviewSearch', function() {
 		for(var i = 0 ; i < dataSize ; i++) {
 			var currentItem = dataList[i];
 			labels.push(currentItem.fleet_name);
-			data.push(Number(currentItem[field]));
+			var val = Number(currentItem[field]);
+
+			if(chartModel.filter) {
+				data.push($filter(chartModel.filter)(val));
+			} else {
+				data.push(val);
+			}
 		};
 
 		chartModel.labels = labels; chartModel.data[0] = data;

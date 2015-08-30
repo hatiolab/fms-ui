@@ -24,7 +24,7 @@
 					</td>
 					<td>{{item.driver.name}}</td>
 					<td>{{item.geofence ? item.geofence.name : ''}}</td>
-					<td>{{item.vlc}}</td>
+					<td>{{item.vlc | fmsvelocity}}</td>
 					<td>{{item.etm | fmstime}}</td>
 				</tr>
 			</tbody>

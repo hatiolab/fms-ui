@@ -6,8 +6,12 @@ angular.module('fmsHr').directive('hrDrivedistanceChart', function() {
 		scope: {}
 	}; 
 })
-.controller('hrDrivedistanceChartCtrl', function($rootScope, $scope, $element) {
+.controller('hrDrivedistanceChartCtrl', function($rootScope, $scope, $element, $filter) {
 
+	/**
+	 * Distance Unit
+	 */
+	var distunit = $filter('distunit')('');
 	/**
 	 * Chart Item
 	 * @type {Object}
@@ -15,10 +19,10 @@ angular.module('fmsHr').directive('hrDrivedistanceChart', function() {
 	$scope.item = {
 		chart_id : 'hr-drive-dist-1',
 		type : 'Bar',		
-		title : 'Driving Distance By Driver', 
+		title : 'Driving Distance By Driver (' + distunit + ')', 
 		sort_field : 'drive_dist',
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-12',
-		series : ['Driving Distance (km)'],
+		series : ['Driving Distance (' + distunit + ')'],
 		labels : [],
 		data : [[]]
 	};

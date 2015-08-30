@@ -141,7 +141,7 @@
 
 				<div class="detail-item">
 					<span class="modal-icon dot-gray">Speed</span>
-					<span class="{{selectedMarker.typeClass}}"></span>{{selectedMarker.vlc}}
+					<span class="{{selectedMarker.typeClass}}"></span>{{selectedMarker.vlc | fmsvelocity : true}}
 				</div>
 		
 				<div class="detail-item margin-t5">
@@ -170,7 +170,7 @@
         </div>
 				<div class="detail-item">
 					<translate class="modal-icon dot-gray"  name-value="Speed" category="label" display ="Speed"></translate>
-					<span class="{{selectedMarker.typeClass}}"></span> {{selectedMarker.vlc}}
+					<span class="{{selectedMarker.typeClass}}"></span> {{selectedMarker.vlc | fmsvelocity : true}}
 				</div>
 				<div class="detail-item margin-t5">
 					<span class="modal-icon dot-gray">G-X</span>
@@ -192,7 +192,7 @@
 			<pip-video
 					event-id="{{selectedMarker.id}}"
 					occurred-at="{{selectedMarker.etm | fmstime}}"
-					velocity="{{selectedMarker.vlc}}"
+					velocity="{{selectedMarker.vlc | fmsvelocity : true}}"
       		gx="{{selectedMarker.gx}}"
       		gy="{{selectedMarker.gy}}"
       		gz="{{selectedMarker.gz}}"

@@ -12,7 +12,11 @@ angular.module('fmsHr').directive('hrDrivetimeSearch', function() {
 		}
 	}; 
 })
-.controller('hrDrivetimeSearchCtrl', function($rootScope, $scope, $element, $compile, $timeout, GridUtils, FmsUtils, RestApi) {
+.controller('hrDrivetimeSearchCtrl', function($rootScope, $scope, $element, $compile, $timeout, $filter, GridUtils, FmsUtils, RestApi) {
+	/**
+	 * timeunit
+	 */
+	var timeunit = $filter('timeunit')('');
 	/**
 	 * Chart Item
 	 * @type {Object}
@@ -20,10 +24,10 @@ angular.module('fmsHr').directive('hrDrivetimeSearch', function() {
 	$scope.chartItem = {
 		chart_id : 'hr-overspeed-1',
 		type : 'Bar',		
-		title : 'Working Time By Driver', 
+		title : 'Working Time By Driver (' + timeunit + ')',
 		sort_field : 'drive_time',
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-12',
-		series : ['Driving Time (min.)'],
+		series : ['Driving Time (' + timeunit + ')'],
 		labels : [],
 		data : []
 	};

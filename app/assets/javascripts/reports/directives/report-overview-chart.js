@@ -6,11 +6,16 @@ angular.module('fmsReports').directive('reportsOverviewChart', function() {
 		scope: {}
 	}; 
 })
-.controller('reportsOverviewCtrl', function($rootScope, $scope, $element) {
+.controller('reportsOverviewCtrl', function($rootScope, $scope, $element, $filter) {
+	/**
+	 * Distance & Time Unit
+	 */
+	var distunit = $filter('distunit')('');
+	var timeunit = $filter('timeunit')('');
 
 	$scope.items = [ {
 		chartId: 'report-overview-1',
-		title : 'Driving Time By Fleet', 
+		title : 'Driving Time By Fleet (' + timeunit + ')', 
 		container_cls : 'panel panel-default type-bar col-xs-12 col-sm-6',
 		type : 'Bar',
 		colors : [ {
@@ -19,12 +24,12 @@ angular.module('fmsReports').directive('reportsOverviewChart', function() {
 			highlightFill: "rgba(151,187,205,0.75)",
 			highlightStroke: "rgba(220,220,220,1)"			
 		} ],
-		series:['Driving Time (km)'],
+		series:['Driving Time (' + timeunit + ')'],
 		data : [[]],
 		labels :[]
 	}, {
 		chartId: 'report-overview-2',
-		title : 'Driving Distance By Fleet', 
+		title : 'Driving Distance By Fleet (' + distunit + ')',
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-6',
 		type : 'Line',
 		colors : [ {
@@ -33,7 +38,7 @@ angular.module('fmsReports').directive('reportsOverviewChart', function() {
 			highlightFill: "rgba(151,187,205,0.75)",
 			highlightStroke: "rgba(151,187,205,1)"			
 		} ],		
-		series:['Driving Distance (km)'],
+		series:['Driving Distance (' + distunit + ')'],
 		labels : [],
 		data : [[]]
 	}, {

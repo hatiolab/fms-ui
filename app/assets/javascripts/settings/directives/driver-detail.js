@@ -53,6 +53,7 @@ angular.module('fmsSettings').directive('driverDetail', function() {
 			return $scope.showAlerMsg('Name must not be empty!');
 		}
 
+		// 키, 사이즈 체크 
 		return true;
 	};
 
@@ -80,15 +81,22 @@ angular.module('fmsSettings').directive('driverDetail', function() {
 		if($scope.item.id && $scope.item.id != '') {
 			var url = '/drivers/' + $scope.item.id + '.json';
 			var result = RestApi.update(url, null, {driver : $scope.item});
-			result.$promise.then(function(data) {
-				$scope.refreshList();
-			});
+			result.$promise.then(
+				function(data) {
+					$scope.refreshList();
+				},
+				function(error) {
+					ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
+				});
 
 		} else {
 			var result = RestApi.create('/drivers.json', null, {driver : $scope.item});
-			result.$promise.then(function(data) {
-				$scope.refreshList();
-			});
+			result.$promise.then(
+				function(data) {
+					$scope.refreshList();
+				}, function(error) {
+					ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
+				});
 		}
 	};
 
@@ -104,10 +112,13 @@ angular.module('fmsSettings').directive('driverDetail', function() {
 
 		ModalUtils.confirm('sm', 'Confirmation', 'Are you sure to delete?', function() {
 			var result = RestApi.delete('/drivers/' + $scope.item.id + '.json', null);
-			result.$promise.then(function(data) {
-				$scope.new();
-				$scope.refreshList();
-			});
+			result.$promise.then(
+				function(data) {
+					$scope.new();
+					$scope.refreshList();
+				}, function(error) {
+					ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
+				});
 		});
 	};
 

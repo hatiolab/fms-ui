@@ -12,14 +12,14 @@ angular.module('fmsHr').directive('hrOverviewSearch', function() {
 		}
 	}; 
 })
-.controller('hrOverviewSearchCtrl', function($rootScope, $scope, $element, $compile, $timeout, GridUtils, FmsUtils, RestApi) {
+.controller('hrOverviewSearchCtrl', function($rootScope, $scope, $element, $compile, $timeout, $filter, GridUtils, FmsUtils, RestApi) {
 	/**
 	 * 차트 바인딩 데이터 
 	 */
 	$scope.items = [ {
 		chartId : 'hr-overview-1', sort_field :'drive_time', labels :[], data : []
 	}, {
-		chartId : 'hr-overview-2', sort_field :'drive_dist', labels : [], data : []
+		chartId : 'hr-overview-2', sort_field :'drive_dist', labels : [], data : [], filter : 'fmsdistance'
 	}, {
 		chartId : 'hr-overview-3', sort_field :'overspeed', labels : [], data : []
 	},{
@@ -119,7 +119,7 @@ angular.module('fmsHr').directive('hrOverviewSearch', function() {
 	 * @return N/A
 	 */
 	$scope.afterSearch = function(dataSet, index) {
-		$scope.setChartData(dataSet.items, index, $scope.sort_field);
+		$scope.setChartData(dataSet.items, index, $scope.items[index].sort_field);
 	};
 
 	/**
@@ -141,7 +141,13 @@ angular.module('fmsHr').directive('hrOverviewSearch', function() {
 		for(var i = 0 ; i < dataSize ; i++) {
 			var currentItem = dataList[i];
 			labels.push(currentItem.driver_name);
-			data.push(Number(currentItem[field]));
+			var val = Number(currentItem[field]);
+
+			if(chartModel.filter) {
+				data.push($filter(chartModel.filter)(val));
+			} else {
+				data.push(val);
+			}
 		};
 
 		chartModel.labels = labels; chartModel.data[0] = data;

@@ -6,30 +6,37 @@ angular.module('fmsReports').directive('groupDriveChart', function() {
 		scope: {}
 	}; 
 })
-.controller('groupDriveChartCtrl', function($rootScope, $scope, $element) {
+.controller('groupDriveChartCtrl', function($rootScope, $scope, $element, $filter) {
+
+	/**
+	 * Distance & Time Unit
+	 */
+	var distunit = $filter('distunit')('');
+	var timeunit = $filter('timeunit')('');
+	var speedunit = $filter('speedunit')('');
 
 	$scope.items = [ {
 		chartId : 'report-driver-group-1',
 		type : 'Bar',
-		title : 'Driving Time', 
+		title : 'Driving Time (' + timeunit + ')',
 		container_cls : 'panel panel-default type-bar col-xs-12 col-sm-6',
-		series : ['Driving Time (km)'],
+		series : ['Driving Time (' + timeunit + ')'],
 		labels :[],
 		data : [[]]
 	}, {
 		chartId : 'report-driver-group-2',
 		type : 'Line',		
-		title : 'Driving Time', 
+		title : 'Driving Time (' + timeunit + ')',
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-6',
-		series : ['Driving Time (min.)'],
+		series : ['Driving Time (' + timeunit + ')'],
 		labels : [],
 		data : [[]]
 	}, {
 		chartId : 'report-driver-group-3',
 		type : 'Bar',		
-		title : 'Driving Distance', 
+		title : 'Driving Distance (' + distunit + ')', 
 		container_cls : 'panel panel-default type-bar col-xs-12 col-sm-6',
-		series : ['Driving Distance (km)'],
+		series : ['Driving Distance (' + distunit + ')'],
 		labels : [],
 		data : [[]]
 	},{
@@ -37,23 +44,23 @@ angular.module('fmsReports').directive('groupDriveChart', function() {
 		type : 'Line',
 		title : 'Driving Distance', 
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-6',
-		series:['Driving Distance (km)'],
+		series:['Driving Distance (' + distunit + ')'],
 		labels :[],
 		data : [[]]
 	}, {
 		chartId : 'report-driver-group-5',
 		type : 'Bar',
-		title : 'Average Velocity', 
+		title : 'Average Velocity (' + speedunit + ')', 
 		container_cls : 'panel panel-default type-bar col-xs-12 col-sm-6',
-		series : ['Average Velocity'],
+		series : ['Average Velocity (' + speedunit + ')'],
 		labels : [],
 		data : [[]]
 	}, {
 		chartId : 'report-driver-group-6',
 		type : 'Line',
-		title : 'Average Velocity', 
+		title : 'Average Velocity (' + speedunit + ')', 
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-6',
-		series:['Average Velocity'],
+		series:['Average Velocity (' + speedunit + ')'],
 		labels :[],
 		data : [[]]
 	} ];
