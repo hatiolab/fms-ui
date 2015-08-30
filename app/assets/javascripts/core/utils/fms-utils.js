@@ -15,27 +15,30 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 		 * @return {Array}
 		 */
 		getPeriodString : function(duration) {
-			var fromDateStr = {};
-			var toDateStr ={};
-			var curr = new Date; // get current date
+			var fromDateStr = ''; toDateStr = ''; var curr = new Date();
 
-			if(duration=="year"){
+			if(duration == "year") {
 				toDateStr = this.formatDate(curr, 'yyyy-MM-dd');
-				fromDate = this.addDate(curr, -1 * (this.getDOY(curr)-1));
+				fromDate = this.addDate(curr, -1 * (this.getDOY(curr) - 1));
 				fromDateStr = this.formatDate(fromDate, 'yyyy-MM-dd');
-			}else if(duration=="month"){
+
+			} else if(duration == "month") {
 				toDateStr = this.formatDate(curr, 'yyyy-MM-dd');
-				fromDate = this.addDate(curr, -1 * (curr.getDate()-1));
+				fromDate = this.addDate(curr, -1 * (curr.getDate() - 1));
 				fromDateStr = this.formatDate(fromDate, 'yyyy-MM-dd');
-			}else if(duration=="week"){
+
+			} else if(duration == "week") {
 				toDateStr = this.formatDate(curr, 'yyyy-MM-dd');
-				fromDate = this.addDate(curr, -1 * curr.getDay());
+				//fromDate = this.addDate(curr, -1 * curr.getDay());
+				fromDate = this.addDate(curr, -7);
 				fromDateStr = this.formatDate(fromDate, 'yyyy-MM-dd');
-			}else{
+
+			} else {
 				toDateStr = this.formatDate(new Date(), 'yyyy-MM-dd');
 				fromDate = this.addDate(new Date(), -1 * duration);
 				fromDateStr = this.formatDate(fromDate, 'yyyy-MM-dd');
 			}
+
 			return [fromDateStr, toDateStr];
 		},
 

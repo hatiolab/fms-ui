@@ -45,7 +45,7 @@ angular.module('pip', [])
                 if(!a.videoUrl || a.videoUrl == '') {
                     return;
                 }
-                //alert(a.videoUrl);
+                
                 scope.videoUrl = a.videoUrl;
                 scope.frontVideoUrl = a.frontVideoUrl;
                 scope.rearVideoUrl = a.rearVideoUrl;
