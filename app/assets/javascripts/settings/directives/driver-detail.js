@@ -6,7 +6,7 @@ angular.module('fmsSettings').directive('driverDetail', function() {
 		scope: {}
 	}; 
 })
-.controller('driverDetailCtrl', function($rootScope, $scope, $resource, $element, Upload, ModalUtils, RestApi) {
+.controller('driverDetailCtrl', function($rootScope, $scope, $element, Upload, FmsUtils, ModalUtils, RestApi) {
 
 	/**
 	 * File
@@ -45,16 +45,45 @@ angular.module('fmsSettings').directive('driverDetail', function() {
 	 * @return N/A
 	 */
 	$scope.checkValidForm = function() {
-		if(!$scope.item.code || $scope.item.code == '') {
-			return $scope.showAlerMsg('Code must not be empty!');
+		var form = $scope.driverSettingForm;
+		var keys = ['code', 'name', 'email', 'division', 'social_id', 'mobile_no', 'title', 'address'];
+
+		for(var i = 0 ; i < keys.length ; i++) {
+			var input = form[keys[i]];
+			if(input) {
+				if(!FmsUtils.isEmpty(input.$error)) {
+					if(input.$error.required) {
+						return $scope.showAlerMsg(input.$name + ' must not be empty!');
+					} else if(input.$error.maxlength) {
+						return $scope.showAlerMsg(input.$name + ' value length is over max length!');
+					} else if(input.$error.minlength) {
+						return $scope.showAlerMsg(input.$name + ' value length is under min length!');
+					}	else if(input.$error.email) {
+						return $scope.showAlerMsg(input.$name + ' value is invalid email format!');
+					}
+				}
+			}
 		}
 
-		if(!$scope.item.name || $scope.item.name == '') {
-			return $scope.showAlerMsg('Name must not be empty!');
-		}
-
-		// 키, 사이즈 체크 
 		return true;
+	};
+
+	/**
+	 * Form이 유효한 지 체크 
+	 * @return {Boolean}
+	 */
+	$scope.isFormValid = function() {
+		var form = $scope.driverSettingForm;
+		//return form.$dirty && form.$valid;
+		return form.$dirty;
+	};
+
+	/**
+	 * 삭제 가능한 지 여부 
+	 * @return {Boolean}
+	 */
+	$scope.isDeletable = function() {
+		return $scope.item.id ? true : false;
 	};
 
 	/**
