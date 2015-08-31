@@ -61,9 +61,11 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 	 * @param  {Object}
 	 */
 	$scope.normalizeSearchParams = function() {
+		var formatDates = FmsUtils.formatFromToDate($scope.searchParams.from_date, $scope.searchParams.to_date);
+
 		return { 
-			from_date : $scope.searchParams.from_date,
-			to_date : $scope.searchParams.to_date,
+			from_date : formatDates[0],
+			to_date : formatDates[1],
 			sort_field : $scope.sort_field,  
 			sort_value : $scope.sort_value, 
 			limit : $scope.TOP_RANK

@@ -85,6 +85,20 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 		},
 
 		/**
+		 * Format from & to date
+		 * 
+		 * @param  {String or Date}
+		 * @param  {String or Date}
+		 * @return {Array}
+		 */
+		formatFromToDate : function(fromDate, toDate) {
+			var result = [];
+			result[0] = angular.isString(fromDate) ? fromDate : this.formatDate(fromDate, 'yyyy-MM-dd');
+			result[1] = angular.isString(toDate) ? toDate : this.formatDate(toDate, 'yyyy-MM-dd');
+			return result;
+		},
+
+		/**
 		 * month period
 		 *
 		 * @date

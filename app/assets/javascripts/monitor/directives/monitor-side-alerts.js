@@ -8,7 +8,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 			// 버튼이 Directive Element 바깥쪽에 있어서 버튼 클릭함수를 이용 ...
 			var refreshButton = angular.element('.panel-refresh');
 			refreshButton.bind("click", function() {
-				var fleetTab = angular.element('#alertTab');
+				var fleetTab = angular.element('#side-alerts');
 				// side-fleets 탭이 액티브 된 경우만 호출하도록 변경 ...
 				if (fleetTab.hasClass('active')) {
 					scope.search(scope.tablestate);

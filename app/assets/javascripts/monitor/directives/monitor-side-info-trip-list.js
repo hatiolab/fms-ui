@@ -208,6 +208,15 @@ angular.module('fmsMonitor').directive('monitorSideInfoTripList', function() {
 	};
 
 	/**
+	 * Watch SearchParams
+	 */
+	$scope.$watchCollection('searchParams', function() {
+		if($scope.searchEnabled) {
+			$scope.search($scope.tablestate);
+		}
+	});	
+
+	/**
 	 * 초기화 함수 
 	 * 
 	 * @return N/A
