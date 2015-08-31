@@ -1,4 +1,4 @@
-angular.module('fmsCore').controller('ModalPopupCtrl', function($rootScope, $scope, $modalInstance, showCancelButton, title, msg, local_res) {
+angular.module('fmsCore').controller('ModalPopupCtrl', function($rootScope, $scope, $modalInstance, showCancelButton, title, msg, localeRes) {
 
 	/**
 	 * Show cancel button
@@ -19,7 +19,11 @@ angular.module('fmsCore').controller('ModalPopupCtrl', function($rootScope, $sco
 	 */
 	$scope.msg = msg;
 
-	$scope.local_res = local_res;
+	/**
+	 * Locale Data
+	 * @type {Object}
+	 */
+	$scope.localeRes = localeRes;
 
 	/**
 	 * OK Button Click시 

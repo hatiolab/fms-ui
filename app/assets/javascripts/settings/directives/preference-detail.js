@@ -9,8 +9,12 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 			}
 		};
 	})
-	.controller('preferenceDetailCtrl', function($rootScope, $scope, $filter, $resource, $element, RestApi, ModalUtils) {
+	.controller('preferenceDetailCtrl', function($rootScope, $scope, $filter, $resource, $element, $window, RestApi, ModalUtils) {
 
+		/**
+		 * Language Setup Mode가 변경되었는지 여부 체크 
+		 */
+		$scope.prevLangSetupMode = 'N';
 		/**
 		 * Search Groups
 		 */
@@ -63,8 +67,11 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 				'format_date' : $scope.getByName(dataSet,'format_date').value,
 				'format_time' : $scope.getByName(dataSet,'format_time').value,
 				'default_count_per_page' : $scope.getByName(dataSet,'default_count_per_page').value,
-				'default_grid_buffer_count' : $scope.getByName(dataSet,'default_grid_buffer_count').value
+				'default_grid_buffer_count' : $scope.getByName(dataSet,'default_grid_buffer_count').value,
+				'language_setup_mode' : $scope.getByName(dataSet,'language_setup_mode').value,
 			};
+
+			$scope.prevLangSetupMode = $scope.settings.language_setup_mode;
 		};
 
 		/**
@@ -113,7 +120,7 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 					id : item.id, 
 					name : item.name,
 					value : $scope.settings[item.name].toString(),
-					_cud_flag_ : 'u'
+					_cud_flag_ : item.id ? 'u' : 'c'
 				};
 			});
 
@@ -123,7 +130,13 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 				result.$promise.then(
 					function(data) {
 						$scope.refreshSetting(items);
-						$scope.showAlerMsg("Success", "Success to save!");
+						if($scope.prevLangSetupMode != $scope.settings.language_setup_mode) {
+							ModalUtils.alert('sm', 'Mode Changed!', 'Mode was changed! So Application must be reload!', function() {
+								$window.location.reload();
+							});
+						} else {
+							$scope.showAlerMsg("Success", "Success to save!");
+						}
 					}, function(error) {
 						ModalUtils.alert('sm', 'Error', error.data);
 					});

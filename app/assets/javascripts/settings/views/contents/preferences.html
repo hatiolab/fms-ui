@@ -56,7 +56,19 @@
 					<input type="text" min="1" class="form-control max-w200 pull-left" ng-model='settings.content_base_url'></input>
 				</div>
 			</div>
-			
+
+			<div class="form-group col-xs-12 col-sm-6" >
+				<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">Mode</label>
+				<div class="radio pull-left">
+					<label class="pull-left">
+						<input type="radio" value="N" ng-model="settings.language_setup_mode" checked>Monitoring</label>
+				</div>
+				<div class="radio pull-left">
+					<label class="pull-left">
+						<input type="radio" value="Y" ng-model="settings.language_setup_mode">Language Setup</label>
+				</div>
+			</div>
+
 		</fieldset>
 		<!-- interval fieldset end -->
 		

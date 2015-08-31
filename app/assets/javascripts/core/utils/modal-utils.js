@@ -9,52 +9,60 @@ angular.module('fmsCore').factory('ModalUtils', function($modal, $log) {
 		 * @param  {String}
 		 * @param  {String}
      * @param  {Function}
+     * @param  {Function}
 		 * @return N/A
 		 */
-		confirm : function(size, title, msg, callback) {
+		confirm : function(size, title, msg, callback, cancelCallback) {
 			var modalInstance = $modal.open({
-      	animation: true,
-      	templateUrl: '/assets/core/views/modal-popup.html',
-      	controller: 'ModalPopupCtrl',
-      	size: size,
-      	resolve: {
+      	animation : true,
+      	templateUrl : '/assets/core/views/modal-popup.html',
+      	controller : 'ModalPopupCtrl',
+      	size : size,
+      	resolve : {
           showCancelButton : function() { return true },
-        	title: function() { return title },
+        	title : function() { return title },
         	msg : function() { return msg },
-          local_res:function() {return ''}
+          localeRes : function() { return null; }
       	}
     	});
 
-    	modalInstance.result
-        .then(function() {
-          // case OK
-    		  callback();
-
-        }, function() {
-          // case Cancel
+    	modalInstance.result.then(
+        function() {
+          if(callback)
+    		    callback();
+        },
+        function() {
+          if(cancelCallback)
+            cancelCallback();
         });
 		},
 
     /**
      * Alert popup
      * 
+     * @param  {String} lg : large, sm : small
      * @param  {String}
      * @param  {String}
-     * @param  {String}
+     * @param  {Function}
      * @return N/A
      */
-    alert : function(size, title, msg) {
+    alert : function(size, title, msg, callback) {
       var modalInst = $modal.open({
-        animation: true,
-        templateUrl: '/assets/core/views/modal-popup.html',
-        controller: 'ModalPopupCtrl',
-        size: size,
-        resolve: {
+        animation : true,
+        templateUrl : '/assets/core/views/modal-popup.html',
+        controller : 'ModalPopupCtrl',
+        size : size,
+        resolve : {
           showCancelButton : function() { return false },
-          title: function() { return title },
+          title : function() { return title },
           msg : function() { return msg },
-          local_res:function() {return ''}
+          localeRes : function() { return null; }
         }
+      });
+
+      modalInst.result.then(function() {
+        if(callback)
+          callback();
       });
 
       return modalInst;
@@ -70,29 +78,24 @@ angular.module('fmsCore').factory('ModalUtils', function($modal, $log) {
      * @return N/A
      */
     
-    change : function(size, title, msg, local_res, callback) {
+    change : function(size, title, msg, localeRes, callback) {
       var modalInstance = $modal.open({
-        animation: true,
-        templateUrl: '/assets/core/views/modal-translate.html',
-        controller: 'ModalPopupCtrl',
-        size: size,
-        resolve: {
+        animation : true,
+        templateUrl : '/assets/core/views/modal-translate.html',
+        controller : 'ModalPopupCtrl',
+        size : size,
+        resolve : {
           showCancelButton : function() { return true },
-          title: function() { return title },
+          title : function() { return title },
           msg : function() { return msg },
-          local_res : function(){ return local_res}
+          localeRes : function() { return localeRes }
         }
       });
 
-      modalInstance.result
-        .then(function() {
-          // case OK
-          callback(local_res);
-
-        }, function() {
-          // case Cancel
-          
-        });
+      modalInstance.result.then(function() {
+        if(callback)
+          callback(localeRes);
+      });
     }
 		//------------------------------- E N D ------------------------------------
 	};
