@@ -3,11 +3,11 @@
 
 		<!-- menu begin -->
 		<ul class="setting-sidemenu">
-			<li class="submenu-title"><translate name-value ="geofence" category="menu"></translate></li>
-			<li><a href="#/geofence" class="active"><translate name-value ="geofence" category="menu"></translate></a></li>
-			<li><a href="#/geofence/settings" class=""><translate name-value ="geofenceSetting" category="menu"></translate></a></li>
-			<li><a href="#/geofence/relations" class=""><translate name-value ="groupAssignment" category="menu"></translate></a></li>
-			<button id="searchGeofenceSettings" type="button" class="btn btn-default panel-refresh pull-right"><</button>
+			<li class="submenu-title"><translate name-value ="Geofence" category="menu"/></li>
+			<li><a href="#/geofence" class="active"><translate name-value ="Geofence" category="menu"/></a></li>
+			<li><a href="#/geofence/settings" class=""><translate name-value ="Geofence Setting" category="menu"/></a></li>
+			<li><a href="#/geofence/relations" class=""><translate name-value ="Group Assignment" category="menu"/></a></li>
+			<button id="btnGeofenceView" type="button" class="btn btn-default panel-refresh pull-right"></button>
 		</ul>
 		<!-- menu end -->
 
@@ -15,7 +15,7 @@
 		<form name="geofenceViewForm" class="form-horizontal">
 			<div class="form-group">
 				<label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">
-					<translate name-value ="name" category="label"></translate>
+					<translate name-value ="Name" category="label"/>
 				</label>
 				<div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
 					<input name="name" type="text" class="form-control" ng-model="searchParams.name" placeholder="Name"></input>
@@ -24,7 +24,8 @@
 
 			<div class="form-group">
 				<label class="col-xs-12 col-sm-3 col-md-2 control-label">
-				<translate name-value ="desc" category="label"></translate></label>
+					<translate name-value ="Desc" category="label"/>
+				</label>
 				<div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
 					<input name="description" type="text" class="form-control" ng-model="searchParams.description" placeholder="Description"></input>
 				</div>
@@ -37,10 +38,10 @@
 			<table class="table table-striped table-hover" st-table="items" st-pipe="search">
 				<thead>
 					<tr>
-						<th><translate name-value ="#" category="label"></translate></th>
-						<th><translate name-value ="name" category="label"></translate></th>
-						<th><translate name-value ="description" category="label"></translate></th>
-						<th><translate name-value ="groups" category="label"></translate></th>
+						<th>#</th>
+						<th><translate name-value ="Name" category="label"/></th>
+						<th><translate name-value ="Description" category="label"/></th>
+						<th><translate name-value ="Groups" category="label"/></th>
 					</tr>
 				</thead>
 				<tbody>

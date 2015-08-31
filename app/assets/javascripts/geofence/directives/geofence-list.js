@@ -5,7 +5,7 @@ angular.module('fmsGeofence').directive('geofenceList', function() {
 		templateUrl: '/assets/geofence/views/sidebars/geofence-list.html',
 		scope: {},
 		link: function(scope, element, attr, settingListCtrl) {
-			var refreshButton = element.find('#searchGeofenceView');
+			var refreshButton = element.find('#btnGeofenceView');
 			refreshButton.bind("click", function() {
 				scope.search(scope.tablestate);
 			});
