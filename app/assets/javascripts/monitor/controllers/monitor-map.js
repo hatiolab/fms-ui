@@ -149,8 +149,6 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 * window information switch off all
 	 */
 	$scope.switchOffAll = function() {
-		//$scope.resetMapWindowAddress();
-
 		for (property in $scope.windowSwitch) {
 			$scope.windowSwitch[property] = false;
 		}

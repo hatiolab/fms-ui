@@ -161,16 +161,20 @@
       show="windowSwitch.showEventInfo" closeClick="switchOffAll()">
       <div>
         <div class="detail-item">
-	        <translate class="modal-icon dot-gray" name-value="EventId" category="label" display ="Event ID"></translate>
+	        <translate class="modal-icon dot-gray" name-value="Event Id" category="label"/>
 	        <strong>{{selectedMarker.id}}</strong>
         </div>        
         <div class="detail-item">
-        	<translate class="modal-icon dot-gray" name-value="OccurredAt" category="label" display ="Occurred at"></translate>
+        	<translate class="modal-icon dot-gray" name-value="Occurred At" category="label"/>
         	<strong>{{selectedMarker.etm | fmstime}}</strong>
         </div>
 				<div class="detail-item">
-					<translate class="modal-icon dot-gray"  name-value="Speed" category="label" display ="Speed"></translate>
+					<translate class="modal-icon dot-gray"  name-value="Speed" category="label"/>
 					<span class="{{selectedMarker.typeClass}}"></span> {{selectedMarker.vlc | fmsvelocity : true}}
+				</div>
+				<div class="detail-item" ng-show="selectedMarker.gid != ''">
+					<translate class="modal-icon dot-gray"  name-value="Geofence" category="label"/>
+					{{selectedMarker.gid}} / {{selectedMarker.typ == 'I' ? 'IN' : 'OUT'}}
 				</div>
 				<div class="detail-item margin-t5">
 					<span class="modal-icon dot-gray">G-X</span>
@@ -181,7 +185,7 @@
 					<strong>{{selectedMarker.gz}}</strong>
 				</div>
         <div class="detail-address map-window">
-        	<translate name-value="Address" category="label" display="Address"></translate>
+        	<translate name-value="Address" category="label" display="Address"/>
         </div>				
       </div>
     </ui-gmap-window>
