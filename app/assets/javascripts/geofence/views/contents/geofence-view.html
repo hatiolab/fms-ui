@@ -48,27 +48,35 @@
 	        <div class="pull-left">
 		        <table class="detail-info-table">
 		          <tr>
-		            <th class="modal-icon dot-gray"><translate name-value ="fleet" category="label"> </translate></th>
+		            <th class="modal-icon dot-gray">
+		            	<translate name-value ="Fleet" category="label"/>
+		            </th>
 		            <td>{{selectedMarker.name}}</td>
 		          </tr>
 		          <tr>
-		            <th class="modal-icon dot-gray"><translate name-value ="model" category="label"> </translate></th>
+		            <th class="modal-icon dot-gray">
+		            	<translate name-value ="Car Model" category="label"/>
+		            </th>
 		            <td>{{selectedMarker.car_model}}</td>
 		          </tr>
 		          <tr>
-		            <th class="modal-icon dot-gray"><translate name-value ="carNo" category="label"></translate></th>
+		            <th class="modal-icon dot-gray">
+		            	<translate name-value ="Car No" category="label"/>
+		            </th>
 		            <td>{{selectedMarker.car_no}}</td>
 		          </tr>
 		          <tr>
-		            <th class="modal-icon dot-gray"><translate name-value ="drivers" category="label"></translate></th>
+		            <th class="modal-icon dot-gray">
+		            	<translate name-value ="Driver" category="label"/>
+		            </th>
 		            <td>{{selectedMarker.driver.name}}</td>
 		          </tr>
-				</table>
+						</table>
 	        </div>
-			<div class="col-xs-12 padding-clear detail-address margin-t5 map-window">
-				<translate name-value ="address" category="label"> </translate>
-			</div>
 
+					<div class="col-xs-12 padding-clear detail-address margin-t5 map-window">
+						<translate name-value ="Address" category="label"/>
+					</div>
 	      </div>
 			</ui-gmap-window>
 
@@ -77,19 +85,19 @@
 	      show="windowSwitch.showEventInfo" closeClick="switchOffAll()">
 	      <div>
 	        <div>
-	        	<translate name-value ="geofenceEventID" category="label"> </translate> 
+	        	<translate name-value ="Geofence Event ID" category="label"/>
 	        	<strong>{{selectedMarker.id}}</strong>
 	        </div>
 	        <div>
-	        	<translate name-value ="geofence" category="label"> </translate>  
+	        	<translate name-value ="Geofence" category="label"/>
 	        	<strong>{{selectedMarker.geofence.name}} / {{selectedMarker.typ == 'O' ? 'OUT' : 'IN'}}</strong>
 	        </div>
 	        <div class="detial-time">
-	        	<translate name-value ="occurredAt" category="label"> </translate>  
+	        	<translate name-value ="Occurred At" category="label"/>
 	        	<strong>{{selectedMarker.etm | fmstime}}</strong>
 	        </div>
 	        <div class="detail-address map-window">
-	        	<translate name-value ="address" category="label"> </translate>  
+	        	<translate name-value ="Address" category="label"/>
 	        </div>
 	      </div>
 	    </ui-gmap-window>	

@@ -294,7 +294,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 		var divAddrs = $element.find("div.detail-address.map-window");
 	 		for(var i = 0 ; i < divAddrs.length ; i++) {
 	 			var divAddr = divAddrs[i];
-	 			divAddr.innerHTML = '<div id="movieAssignable"></div><translate name-value="location" category="label" display="Location"></translate> : ' + address;
+	 			divAddr.innerHTML = address;
 	 		}
 	 	}
 	 };
@@ -718,6 +718,13 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		marker.latitude = evt.lat;
 		marker.longitude = evt.lng;
 		marker.icon = $scope.getEventMarkerIcon(evt);
+
+		if(marker.geofence && marker.geofence.name) {
+			marker.geoInfo = marker.geofence.name + '/' + (marker.typ == 'I' ? 'In' : 'Out');
+		} else {
+			marker.geoInfo = 'N/A';
+		}
+
 		marker.events = {
 			click : function(e) {
 				$scope.addMarkerClickEvent(e, 'showEventInfo');
