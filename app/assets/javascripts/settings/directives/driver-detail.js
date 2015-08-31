@@ -46,7 +46,7 @@ angular.module('fmsSettings').directive('driverDetail', function() {
 	 */
 	$scope.checkValidForm = function() {
 		var form = $scope.driverSettingForm;
-		var keys = ['code', 'name', 'email', 'division', 'social_id', 'mobile_no', 'title', 'address'];
+		var keys = ['ID', 'Name', 'email', 'Division', 'Social ID', 'Mobile', 'Title', 'Address'];
 
 		for(var i = 0 ; i < keys.length ; i++) {
 			var input = form[keys[i]];
@@ -110,19 +110,24 @@ angular.module('fmsSettings').directive('driverDetail', function() {
 		if($scope.item.id && $scope.item.id != '') {
 			var url = '/drivers/' + $scope.item.id + '.json';
 			var result = RestApi.update(url, null, {driver : $scope.item});
+
 			result.$promise.then(
 				function(data) {
 					$scope.refreshList();
-				},
-				function(error) {
+					ModalUtils.success('Success', 'Success To Save');
+
+				}, function(error) {
 					ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
 				});
 
 		} else {
 			var result = RestApi.create('/drivers.json', null, {driver : $scope.item});
+
 			result.$promise.then(
 				function(data) {
 					$scope.refreshList();
+					ModalUtils.success('Success', 'Success To Save');
+
 				}, function(error) {
 					ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
 				});
@@ -145,6 +150,8 @@ angular.module('fmsSettings').directive('driverDetail', function() {
 				function(data) {
 					$scope.new();
 					$scope.refreshList();
+					ModalUtils.success('Success', 'Success To Delete');
+
 				}, function(error) {
 					ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
 				});

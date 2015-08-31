@@ -108,7 +108,7 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 	 * @return N/A
 	 */
 	$scope.checkValidForm = function() {
-		if(!$scope.item.name || $scope.item.name == '') {
+		/*if(!$scope.item.name || $scope.item.name == '') {
 			return $scope.showAlerMsg('ID must not be empty!');
 		}
 
@@ -124,8 +124,47 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 			return $scope.showAlerMsg('Group must not be empty!');
 		}
 
-		return true;
+		return true;*/
+		var form = $scope.fleetSettingForm;
+		var keys = ['ID', 'Driver', 'Car No', 'Group', 'Car Model', 'Device Name', 'Device Model'];
+
+		for(var i = 0 ; i < keys.length ; i++) {
+			var input = form[keys[i]];
+			if(input) {
+				if(!FmsUtils.isEmpty(input.$error)) {
+					if(input.$error.required) {
+						return $scope.showAlerMsg(input.$name + ' must not be empty!');
+					} else if(input.$error.maxlength) {
+						return $scope.showAlerMsg(input.$name + ' value length is over max length!');
+					} else if(input.$error.minlength) {
+						return $scope.showAlerMsg(input.$name + ' value length is under min length!');
+					}	else if(input.$error.email) {
+						return $scope.showAlerMsg(input.$name + ' value is invalid email format!');
+					}
+				}
+			}
+		}
+
+		return true;		
 	};
+
+	/**
+	 * Form이 유효한 지 체크 
+	 * @return {Boolean}
+	 */
+	$scope.isFormValid = function() {
+		var form = $scope.driverSettingForm;
+		//return form.$dirty && form.$valid;
+		return form.$dirty;
+	};
+
+	/**
+	 * 삭제 가능한 지 여부 
+	 * @return {Boolean}
+	 */
+	$scope.isDeletable = function() {
+		return $scope.item.id ? true : false;
+	};	
 
 	/**
 	 * Show Alert Message
@@ -151,8 +190,13 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 		if($scope.item.id && $scope.item.id != '') {
 			var url = '/fleets/' + $scope.item.id + '.json';
 			var result = RestApi.update(url, null, {fleet : $scope.item});
+
 			result.$promise.then(function(data) {
 				$scope.refreshList();
+				ModalUtils.success('Success', 'Success To Save');
+
+			}, function(error) {
+				ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
 			});
 
 		} else {
@@ -160,9 +204,14 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 			$scope.item.lng = DEFAULT_LNG;
 			$scope.item.status = 'OFF';
 			$scope.item.velocity = 0;
-			var result = RestApi.create('/fleets.json', null, {fleet : $scope.item});
+
+			var result = RestApi.create('/fleets.json', null, { fleet : $scope.item });
 			result.$promise.then(function(data) {
 				$scope.refreshList();
+				ModalUtils.success('Success', 'Success To Save');
+
+			}, function(error) {
+				ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
 			});
 		}
 	};
@@ -182,6 +231,10 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 			result.$promise.then(function(data) {
 				$scope.new();
 				$scope.refreshList();
+				ModalUtils.success('Success', 'Success To Delete');
+
+			}, function(error) {
+				ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
 			});
 		});
 	};
