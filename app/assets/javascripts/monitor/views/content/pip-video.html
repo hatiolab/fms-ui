@@ -4,7 +4,9 @@
     <video ng-attr-src="{{ rearVideoUrl }}" class="rear-video forward-layer"></video>
     <audio ng-attr-src="{{ audioUrl }}" hidden></audio>
   </div>
-  <div><a target="_self" href="{{ videoUrl }}" download="video.mp4">[Download]</a><div>
+  <div><a target="_self" href="{{ videoUrl }}" download="video.mp4">
+    <translate name-value ="download" category="label"></translate>
+  </a><div>
 
   <div class="detail-item">
     <translate class="modal-icon dot-gray" name-value="EventId" category="label" display ="Event ID"></translate>

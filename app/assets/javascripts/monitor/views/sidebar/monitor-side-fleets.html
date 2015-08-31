@@ -21,7 +21,10 @@
 
 <!-- status begin -->
 <div class="status">
-	<div class="pull-left col-xs-12 col-sm-4 col-md-4">Total : <strong>{{tablestate.pagination.totalItemCount}}</strong></div>
+	<div class="pull-left col-xs-12 col-sm-4 col-md-4">
+		<translate name-value ="Total" category="label" display="Total"> : </translate>
+		<strong>{{tablestate.pagination.totalItemCount}}</strong>
+	</div>
 	<div class="pull-right col-xs-12 col-sm-8 col-md-8">
 		<div class="col-xs-2 col-md-2 status-box gray padding-clear">{{speedRangeSummaries.speed_off}}</div>
 		<div class="col-xs-2 col-md-2 status-box dark padding-clear">{{speedRangeSummaries.speed_idle}}</div>

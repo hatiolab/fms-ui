@@ -1,14 +1,14 @@
 <table class="info-table">
 	<tr>
-		<td class="info-label"><strong>Fleet</strong> / Trip ID</td>
+		<td class="info-label"><strong><translate name-value ="fleet" category="label"></translate></strong><translate name-value =" / Trip ID" category="label"></td>
 		<td class="info-value"><strong>{{trip.fid}}</strong> / {{trip.id}}</td>
 	</tr>
 	<tr>
-		<td class="info-label">Driver</td>
+		<td class="info-label"><translate name-value ="driver" category="label"></td>
 		<td class="info-value">{{trip.driver? trip.driver.code : ''}} / {{trip.driver ? trip.driver.name : ''}}</td>
 	</tr>									
 	<tr>
-		<td class="info-label">Started at / Till</td>
+		<td class="info-label"><translate name-value ="Started at / Till" category="label"></td>
 		<td class="info-value">{{trip.stm | fmstime}} / {{trip.etm | fmstime}}</td>
 	</tr>
 	<!--tr>
@@ -16,11 +16,11 @@
 		<td class="info-value">0 h 0 m 0 s / 0 Km</td>
 	</tr-->
 	<tr>
-		<td class="info-label">Last Speed</td>
+		<td class="info-label"><translate name-value ="lastSpeed" category="label"></td>
 		<td class="info-value speed-status"><span class="{{trip.typeClass}}"></span><strong>{{trip.vlc | fmsvelocity : true}}</strong></td>
 	</tr>
 	<tr>
-		<td class="info-label">Vehicle Status</td>
+		<td class="info-label"><translate name-value ="vehicleStatus" category="label"></td>
 		<td class="info-value">
 			<div class="col-xs-2 col-md-1 status-box gray padding-clear">{{trip.c_off}}</div>
 			<div class="col-xs-2 col-md-1 status-box dark padding-clear">{{trip.c_idl}}</div>
@@ -31,7 +31,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td class="info-label">From</td>
+		<td class="info-label"><translate name-value ="from" category="label"></td>
 		<td class="info-value">{{trip.fromAddress}}</td>
 	</tr>
 </table>

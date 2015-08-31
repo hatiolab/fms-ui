@@ -48,24 +48,27 @@
 	        <div class="pull-left">
 		        <table class="detail-info-table">
 		          <tr>
-		            <th class="modal-icon dot-gray">Fleet</th>
+		            <th class="modal-icon dot-gray"><translate name-value ="fleet" category="label"> </translate></th>
 		            <td>{{selectedMarker.name}}</td>
 		          </tr>
 		          <tr>
-		            <th class="modal-icon dot-gray">Model</th>
+		            <th class="modal-icon dot-gray"><translate name-value ="model" category="label"> </translate></th>
 		            <td>{{selectedMarker.car_model}}</td>
 		          </tr>
 		          <tr>
-		            <th class="modal-icon dot-gray">Car No.</th>
+		            <th class="modal-icon dot-gray"><translate name-value ="carNo" category="label"></translate></th>
 		            <td>{{selectedMarker.car_no}}</td>
 		          </tr>
 		          <tr>
-		            <th class="modal-icon dot-gray">Drivers</th>
+		            <th class="modal-icon dot-gray"><translate name-value ="drivers" category="label"></translate></th>
 		            <td>{{selectedMarker.driver.name}}</td>
 		          </tr>
-						</table>
+				</table>
 	        </div>
-					<div class="col-xs-12 padding-clear detail-address margin-t5 map-window">address</div>
+			<div class="col-xs-12 padding-clear detail-address margin-t5 map-window">
+				<translate name-value ="address" category="label"> </translate>
+			</div>
+
 	      </div>
 			</ui-gmap-window>
 
@@ -73,10 +76,21 @@
 	    <ui-gmap-window id="eventWindow" coords="selectedMarker" 
 	      show="windowSwitch.showEventInfo" closeClick="switchOffAll()">
 	      <div>
-	        <div>Geofence Event ID <strong>{{selectedMarker.id}}</strong></div>
-	        <div>Geofence <strong>{{selectedMarker.geofence.name}} / {{selectedMarker.typ == 'O' ? 'OUT' : 'IN'}}</strong></div>
-	        <div class="detial-time">Occurred at <strong>{{selectedMarker.etm | fmstime}}</strong></div>
-	        <div class="detail-address map-window">address</div>
+	        <div>
+	        	<translate name-value ="geofenceEventID" category="label"> </translate> 
+	        	<strong>{{selectedMarker.id}}</strong>
+	        </div>
+	        <div>
+	        	<translate name-value ="geofence" category="label"> </translate>  
+	        	<strong>{{selectedMarker.geofence.name}} / {{selectedMarker.typ == 'O' ? 'OUT' : 'IN'}}</strong>
+	        </div>
+	        <div class="detial-time">
+	        	<translate name-value ="occurredAt" category="label"> </translate>  
+	        	<strong>{{selectedMarker.etm | fmstime}}</strong>
+	        </div>
+	        <div class="detail-address map-window">
+	        	<translate name-value ="address" category="label"> </translate>  
+	        </div>
 	      </div>
 	    </ui-gmap-window>	
 
