@@ -31,7 +31,8 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 
 			} else if(duration == "month") {
 				toDateStr = this.formatDate(curr, 'yyyy-MM-dd');
-				fromDate = this.addDate(curr, -1 * (curr.getDate() - 1));
+				//fromDate = this.addDate(curr, -1 * (curr.getDate() - 1));
+				fromDate = this.addDate(curr, -30);
 				fromDateStr = this.formatDate(fromDate, 'yyyy-MM-dd');
 
 			} else if(duration == "week") {
