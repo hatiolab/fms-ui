@@ -16,6 +16,12 @@ angular.module('fmsHr').directive('hrDrivetimeChart', function() {
 		type : 'Bar',		
 		title : 'Working Time By Driver', 
 		sort_field : 'drive_time',
+		colors : [ {
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#4EBCAD",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(151,187,205,1)"			
+		} ],
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-12',
 		series : ['Drive Time (min.)'],
 		labels : [],

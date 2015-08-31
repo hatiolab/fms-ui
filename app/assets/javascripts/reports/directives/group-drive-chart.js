@@ -21,6 +21,12 @@ angular.module('fmsReports').directive('groupDriveChart', function() {
 		title : 'Driving Time (' + timeunit + ')',
 		container_cls : 'panel panel-default type-bar col-xs-12 col-sm-6',
 		series : ['Driving Time (' + timeunit + ')'],
+		colors : [ {
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#80D1FA",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(220,220,220,1)"			
+		} ],
 		labels :[],
 		data : [[]]
 	}, {
@@ -29,6 +35,12 @@ angular.module('fmsReports').directive('groupDriveChart', function() {
 		title : 'Driving Time (' + timeunit + ')',
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-6',
 		series : ['Driving Time (' + timeunit + ')'],
+		colors : [ {
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#4EBCAD",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(151,187,205,1)"			
+		} ],
 		labels : [],
 		data : [[]]
 	}, {
@@ -37,6 +49,12 @@ angular.module('fmsReports').directive('groupDriveChart', function() {
 		title : 'Driving Distance (' + distunit + ')', 
 		container_cls : 'panel panel-default type-bar col-xs-12 col-sm-6',
 		series : ['Driving Distance (' + distunit + ')'],
+		colors : [ {
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#84C867",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(151,187,205,1)"			
+		} ],	
 		labels : [],
 		data : [[]]
 	},{
@@ -45,6 +63,12 @@ angular.module('fmsReports').directive('groupDriveChart', function() {
 		title : 'Driving Distance', 
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-6',
 		series:['Driving Distance (' + distunit + ')'],
+		colors : [ {
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#FC787B",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(151,187,205,1)"			
+		} ],
 		labels :[],
 		data : [[]]
 	}, {
@@ -53,6 +77,12 @@ angular.module('fmsReports').directive('groupDriveChart', function() {
 		title : 'Average Velocity (' + speedunit + ')', 
 		container_cls : 'panel panel-default type-bar col-xs-12 col-sm-6',
 		series : ['Average Velocity (' + speedunit + ')'],
+		colors : [ {
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#FFD600",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(151,187,205,1)"			
+		} ],	
 		labels : [],
 		data : [[]]
 	}, {
@@ -61,6 +91,12 @@ angular.module('fmsReports').directive('groupDriveChart', function() {
 		title : 'Average Velocity (' + speedunit + ')', 
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-6',
 		series:['Average Velocity (' + speedunit + ')'],
+		colors : [ {
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#F69F40",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(151,187,205,1)"			
+		} ],
 		labels :[],
 		data : [[]]
 	} ];

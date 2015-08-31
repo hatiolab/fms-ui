@@ -31,6 +31,12 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 		sort_field : 'drive_time',
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-12',
 		series : ['Driving Time (' + timeunit + ')'],
+		colors : [ {
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#F69F40",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(151,187,205,1)"			
+		} ],
 		labels : [],
 		data : []
 	}, {
@@ -40,6 +46,12 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 		title : 'Driving Distance (' + distunit + ')',
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-12',
 		series : ['Driving Distance (' + distunit + ')'],
+		colors : [ {
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#F69F40",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(151,187,205,1)"			
+		} ],
 		filter : 'fmsdistance',
 		labels : [],
 		data : []
@@ -50,6 +62,12 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 		title : 'Average Velocity (' + speedunit + ')',
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-12',
 		series : ['Average Velocity (' + speedunit + ')'],
+		colors : [ {
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#F69F40",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(151,187,205,1)"			
+		} ],
 		filter : 'fmsvelocity',
 		labels : [],
 		data : []

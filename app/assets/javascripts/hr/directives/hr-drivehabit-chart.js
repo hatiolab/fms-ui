@@ -16,6 +16,12 @@ angular.module('fmsHr').directive('hrDrivehabitChart', function() {
 		type : 'Bar',		
 		title : 'Driving Habit Speed High Summary', 
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-12',
+		colors : [ {
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#84C867",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(151,187,205,1)"			
+		} ],
 		series : ['High Speed Count'],
 		labels : [],
 		data : [[]]
@@ -24,6 +30,12 @@ angular.module('fmsHr').directive('hrDrivehabitChart', function() {
 		type : 'Bar',
 		title : 'Driving Habit Speed Slow Summary', 
 		container_cls : 'panel panel-default type-bar col-xs-12 col-sm-12',
+		colors : [ {
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#FFD600",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(151,187,205,1)"			
+		} ],
 		series : ['Slow Speed Count'],
 		labels :[],
 		data : [[]]

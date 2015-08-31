@@ -16,6 +16,12 @@ angular.module('fmsHr').directive('hrOverspeedChart', function() {
 		type : 'Bar',		
 		title : 'Over Speed Total Summary', 
 		sort_field : 'overspeed',
+		colors : [{
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#80D1FA",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(220,220,220,1)"			
+		}],
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-12',
 		series : ['Over Speed Count'],
 		labels : [],

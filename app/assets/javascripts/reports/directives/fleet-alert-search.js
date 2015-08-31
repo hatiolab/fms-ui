@@ -24,6 +24,12 @@ angular.module('fmsReports').directive('fleetAlertSearch', function() {
 		sort_field : 'impact',
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-12',
 		series : ['Impact Count'],
+		colors : [ {
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#FC787B",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(151,187,205,1)"			
+		} ],
 		labels : [],
 		data : []
 	}, {
@@ -33,6 +39,12 @@ angular.module('fmsReports').directive('fleetAlertSearch', function() {
 		title : 'Overspeed Count', 
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-12',
 		series : ['Overspeed Count'],
+		colors : [ {
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#FC787B",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(151,187,205,1)"			
+		} ],
 		labels : [],
 		data : []
 	}, {
@@ -42,6 +54,12 @@ angular.module('fmsReports').directive('fleetAlertSearch', function() {
 		title : 'Geofence Count', 
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-12',
 		series : ['Geofence Count'],
+		colors : [ {
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#FC787B",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(151,187,205,1)"			
+		} ],
 		labels : [],
 		data : []
 	}, {
@@ -51,6 +69,12 @@ angular.module('fmsReports').directive('fleetAlertSearch', function() {
 		title : 'Emergency Count', 
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-12',
 		series : ['Emergency Count'],
+		colors : [ {
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#FC787B",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(151,187,205,1)"			
+		} ],
 		labels : [],
 		data : []
 	} ];

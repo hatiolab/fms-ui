@@ -22,6 +22,12 @@ angular.module('fmsHr').directive('hrDrivedistanceChart', function() {
 		title : 'Driving Distance By Driver (' + distunit + ')', 
 		sort_field : 'drive_dist',
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-12',
+		colors : [ {
+			strokeColor: "rgba(151,187,205,0.5)",
+			fillColor: "#F69F40",
+			highlightFill: "rgba(151,187,205,0.75)",
+			highlightStroke: "rgba(151,187,205,1)"			
+		} ],
 		series : ['Driving Distance (' + distunit + ')'],
 		labels : [],
 		data : [[]]

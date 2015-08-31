@@ -27,20 +27,34 @@
           $scope.toDt.opened = true;
         }
       };
-
-      /*$scope.onChange = function(name) {
-        if(name == 'fromDate') {
-          $scope.fromDate = $filter('date')($scope.fromDate, $scope.format);
-        } else if(name == 'toDate') {
-          $scope.toDate = $filter('date')($scope.toDate, $scope.format);
-        }
-        
-        if(angular.isFunction($scope.search)) {
-          $scope.search();
-        }
-      }*/
     },
     templateUrl: '/assets/core/views/period-picker.html'
+  };
+
+}])
+
+ angular.module('fmsCore')
+ .directive('datePicker', ['FmsUtils', '$filter', function (FmsUtils, $filter) {
+
+  return { 
+    restrict: 'E',
+    scope : {
+      dateModel : '=',
+      search : '='
+    },
+    controller: function ($scope) {
+      $scope.dt = { opened : false };
+      $scope.format = 'yyyy-MM-dd';
+
+      // $scope.clear = function () {
+      //   $scope.dt = null;
+      // };
+
+      $scope.open = function(name, $event) {
+          $scope.dt.opened = true;
+      };
+    },
+    templateUrl: '/assets/core/views/date-picker.html'
   };
 
 }])
