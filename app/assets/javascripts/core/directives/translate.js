@@ -31,24 +31,30 @@
               if(LOCALE_RESOURCE[$scope.category][$scope.nameParam]) {
                 // $scope.isTranslated ="text-success";
               } else {
-                $scope.isTranslated ="text-danger";
+                if(LANG_SETUP=='Y'){
+                  $scope.isTranslated ="text-danger";
+                }
               }
             } else {
               $scope.text = $scope.display ? $scope.display : $scope.nameParam;
               $scope.text = $scope.text ? $scope.text : $scope.nameParam
-              $scope.isTranslated ="text-danger";
+              if(LANG_SETUP=='Y'){
+                  $scope.isTranslated ="text-danger";
+              }
             }
           });
         } else {
           $scope.text = $scope.display ? $scope.display : $scope.nameParam;
-          $scope.isTranslated ="text-danger";
+          if(LANG_SETUP=='Y'){
+              $scope.isTranslated ="text-danger";
+          }
         }
       }
 
       $scope.mLDescChange = function() {
         var localeData = { category : $scope.category, name : $scope.nameParam, display : $scope.text, locale : $cookies.get('locale') };
         
-        if(login.admin_flag) {
+        if(login.admin_flag&& LANG_SETUP=='Y') {
           ModalUtils.change('large', '', '', localeData ,function(data) {
           var url = '/dictionaries/upsert.json';
 
