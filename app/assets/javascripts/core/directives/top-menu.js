@@ -9,56 +9,41 @@ angular.module('fmsCore').directive('topMenu', function() {
 
 .controller('topMenuCtrl', function($rootScope, $location, $scope, $element, ConstantSpeed, GridUtils, RestApi) {
 
+	/**
+	 * 메뉴 바인딩 모델 
+	 * @type {Array}
+	 */
 	$scope.items = [ {
 		name : 'Map', 
 		cls : 'icon-map',
 		href : '#/',
+		showSidebarToggleButton : true,
 		active : true
 	}, {
 		name : 'Geofence', 
 		cls : 'icon-geofence',
 		href : '#/geofence',
+		showSidebarToggleButton : true,
 		active : false
 	}, {
 		name : 'Driver', 
 		cls : 'icon-hr',
 		href : '#/hr/overview',
+		showSidebarToggleButton : false,
 		active : false
 	}, {
 		name : 'Report', 
 		cls : 'icon-report',
 		href : '#/reports/overview',
+		showSidebarToggleButton : false,
 		active : false
 	}, {
 		name : 'Setting', 
 		cls : 'icon-setting',
 		href : '#/settings/drivers',
+		showSidebarToggleButton : false,
 		active : false
 	} ];
-
-	/**
-	 * 화면에 최초에 들어올 경우 
-	 */
-	$scope.firstload = true;
-
-	$scope.setActive = function(activeItem) {
-		$rootScope.toggleButtonhide = true;
-
-		for(var i = 0 ; i < $scope.items.length ; i++) {
-			var item = $scope.items[i];
-			item.active = (item.name == activeItem.name);
-			if(item.active && (item.name == 'Map' || item.name == 'Geofence')) {
-				$rootScope.toggleButtonhide = false;
-			}
-
-			if(item.active && $scope.firstload) {
-				$scope.firstload = false;
-				$location.path(item.href);
-			}
-		}
-	};
-
-	$scope.setActive($scope.items[0]);
 
 	/**
 	 * 세팅값이 변경되면 캐쉬를 업데이트한다. 
@@ -188,6 +173,25 @@ angular.module('fmsCore').directive('topMenu', function() {
 	 * Setting값 초기화 
 	 */
 	$rootScope.refreshSettings();
+
+	/**
+	 * 메뉴 activation
+	 */
+	$scope.setActive = function(activeItem) {
+		for(var i = 0 ; i < $scope.items.length ; i++) {
+			var item = $scope.items[i];
+			item.active = false;
+		}
+
+		activeItem.active = true;
+		$rootScope.showToggleButton = activeItem.showSidebarToggleButton;
+		$location.path(item.href);
+	};
+
+	/**
+	 * 맵 메뉴 activation
+	 */
+	$scope.setActive($scope.items[0]);
 
 	/**
 	 * Window Resize 시 모든 그리드 켄테이너의 Height 조정 

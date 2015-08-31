@@ -8,7 +8,7 @@ angular.module('fmsCore').directive('alertIndicator', function() {
 		}
 	}; 
 })
-.controller('alertIndicatorCtrl', function($rootScope, $scope, $resource, $element, $state) {
+.controller('alertIndicatorCtrl', function($rootScope, $scope, $element, $state) {
 
 	/**
 	 * Alert Count

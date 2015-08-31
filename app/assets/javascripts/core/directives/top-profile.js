@@ -9,17 +9,13 @@ angular.module('fmsCore').directive('topProfile', function() {
 })
 .controller('topProfileCtrl', function($rootScope, $scope, $element, $window, $cookies) {
 
+	/**
+	 * Locale 변경 
+	 */
 	$scope.changeLocale = function(locale) {
 		login.locale = locale;
 		$cookies.put('locale', locale);
 		$window.location.reload();
 	};
 
-	// $scope.modeChange = function(locale) {
-	// 	if(!$scope.multilangueMode){
-	// 		$rootScope.$broadcast('start-multilangue-setting-mode');
-	// 	}else{
-	// 		$rootScope.$broadcast('end-multilangue-setting-mode');
-	// 	}
-	// };
 });
