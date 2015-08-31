@@ -33,7 +33,11 @@ angular.module('fmsCore').factory('RestApi', function($rootScope, $resource, Mod
 		},
 
 		showErrorMessage : function(response) {
-			ModalUtils.alert('sm', 'Error', 'Status : ' + response.status + ', ' + response.msg);
+			if(status == 0) {
+				ModalUtils.alert('sm', 'Error', 'Something wrong on the server. Please check whether the server is normal.');
+			} else {
+				ModalUtils.alert('sm', 'Error', 'Status : ' + response.status + ', ' + response.statusText);
+			}
 		},
 
 		/**

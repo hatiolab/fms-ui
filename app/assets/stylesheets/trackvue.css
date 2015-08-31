@@ -190,7 +190,7 @@ label input[type="checkbox"]{margin-right:5px;}
 .navbar-default .navbar-toggle .icon-bar{background-color:#ccc;}
 .navbar-default .navbar-toggle:hover .icon-bar{background-color:#fff;}
 
-.content{border-left:1px solid #8292ad;}
+.content{background:url(/assets/bg-content.png) no-repeat;padding-left:1px !important;}
 .content,.content .height-full .ng-scope,.content #mapCanvas,.content .angular-google-map,.content .angular-google-map-container{height:100%;}
 
 /* fix for Twitter Bootstrap handling of responsive images */
@@ -303,11 +303,13 @@ background:url('/assets/icon-chart-header.png') no-repeat;height:16px;width:23px
 .report-content .type-line .panel-heading:before{background-position:0 -100px;}
 .report-content .panel-default{border-color:#bfcfda;padding:0;margin:0 1% 15px 1%;}
 .report-content .col-sm-6,.report-content .col-md-6{width:48%;}
+.report-content .col-sm-12,.report-content .col-md-12{width:97.5%;}
 .chart-legend li span, .bar-legend li span, .line-legend li span, .pie-legend li span, .radar-legend li span, .polararea-legend li span, .doughnut-legend li span{width:15px;height:10px;top:4px;}
 .chart-container{padding-top:7px;}
 .bar-legend{margin-top:3px;margin-bottom:3px;}
 .report-list{padding:5px 0 5px 10px;}
 .report-list .dropdown-menu{min-width:300px;}
+.chart-container canvas{max-width:97%;margin-left:1%;}
 
 /*for loading animation*/
 .loading {
