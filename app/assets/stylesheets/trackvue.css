@@ -190,7 +190,7 @@ label input[type="checkbox"]{margin-right:5px;}
 .navbar-default .navbar-toggle .icon-bar{background-color:#ccc;}
 .navbar-default .navbar-toggle:hover .icon-bar{background-color:#fff;}
 
-.content{border-left:1px solid #8292ad;}
+.content{background:url(/assets/bg-content.png) no-repeat;padding-left:1px !important;}
 .content,.content .height-full .ng-scope,.content #mapCanvas,.content .angular-google-map,.content .angular-google-map-container{height:100%;}
 
 /* fix for Twitter Bootstrap handling of responsive images */
