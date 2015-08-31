@@ -6,7 +6,7 @@ angular.module('fmsHr').directive('hrOverspeedChart', function() {
 		scope: {}
 	}; 
 })
-.controller('hrOverspeedCtrl', function($rootScope, $scope, $element) {
+.controller('hrOverspeedCtrl', function($rootScope, $scope, $element, FmsUtils) {
 	/**
 	 * Chart Item
 	 * @type {Object}
@@ -32,7 +32,12 @@ angular.module('fmsHr').directive('hrOverspeedChart', function() {
 	 * Report Item이 변경되었을 경우
 	 */
 	var itemsChangeListener = $rootScope.$on('hr-overspeed-item-change', function(event, item) {
-	 	$scope.item = item;
+	 	if(FmsUtils.isEmptyArray(item.data)) {
+	 		$scope.item.labels = ['0'];
+	 		$scope.item.data[0] = [0];
+	 	} else {
+	 		$scope.item = item;
+	 	}
 	});
 
 	/**

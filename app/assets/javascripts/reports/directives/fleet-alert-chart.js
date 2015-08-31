@@ -6,7 +6,7 @@ angular.module('fmsReports').directive('fleetAlertChart', function() {
 		scope: {}
 	}; 
 })
-.controller('fleetAlertChartCtrl', function($rootScope, $scope, $element) {
+.controller('fleetAlertChartCtrl', function($rootScope, $scope, $element, FmsUtils) {
 
 	/**
 	 * Chart Item
@@ -33,7 +33,12 @@ angular.module('fmsReports').directive('fleetAlertChart', function() {
 	 * Report Item이 변경되었을 경우
 	 */
 	var itemsChangeListener = $rootScope.$on('report-fleet-alert-item-change', function(event, item) {
-	 	$scope.item = item;
+	 	if(FmsUtils.isEmptyArray(item.data)) {
+	 		$scope.item.labels = ['0'];
+	 		$scope.item.data[0] = [0];
+	 	} else {
+	 		$scope.item = item;
+	 	}
 	});
 
 	/**

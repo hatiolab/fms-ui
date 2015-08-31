@@ -6,7 +6,7 @@ angular.module('fmsReports').directive('groupAlertChart', function() {
 		scope: {}
 	}; 
 })
-.controller('groupAlertChartCtrl', function($rootScope, $scope, $element) {
+.controller('groupAlertChartCtrl', function($rootScope, $scope, $element, FmsUtils) {
 
 	$scope.items = [ {
 		chartId : 'report-alert-group-1',
@@ -59,17 +59,32 @@ angular.module('fmsReports').directive('groupAlertChart', function() {
 	 */
 	var itemsChangeListener = $rootScope.$on('report-group-alert-items-change', function(event, items) {		
 		for(var i = 0 ; i < items.length ; i++) {
-	 		var item = items[i];
-	 		var chartItem = $scope.items[i];
+	 		var item = items[i]; chartItem = $scope.items[i];
 	 		chartItem.labels = item.labels;
 
-	 		if(chartItem.type == 'Bar' || chartItem.type == 'Line') {
-	 			chartItem.data[0] = item.data;	
-	 		} else {
-	 			chartItem.data = item.data;
-	 		}
+ 			if(FmsUtils.isEmptyArray(item.data)) {
+ 				$scope.setChartEmptyData(chartItem);
+ 			} else {
+ 				if(chartItem.type == 'Bar' || chartItem.type == 'Line') {
+					chartItem.data[0] = item.data;
+				} else {
+					chartItem.data = item.data;
+				} 
+ 			}
 	 	};
 	});
+
+	/**
+	 * Chart Empty Data
+	 */
+	$scope.setChartEmptyData = function(chartItem, chartType) {
+		chartItem.labels = ['0'];
+		if(chartItem.type == 'Bar' || chartItem.type == 'Line') {
+			chartItem.data[0] = [0];
+		} else {
+			chartItem.data = [0];
+		}
+	};	
 
 	/**
 	 * Scope destroy시 

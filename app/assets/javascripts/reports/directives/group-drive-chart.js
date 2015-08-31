@@ -6,7 +6,7 @@ angular.module('fmsReports').directive('groupDriveChart', function() {
 		scope: {}
 	}; 
 })
-.controller('groupDriveChartCtrl', function($rootScope, $scope, $element, $filter) {
+.controller('groupDriveChartCtrl', function($rootScope, $scope, $element, $filter, FmsUtils) {
 
 	/**
 	 * Distance & Time Unit
@@ -106,11 +106,24 @@ angular.module('fmsReports').directive('groupDriveChart', function() {
 	 */
 	var itemsChangeListener = $rootScope.$on('report-group-driver-items-change', function(event, items) {		
 		for(var i = 0 ; i < items.length ; i++) {
-	 		var item = items[i];
-	 		$scope.items[i].labels = item.labels;
-	 		$scope.items[i].data[0] = item.data;
+	 		var item = items[i]; activeItem = $scope.items[i];
+
+	 		if(FmsUtils.isEmptyArray(item.data)) {
+	 			$scope.setChartEmptyData(activeItem);
+	 		} else {
+	 			activeItem.labels = item.labels;
+	 			activeItem.data[0] = item.data;
+	 		}
 	 	};
 	});
+
+	/**
+	 * Chart Empty Data
+	 */
+	$scope.setChartEmptyData = function(chartItem) {
+		chartItem.labels = ['0'];
+		chartItem.data[0] = [0];
+	};	
 
 	/**
 	 * Scope destroy시 

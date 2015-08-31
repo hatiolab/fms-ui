@@ -6,7 +6,7 @@ angular.module('fmsHr').directive('hrDrivedistanceChart', function() {
 		scope: {}
 	}; 
 })
-.controller('hrDrivedistanceChartCtrl', function($rootScope, $scope, $element, $filter) {
+.controller('hrDrivedistanceChartCtrl', function($rootScope, $scope, $element, $filter, FmsUtils) {
 
 	/**
 	 * Distance Unit
@@ -37,7 +37,12 @@ angular.module('fmsHr').directive('hrDrivedistanceChart', function() {
 	 * Report Item이 변경되었을 경우
 	 */
 	var itemsChangeListener = $rootScope.$on('hr-drivedist-item-change', function(event, item) {
-	 	$scope.item = item;
+	 	if(FmsUtils.isEmptyArray(item.data)) {
+	 		$scope.item.labels = ['0'];
+	 		$scope.item.data[0] = [0];
+	 	} else {
+	 		$scope.item = item;
+	 	}
 	});
 
 	/**

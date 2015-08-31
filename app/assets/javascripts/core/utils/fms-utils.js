@@ -9,6 +9,13 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 		},
 
 		/**
+		 * Check empty array
+		 */
+		isEmptyArray : function(arr) {
+			return (arr.length == 0 || (arr.length == 1 && arr[0].length == 0));
+		},
+
+		/**
 		 * Period를 위한 From Date, To Date를 문자열로 리턴 
 		 * 
 		 * @param  {Number/String}

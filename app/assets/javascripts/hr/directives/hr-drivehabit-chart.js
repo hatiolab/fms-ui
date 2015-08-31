@@ -6,7 +6,7 @@ angular.module('fmsHr').directive('hrDrivehabitChart', function() {
 		scope: {}
 	}; 
 })
-.controller('hrDrivehabitCtrl', function($rootScope, $scope, $element) {
+.controller('hrDrivehabitCtrl', function($rootScope, $scope, $element, FmsUtils) {
 	/**
 	 * Chart Binding
 	 * @type {Array}
@@ -45,12 +45,31 @@ angular.module('fmsHr').directive('hrDrivehabitChart', function() {
 	 * Report Item이 변경되었을 경우
 	 */
 	var itemsChangeListener = $rootScope.$on('hr-drivehabit-items-change', function(event, items) {		
-		for(var i = 0 ; i < items.length ; i++) {
+		/*for(var i = 0 ; i < items.length ; i++) {
 	 		var item = items[i];
 	 		$scope.items[i].labels = item.labels;
 	 		$scope.items[i].data[0] = item.data;
-	 	};
+	 	};*/
+
+		for(var i = 0 ; i < items.length ; i++) {
+	 		var item = items[i]; activeItem = $scope.items[i];
+
+	 		if(FmsUtils.isEmptyArray(item.data)) {
+	 			$scope.setChartEmptyData(activeItem);
+	 		} else {
+	 			activeItem.labels = item.labels;
+	 			activeItem.data[0] = item.data;
+	 		}
+	 	};	 	
 	});
+
+	/**
+	 * Chart Empty Data
+	 */
+	$scope.setChartEmptyData = function(chartItem) {
+		chartItem.labels = ['0'];
+		chartItem.data[0] = [0];
+	};	
 
 	/**
 	 * Scope destroy시 

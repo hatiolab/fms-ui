@@ -50,9 +50,12 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 		/**
 		 * Search geofence
 		 */
-		$scope.searchGeofences = function() {
+		$scope.searchGeofences = function(callback) {
 			RestApi.list('/geofences.json', {}, function(dataList) {
 				$scope.geofences = dataList;
+				if(callback) {
+					callback();
+				}
 			});					
 		};
 
@@ -122,6 +125,7 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 		 */
 		$scope.save = function() {
 			if ($scope.checkValidForm()) {
+				// Update
 				if ($scope.item.id && $scope.item.id != '') {
 					var url = '/fleet_groups/' + $scope.item.id + '.json';
 					var result = RestApi.update(url, null, { fleet_group: $scope.item });
@@ -131,11 +135,12 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 						}, function(error) {
 							ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
 						});
-
+				// Create
 				} else {
 					var result = RestApi.create('/fleet_groups.json', null, { fleet_group: $scope.item });
 					result.$promise.then(
-						function(data) { 
+						function(data) {
+							$scope.item = data;
 							$scope.updateRelations();
 						}, function(error) {
 							ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
@@ -160,10 +165,10 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 			var items = [];
 			for (var i = 0; i < $scope.items.length; i++) {
 				var relation = $scope.items[i];
-				if (relation.fleet_group_id && relation.geofence_id) {
+				if (relation.geofence_id) {
 					items.push({
 						id: relation.id,
-						fleet_group_id: relation.fleet_group_id,
+						fleet_group_id: $scope.item.id,
 						geofence_id: relation.geofence_id,
 						alarm_type: relation.alarm_type,
 						_cud_flag_: (relation.deleteFlag) ? 'd' : (relation.id ? 'u' : 'c')
@@ -240,6 +245,10 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 		 * @return {Object}
 		 */
 		$scope.addRelation = function() {
+			if(!$scope.geofences || $scope.geofences.length == 0) {
+				$scope.searchGeofences();
+			}
+			
 			$scope.items.push({
 				no: 0,
 				fleet_group : {

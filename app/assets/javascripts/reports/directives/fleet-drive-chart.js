@@ -6,7 +6,7 @@ angular.module('fmsReports').directive('fleetDriveChart', function() {
 		scope: {}
 	}; 
 })
-.controller('fleetDriveChartCtrl', function($rootScope, $scope, $element) {
+.controller('fleetDriveChartCtrl', function($rootScope, $scope, $element, FmsUtils) {
 
 	/**
 	 * Chart Item
@@ -32,7 +32,12 @@ angular.module('fmsReports').directive('fleetDriveChart', function() {
 	 * Report Item이 변경되었을 경우
 	 */
 	var itemsChangeListener = $rootScope.$on('report-fleet-driver-item-change', function(event, item) {
-	 	$scope.item = item;
+	 	if(FmsUtils.isEmptyArray(item.data)) {
+	 		$scope.item.labels = ['0'];
+	 		$scope.item.data[0] = [0];
+	 	} else {
+	 		$scope.item = item;
+	 	}
 	});
 
 	/**

@@ -6,7 +6,7 @@ angular.module('fmsReports').directive('reportsOverviewChart', function() {
 		scope: {}
 	}; 
 })
-.controller('reportsOverviewCtrl', function($rootScope, $scope, $element, $filter) {
+.controller('reportsOverviewCtrl', function($rootScope, $scope, $element, $filter, FmsUtils) {
 	/**
 	 * Distance & Time Unit
 	 */
@@ -108,10 +108,23 @@ angular.module('fmsReports').directive('reportsOverviewChart', function() {
 		});
 
 		if(selectedItem && selectedItem.length > 0) {
-			selectedItem[0].labels = item.labels;
-			selectedItem[0].data = item.data;
-		}
+			var activeItem = selectedItem[0];
+			if(FmsUtils.isEmptyArray(item.data)) {
+				$scope.setChartEmptyData(activeItem);
+			} else {
+				activeItem.data = item.data;
+				activeItem.labels = item.labels;
+			}
+		}		
 	});
+
+	/**
+	 * Chart Empty Data
+	 */
+	$scope.setChartEmptyData = function(chartItem) {
+		chartItem.labels = ['0'];
+		chartItem.data[0] = [0];
+	};
 
 	/**
 	 * Scope destroy시 
