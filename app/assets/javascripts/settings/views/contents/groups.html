@@ -58,8 +58,8 @@
 		
 		<!-- buttons begin -->
 		<button type="button" class="btn btn-default margin-t7 pull-left" ng-click="new()">New</button>
-		<button type="button" class="btn btn-default margin-t7 pull-right" ng-click="delete()">Delete</button>
-		<button type="button" class="btn btn-default margin-t7 pull-right btn-success margin-r7" ng-click="save()">Save</button>
+		<button type="button" class="btn btn-default margin-t7 pull-right" ng-click="delete()" ng-disabled="!isDeletable()">Delete</button>
+		<button type="button" class="btn btn-default margin-t7 pull-right btn-success margin-r7" ng-click="save()" ng-disabled="!isFormValid()">Save</button>
 		<!-- buttons end -->
 	</div>
 	<!-- group infos end -->

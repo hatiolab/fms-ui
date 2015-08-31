@@ -108,23 +108,6 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 	 * @return N/A
 	 */
 	$scope.checkValidForm = function() {
-		/*if(!$scope.item.name || $scope.item.name == '') {
-			return $scope.showAlerMsg('ID must not be empty!');
-		}
-
-		if(!$scope.item.driver_id) {
-			return $scope.showAlerMsg('Driver must not be empty!');
-		}
-
-		if(!$scope.item.car_no || $scope.item.car_no == '') {
-			return $scope.showAlerMsg('Car No. must not be empty!');
-		}
-
-		if(!$scope.item.fleet_group_id) {
-			return $scope.showAlerMsg('Group must not be empty!');
-		}
-
-		return true;*/
 		var form = $scope.fleetSettingForm;
 		var keys = ['ID', 'Driver', 'Car No', 'Group', 'Car Model', 'Device Name', 'Device Model'];
 
@@ -164,7 +147,7 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 	 */
 	$scope.isDeletable = function() {
 		return $scope.item.id ? true : false;
-	};	
+	};
 
 	/**
 	 * Show Alert Message

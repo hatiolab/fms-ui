@@ -74,6 +74,24 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 		};
 
 		/**
+		 * Form이 유효한 지 체크 
+		 * @return {Boolean}
+		 */
+		$scope.isFormValid = function() {
+			var form = $scope.groupSettingForm;
+			//return form.$dirty && form.$valid;
+			return form.$dirty;
+		};
+
+		/**
+		 * 삭제 가능한 지 여부 
+		 * @return {Boolean}
+		 */
+		$scope.isDeletable = function() {
+			return $scope.item.id ? true : false;
+		};
+
+		/**
 		 * Check form validation
 		 * 
 		 * @return N/A
@@ -103,18 +121,26 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 		 * @return {Object}
 		 */
 		$scope.save = function() {
-			if (!$scope.checkValidForm()) {
-				return;
-			}
+			if ($scope.checkValidForm()) {
+				if ($scope.item.id && $scope.item.id != '') {
+					var url = '/fleet_groups/' + $scope.item.id + '.json';
+					var result = RestApi.update(url, null, { fleet_group: $scope.item });
+					result.$promise.then(
+						function(data) {
+							$scope.updateRelations();
+						}, function(error) {
+							ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
+						});
 
-			if ($scope.item.id && $scope.item.id != '') {
-				var url = '/fleet_groups/' + $scope.item.id + '.json';
-				var result = RestApi.update(url, null, { fleet_group: $scope.item });
-				result.$promise.then(function(data) { $scope.updateRelations(); });
-
-			} else {
-				var result = RestApi.create('/fleet_groups.json', null, { fleet_group: $scope.item });
-				result.$promise.then(function(data) { $scope.updateRelations(); });
+				} else {
+					var result = RestApi.create('/fleet_groups.json', null, { fleet_group: $scope.item });
+					result.$promise.then(
+						function(data) { 
+							$scope.updateRelations();
+						}, function(error) {
+							ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
+						});
+				}
 			}
 		};
 
@@ -132,10 +158,8 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 		 */
 		$scope.buildRelations = function() {
 			var items = [];
-
 			for (var i = 0; i < $scope.items.length; i++) {
 				var relation = $scope.items[i];
-
 				if (relation.fleet_group_id && relation.geofence_id) {
 					items.push({
 						id: relation.id,
@@ -157,9 +181,15 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 			if (relationItems.length > 0) {
 				var url = '/geofence_groups/update_multiple.json';
 				var result = RestApi.updateMultiple(url, null, relationItems);
-				result.$promise.then(function(data) {
-					$scope.searchGeoGroups();
-				});
+				result.$promise.then(
+					function(data) {
+						$scope.searchGeoGroups();
+						ModalUtils.success('Success', 'Success To Save');
+					}, function(error) {
+						ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
+					});
+			} else {
+				ModalUtils.success('Success', 'Success To Save');
 			}
 		};
 
@@ -172,10 +202,15 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 			if ($scope.item.id && $scope.item.id != '') {
 				ModalUtils.confirm('sm', 'Confirmation', 'Are you sure to delete?', function() {
 					var result = RestApi.delete('/fleet_groups/' + $scope.item.id + '.json', null);
-					result.$promise.then(function(data) {
-						$scope.new();
-						$scope.refreshList();
-					});
+					result.$promise.then(
+						function(data) {
+							$scope.new();
+							$scope.refreshList();
+							ModalUtils.success('Success', 'Success To Delete');
+
+						}, function(error) {
+							ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
+						});
 				});
 			}
 		};
