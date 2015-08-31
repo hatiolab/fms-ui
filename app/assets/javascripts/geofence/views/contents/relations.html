@@ -61,10 +61,10 @@
 			<button type="button" class="btn pull-right icon-plus" ng-click="addRelation()"></button>
 		</div>
 		
+		<button type="button" class="btn btn-default margin-t7 pull-left" ng-show="item.canBeBack" ng-click="back()"><translate class="col-xs-3 control-label" name-value ="Back" category="button"/></button>
 		<button type="button" class="btn btn-default margin-t7 pull-left" ng-click="new()">
 			<translate class="col-xs-3 control-label" name-value ="New" category="button"/>
 		</button>
-		<!--button type="button" class="btn btn-default margin-t7 pull-right" ng-click="delete()">Delete</button-->
 		<button type="button" class="btn btn-default margin-t7 pull-right btn-success margin-r7" ng-click="save()">
 			<translate class="col-xs-3 control-label" name-value ="Save" category="button"/>
 		</button>

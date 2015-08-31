@@ -3,11 +3,26 @@
 
 		<!-- menu begin -->
 		<ul class="setting-sidemenu">
-			<li class="submenu-title"><translate name-value ="Geofence" category="menu"/></li>
-			<li><a href="#/geofence" class="active"><translate name-value ="Geofence" category="menu"/></a></li>
-			<li><a href="#/geofence/settings" class=""><translate name-value ="Geofence Setting" category="menu"/></a></li>
-			<li><a href="#/geofence/relations" class=""><translate name-value ="Group Assignment" category="menu"/></a></li>
-			<button id="btnGeofenceView" type="button" class="btn btn-default panel-refresh pull-right"></button>
+			<li class="submenu-title">
+				<translate name-value ="Geofence" category="menu"/>
+			</li>
+			<li>
+				<a href="#/geofence" class="active">
+					<translate name-value ="Geofence" category="menu"/>
+				</a>
+			</li>
+			<li>
+				<a href="#/geofence/settings" class="">
+					<translate name-value ="Geofence Setting" category="menu"/>
+				</a>
+			</li>
+			<li>
+				<a href="#/geofence/relations" class="">
+					<translate name-value ="Group Assignment" category="menu"/>
+				</a>
+			</li>
+			
+			<button id="btnGeofenceView" type="button" class="btn btn-default panel-refresh pull-right"/>
 		</ul>
 		<!-- menu end -->
 
@@ -18,7 +33,7 @@
 					<translate name-value ="Name" category="label"/>
 				</label>
 				<div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
-					<input name="name" type="text" class="form-control" ng-model="searchParams.name" placeholder="Name"></input>
+					<input name="name" type="text" class="form-control" ng-model="searchParams.name"/>
 				</div>
 			</div>
 
@@ -27,7 +42,7 @@
 					<translate name-value ="Desc" category="label"/>
 				</label>
 				<div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
-					<input name="description" type="text" class="form-control" ng-model="searchParams.description" placeholder="Description"></input>
+					<input name="description" type="text" class="form-control" ng-model="searchParams.description"/>
 				</div>
 			</div>
 		</form>
@@ -55,12 +70,6 @@
 			</table>
 		</div>
 		<!-- data table end -->
-
-		<!-- geofence alert list begin -->
-		<!-- <ul class="setting-sidemenu">
-			<li><a href="" class="menu-icon geofence">Geofence Alert List</a></li>
-		</ul> -->
-		<!-- geofence alert list end -->
 
 		<!-- event table begin -->
 		<event-list event-type='typ_geofence' class="side-solid-line"> </event-list>

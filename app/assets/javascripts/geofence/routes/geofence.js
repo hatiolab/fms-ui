@@ -18,6 +18,7 @@ angular.module('fmsGeofence').config(function($stateProvider, $urlRouterProvider
 
 	.state('geofence.settings', {
 		url: '/settings',
+		params: { 'geofence' : null },
 		views: {
 			'sidebar-view@': {
 				template: '<setting-list toggle-switch></setting-list>'

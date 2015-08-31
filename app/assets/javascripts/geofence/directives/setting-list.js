@@ -13,7 +13,7 @@ angular.module('fmsGeofence').directive('settingList', function() {
 	};
 })
 
-.controller('settingListCtrl', function($rootScope, $scope, $resource, $element, $state, GridUtils, FmsUtils, ModalUtils, RestApi) {
+.controller('settingListCtrl', function($rootScope, $scope, $element, $state, $stateParams, GridUtils, FmsUtils, ModalUtils, RestApi) {
 
 	/**
 	 * Geofence List
@@ -161,6 +161,10 @@ angular.module('fmsGeofence').directive('settingList', function() {
 		$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
 		// grid container를 새로 설정한다.
 		GridUtils.setGridContainerHieght('geofence-setting-table-container');
+		// Geofence Detail 이동 
+		if($stateParams.geofence) {
+			$scope.goItem($stateParams.geofence);
+		}
 	};
 
 	/**
@@ -216,6 +220,7 @@ angular.module('fmsGeofence').directive('settingList', function() {
 			var result = RestApi.update(url, null, {geofence : $scope.item});
 			result.$promise.then(
 				function(data) {
+					ModalUtils.success('Success', 'Success To Save');
 					$scope.search($scope.tablestate);
 				}, function(error) {
 					ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
@@ -225,6 +230,7 @@ angular.module('fmsGeofence').directive('settingList', function() {
 			var result = RestApi.create('/geofences.json', null, {geofence : $scope.item});
 			result.$promise.then(
 				function(data) {
+					ModalUtils.success('Success', 'Success To Save');
 					$scope.search($scope.tablestate);
 				}, function(error) {
 					console.log(error);

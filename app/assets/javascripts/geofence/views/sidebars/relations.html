@@ -3,27 +3,45 @@
 		
 		<!-- menu begin -->
 		<ul class="setting-sidemenu">
-			<li class="submenu-title"><translate name-value ="Geofence" category="menu"/></li>
-			<li><a href="#/geofence" class=""><translate name-value ="Geofence" category="menu"/></a></li>
-			<li><a href="#/geofence/settings" class=""><translate name-value ="Geofence Setting" category="menu"/></a></li>
-			<li><a href="#/geofence/relations" class="active"><translate name-value ="Group Assignment" category="menu"/></a></li>
-			<button id="searchGeofenceRelations" type="button" class="btn btn-default panel-refresh pull-right"></button>
+			<li class="submenu-title">
+				<translate name-value ="Geofence" category="menu"/>
+			</li>
+			<li>
+				<a href="#/geofence" class="">
+					<translate name-value ="Geofence" category="menu"/>
+				</a>
+			</li>
+			<li>
+				<a href="#/geofence/settings" class="">
+					<translate name-value ="Geofence Setting" category="menu"/>
+				</a>
+			</li>
+			<li>
+				<a href="#/geofence/relations" class="active">
+					<translate name-value ="Group Assignment" category="menu"/>
+				</a>
+			</li>
+			<button id="searchGeofenceRelations" type="button" class="btn btn-default panel-refresh pull-right"/>
 		</ul>
 		<!-- menu end -->
 		
 		<!-- search condition begin -->
 		<form name="geofenceForm" class="form-horizontal">
 			<div class="form-group">
-				<label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">Name</label>
+				<label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">
+					<translate name-value ="Name" category="label"/>
+				</label>
 				<div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
-					<input name="name" type="text" class="form-control" ng-model="searchParams.name" placeholder="Name"></input>
+					<input name="name" type="text" class="form-control" ng-model="searchParams.name"/>
 				</div>
 			</div>
 
 			<div class="form-group">
-				<label class="col-xs-12 col-sm-3 col-md-2 control-label">Desc.</label>
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+					<translate name-value ="Desc." category="label"/>
+				</label>
 				<div class="col-xs-10 col-sm-4 col-md-4 padding-clear">
-					<input name="description" type="text" class="form-control" ng-model="searchParams.description" placeholder="Description"></input>
+					<input name="description" type="text" class="form-control" ng-model="searchParams.description"/>
 				</div>
 			</div>
 		</form>

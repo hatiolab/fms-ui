@@ -8,8 +8,7 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
 	};
 })
 
-.controller('relationDetailCtrl', function($rootScope, $scope, $resource, $element, $filter, ModalUtils, FmsUtils, RestApi) {
-	
+.controller('relationDetailCtrl', function($rootScope, $scope, $state, $element, $filter, GridUtils, ModalUtils, FmsUtils, RestApi) {
 	/**
 	 * Selected Geofence Item
 	 * 
@@ -170,6 +169,7 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
 			var result = RestApi.updateMultiple(url, null, relationItems);
 			result.$promise.then(
 				function(data) {
+					ModalUtils.success('Success', 'Success To Save');
 					$scope.searchGeoGroups();
 				}, function(error) {
 					ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
@@ -188,6 +188,7 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
 				var result = RestApi.delete('/geofences/' + $scope.item.id + '.json', null);
 				result.$promise.then(
 					function(data) {
+						ModalUtils.success('Success', 'Success To Delete');
 						$scope.new();
 						$scope.refreshList();
 					}, function(error) {
@@ -254,6 +255,13 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
 		});
 
 		$scope.numbering($scope.items, 1);
+	};
+
+	/**
+	 * Back
+	 */
+	$scope.back = function() {
+		$state.go('geofence.settings', { 'geofence': $scope.item }, { reload : true });
 	};
 
 	/**

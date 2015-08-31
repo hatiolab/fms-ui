@@ -2,6 +2,17 @@ angular.module('fmsCore').factory('ModalUtils', function($modal, $log) {
 	
 	return {
 
+    /**
+     * 트랜잭션 성공 
+     * @param  {String}   Title
+     * @param  {String}   Messsage
+     * @param  {Function} Callback Function
+     * @return {Object} ModelInstance
+     */
+    success : function(title, msg, callback) {
+      return this.alert('sm', title, msg, callback);
+    },
+
 		/**
 		 * Confirm popup
 		 *
