@@ -99,7 +99,9 @@ angular.module('fmsMonitor').directive('monitorSideInfoTrip', function() {
 	};
 
 	$scope.tripInfoChangeEvent = function() {
-		$rootScope.$broadcast('monitor-info-trip-change', $scope.trip);
+		if($scope.trip){
+			$rootScope.$broadcast('monitor-info-trip-change', $scope.trip);
+		}
 	};
 
 });
