@@ -7,7 +7,9 @@ module Basic
   end
 
   def current_domain
+    @current_domain ||= User.current_user ? User.current_user.domain : Domain.find_by_name('system')
     @current_domain ||= Domain.find_by_subdomain!(request.subdomain.empty? ? 'system' : request.subdomain)
+    @current_domain
   end
   
   def scope_current_domain(&block)

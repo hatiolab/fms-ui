@@ -1,9 +1,17 @@
 class MongoController < ActionController::Base
+
+  include Basic
+
+  respond_to :html, :xml, :json
+
+  before_filter :authenticate_user!, :set_current_user
+  
+  around_filter :scope_current_domain  
   
   private
   
   def searching(entity, params)
-    where_params, where_conds, sorts = params["_q"], {}, []
+    where_params, where_conds, sorts = params["_q"], { 'dom' => Domain.current_domain.id }, []
     params["_o"].each { |key, value| sorts << "#{key} #{value}" } if params["_o"]
     
     if params["sort"]
@@ -38,14 +46,8 @@ class MongoController < ActionController::Base
       end
     end if(where_params)
 
-    unless(where_conds.empty?)
-      total_count = entity.all_of(where_conds).count
-      items = entity.all_of(where_conds).order(sort_str).skip(params[:start].to_i).limit(params[:limit].to_i)
-    else
-      total_count = entity.count
-      items = entity.order(sort_str).skip(params[:start].to_i).limit(params[:limit].to_i)
-    end
-
+    total_count = entity.all_of(where_conds).count
+    items = entity.all_of(where_conds).order(sort_str).skip(params[:start].to_i).limit(params[:limit].to_i)
     return {:items => items, :total => total_count, :success => true, :conditions => where_conds}
   end
   
