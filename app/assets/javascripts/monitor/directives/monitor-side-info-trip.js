@@ -3,7 +3,18 @@ angular.module('fmsMonitor').directive('monitorSideInfoTrip', function() {
 		restrict: 'E',
 		controller: 'monitorSideInfoTripCtrl',
 		templateUrl: '/assets/monitor/views/sidebar/monitor-side-info-trip.html',
-		scope: {}
+		scope: {},
+		link : function(scope, element, attr, sideFleetsCtrl) {
+			// 버튼이 Directive Element 바깥쪽에 있어서 버튼 클릭함수를 이용 ...
+			var refreshButton = angular.element('.panel-refresh');
+			refreshButton.bind("click", function() {
+				var fleetTab = angular.element('#side-info');
+				// side-fleets 탭이 액티브 된 경우만 호출
+				if(fleetTab.hasClass('active')) {
+					scope.tripInfoChangeEvent();
+				}
+     		});
+		}
 	}; 
 })
 .controller('monitorSideInfoTripCtrl', function($rootScope, $scope, $resource, $element, GridUtils, RestApi) {
@@ -85,6 +96,10 @@ angular.module('fmsMonitor').directive('monitorSideInfoTrip', function() {
 				callback();
 			}
 		});
+	};
+
+	$scope.tripInfoChangeEvent = function() {
+		$rootScope.$broadcast('monitor-info-trip-change', $scope.trip);
 	};
 
 });

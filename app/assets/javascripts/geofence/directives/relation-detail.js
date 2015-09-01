@@ -110,6 +110,7 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
 				var result = RestApi.update(url, null, { geofence: $scope.item });
 				result.$promise.then(
 					function(data) { 
+						$scope.item = data; 
 						$scope.updateRelations(); 
 					}, function(error) {
 						ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
@@ -119,7 +120,8 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
 			} else {
 				var result = RestApi.create('/geofences.json', null, { geofence: $scope.item });
 				result.$promise.then(
-					function(data) { 
+					function(data) {
+						$scope.item = data; 
 						$scope.updateRelations(); 
 					}, function(error) {
 						ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
@@ -146,11 +148,11 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
 		for (var i = 0; i < $scope.items.length; i++) {
 			var relation = $scope.items[i];
 
-			if (relation.fleet_group_id && relation.geofence_id) {
+			if (relation.fleet_group_id) {
 				items.push({
 					id: relation.id,
 					fleet_group_id: relation.fleet_group_id,
-					geofence_id: relation.geofence_id,
+					geofence_id: $scope.item.id,
 					alarm_type: relation.alarm_type,
 					_cud_flag_: (relation.deleteFlag) ? 'd' : (relation.id ? 'u' : 'c')
 				});
@@ -235,6 +237,9 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
 	 * @return {Object}
 	 */
 	$scope.addRelation = function() {
+		if(!$scope.groups || $scope.groups.length == 0) {
+			$scope.searchGroups();
+		}
 		$scope.items.push({
 			no: 0,
 			fleet_group : {

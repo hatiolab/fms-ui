@@ -53,6 +53,10 @@
 		            </th>
 		            <td>{{selectedMarker.name}}</td>
 		          </tr>
+			      <tr>
+		            <th class="modal-icon dot-gray"><translate name-value ="Group" category="label"></translate></th>
+		            <td>{{selectedMarker.fleet_group ? selectedMarker.fleet_group.name : ''}}</td>
+		          </tr>
 		          <tr>
 		            <th class="modal-icon dot-gray">
 		            	<translate name-value ="Car Model" category="label"/>

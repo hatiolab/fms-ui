@@ -98,6 +98,7 @@
     require : "^periodSet",
     link: function (scope, element, attrs, periodSetCtrl) {
       var refreshButton = element.find('#priodsetMonth');
+
       refreshButton.bind("click", function() {
         periodSetCtrl.setSearchPeriod('month');
       });
@@ -111,6 +112,7 @@
     require : "^periodSet",
     link: function (scope, element, attrs, periodSetCtrl) {
       var refreshButton = element.find('#priodsetYear');
+
       refreshButton.bind("click", function() {
         periodSetCtrl.setSearchPeriod('year');
       });

@@ -155,12 +155,12 @@ angular.module('fmsMonitor').directive('monitorSideInfoAlertList', function() {
 	 * Sidebar에서 Trip 선택시 이벤트 
 	 */
 	$scope.$on('monitor-trip-info-change', function(evt, tripData) {
-		if(!tripData.from || tripData.from != 'infobar') {
+		// if(!tripData.from || tripData.from != 'infobar') {
 			$scope.tripId = tripData.id;
 			$scope.tablestate.pagination.start = 0;
 			$scope.tablestate.pagination.number = $scope.countPerPage;
 			$scope.search();
-		}
+		// }
 	});
 
 	/**

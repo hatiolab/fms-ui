@@ -500,7 +500,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 * 
 	 */
 	$scope.changeCurrentTrip = function(newTrip) {
-		if($scope.currentTripId != newTrip.id) {
+		// if($scope.currentTripId != newTrip.id) { //To-do : check 필요
 			$scope.currentTripId = newTrip.id;
 			// send trip information to infobar
 			$rootScope.$broadcast('monitor-trip-info-change', newTrip);
@@ -508,7 +508,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 			$scope.getAddress(newTrip, newTrip.s_lat, newTrip.s_lng, function(marker, address) {
 	 			newTrip['fromAddress'] = address;
 			});
-		}
+		// }
 	};
 
 	/**
@@ -839,9 +839,9 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 * Infobar Trip 그리드의 Trip 선택시
 	 */
 	var rootScopeListener4 = $rootScope.$on('monitor-info-trip-change', function(evt, trip) {
-		if($scope.viewMode != 'TRIP' || trip.id != $scope.currentTripId) {
+		// if($scope.viewMode != 'TRIP' || trip.id != $scope.currentTripId) {
 			$scope.goTrip(trip.id);
-		}
+		// }
 	});
 
 	/**

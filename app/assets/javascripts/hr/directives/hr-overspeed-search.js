@@ -181,19 +181,18 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 	$scope.$watchCollection('searchParams', function() {
 		$scope.search();
 	});
-
 	/**
 	 * 검색 기간 설정 
 	 * @param {String} Week, Month, Year
 	 */
 	$scope.setSearchPeriod = function(periodType) {
 		var period = FmsUtils.getPeriodString(periodType);
-		$scope.searchParams = { 'from_date' : period[0], 'to_date' : period[1] };
+		$scope.searchParams['from_date'] = period[0];
+		$scope.searchParams['to_date'] = period[1];
 	};
 
 	/**
 	 * 검색 기간 설정 
 	 */
 	$scope.setSearchPeriod('week');
-
 });

@@ -264,5 +264,14 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
   $scope.$on('$destroy', function(event) {
     fleetChangeListener();
   });
+
+  $scope.init= function(){
+	$scope.setDefaultImage();
+	$scope.findGroups();
+	$scope.findDrivers();
+	$scope.file = null;
+  }
+
+  $scope.init();
 	// --------------------------- E N D ----------------------------
 });
