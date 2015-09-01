@@ -2,13 +2,33 @@
 	<div class="height-full" ng-show="true">
 	
 		<!-- menu begin -->
-		<div class="submenu-title">report</div>
+		<div class="submenu-title"><translate name-value ="Report" category="menu"></translate></div>
 		<ul class="setting-sidemenu list5-scroll">
-			<li><a href="#/reports/overview">Overview</a></li>
-			<li><a href="#/reports/group-drive">Driving Summary By Group</a></li>
-			<li><a href="#/reports/fleet-drive">Driving Summary By Fleet</a></li>
-			<li><a href="#/reports/group-alert" class="active">Alert Summary By Group</a></li>
-			<li><a href="#/reports/fleet-alert">Alert Summary By Fleet</a></li>
+			<li>
+				<a href="#/reports/overview">
+					<translate name-value ="Overview" category="menu"></translate>
+				</a>
+			</li>
+			<li>
+				<a href="#/reports/group-drive">
+					<translate name-value ="Driving Summary By Group" category="menu"></translate>
+				</a>
+			</li>
+			<li>
+				<a href="#/reports/fleet-drive">
+					<translate name-value ="Driving Summary By Fleet" category="menu"></translate>
+				</a>
+			</li>
+			<li>
+				<a href="#/reports/group-alert" class="active">
+					<translate name-value ="Alert Summary By Group" category="menu"></translate>
+				</a>
+			</li>
+			<li>
+				<a href="#/reports/fleet-alert">
+					<translate name-value ="Alert Summary By Fleet" category="menu"></translate>
+				</a>
+			</li>
 			<!-- <button id="btnReportGroupAlert" type="button" class="btn btn-default panel-refresh pull-right"></button> -->
 		</ul>
 		<!-- menu end -->
@@ -37,11 +57,11 @@
 				<thead>
 					<tr>
 						<th>#</th>
-						<th>Group</th>
-						<th id="impact" st-sort="impact" ng-click="setsort('impact')">Impact</th>
-						<th id="overspeed" st-sort="overspeed" ng-click="setsort('overspeed')">Overspeed</th>
-						<th id="geofence" st-sort="geofence" ng-click="setsort('geofence')">Geofence</th>
-						<th id="emergency" st-sort="emergency" ng-click="setsort('emergency')">Emergency</th>
+						<th><translate name-value ="Group" category="label"></translate></th>
+						<th id="impact" st-sort="impact" ng-click="setsort('impact')"><translate name-value ="Impact" category="label"></translate></th>
+						<th id="overspeed" st-sort="overspeed" ng-click="setsort('overspeed')"><translate name-value ="Overspeed" category="label"></translate></th>
+						<th id="geofence" st-sort="geofence" ng-click="setsort('geofence')"><translate name-value ="Geofence" category="label"></translate></th>
+						<th id="emergency" st-sort="emergency" ng-click="setsort('emergency')"><translate name-value ="Emergency" category="label"></translate></th>
 					</tr>
 				</thead>
 				<tbody>

@@ -56,23 +56,23 @@
         <div class="pull-left">
 	        <table class="detail-info-table">
 	          <tr>
-	            <th class="modal-icon dot-gray"><translate name-value ="fleet" category="label"></translate></th>
+	            <th class="modal-icon dot-gray"><translate name-value ="Fleet" category="label"></translate></th>
 	            <td>{{selectedMarker.name}}</td>
 	          </tr>
 	          <tr>
-	            <th class="modal-icon dot-gray"><translate name-value ="group" category="label"></translate></th>
+	            <th class="modal-icon dot-gray"><translate name-value ="Group" category="label"></translate></th>
 	            <td>{{selectedMarker.fleet_group ? selectedMarker.fleet_group.name : ''}}</td>
 	          </tr>
 	          <tr>
-	            <th class="modal-icon dot-gray"><translate name-value ="carNo" category="label"></translate></th>
+	            <th class="modal-icon dot-gray"><translate name-value ="Car No" category="label"></translate></th>
 	            <td>{{selectedMarker.car_no}}</td>
 	          </tr>	          
 	          <tr>
-	            <th class="modal-icon dot-gray"><translate name-value ="model" category="label"></translate></th>
+	            <th class="modal-icon dot-gray"><translate name-value ="Model" category="label"></translate></th>
 	            <td>{{selectedMarker.car_model}}</td>
 	          </tr>
 	          <tr>
-	            <th class="modal-icon dot-gray"><translate name-value ="drivers" category="label"></translate></th>
+	            <th class="modal-icon dot-gray"><translate name-value ="Drivers" category="label"></translate></th>
 	            <td>{{selectedMarker.driver.name}}</td>
 	          </tr>
 					</table>
@@ -89,15 +89,15 @@
       show="windowSwitch.showTripInfo" closeClick="switchOffAll()">
       <div>
         <div class="detail-item">
-					<translate class="modal-icon dot-gray" name-value ="tripID" category="label"></translate>
+					<translate class="modal-icon dot-gray" name-value ="Trip ID" category="label"></translate>
 					<strong>{{selectedMarker.id}} [ {{selectedMarker.type}} ]</strong>
 				</div>
         <div class="detail-item margin-t5">
-        			<translate class="modal-icon dot-gray min-w100" name-value ="startedAt" category="label"></translate>
+        			<translate class="modal-icon dot-gray min-w100" name-value ="Started At" category="label"></translate>
 					{{selectedMarker.stm | fmstime}}
 				</div>
         <div class="detail-item">
-        			<translate class="modal-icon dot-gray min-w100" name-value ="savedAt" category="label"></translate>
+        			<translate class="modal-icon dot-gray min-w100" name-value ="Saved At" category="label"></translate>
 					{{selectedMarker.stm | fmstime}}
 				</div>
       </div>
@@ -108,15 +108,15 @@
       show="windowSwitch.showBatchInfo" closeClick="switchOffAll()">
       <div>
         <div class="detail-item">
-        			<translate class="modal-icon dot-gray" name-value ="batchID" category="label"></translate>
+        			<translate class="modal-icon dot-gray" name-value ="Batch ID" category="label"></translate>
 					<strong>{{selectedMarker.id}} [ {{selectedMarker.type}} ]</strong>
 				</div>
         <div class="detail-item margin-t5">
-                	<translate class="modal-icon dot-gray min-w100" name-value ="startedAt" category="label"></translate>
+                	<translate class="modal-icon dot-gray min-w100" name-value ="Started At" category="label"></translate>
 					{{selectedMarker.stm | fmstime}}
 				</div>
         <div class="detail-item">
-        			<translate class="modal-icon dot-gray min-w100" name-value ="savedAt" category="label"></translate>
+        			<translate class="modal-icon dot-gray min-w100" name-value ="Saved At" category="label"></translate>
 					{{selectedMarker.utm | fmstime}}
 				</div>
       </div>
@@ -130,17 +130,17 @@
         <pip-image front-image-url="{{selectedMarker.f_img}}" rear-image-url="{{selectedMarker.r_img}}">
         </pip-image>
 				<div class="detail-item margin-t5">
-					<translate class="modal-icon dot-gray min-w100" name-value ="occurredAt" category="label"></translate>
+					<translate class="modal-icon dot-gray min-w100" name-value ="Occurred At" category="label"></translate>
 					{{selectedMarker.ttm | fmstime}}
 				</div>
 		
 				<div class="detail-item">
-					<translate class="modal-icon dot-gray min-w100" name-value ="savedAt" category="label"></translate>
+					<translate class="modal-icon dot-gray min-w100" name-value ="Saved At" category="label"></translate>
 					{{selectedMarker.ctm | fmstime}}
 				</div>
 
 				<div class="detail-item">
-					<translate class="modal-icon dot-gray" name-value ="speed" category="label"></translate>
+					<translate class="modal-icon dot-gray" name-value ="Speed" category="label"></translate>
 					<span class="{{selectedMarker.typeClass}}"></span>{{selectedMarker.vlc | fmsvelocity : true}}
 				</div>
 		

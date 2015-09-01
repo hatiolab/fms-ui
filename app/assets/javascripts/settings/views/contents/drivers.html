@@ -13,14 +13,14 @@
 		<div class="col-xs-12 col-sm-8 col-md-8">
 
 			<div class="form-group">
-			 	<label class="col-xs-12 col-sm-2 col-md-2 control-label">ID <strong style="color:red">*</strong></label>
+			 	<label class="col-xs-12 col-sm-2 col-md-2 control-label"><translate name-value ="ID" category="Label"></translate><strong style="color:red">*</strong></label>
 			 	<div class="col-xs-11 col-sm-5 col-md-5">
 			 	 <input type="text" name="ID" class="form-control" ng-model="item.code" required ng-maxlength="32"/>
 			 	</div>
 			</div>
 			
 			<div class="form-group">
-			 	<label class="col-xs-12 col-sm-2 col-md-2 control-label">Name <strong style="color:red">*</strong></label>
+			 	<label class="col-xs-12 col-sm-2 col-md-2 control-label"><translate name-value ="Name" category="label"></translate> <strong style="color:red">*</strong></label>
 			 	<div class="col-xs-11 col-sm-5 col-md-5">
 			 	 <input type="text" name="Name"
 			 	  class="form-control" ng-model="item.name" required ng-maxlength="64"/>
@@ -28,14 +28,14 @@
 			</div>
 			
 			<div class="form-group">
-			 	<label class="col-xs-12 col-sm-2 col-md-2 control-label">E-mail</label>
+			 	<label class="col-xs-12 col-sm-2 col-md-2 control-label"><translate name-value ="E-mail" category="label"></translate> </label>
 			 	<div class="col-xs-11 col-sm-10 col-md-10">
 			 	 <input name="email" type="email" class="form-control" ng-model="item.email" ng-maxlength="64"></input>
 			 	</div>
 			</div>
 			
 			<div class="form-group">
-			 	<label class="col-xs-12 col-sm-2 col-md-2 control-label">Division</label>
+			 	<label class="col-xs-12 col-sm-2 col-md-2 control-label"><translate name-value ="Division" category="label"></translate> </label>
 				<div class="col-xs-11 col-sm-10 col-md-10">
 					<input type="text" name="Division" class="form-control" ng-model="item.division" ng-maxlength="32"></input>
 				</div>
@@ -48,37 +48,37 @@
 		<div class="line-infos bg-white col-xs-12">
 
 			<div class="form-group">
-		 		<label class="col-xs-12 col-sm-2 col-md-2 control-label">Social-ID</label>
+		 		<label class="col-xs-12 col-sm-2 col-md-2 control-label"><translate name-value ="Social-ID" category="label"></translate></label>
 		 		<div class="col-xs-12 col-sm-5 col-md-5">
 		 	 		<input type="text" name="Social ID" class="form-control" ng-model="item.social_id" ng-maxlength="32"></input>
 		 		</div>
 			</div>
 
 			<div class="form-group">
-		 		<label class="col-xs-12 col-sm-2 col-md-2 control-label">Title</label>
+		 		<label class="col-xs-12 col-sm-2 col-md-2 control-label"><translate name-value ="Title" category="label"></translate></label>
 		 		<div class="col-xs-12 col-sm-5 col-md-5">
 		 	 		<input type="text" name="Title" class="form-control" ng-model="item.title" ng-maxlength="32"></input>
 		 		</div>
 			</div>
 				
 			<div class="form-group">
-		 		<label class="col-xs-12 col-sm-2 col-md-2 control-label">Mobile</label>
+		 		<label class="col-xs-12 col-sm-2 col-md-2 control-label"><translate name-value ="Mobile" category="label"></translate></label>
 		 		<div class="col-xs-12 col-sm-5 col-md-5">
 		 	 		<input type="text" name="Mobile" class="form-control" ng-model="item.mobile_no" ng-maxlength="32"></input>
 		 		</div>
 			</div>
 
 			<div class="form-group">
-		 		<label class="col-xs-12 col-sm-2 col-md-2 control-label">Address</label>
+		 		<label class="col-xs-12 col-sm-2 col-md-2 control-label"><translate name-value ="Address" category="label"></translate></label>
 		 		<div class="col-xs-12 col-sm-9 col-md-9">
 		 	 		<input type="text" name="Address" class="form-control" ng-model="item.address" ng-maxlength="255"></input>
 		 		</div>
 			</div>
 		
 			<!-- buttons begin -->
-			<button type="button" class="btn btn-default margin-t7 pull-left" ng-click="new()">New</button>
-			<button type="button" class="btn btn-default margin-t7 pull-right" ng-click="delete()" ng-disabled="!isDeletable()">Delete</button>
-			<button type="button" class="btn btn-default margin-t7 pull-right btn-success margin-r7" ng-click="save()" ng-disabled="!isFormValid()">Save</button>
+			<button type="button" class="btn btn-default margin-t7 pull-left" ng-click="new()"><translate name-value ="New" category="button"></translate></button>
+			<button type="button" class="btn btn-default margin-t7 pull-right" ng-click="delete()" ng-disabled="!isDeletable()"><translate name-value ="Delete" category="button"></translate></button>
+			<button type="button" class="btn btn-default margin-t7 pull-right btn-success margin-r7" ng-click="save()" ng-disabled="!isFormValid()"><translate name-value ="Save" category="button"></translate></button>
 			<!-- buttons end -->
 		
 		</div>

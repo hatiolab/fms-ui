@@ -5,14 +5,14 @@
     <form id="userForm" method="post" class="form-horizontal">
       <div class="form-group">
           <!-- <label class="col-xs-3 control-label">Locale</label> -->
-          <strong><translate class="col-xs-3 control-label" name-value ="locale" category="label"> </translate></strong>
+          <strong><translate class="col-xs-3 control-label" name-value ="Locale" category="label"> </translate></strong>
           <div class="col-xs-5">
               <input type="text" class="form-control" name="locale" disabled="disabled" ng-model="localeRes.locale"/>
           </div>
       </div>
       <div class="form-group">
           <!-- <label class="col-xs-3 control-label">Category</label> -->
-          <strong><translate class="col-xs-3 control-label" name-value ="category" category="label"> </translate><strong>
+          <strong><translate class="col-xs-3 control-label" name-value ="Category" category="label"> </translate><strong>
           <div class="col-xs-3">
               <input type="text" class="form-control" name="category" disabled="disabled" ng-model="localeRes.category"/>
           </div>
@@ -20,7 +20,7 @@
 
       <div class="form-group">
           <!-- <label class="col-xs-3 control-label">Name</label> -->
-          <strong><translate class="col-xs-3 control-label" name-value ="name" category="label"> </translate></strong>
+          <strong><translate class="col-xs-3 control-label" name-value ="Name" category="label"> </translate></strong>
           <div class="col-xs-5">
               <input type="text" class="form-control" name="name" disabled="disabled" ng-model="localeRes.name"/>
           </div>
@@ -28,7 +28,7 @@
 
       <div class="form-group">
           <!-- <label class="col-xs-3 control-label">Display</label> -->
-          <strong><translate class="col-xs-3 control-label" name-value ="display" category="label"> </translate></strong>
+          <strong><translate class="col-xs-3 control-label" name-value ="Display" category="label"> </translate></strong>
           <div class="col-xs-5">
               <input type="text" class="form-control" name="display" ng-model="localeRes.display"/>
           </div>
@@ -36,6 +36,6 @@
     </form>
 </div>
 <div class="modal-footer">
-  <button class="btn btn-primary" ng-click="ok()">Save</button>
-  <button class="btn btn-warning" ng-click="cancel()" ng-show="showCancelButton">Cancel</button>
+  <button class="btn btn-primary" ng-click="ok()"><translate name-value ="Save" category="button"> </translate></button>
+  <button class="btn btn-warning" ng-click="cancel()" ng-show="showCancelButton"><translate name-value ="Cancel" category="button"> </translate></button>
 </div>

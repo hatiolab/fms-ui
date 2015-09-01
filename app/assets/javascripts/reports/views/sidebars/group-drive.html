@@ -2,13 +2,33 @@
 	<div class="height-full" ng-show="true">
 
 		<!-- menu begin -->
-		<div class="submenu-title">report</div>
+		<div class="submenu-title"><translate name-value ="Report" category="menu"></translate></div>
 		<ul class="setting-sidemenu list5-scroll">
-			<li><a href="#/reports/overview">Overview</a></li>
-			<li><a href="#/reports/group-drive" class="active">Driving Summary By Group</a></li>
-			<li><a href="#/reports/fleet-drive">Driving Summary By Fleet</a></li>
-			<li><a href="#/reports/group-alert">Alert Summary By Group</a></li>
-			<li><a href="#/reports/fleet-alert">Alert Summary By Fleet</a></li>
+			<li>
+				<a href="#/reports/overview">
+					<translate name-value ="Overview" category="menu"></translate>
+				</a>
+			</li>
+			<li>
+				<a href="#/reports/group-drive" class="active">
+					<translate name-value ="Driving Summary By Group" category="menu"></translate>
+				</a>
+			</li>
+			<li>
+				<a href="#/reports/fleet-drive">
+					<translate name-value ="Driving Summary By Fleet" category="menu"></translate>
+				</a>
+			</li>
+			<li>
+				<a href="#/reports/group-alert">
+					<translate name-value ="Alert Summary By Group" category="menu"></translate>
+				</a>
+			</li>
+			<li>
+				<a href="#/reports/fleet-alert">
+					<translate name-value ="Alert Summary By Fleet" category="menu"></translate>
+				</a>
+			</li>
 			<!-- <button id="btnReportGroupDrive" type="button" class="btn btn-default panel-refresh pull-right"></button> -->
 		</ul>
 		<!-- menu end -->
@@ -34,9 +54,9 @@
 					<tr>
 						<th st-sort="no">#</th>
 						<th>Group</th>
-						<th id="drive_time" st-sort="drive_time" ng-click="setsort('drive_time')">Driving Time</th>
-						<th id="drive_dist" st-sort="drive_dist" ng-click="setsort('drive_dist')">Driving Dist.</th>
-						<th id="velocity" st-sort="velocity" ng-click="setsort('velocity')">Velocity</th>
+						<th id="drive_time" st-sort="drive_time" ng-click="setsort('drive_time')"><translate name-value ="Driving Time" category="label"></translate></th>
+						<th id="drive_dist" st-sort="drive_dist" ng-click="setsort('drive_dist')"><translate name-value ="Driving Dist." category="label"></translate></th>
+						<th id="velocity" st-sort="velocity" ng-click="setsort('velocity')"><translate name-value ="Velocity" category="label"></translate></th>
 					</tr>
 				</thead>
 				<tbody>

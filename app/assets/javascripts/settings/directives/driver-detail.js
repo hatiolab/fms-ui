@@ -74,8 +74,12 @@ angular.module('fmsSettings').directive('driverDetail', function() {
 	 */
 	$scope.isFormValid = function() {
 		var form = $scope.driverSettingForm;
-		//return form.$dirty && form.$valid;
-		return form.$dirty;
+		if(!form){
+			return false;
+		}else{
+			//return form.$dirty && form.$valid;
+			return form.$dirty;
+		}
 	};
 
 	/**

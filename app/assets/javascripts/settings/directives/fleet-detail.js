@@ -136,9 +136,13 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 	 * @return {Boolean}
 	 */
 	$scope.isFormValid = function() {
-		var form = $scope.driverSettingForm;
-		//return form.$dirty && form.$valid;
-		return form.$dirty;
+		var form = $scope.fleetSettingForm;
+		if(!form){
+			return false;
+		}else{
+			//return form.$dirty && form.$valid;
+			return form.$dirty;
+		}
 	};
 
 	/**

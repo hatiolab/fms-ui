@@ -2,13 +2,33 @@
 	<div class="height-full" ng-show="true">
 	
 		<!-- menu begin -->
-		<div class="submenu-title">report</div>
+		<div class="submenu-title"><translate name-value ="Report" category="menu"></translate></div>
 		<ul class="setting-sidemenu list5-scroll">
-			<li><a href="#/reports/overview">Overview</a></li>
-			<li><a href="#/reports/group-drive">Driving Summary By Group</a></li>
-			<li><a href="#/reports/fleet-drive" class="active">Driving Summary By Fleet</a></li>
-			<li><a href="#/reports/group-alert">Alert Summary By Group</a></li>
-			<li><a href="#/reports/fleet-alert">Alert Summary By Fleet</a></li>
+			<li>
+				<a href="#/reports/overview">
+					<translate name-value ="Overview" category="menu"></translate>
+				</a>
+			</li>
+			<li>
+				<a href="#/reports/group-drive">
+					<translate name-value ="Driving Summary By Group" category="menu"></translate>
+				</a>
+			</li>
+			<li>
+				<a href="#/reports/fleet-drive" class="active">
+					<translate name-value ="Driving Summary By Fleet" category="menu"></translate>
+				</a>
+			</li>
+			<li>
+				<a href="#/reports/group-alert">
+					<translate name-value ="Alert Summary By Group" category="menu"></translate>
+				</a>
+			</li>
+			<li>
+				<a href="#/reports/fleet-alert">
+					<translate name-value ="Alert Summary By Fleet" category="menu"></translate>
+				</a>
+			</li>
 			<!-- <button id="btnReportFleetDrive" type="button" class="btn btn-default panel-refresh pull-right"></button> -->
 		</ul>
 		<!-- menu end -->
@@ -29,24 +49,24 @@
 
 			<!-- type begin -->
 			<div class="form-group">
-				<label class="col-xs-12 col-sm-3 col-md-2 control-label">type</label>
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label"><translate name-value ="Type" category="label"></translate></label>
 				<div class="col-xs-11 col-sm-9 col-md-10 padding-clear">
 					<div class="radio">
 						<label>
 							<input type="radio" ng-model="chartId" value="report-fleet-drive-1" ng-click="showChart()">
-								<!--span class="type-icon overspeed"></span-->Driving Time
+								<!--span class="type-icon overspeed"></span--><translate name-value ="Driving Time" category="label"></translate>
 						</label>
 					</div>
 					<div class="radio">
 						<label>
 							<input type="radio" ng-model="chartId" value="report-fleet-drive-2" ng-click="showChart()">
-								<!--span class="type-icon geofence"></span-->Driving Distance
+								<!--span class="type-icon geofence"></span--><translate name-value ="Driving Distance" category="label"></translate>
 						</label>
 					</div>
 					<div class="radio">
 						<label>
 							<input type="radio" ng-model="chartId" value="report-fleet-drive-3" ng-click="showChart()">
-								<!--span class="type-icon impact"></span-->Average Velocity
+								<!--span class="type-icon impact"></span--><translate name-value ="Average Velocity" category="label"></translate>
 						</label>
 					</div>
 				</div>
@@ -61,10 +81,10 @@
 				<thead>
 					<tr>
 						<th>#</th>
-						<th>Fleet</th>
-						<th id="drive_time" st-sort="drive_time" ng-click="setsort('drive_time')">Driving Time</th>
-						<th id="drive_dist" st-sort="drive_dist" ng-click="setsort('drive_dist')">Driving Dist.</th>
-						<th id="velocity" st-sort="velocity" ng-click="setsort('velocity')">Velocity</th>
+						<th><translate name-value ="Fleet" category="label"></translate></th>
+						<th id="drive_time" st-sort="drive_time" ng-click="setsort('drive_time')"><translate name-value ="Driving Time" category="label"></translate></th>
+						<th id="drive_dist" st-sort="drive_dist" ng-click="setsort('drive_dist')"><translate name-value ="Driving Dist." category="label"></translate></th>
+						<th id="velocity" st-sort="velocity" ng-click="setsort('velocity')"><translate name-value ="Velocity" category="label"></translate></th>
 					</tr>
 				</thead>
 				<tbody>

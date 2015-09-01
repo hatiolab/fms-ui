@@ -3,14 +3,14 @@
 
 		<form name="groupSettingForm" class="form-horizontal">
 			<div class="form-group">
-				<label class="col-xs-12 col-sm-3 col-md-3 control-label">Name <strong style="color:red">*</strong></label>
+				<label class="col-xs-12 col-sm-3 col-md-3 control-label"><translate name-value ="Name" category="label"></translate> <strong style="color:red">*</strong></label>
 				<div class="col-xs-11 col-sm-9 col-md-9">
 					<input type="text" class="form-control" ng-model="item.name"></input>
 				</div>
 			</div>
 			
 			<div class="form-group">
-				<label class="col-xs-12 col-sm-3 col-md-3 control-label">Description</label>
+				<label class="col-xs-12 col-sm-3 col-md-3 control-label"><translate name-value ="Description" category="label"></translate></label>
 				<div class="col-xs-11 col-sm-9 col-md-9">
 					<textarea class="form-control" rows="3" ng-model="item.description"></textarea>
 				</div>
@@ -24,9 +24,9 @@
 					<tr>
 						<th></th>
 						<th>#</th>
-						<th>Geofence Name</th>
-						<th>Geofence Description</th>
-						<th>Event</th>
+						<th><translate name-value ="Geofence Name" category="label"></translate></th>
+						<th><translate name-value ="Geofence Description" category="label"></translate></th>
+						<th><translate name-value ="Event" category="label"></translate></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -58,9 +58,9 @@
 		</div>
 		
 		<!-- buttons begin -->
-		<button type="button" class="btn btn-default margin-t7 pull-left" ng-click="new()">New</button>
-		<button type="button" class="btn btn-default margin-t7 pull-right" ng-click="delete()" ng-disabled="!isDeletable()">Delete</button>
-		<button type="button" class="btn btn-default margin-t7 pull-right btn-success margin-r7" ng-click="save()" ng-disabled="!isFormValid()">Save</button>
+		<button type="button" class="btn btn-default margin-t7 pull-left" ng-click="new()"><translate name-value ="New" category="button"></translate></button>
+		<button type="button" class="btn btn-default margin-t7 pull-right" ng-click="delete()" ng-disabled="!isDeletable()"><translate name-value ="Delete" category="button"></translate></button>
+		<button type="button" class="btn btn-default margin-t7 pull-right btn-success margin-r7" ng-click="save()" ng-disabled="!isFormValid()"><translate name-value ="Save" category="button"></translate></button>
 		<!-- buttons end -->
 	</div>
 	<!-- group infos end -->
