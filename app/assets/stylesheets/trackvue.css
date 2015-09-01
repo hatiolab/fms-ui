@@ -54,6 +54,7 @@ label input[type="checkbox"]{margin-right:5px;}
 .min-w100{display:inline-block;width:100px;}
 .padding-t4{padding-top:4px !important;}
 .padding-rl7{padding-left:7px;padding-right:7px;}
+.padding-l15{padding-left:15px !important;}
 .max-w50{max-width:50px;}
 .max-w60{max-width:60px;}
 .max-w100{max-width:100px;}
@@ -426,7 +427,7 @@ background:url('/assets/icon-table-context.png') 0 -94px no-repeat;height:16px;w
 .map-control:nth-child(even) button{margin:0 5px;}
 
 /* date picker */
-.date .dropdown-menu{padding:0 0 10px 0;overflow:hidden;}
+.date .dropdown-menu{padding:0 0 10px 0;overflow:hidden;height:initial !important;}
 .date .dropdown-menu thead tr:first-child{background-color:#425169 !important;}
 .date .dropdown-menu thead tr:first-child .glyphicon{background:url('/assets/icon-datepicker.png') 4px 1px no-repeat;width:20px;display:block;height:16px;opacity:.5;}
 .date .dropdown-menu thead tr:first-child .glyphicon:hover{opacity:1;}
@@ -449,3 +450,4 @@ background:url('/assets/icon-table-context.png') 0 -94px no-repeat;height:16px;w
 	-webkit-border-radius:15px;-moz-border-radius:15px;border-radius:15px;
 }
 .date .dropdown-menu tbody .btn:active span,.date .dropdown-menu tbody .btn.active span{color:#fff !important;}
+.date .dropdown-menu li:nth-child(2).ng-scope{height:40px;}
