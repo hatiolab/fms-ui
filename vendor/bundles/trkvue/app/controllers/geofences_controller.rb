@@ -13,9 +13,17 @@ public
                left outer join geofence_groups on geofences.id = geofence_groups.geofence_id
                left outer join fleet_groups on geofence_groups.fleet_group_id = fleet_groups.id"
 
+    condStr = ""
+    if(params["_q"])
+      whereParams = params["_q"]
+      condStr << "geofences.name like '%#{whereParams['name-like']}%'" if(whereParams["name-like"]) 
+      condStr << " and " if(!condStr.empty? && whereParams["description-like"]) 
+      condStr << "geofences.description like '%#{whereParams['description-like']}%'" if(whereParams["description-like"]) 
+    end
+
     orderStr = "geofences.name asc, fleet_groups.name asc"
 
-    sql = Geofence.select(select).joins(joinStr).order(orderStr).to_sql
+    sql = Geofence.select(select).joins(joinStr).where(condStr).order(orderStr).to_sql
     geofences = Geofence.connection.select_all(sql)
     tempItems = geofences.group_by { |g| g["id"] }.collect { |key, value| value[0] }
     items = JSON.parse(tempItems.to_json)

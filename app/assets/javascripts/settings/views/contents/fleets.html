@@ -79,49 +79,19 @@
 
 			<div class="form-group">
 		 		<label class="col-xs-12 col-sm-2 col-md-2 control-label"><translate name-value ="Purchasing Date" category="label"></translate></label>
-		 		<!--div class="col-xs-12 col-sm-5 col-md-5">
-		 	 		<input type="text" class="form-control" ng-model="item.purchase_date"></input>
-		 		</div-->
 		    	<div class="col-xs-12 col-sm-5 col-md-5">
-	<!-- 					<div id="setting_fleet_datepicker1" class="input-append date">
-				   		<input name="purchase_date" data-format="yyyy-MM-dd" type="text" ng-model="item.purchase_date" class="form-control"></input>
-				   		<span class="add-on">
-				    		<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-				  		</span>
-						</div> -->
 						<date-picker date-model ="item.purchase_date"></date-picker>
 		    	</div>
 			</div>
 				
 			<div class="form-group">
 		 		<label class="col-xs-12 col-sm-2 col-md-2 control-label"><translate name-value ="Register Date" category="label"></translate></label>
-		 		<!--div class="col-xs-12 col-sm-5 col-md-5">
-		 	 	<input type="text" class="form-control" ng-model="item.reg_date"></input>
-		 		</div-->
+
 		    	<div class="col-xs-12 col-sm-5 col-md-5">
 		    		<date-picker date-model ="item.reg_date"></date-picker>
-	<!-- 					<div id="setting_fleet_datepicker2" class="input-append date">
-				   		<input name="reg_date" data-format="yyyy-MM-dd" type="text" ng-model="item.reg_date" class="form-control"></input>
-				   		<span class="add-on">
-				    		<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-				  		</span>
-						</div> -->
 		    	</div>
 			</div>
 		
-			<!--div class="form-group">
-		 		<label class="col-xs-12 col-sm-3 col-md-3 control-label">Velocity</label>
-		 		<div class="col-xs-12 col-sm-5 col-md-5">
-		 	 		<input type="text" class="form-control" ng-model="item.velocity"></input>
-		 		</div>
-			</div>
-
-			<div class="form-group">
-		 		<label class="col-xs-12 col-sm-3 col-md-3 control-label">Location</label>
-		 		<div class="col-xs-12 col-sm-9 col-md-9">
-		 	 		<input type="text" class="form-control"></input>
-		 		</div>
-			</div-->
 		
 			<!-- buttons begin -->
 			<button type="button" class="btn btn-default margin-t7 pull-left" ng-click="new()"><translate name-value ="New" category="button"></translate></button>
