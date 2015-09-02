@@ -93,6 +93,7 @@ Trkvue::Engine.routes.draw do
 		collection do
 			post :update_multiple
 			get :show_by_name
+			get :show_by_code
 			get :export
 		end
 		member do

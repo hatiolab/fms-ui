@@ -1,6 +1,16 @@
 class DriversController < ResourceMultiUpdateController
 
 public
+  def show_by_code
+    code = params[:code]
+    set_resource_ivar(resource_class.find_by(code: code))
+
+    respond_with(resource) do |format|
+      format.xml  { render 'show' }
+      format.json { render 'show' }
+    end    
+  end
+
 	def upload_image
 		driver = Driver.find(params[:id])
 		driver.img = params[:file]
