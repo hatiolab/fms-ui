@@ -192,7 +192,10 @@ angular.module('fmsCore').directive('topMenu', function() {
 	 * 맵 메뉴 activation
 	 */
 	$scope.setActive($scope.items[0]);
-
+	
+	var moveListener = $rootScope.$on('go-to-monitor', function(event, tabId) {
+		$scope.setActive($scope.items[0]);
+	});
 	/**
 	 * Window Resize 시 모든 그리드 켄테이너의 Height 조정 
 	 */

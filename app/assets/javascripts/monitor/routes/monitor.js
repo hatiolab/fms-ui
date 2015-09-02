@@ -6,6 +6,7 @@ angular.module('fmsMonitor').config(function($stateProvider, $urlRouterProvider)
 	// monitor	
 	.state('monitor', {
 		url: '/',
+		params: { 'tabId' : null },
 		views: {
 			'sidebar-view': {
 				templateUrl: '/assets/monitor/views/sidebar/sidebar.html'

@@ -125,14 +125,22 @@ angular.module('fmsSettings').directive('driverDetail', function() {
 				});
 
 		} else {
-			var result = RestApi.create('/drivers.json', null, {driver : $scope.item});
+			RestApi.checkUnique('/drivers/show_by_code.json?code='+$scope.item.code,null,
+				function() {
+					var result = RestApi.create('/drivers.json', null, {driver : $scope.item});
 
-			result.$promise.then(
+					result.$promise.then(
+						function(data) {
+							$scope.refreshList();
+							ModalUtils.success('Success', 'Success To Save');
+						}, function(error) {
+							ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
+						});
+				}, 
 				function(data) {
-					$scope.refreshList();
-					ModalUtils.success('Success', 'Success To Save');
-
-				}, function(error) {
+					ModalUtils.alert('sm', 'Error', 'Requested Data Already Exists!');
+				},
+				function(error) {
 					ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
 				});
 		}

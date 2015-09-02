@@ -36,6 +36,7 @@ angular.module('fmsGeofence').directive('settingList', function() {
 	 */
 	$scope.searchEnabled = false;
 
+
 	/**
 	 * 서버에 보내기위해 파라미터 변경  
 	 */
@@ -227,13 +228,21 @@ angular.module('fmsGeofence').directive('settingList', function() {
 				});
 
 		} else {
-			var result = RestApi.create('/geofences.json', null, {geofence : $scope.item});
-			result.$promise.then(
+			RestApi.checkUnique('/geofences/show_by_name.json?name='+$scope.item.name,null,
+				function() {
+					var result = RestApi.create('/geofences.json', null, {geofence : $scope.item});
+					result.$promise.then(
+						function(data) {
+							ModalUtils.success('Success', 'Success To Save');
+							$scope.search($scope.tablestate);
+						}, function(error) {
+							ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
+						});
+				}, 
 				function(data) {
-					ModalUtils.success('Success', 'Success To Save');
-					$scope.search($scope.tablestate);
-				}, function(error) {
-					console.log(error);
+					ModalUtils.alert('sm', 'Error', 'Requested Data Already Exists!');
+				},
+				function(error) {
 					ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
 				});
 		}
@@ -245,14 +254,46 @@ angular.module('fmsGeofence').directive('settingList', function() {
 	 * @return N/A
 	 */
 	$scope.checkValidForm = function() {
-		if(!$scope.item.name || $scope.item.name == '') {
-			ModalUtils.alert('sm', 'Alert', 'Name must not be empty!');
-			return false;
+		var form = $scope.geofenceSettingForm;
+		var keys = ['Name','Description'];
+
+		for(var i = 0 ; i < keys.length ; i++) {
+			var input = form[keys[i]];
+			if(input) {
+				if(!FmsUtils.isEmpty(input.$error)) {
+					if(input.$error.required) {
+						return $scope.showAlerMsg(input.$name + ' must not be empty!');
+					} else if(input.$error.maxlength) {
+						return $scope.showAlerMsg(input.$name + ' value length is over max length!');
+					} else if(input.$error.minlength) {
+						return $scope.showAlerMsg(input.$name + ' value length is under min length!');
+					}	else if(input.$error.email) {
+						return $scope.showAlerMsg(input.$name + ' value is invalid email format!');
+					}
+				}
+			}
 		}
 
 		return true;
 	};
-
+	
+	$scope.showAlerMsg = function(msg) {
+		ModalUtils.alert('sm', 'Alert', msg);
+		return false;
+	};
+	/**
+	 * Form이 유효한 지 체크 
+	 * @return {Boolean}
+	 */
+	$scope.isFormValid = function() {
+		var form = $scope.geofenceSettingForm;
+		if(!form){
+			return false;
+		}else{
+			//return form.$dirty && form.$valid;
+			return form.$dirty;
+		}
+	};
 	/**
 	 * delete polygon
 	 * 

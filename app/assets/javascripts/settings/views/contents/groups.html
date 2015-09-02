@@ -5,14 +5,14 @@
 			<div class="form-group">
 				<label class="col-xs-12 col-sm-3 col-md-3 control-label"><translate name-value ="Name" category="label"></translate> <strong style="color:red">*</strong></label>
 				<div class="col-xs-11 col-sm-9 col-md-9">
-					<input type="text" class="form-control" ng-model="item.name"></input>
+					<input type="text" class="form-control" ng-model="item.name" ng-maxlength="32"></input>
 				</div>
 			</div>
 			
 			<div class="form-group">
 				<label class="col-xs-12 col-sm-3 col-md-3 control-label"><translate name-value ="Description" category="label"></translate></label>
 				<div class="col-xs-11 col-sm-9 col-md-9">
-					<textarea class="form-control" rows="3" ng-model="item.description"></textarea>
+					<textarea class="form-control" rows="3" ng-model="item.description" ng-maxlength="255"></textarea>
 				</div>
 			</div>
 		</form>
