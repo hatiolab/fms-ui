@@ -69,6 +69,8 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 				'default_count_per_page' : $scope.getByName(dataSet,'default_count_per_page').value,
 				'default_grid_buffer_count' : $scope.getByName(dataSet,'default_grid_buffer_count').value,
 				'language_setup_mode' : $scope.getByName(dataSet,'language_setup_mode').value,
+				'lat' : DEFAULT_LAT,
+				'lng' : DEFAULT_LNG,
 			};
 
 			$scope.prevLangSetupMode = $scope.settings.language_setup_mode;
@@ -115,7 +117,28 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 		 * @return {Object}
 		 */
 		$scope.save = function() {
-			var items = $scope.items.map(function(item) {
+			var items = $scope.beforeSave();
+
+			if (items.length > 0) {
+				var url = '/settings/update_multiple.json';
+				var result = RestApi.updateMultiple(url, null, items);
+				result.$promise.then(
+					function(results) {
+						$scope.afterSave(results);
+					}, 
+					function(error) {
+						ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
+					});
+			}
+		};
+
+		/**
+		 * Before Save
+		 * 
+		 * @return {Array}
+		 */
+		$scope.beforeSave = function() {
+			var settings = $scope.items.map(function(item) {
 				return { 
 					id : item.id, 
 					name : item.name,
@@ -124,24 +147,53 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 				};
 			});
 
-			if (items.length > 0) {
-				var url = '/settings/update_multiple.json';
-				var result = RestApi.updateMultiple(url, null, items);
+			return settings;
+		};
+
+		/**
+		 * After Save
+		 * 
+		 * @param  {Array}
+		 */
+		$scope.afterSave = function(results) {
+			// Setting 값이 변경된 경우 Domain 저장 
+			if($scope.settings.lat != DEFAULT_LAT || $scope.settings.lng != DEFAULT_LNG) {
+				currentDomain.lat = $scope.settings.lat;
+				currentDomain.lng = $scope.settings.lng;
+
+				var result = RestApi.update('domains/' + currentDomain.id + '.json', null, currentDomain);
 				result.$promise.then(
 					function(data) {
-						$scope.refreshSetting(items);
-						if($scope.prevLangSetupMode != $scope.settings.language_setup_mode) {
-							ModalUtils.alert('sm', 'Mode Changed!', 'Mode was changed! So Application must be reload!', function() {
-								$window.location.reload();
-							});
-						} else {
-							$scope.showAlerMsg("Success", "Success to save!");
-						}
+						DEFAULT_LAT = currentDomain.lat;
+						DEFAULT_LNG = currentDomain.lng;
+						$scope.afterAllSave(results);
+
 					}, function(error) {
-						ModalUtils.alert('sm', 'Error', error.data);
+						ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
 					});
+
+			// Setting 값이 변경되지 않은 경우 
+			} else {
+				$scope.afterAllSave(results);
 			}
-		};	
+		};
+
+		/**
+		 * 모든 저장 처리가 끝난 후 ...
+		 */
+		$scope.afterAllSave = function(results) {
+			$scope.refreshSetting(results);
+
+			// Language Setup 모드 변경시 페이지 리로드 
+			if($scope.prevLangSetupMode != $scope.settings.language_setup_mode) {
+				ModalUtils.alert('sm', 'Mode Changed!', 'Mode was changed! So Application must be reload!', function() {
+					$window.location.reload();
+				});
+			// 그렇지 않으면 성공 메시지 
+			} else {
+				$scope.showAlerMsg("Success", "Success to save!");
+			}
+		};
 
 		/**
 		 * Refresh Setting List

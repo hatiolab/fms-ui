@@ -81,9 +81,7 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 		 * @return {Boolean}
 		 */
 		$scope.isFormValid = function() {
-			var form = $scope.groupSettingForm;
-			//return form.$dirty && form.$valid;
-			return form.$dirty;
+			return true;
 		};
 
 		/**

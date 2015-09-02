@@ -51,10 +51,6 @@ class DomainsController < InheritedResources::Base
     update_domain = Domain.find(params[:id])
     result = false
     
-    puts '*' * 80
-    puts resource_params
-    puts '*' * 80
-    
     if(params[:domain])
       result = update_domain.update_attributes(resource_params[0])
     else
@@ -152,6 +148,6 @@ class DomainsController < InheritedResources::Base
   
 private
   def resource_params
-    [ params.require(:domain).permit(:name, :description, :timezone, :system_flag) ]
+    [ params.require(:domain).permit(:name, :description, :timezone, :system_flag, :lat, :lng) ]
   end
 end

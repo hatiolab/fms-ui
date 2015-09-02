@@ -1,4 +1,4 @@
-json.(@domain, :id, :name, :description, :system_flag, :timezone)
+json.(@domain, :id, :name, :description, :system_flag, :timezone, :lat, :lng)
 
 json.updated_at @domain.updated_at
 json.updater @domain.updater, :id, :name if @domain.updater

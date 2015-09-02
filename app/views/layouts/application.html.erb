@@ -23,8 +23,8 @@
       BRAND_IMAGE_URL = currentDomain.brand_image;
       CONTENT_IMAGE_URL = currentDomain.content_image;
       CONTENT_BASE_URL = "<%= Setting.getValue('content_base_url') %>";
-      DEFAULT_LAT = <%= GlobalConfig.default_lat %>;
-      DEFAULT_LNG = <%= GlobalConfig.default_lng %>;
+      DEFAULT_LAT = <%= Domain.current_domain.lat %>;
+      DEFAULT_LNG = <%= Domain.current_domain.lng %>;
     </script>
     <% end %>
   </head>

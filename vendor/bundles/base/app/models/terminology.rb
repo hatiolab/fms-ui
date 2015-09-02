@@ -27,9 +27,7 @@ class Terminology < ActiveRecord::Base
           cat[term.name] = term.display unless term.display.blank?
           #cat[term.name + '.short'] = term.display_short unless term.display_short.blank?
           cat
-        end
-        debug_print resource
-        
+        end        
         resource
       end.to_json
     end
@@ -42,9 +40,6 @@ class Terminology < ActiveRecord::Base
 private
   
   def expire_resource_json_cache
-    debug_print "expire_resource_json_cache #{self.domain_id}:#{self.locale}"
-    debug_print @@resource_json
     @@resource_json["#{self.domain_id}:#{self.locale}"] = nil if defined? @@resource_json
-    debug_print @@resource_json
   end
 end

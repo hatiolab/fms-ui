@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150812050639) do
+ActiveRecord::Schema.define(version: 20150828015604) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20150812050639) do
     t.integer  "file_size"
     t.string   "path",        limit: 2000
     t.integer  "on_id"
-    t.string   "on_type"
+    t.string   "on_type",     limit: 255
     t.string   "tag",         limit: 2000
     t.integer  "creator_id"
     t.integer  "updater_id"
@@ -35,23 +35,23 @@ ActiveRecord::Schema.define(version: 20150812050639) do
   add_index "attachments", ["domain_id", "on_type", "on_id", "tag", "name"], name: "ix_attach_0", unique: true, using: :btree
 
   create_table "batches", force: :cascade do |t|
-    t.string  "tid",   null: false
-    t.float   "vlc",   null: false
-    t.float   "a_vlc", null: false
-    t.float   "dst",   null: false
-    t.float   "s_lat", null: false
-    t.float   "s_lng", null: false
-    t.float   "lat",   null: false
-    t.float   "lng",   null: false
-    t.integer "c_off", null: false
-    t.integer "c_idl", null: false
-    t.integer "c_low", null: false
-    t.integer "c_nml", null: false
-    t.integer "c_hgh", null: false
-    t.integer "c_ovr", null: false
-    t.integer "stm",   null: false
-    t.integer "etm",   null: false
-    t.integer "utm",   null: false
+    t.string  "tid",   limit: 255, null: false
+    t.float   "vlc",               null: false
+    t.float   "a_vlc",             null: false
+    t.float   "dst",               null: false
+    t.float   "s_lat",             null: false
+    t.float   "s_lng",             null: false
+    t.float   "lat",               null: false
+    t.float   "lng",               null: false
+    t.integer "c_off",             null: false
+    t.integer "c_idl",             null: false
+    t.integer "c_low",             null: false
+    t.integer "c_nml",             null: false
+    t.integer "c_hgh",             null: false
+    t.integer "c_ovr",             null: false
+    t.integer "stm",               null: false
+    t.integer "etm",               null: false
+    t.integer "utm",               null: false
   end
 
   add_index "batches", ["id"], name: "ix_batch_0", unique: true, using: :btree
@@ -165,20 +165,20 @@ ActiveRecord::Schema.define(version: 20150812050639) do
   add_index "common_codes", ["domain_id", "parent_id"], name: "ix_common_cd_1", using: :btree
 
   create_table "contacts", force: :cascade do |t|
-    t.integer  "domain_id",    null: false
-    t.string   "name",         null: false
-    t.string   "description"
-    t.string   "family_name"
-    t.string   "given_name"
-    t.string   "alias"
-    t.string   "company"
-    t.string   "department"
-    t.string   "title"
-    t.string   "email"
-    t.string   "phone_office"
-    t.string   "phone_mobile"
-    t.string   "fax"
-    t.string   "address"
+    t.integer  "domain_id",                null: false
+    t.string   "name",         limit: 255, null: false
+    t.string   "description",  limit: 255
+    t.string   "family_name",  limit: 255
+    t.string   "given_name",   limit: 255
+    t.string   "alias",        limit: 255
+    t.string   "company",      limit: 255
+    t.string   "department",   limit: 255
+    t.string   "title",        limit: 255
+    t.string   "email",        limit: 255
+    t.string   "phone_office", limit: 255
+    t.string   "phone_mobile", limit: 255
+    t.string   "fax",          limit: 255
+    t.string   "address",      limit: 255
     t.integer  "creator_id"
     t.integer  "updater_id"
     t.datetime "created_at"
@@ -186,6 +186,23 @@ ActiveRecord::Schema.define(version: 20150812050639) do
   end
 
   add_index "contacts", ["domain_id", "name"], name: "ix_contacts_0", using: :btree
+
+  create_table "dictionaries", force: :cascade do |t|
+    t.integer  "domain_id",                null: false
+    t.string   "name",        limit: 255,  null: false
+    t.string   "description", limit: 1000
+    t.string   "locale",      limit: 10,   null: false
+    t.string   "category",    limit: 20,   null: false
+    t.string   "display",     limit: 1000
+    t.integer  "creator_id"
+    t.integer  "updater_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "dictionaries", ["domain_id", "locale", "category", "name"], name: "ix_dic_0", unique: true, using: :btree
+  add_index "dictionaries", ["domain_id", "locale", "category"], name: "ix_dic_2", using: :btree
+  add_index "dictionaries", ["domain_id", "locale"], name: "ix_dic_1", using: :btree
 
   create_table "diy_reports", force: :cascade do |t|
     t.integer  "domain_id",                    null: false
@@ -256,9 +273,9 @@ ActiveRecord::Schema.define(version: 20150812050639) do
   end
 
   create_table "drivers", force: :cascade do |t|
-    t.integer  "domain_id",                          null: false
-    t.string   "code",       limit: 32,              null: false
-    t.string   "name",       limit: 64,              null: false
+    t.integer  "domain_id",                            null: false
+    t.string   "code",       limit: 32,                null: false
+    t.string   "name",       limit: 64,                null: false
     t.string   "social_id",  limit: 32
     t.string   "email",      limit: 64
     t.string   "title",      limit: 32
@@ -272,6 +289,8 @@ ActiveRecord::Schema.define(version: 20150812050639) do
     t.integer  "updater_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.float    "work_time",              default: 0.0
+    t.float    "distance",               default: 0.0
   end
 
   add_index "drivers", ["domain_id", "code"], name: "ix_drivers_0", unique: true, using: :btree
@@ -302,7 +321,7 @@ ActiveRecord::Schema.define(version: 20150812050639) do
     t.string  "col_type",    limit: 20,                 null: false
     t.integer "col_size"
     t.boolean "nullable",                default: true
-    t.string  "def_val"
+    t.string  "def_val",     limit: 255
     t.integer "uniq_rank",               default: 0
     t.string  "ref_type",    limit: 20
     t.string  "ref_name",    limit: 64
@@ -412,9 +431,9 @@ ActiveRecord::Schema.define(version: 20150812050639) do
     t.integer "otm",               null: false
     t.integer "ctm",               null: false
     t.integer "kct"
-    t.string  "typ"
+    t.string  "typ",   limit: 255
     t.float   "vlc"
-    t.string  "svr"
+    t.string  "svr",   limit: 255
     t.float   "lat",               null: false
     t.float   "lng",               null: false
     t.float   "gx",                null: false
@@ -525,6 +544,7 @@ ActiveRecord::Schema.define(version: 20150812050639) do
     t.datetime "updated_at"
   end
 
+  add_index "fleet_summaries", ["domain_id", "driver_id"], name: "ix_fleet_sum_4", using: :btree
   add_index "fleet_summaries", ["domain_id", "fleet_id", "sum_day"], name: "ix_fleet_sum_0", unique: true, using: :btree
   add_index "fleet_summaries", ["domain_id", "fleet_id"], name: "ix_fleet_sum_1", using: :btree
   add_index "fleet_summaries", ["domain_id", "sum_day"], name: "ix_fleet_sum_2", using: :btree
@@ -544,7 +564,7 @@ ActiveRecord::Schema.define(version: 20150812050639) do
     t.string   "reg_date",       limit: 10
     t.float    "lat",                        null: false
     t.float    "lng",                        null: false
-    t.string   "status",                     null: false
+    t.string   "status",         limit: 255, null: false
     t.float    "velocity"
     t.string   "trip_id",        limit: 32
     t.string   "batch_id",       limit: 32
@@ -572,7 +592,7 @@ ActiveRecord::Schema.define(version: 20150812050639) do
     t.datetime "updated_at"
   end
 
-  add_index "geofence_groups", ["fleet_group_id", "geofence_id"], name: "ix_geofence_groups_0", using: :btree
+  add_index "geofence_groups", ["fleet_group_id", "geofence_id", "alarm_type"], name: "ix_geofence_groups_0", unique: true, using: :btree
 
   create_table "geofences", force: :cascade do |t|
     t.integer  "domain_id",               null: false
@@ -597,11 +617,11 @@ ActiveRecord::Schema.define(version: 20150812050639) do
   end
 
   create_table "infographics", force: :cascade do |t|
-    t.integer  "domain_id",        null: false
-    t.string   "name",             null: false
-    t.string   "description"
-    t.string   "infographic_type"
-    t.string   "printer_type"
+    t.integer  "domain_id",                    null: false
+    t.string   "name",             limit: 255, null: false
+    t.string   "description",      limit: 255
+    t.string   "infographic_type", limit: 255
+    t.string   "printer_type",     limit: 255
     t.text     "diagram"
     t.text     "print_command"
     t.integer  "creator_id"
@@ -658,9 +678,9 @@ ActiveRecord::Schema.define(version: 20150812050639) do
   add_index "movies", ["event_id"], name: "ix_movies_0", using: :btree
 
   create_table "permissions", force: :cascade do |t|
-    t.integer  "role_id",                  null: false
+    t.integer  "role_id",                   null: false
     t.integer  "resource_id"
-    t.string   "resource_type"
+    t.string   "resource_type", limit: 255
     t.string   "action_name",   limit: 64
     t.string   "method_name",   limit: 64
     t.integer  "creator_id"
@@ -684,9 +704,9 @@ ActiveRecord::Schema.define(version: 20150812050639) do
     t.integer  "domain_id",               null: false
     t.string   "name",        limit: 64,  null: false
     t.string   "description", limit: 255
-    t.string   "value"
+    t.string   "value",       limit: 255
     t.integer  "on_id"
-    t.string   "on_type"
+    t.string   "on_type",     limit: 255
     t.integer  "creator_id"
     t.integer  "updater_id"
     t.datetime "created_at"
@@ -699,7 +719,7 @@ ActiveRecord::Schema.define(version: 20150812050639) do
     t.integer  "domain_id",               null: false
     t.string   "name",        limit: 128
     t.integer  "entity_id"
-    t.string   "entity_type"
+    t.string   "entity_type", limit: 255
     t.text     "content"
     t.integer  "creator_id"
     t.integer  "updater_id"
@@ -723,10 +743,10 @@ ActiveRecord::Schema.define(version: 20150812050639) do
   add_index "report_params", ["report_id"], name: "ix_report_param_0", using: :btree
 
   create_table "reports", force: :cascade do |t|
-    t.integer  "domain_id",   null: false
-    t.string   "name",        null: false
-    t.string   "description"
-    t.string   "template"
+    t.integer  "domain_id",               null: false
+    t.string   "name",        limit: 255, null: false
+    t.string   "description", limit: 255
+    t.string   "template",    limit: 255
     t.integer  "creator_id"
     t.integer  "updater_id"
     t.datetime "created_at"
@@ -749,7 +769,7 @@ ActiveRecord::Schema.define(version: 20150812050639) do
 
   create_table "service_in_params", force: :cascade do |t|
     t.integer "resource_id"
-    t.string  "resource_type"
+    t.string  "resource_type", limit: 255
     t.string  "name",          limit: 64
     t.string  "description",   limit: 255
     t.integer "rank"
@@ -759,7 +779,7 @@ ActiveRecord::Schema.define(version: 20150812050639) do
 
   create_table "service_out_params", force: :cascade do |t|
     t.integer "resource_id"
-    t.string  "resource_type"
+    t.string  "resource_type", limit: 255
     t.string  "name",          limit: 64
     t.string  "description",   limit: 255
     t.integer "rank"
@@ -917,21 +937,21 @@ ActiveRecord::Schema.define(version: 20150812050639) do
   add_index "trips", ["id"], name: "ix_trip_0", unique: true, using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "login",                                          null: false
+    t.string   "login",                  limit: 255,              null: false
     t.integer  "creator_id"
     t.integer  "updater_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "email",                             default: "", null: false
-    t.string   "encrypted_password",                default: "", null: false
-    t.string   "reset_password_token"
+    t.string   "email",                  limit: 255, default: "", null: false
+    t.string   "encrypted_password",     limit: 255, default: "", null: false
+    t.string   "reset_password_token",   limit: 255
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                     default: 0
+    t.integer  "sign_in_count",                      default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
+    t.string   "current_sign_in_ip",     limit: 255
+    t.string   "last_sign_in_ip",        limit: 255
     t.string   "name",                   limit: 64
     t.string   "locale",                 limit: 10
     t.string   "timezone",               limit: 64
@@ -953,10 +973,10 @@ ActiveRecord::Schema.define(version: 20150812050639) do
   add_index "users_roles", ["user_id", "role_id"], name: "ix_user_role_0", unique: true, using: :btree
 
   create_table "variables", force: :cascade do |t|
-    t.integer  "domain_id",   null: false
-    t.string   "name",        null: false
-    t.string   "description"
-    t.string   "category"
+    t.integer  "domain_id",               null: false
+    t.string   "name",        limit: 255, null: false
+    t.string   "description", limit: 255
+    t.string   "category",    limit: 255
     t.text     "logic"
     t.integer  "creator_id"
     t.integer  "updater_id"
