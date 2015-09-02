@@ -12,6 +12,14 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   # attr_accessible :email, :password, :password_confirmation, :remember_me
   
+  def self.get_user(userId)
+    User.find(userId)
+  end
+
+  def my_domain
+    self.domain ? self.domain : Domain.system_domain
+  end
+
   class << self
     def current_user=(user)
       Thread.current[:current_user] = user
