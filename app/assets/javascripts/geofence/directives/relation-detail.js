@@ -80,13 +80,43 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
 	 * @return N/A
 	 */
 	$scope.checkValidForm = function() {
-		if (!$scope.item.name || $scope.item.name == '') {
-			return $scope.showAlerMsg('Name must not be empty!');
+		var form = $scope.geofenceRelationSettingForm;
+		var keys = ['Name','Description'];
+
+		for(var i = 0 ; i < keys.length ; i++) {
+			var input = form[keys[i]];
+			if(input) {
+				if(!FmsUtils.isEmpty(input.$error)) {
+					if(input.$error.required) {
+						return $scope.showAlerMsg(input.$name + ' must not be empty!');
+					} else if(input.$error.maxlength) {
+						return $scope.showAlerMsg(input.$name + ' value length is over max length!');
+					} else if(input.$error.minlength) {
+						return $scope.showAlerMsg(input.$name + ' value length is under min length!');
+					}	else if(input.$error.email) {
+						return $scope.showAlerMsg(input.$name + ' value is invalid email format!');
+					}
+				}
+			}
 		}
 
 		return true;
 	};
 
+	/**	/**
+	 * Form이 유효한 지 체크 
+	 * @return {Boolean}
+	 */
+	$scope.isFormValid = function() {
+		var form = $scope.geofenceRelationSettingForm;
+		if(!form){
+			return false;
+		}else{
+			//return form.$dirty && form.$valid;
+			return form.$dirty;
+		}
+	};
+	
 	/**
 	 * Show Alert Message
 	 * 
@@ -118,12 +148,21 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
 				);
 
 			} else {
-				var result = RestApi.create('/geofences.json', null, { geofence: $scope.item });
-				result.$promise.then(
+				RestApi.checkUnique('/geofences/show_by_name.json?name='+$scope.item.name,null,
+					function() {
+						var result = RestApi.create('/geofences.json', null, { geofence: $scope.item });
+						result.$promise.then(
+							function(data) {
+								$scope.item = data; 
+								$scope.updateRelations(); 
+							}, function(error) {
+								ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
+							});
+					}, 
 					function(data) {
-						$scope.item = data; 
-						$scope.updateRelations(); 
-					}, function(error) {
+						ModalUtils.alert('sm', 'Error', 'Requested Data Already Exists!');
+					},
+					function(error) {
 						ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
 					});
 			}

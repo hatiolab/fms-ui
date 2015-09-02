@@ -8,7 +8,7 @@ angular.module('fmsCore').directive('alertIndicator', function() {
 		}
 	}; 
 })
-.controller('alertIndicatorCtrl', function($rootScope, $scope, $element, $state) {
+.controller('alertIndicatorCtrl', function($rootScope, $scope, $element, $state, $window) {
 
 	/**
 	 * Alert Count
@@ -19,6 +19,14 @@ angular.module('fmsCore').directive('alertIndicator', function() {
 	 * Alert List 화면으로 이동
 	 */
 	$scope.goToAlertList = function() {
+		/*if($state.current.name && $state.current.name == 'monitor') {
+			$scope.$emit('go-to-monitor', 'side-alerts');
+		} else {
+			//location.href = 'trkvue#side_alerts';
+			$state.go('monitor', { 'tabId': $scope.item }, { reload : true });
+		}*/
+
+		$state.go('monitor', { 'tabId': 'side-alerts' }, { reload : true });
 		$scope.$emit('go-to-monitor', 'side-alerts');
 	};
 

@@ -135,14 +135,24 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 						});
 				// Create
 				} else {
-					var result = RestApi.create('/fleet_groups.json', null, { fleet_group: $scope.item });
-					result.$promise.then(
-						function(data) {
-							$scope.item = data;
-							$scope.updateRelations();
-						}, function(error) {
-							ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
-						});
+					RestApi.checkUnique('/fleet_groups/show_by_name.json?name='+$scope.item.name,null,
+					function() {
+						var result = RestApi.create('/fleet_groups.json', null, { fleet_group: $scope.item });
+
+						result.$promise.then(
+							function(data) {
+								$scope.item = data;
+								$scope.updateRelations();
+							}, function(error) {
+								ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
+							});
+					}, 
+					function(data) {
+						ModalUtils.alert('sm', 'Error', 'Requested Data Already Exists!');
+					},
+					function(error) {
+						ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
+					});
 				}
 			}
 		};

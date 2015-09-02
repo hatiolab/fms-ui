@@ -191,15 +191,25 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 			$scope.item.lng = DEFAULT_LNG;
 			$scope.item.status = 'OFF';
 			$scope.item.velocity = 0;
+			
+			RestApi.checkUnique('/fleets/show_by_name.json?name='+$scope.item.name,null,
+				function() {
+					var result = RestApi.create('/fleets.json', null, { fleet : $scope.item });
 
-			var result = RestApi.create('/fleets.json', null, { fleet : $scope.item });
-			result.$promise.then(function(data) {
-				$scope.refreshList();
-				ModalUtils.success('Success', 'Success To Save');
+					result.$promise.then(function(data) {
+						$scope.refreshList();
+						ModalUtils.success('Success', 'Success To Save');
 
-			}, function(error) {
-				ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
-			});
+					}, function(error) {
+						ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
+					});
+				}, 
+				function(data) {
+					ModalUtils.alert('sm', 'Error', 'Requested Data Already Exists!');
+				},
+				function(error) {
+					ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
+				});
 		}
 	};
 

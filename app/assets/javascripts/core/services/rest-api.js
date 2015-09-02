@@ -101,7 +101,7 @@ angular.module('fmsCore').factory('RestApi', function($rootScope, $resource, Mod
 		 * @params
 		 * @callback
 		 */
-		get : function(url, params, callback) {
+		get : function(url, params, callback, badcallback) {
 			var rsc = $resource(url, params);
 			var me = this;
 
@@ -112,7 +112,27 @@ angular.module('fmsCore').factory('RestApi', function($rootScope, $resource, Mod
 
 				// bad
 				}, function(response) {
-					me.handleError(response);
+					if(badcallback){
+						badcallback(response);
+					}else{
+						me.handleError(response);
+					}
+				});
+		},
+
+		checkUnique : function(url, params, callback, existscallback, badcallback){
+			var me = this;
+
+			me.get(url, params,
+				function(data,response) {
+					existscallback(data);
+				}, 
+				function(response) {
+					if(response.status==404){
+						callback(response);
+					}else{
+						badcallback(response);
+					}
 				});
 		},
 
