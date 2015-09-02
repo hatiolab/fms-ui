@@ -7,7 +7,7 @@ angular.module('fmsGeofence').directive('eventList', function() {
 			/**
 			 * 기본 날짜 검색일 설정 
 			 */
-		  var period = FmsUtils.getPeriodString(360);
+			var period = FmsUtils.getPeriodString(360);
 			/**
 			 * event_type from other directive
 			 */
@@ -158,6 +158,10 @@ angular.module('fmsGeofence').directive('eventList', function() {
 			 * @return {Boolean}
 			 */
 			$scope.checkSearch = function(tablestate) {
+				if(!$scope.geofence) {
+					return;
+				}
+
 				if(!$scope.searchEnabled) {
 					$scope.searchEnabled = true;
 					$scope.tablestate = tablestate;

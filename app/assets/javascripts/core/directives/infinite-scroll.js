@@ -125,7 +125,7 @@
 
         if(scrollTop < lengthThreshold) {
           //if there is already a timer running which has no expired yet we have to cancel it and restart the timer
-          if(scope.items.length == 0 || scope.items[0].no == 1) {
+          if(!scope.items || scope.items.length == 0 || scope.items[0].no == 1) {
             return;
           }
 
