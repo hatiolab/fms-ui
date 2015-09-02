@@ -6,18 +6,18 @@ class Batch
 
   field :id, type: String
   field :tid, type: String
-  field :vlc, type: String
-  field :a_vlc, type: String
+  field :vlc, type: Float
+  field :a_vlc, type: Float
   field :sts, type: String
-  field :dst, type: String
-  field :s_lat, type: String
-  field :s_lng, type: String
-  field :lat, type: String
-  field :lng, type: String
-  field :c_off, type: Float
-  field :c_idl, type: Float
-  field :c_low, type: Float
-  field :c_nml, type: Float
+  field :dst, type: Float
+  field :s_lat, type: Float
+  field :s_lng, type: Float
+  field :lat, type: Float
+  field :lng, type: Float
+  field :c_off, type: Integer
+  field :c_idl, type: Integer
+  field :c_low, type: Integer
+  field :c_nml, type: Integer
   field :c_hgh, type: Integer
   field :c_ovr, type: Integer
   field :stm, type: Integer

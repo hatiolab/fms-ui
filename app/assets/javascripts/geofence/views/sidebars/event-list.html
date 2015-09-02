@@ -8,7 +8,7 @@
 				<th><translate name-value ="Driver" category="label"/></th>
 				<th><translate name-value ="Geofence" category="label"/></th>
 				<th><translate name-value ="Type" category="label"/></th>
-				<th><translate name-value ="OccurredAt" category="label"/></th>
+				<th><translate name-value ="Occurred At" category="label"/></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -18,7 +18,7 @@
 				<td>{{eventAlert.driver.name}}</td>
 				<td>{{eventAlert.geofence.name}}</td>
 				<td>{{eventAlert.typ == 'I' ? 'IN' : 'OUT'}}</td>
-				<td>{{eventAlert.etm | date:'medium'}}</td>
+				<td>{{eventAlert.etm | fmstime}}</td>
 			</tr>
 		</tbody>
 	</table>

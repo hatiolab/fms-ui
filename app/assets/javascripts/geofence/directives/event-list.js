@@ -11,7 +11,7 @@ angular.module('fmsGeofence').directive('eventList', function() {
 			/**
 			 * event_type from other directive
 			 */
-			var event_type = {}; 
+			var eventType = ''; 
 			/**
 			 * 조회 조건
 			 */
@@ -103,7 +103,7 @@ angular.module('fmsGeofence').directive('eventList', function() {
 					var searchParams = $scope.beforeSearch();
 					$scope.doSearch(searchParams, function(dataSet) {
 						$scope.numbering(dataSet.items, 1);
-						$scope.items = dataSet.items;
+						$scope.events = dataSet.items;
 						$scope.afterSearch(dataSet);
 					});
 				}
@@ -261,8 +261,7 @@ angular.module('fmsGeofence').directive('eventList', function() {
 				geofenceSelectListener();
 			});
 
+			//-------------------------- E N D -------------------------
 		}
 	};
-})
-
-// });
+});

@@ -57,13 +57,13 @@ angular.module('fmsCore').factory('GridUtils', function($rootScope) {
 				newHeight = newHeight - 360;
 
 			} else if(gridContainerId == 'geofence-view-table-container' || gridContainerId == 'geofence-alert-table-container') {
-				newHeight = (newHeight - 250) / 2;
+				newHeight = (newHeight - 275) / 2;
 
 			} else if(gridContainerId == 'geofence-setting-table-container') {
-				newHeight = newHeight - 440;
+				newHeight = newHeight - 465;
 
 			} else if(gridContainerId == 'geofence-relation-table-container') {
-				newHeight = newHeight - 250;
+				newHeight = newHeight - 270;
 				
 			} else if(gridContainerId == 'setting-driver-table-container') {
 				newHeight = newHeight - 310;
