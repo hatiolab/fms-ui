@@ -454,7 +454,8 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 			var batch = batches[i];
 
 			// 2.1 batch start
-			//$scope.addMarker($scope.batchToMarker(batch, 'start'));
+			if(i > 0)
+				$scope.addMarker($scope.batchToMarker(batch, 'start'));
 
 			// 2.2 tracks & events : 시간순
 			var trackSize = tracks.length;
@@ -466,7 +467,8 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 			}
 
 			// 2.3 batch end
-			//$scope.addMarker($scope.batchToMarker(batch, 'end'));
+			if(i != batchSize - 1)
+				$scope.addMarker($scope.batchToMarker(batch, 'end'));
 		}
 
 		// 3. trip end
