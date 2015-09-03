@@ -60,7 +60,7 @@ angular.module('fmsReports').directive('groupDriveChart', function() {
 	},{
 		chartId : 'report-driver-group-4',
 		type : 'Line',
-		title : 'Driving Distance', 
+		title : 'Driving Distance (' + distunit + ')', 
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-6',
 		series:['Driving Distance (' + distunit + ')'],
 		colors : [ {

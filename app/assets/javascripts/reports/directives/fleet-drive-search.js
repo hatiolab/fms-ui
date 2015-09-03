@@ -12,7 +12,7 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 		}
 	}; 
 })
-.controller('fleetDriveSearchCtrl', function($rootScope, $scope, $element, $compile, $timeout, $filter, GridUtils, FmsUtils, RestApi) {
+.controller('fleetDriveSearchCtrl', function($rootScope, $scope, $element, $compile, $timeout, $filter, GridUtils, FmsUtils, RestApi, ConstantReport) {
 	/**
 	 * Time, Distance, Speed Unit
 	 */
@@ -37,6 +37,7 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 			highlightFill: "rgba(151,187,205,0.75)",
 			highlightStroke: "rgba(151,187,205,1)"			
 		} ],
+		filter : 'fmsworktime',
 		labels : [],
 		data : []
 	}, {
@@ -101,7 +102,7 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 	 * TOP_RANK
 	 * @type {Number}
 	 */
-	$scope.TOP_RANK = 30;
+	$scope.TOP_RANK = ConstantReport.TOP;
 
 	/**
 	 * 검색 조건 
@@ -181,8 +182,14 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 	 */
 	$scope.numbering = function(items) {
 		for(var i = 0 ; i < items.length ; i++) {
-			items[i].no = i + 1;
-			items[i].velocity = Math.round(items[i].velocity);
+			var item = items[i];
+			item.no = i + 1;
+
+			angular.forEach($scope.chartItems, function(chartItem) {
+				var val = Number(item[chartItem.sort_field]);
+				val = chartItem.filter ? $filter(chartItem.filter)(val) : val;
+				item[chartItem.sort_field] = val;
+			});			
 		}
 	};
 
@@ -201,13 +208,7 @@ angular.module('fmsReports').directive('fleetDriveSearch', function() {
 			for(var i = 0 ; i < $scope.items.length ; i++) {
 				var currentItem = $scope.items[i];
 				labels.push(currentItem.fleet_name);
-				var val = Number(currentItem[chartItem.sort_field]);
-
-				if(chartItem.filter) {
-					data.push($filter(chartItem.filter)(val));
-				} else {
-					data.push(val);
-				}
+				data.push(currentItem[chartItem.sort_field]);				
 			};
 
 			chartItem.labels = labels;

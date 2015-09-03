@@ -12,7 +12,7 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 		}
 	}; 
 })
-.controller('hrOverspeedSearchCtrl', function($rootScope, $scope, $element, $compile, $timeout, GridUtils, FmsUtils, RestApi) {
+.controller('hrOverspeedSearchCtrl', function($rootScope, $scope, $element, $compile, $timeout, GridUtils, FmsUtils, RestApi, ConstantReport) {
 	/**
 	 * Chart Item
 	 * @type {Object}
@@ -57,7 +57,7 @@ angular.module('fmsHr').directive('hrOverspeedSearch', function() {
 	 * TOP_RANK
 	 * @type {Number}
 	 */
-	$scope.TOP_RANK = 30;
+	$scope.TOP_RANK = ConstantReport.TOP;
 
 	/**
 	 * 검색 조건 

@@ -12,7 +12,7 @@ angular.module('fmsHr').directive('hrDrivetimeSearch', function() {
 		}
 	}; 
 })
-.controller('hrDrivetimeSearchCtrl', function($rootScope, $scope, $element, $compile, $timeout, $filter, GridUtils, FmsUtils, RestApi) {
+.controller('hrDrivetimeSearchCtrl', function($rootScope, $scope, $element, $filter, GridUtils, FmsUtils, RestApi, ConstantReport) {
 	/**
 	 * timeunit
 	 */
@@ -33,6 +33,7 @@ angular.module('fmsHr').directive('hrDrivetimeSearch', function() {
 			highlightStroke: "rgba(151,187,205,1)"			
 		} ],
 		container_cls : 'panel panel-default type-line col-xs-12 col-sm-12',
+		filter : 'fmsworktime',
 		series : ['Driving Time (' + timeunit + ')'],
 		labels : [],
 		data : []
@@ -61,7 +62,7 @@ angular.module('fmsHr').directive('hrDrivetimeSearch', function() {
 	 * TOP_RANK
 	 * @type {Number}
 	 */
-	$scope.TOP_RANK = 30;
+	$scope.TOP_RANK = ConstantReport.TOP;
 
 	/**
 	 * 검색 조건 
@@ -140,8 +141,14 @@ angular.module('fmsHr').directive('hrDrivetimeSearch', function() {
 	 * @return N/A
 	 */
 	$scope.numbering = function(items) {
+		var sortField = $scope.chartItem.sort_field;
+		var filter = $scope.chartItem.filter;
+		
 		for(var i = 0 ; i < items.length ; i++) {
-			items[i].no = i + 1;
+			var item = items[i];
+			item.no = i + 1;
+			var val = Number(item[sortField]);
+			item[sortField] = $filter(filter)(val);
 		}
 	};
 
@@ -155,7 +162,7 @@ angular.module('fmsHr').directive('hrDrivetimeSearch', function() {
 		for(var i = 0 ; i < $scope.items.length ; i++) {
 			var currentItem = $scope.items[i];
 			labels.push(currentItem.driver_name);
-			data.push(Number(currentItem[chartItem.sort_field]));
+			data.push(currentItem[chartItem.sort_field]);
 		};
 
 		chartItem.labels = labels;

@@ -23,14 +23,11 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	/**
 	 * 기본 날짜 검색일 설정 
 	 */
-	var period = FmsUtils.getPeriodString('week');
+	var period = FmsUtils.getPeriodString(3);
 	/**
 	 * 조회 조건
 	 */
-	$scope.searchParams = {
-		'ctm_gte': period[0],
-		'ctm_lte': period[1]
-	};
+	$scope.searchParams = { 'ctm_gte': period[0], 'ctm_lte': period[1] };
 	/**
 	 * Search DataSet
 	 * 
@@ -57,9 +54,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	 */
 	$scope.normalizeSearchParams = function(params) {
 
-		var searchParams = {
-			'_o[ctm]': 'desc'
-		};
+		var searchParams = { '_o[ctm]': 'desc' };
 		// convert date to number
 		FmsUtils.buildDateConds(searchParams, 'ctm', params['ctm_gte'], params['ctm_lte']);
 

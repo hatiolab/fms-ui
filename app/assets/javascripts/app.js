@@ -6,7 +6,8 @@ angular.module('fmsCore', ['ui.router', 'ngCookies', 'ngResource', 'ui.bootstrap
 	SPEED_NORMAL : 'speed_normal',
 	SPEED_HIGH : 'speed_high',
 	SPEED_OVER : 'speed_over'
-});
+})
+.constant('ConstantReport', { OVERVIEW_TOP : 30, TOP : 30 });
 
 // 2. settings module
 angular.module('fmsSettings', ['fmsCore']);

@@ -12,7 +12,7 @@ angular.module('fmsHr').directive('hrDrivedistanceSearch', function() {
 		}
 	}; 
 })
-.controller('hrDrivedistanceSearchCtrl', function($rootScope, $scope, $element, $compile, $timeout, $filter, GridUtils, FmsUtils, RestApi) {
+.controller('hrDrivedistanceSearchCtrl', function($rootScope, $scope, $element, $filter, GridUtils, FmsUtils, RestApi, ConstantReport) {
 
 	/**
 	 * distance unit
@@ -35,6 +35,7 @@ angular.module('fmsHr').directive('hrDrivedistanceSearch', function() {
 			highlightFill: "rgba(151,187,205,0.75)",
 			highlightStroke: "rgba(151,187,205,1)"			
 		} ],
+		filter : 'fmsdistance',
 		series : ['Driving Distance (' + distunit + ')'],
 		labels : [],
 		data : []
@@ -63,7 +64,7 @@ angular.module('fmsHr').directive('hrDrivedistanceSearch', function() {
 	 * TOP_RANK
 	 * @type {Number}
 	 */
-	$scope.TOP_RANK = 30;
+	$scope.TOP_RANK = ConstantReport.TOP;
 
 	/**
 	 * 검색 조건 
@@ -142,8 +143,14 @@ angular.module('fmsHr').directive('hrDrivedistanceSearch', function() {
 	 * @return N/A
 	 */
 	$scope.numbering = function(items) {
+		var sortField = $scope.chartItem.sort_field;
+		var filter = $scope.chartItem.filter;
+
 		for(var i = 0 ; i < items.length ; i++) {
-			items[i].no = i + 1;
+			var item = items[i];
+			item.no = i + 1;
+			var val = Number(item[sortField]);
+			item[sortField] = $filter(filter)(val);
 		}
 	};
 
@@ -157,8 +164,7 @@ angular.module('fmsHr').directive('hrDrivedistanceSearch', function() {
 		for(var i = 0 ; i < $scope.items.length ; i++) {
 			var currentItem = $scope.items[i];
 			labels.push(currentItem.driver_name);
-			var val = $filter('fmsdistance')(currentItem[chartItem.sort_field]);
-			data.push(val);
+			data.push(currentItem[chartItem.sort_field]);
 		};
 
 		chartItem.labels = labels;

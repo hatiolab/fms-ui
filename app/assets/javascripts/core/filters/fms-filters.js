@@ -77,10 +77,13 @@ angular.module('fmsCore')
 	.filter('fmsworktime', function($rootScope) { 
 		return function(input, displayUnit) {
 
+			var output = (input / 60);
+			output = Number(output.toFixed(1));
+
 			if(input && !displayUnit) {
-				return input;
+				return output;
 			} else if(input && displayUnit) {
-				return input + ' min.';
+				return output + ' hour';
 			} else {
 				return input;
 			}
@@ -101,6 +104,6 @@ angular.module('fmsCore')
 
 	.filter('timeunit', function($rootScope) { 
 		return function(input) {
-			return 'min.'
+			return 'hour'
 		};
 	});

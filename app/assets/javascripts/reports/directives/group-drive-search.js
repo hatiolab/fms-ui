@@ -17,9 +17,9 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 	 * 차트 바인딩 데이터 
 	 */
 	$scope.chartItems = [ {
-		chartId : 'report-driver-group-1', sort_field :'drive_time', labels :[], data : []
+		chartId : 'report-driver-group-1', sort_field :'drive_time', labels :[], data : [], filter : 'fmsworktime'
 	}, {
-		chartId : 'report-driver-group-2', sort_field :'drive_time', labels : [], data : []
+		chartId : 'report-driver-group-2', sort_field :'drive_time', labels : [], data : [], filter : 'fmsworktime'
 	}, {
 		chartId : 'report-driver-group-3', sort_field :'drive_dist', labels : [], data : [], filter : 'fmsdistance'
 	},{
@@ -129,7 +129,15 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 		for(var i = 0 ; i < items.length ; i++) {
 			var item = items[i];
 			item.no = i + 1;
-			item.velocity = Math.round(item.velocity);
+
+			for(var j = 0 ; j < $scope.chartItems.length ; j++) {
+				if(j % 2 == 1) {
+					var chartItem = $scope.chartItems[j];
+					var val = Number(item[chartItem.sort_field]);
+					val = chartItem.filter ? $filter(chartItem.filter)(val) : val;
+					item[chartItem.sort_field] = val;
+				}
+			};
 		}
 	};
 
@@ -163,13 +171,7 @@ angular.module('fmsReports').directive('groupDriveSearch', function() {
 		for(var i = 0 ; i < dataSize ; i++) {			
 			var currentItem = dataList[i];
 			labels.push(currentItem.group_name);
-			var val = Number(currentItem[field]);
-
-			if(chartData.filter) {
-				data.push($filter(chartData.filter)(val));
-			} else {
-				data.push(val);
-			}			
+			data.push(currentItem[field]);
 		};
 
 		chartData.labels = labels; 

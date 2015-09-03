@@ -12,7 +12,7 @@ angular.module('fmsHr').directive('hrDrivehabitSearch', function() {
 		}
 	}; 
 })
-.controller('hrDrivehabitSearchCtrl', function($rootScope, $scope, $element, $compile, $timeout, GridUtils, FmsUtils, RestApi) {
+.controller('hrDrivehabitSearchCtrl', function($rootScope, $scope, $element, GridUtils, FmsUtils, RestApi, ConstantReport) {
 
 	/**
 	 * 차트 바인딩 데이터 
@@ -46,7 +46,7 @@ angular.module('fmsHr').directive('hrDrivehabitSearch', function() {
 	 * TOP_RANK
 	 * @type {Number}
 	 */
-	$scope.TOP_RANK = 10;
+	$scope.TOP_RANK = ConstantReport.TOP;
 
 	/**
 	 * 검색 조건 

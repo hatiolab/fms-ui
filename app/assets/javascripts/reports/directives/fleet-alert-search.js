@@ -12,7 +12,7 @@ angular.module('fmsReports').directive('fleetAlertSearch', function() {
 		}
 	}; 
 })
-.controller('fleetAlertSearchCtrl', function($rootScope, $scope, $element, $compile, $timeout, GridUtils, FmsUtils, RestApi) {
+.controller('fleetAlertSearchCtrl', function($rootScope, $scope, $element, $compile, $timeout, GridUtils, FmsUtils, RestApi, ConstantReport) {
 	/**
 	 * Chart Item
 	 * @type {Object}
@@ -108,7 +108,7 @@ angular.module('fmsReports').directive('fleetAlertSearch', function() {
 	 * TOP_RANK
 	 * @type {Number}
 	 */
-	$scope.TOP_RANK = 30;
+	$scope.TOP_RANK = ConstantReport.TOP;
 
 	/**
 	 * 검색 조건 
