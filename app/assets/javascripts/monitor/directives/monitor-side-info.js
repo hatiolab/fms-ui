@@ -87,6 +87,4 @@ angular.module('fmsMonitor').directive('monitorSideInfo', function() {
 		});
 	};
 
-
-
 });

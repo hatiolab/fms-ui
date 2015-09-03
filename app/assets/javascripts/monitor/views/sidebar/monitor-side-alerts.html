@@ -2,17 +2,7 @@
 
 	<option-list groups option-name ='Group' option-model ="searchParams.group"></option-list>
 
-	<div class="form-group">
-    <!--label for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label">vehicle</label-->
-    <translate for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label" name-value ="Vehicle" category="label" display="Vehicle">
-    </translate>
-    <div class="col-xs-11 col-sm-7 col-md-6 padding-clear">
-      <select name="fleet" class="form-control" ng-model="searchParams.fleet" ng-init="selected=''"
-       ng-options="fleet.name for fleet in fleets" >
-       	<option></option>
-			</select>
-    </div>
-	</div>
+	<option-list fleets option-name ='Fleet' option-model ="searchParams.fleet"></option-list>
 
 	<period-picker from-date="searchParams.ctm_gte" to-date="searchParams.ctm_lte" search="search">
 	</period-picker>

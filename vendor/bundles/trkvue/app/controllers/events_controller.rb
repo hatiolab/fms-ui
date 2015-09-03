@@ -19,7 +19,7 @@ class EventsController < MongoController
     @collection, @total_count, conditions = results[:items], results[:total], results[:conditions]
 
     if(params["type_summary"] && params["type_summary"] == 'Y')
-      conditions = conditions || {}
+      conditions = conditions || { "dom" => User.current_user.domain_id }
       conditions[:typ] = 'V'
       overspeedCnt = Event.all_of(conditions).count
       conditions[:typ] = 'G'
@@ -45,7 +45,7 @@ class EventsController < MongoController
 
   def latest_one
     lastCheckTime = params[:id]
-    conds = {'ctm' => {'$gt' => lastCheckTime}}
+    conds = {'dom' => User.current_user.domain_id, 'ctm' => {'$gt' => lastCheckTime}}
     conds['fid'] = params[:fid] if params[:fid]
     alert = Event.all_of(conds).order('ctm asc').first
     result = alert ? { :alert => alert, :driver => alert.driver } : {}

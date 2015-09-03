@@ -44,7 +44,7 @@ class TripsController < MongoController
 
   def prev_trip
     trip = Trip.find(params[:id])
-    prevTrip = Trip.all_of({"fid" => trip.fid, "stm" => {"$lt" => trip.stm}}).order("stm desc").first
+    prevTrip = Trip.all_of({"dom" => User.current_user.domain_id, "fid" => trip.fid, "stm" => {"$lt" => trip.stm}}).order("stm desc").first
 
     respond_to do |format|
       format.xml { render :xml => prevTrip } 
@@ -54,7 +54,7 @@ class TripsController < MongoController
 
   def next_trip
     trip = Trip.find(params[:id])
-    nextTrip = Trip.all_of({"fid" => trip.fid, "stm" => {"$gt" => trip.stm}}).order("stm asc").first
+    nextTrip = Trip.all_of({"dom" => User.current_user.domain_id, "fid" => trip.fid, "stm" => {"$gt" => trip.stm}}).order("stm asc").first
 
     respond_to do |format|
       format.xml { render :xml => nextTrip } 
@@ -65,7 +65,7 @@ class TripsController < MongoController
   private
   
   def resource_params
-    [ params.require(:trip).permit(:bid,:fid,:fvr,:did,:s_lat,:s_lng,:lat,:lng,:stm,:utm,:etm,:sts,:vlc,:a_vlc,:c_off,:c_idl,:c_low,:c_nml,:c_hgh,:c_ovr) ]
+    [ params.require(:trip).permit(:bid,:fid,:fvr,:did,:s_lat,:s_lng,:lat,:lng,:stm,:utm,:etm,:sts,:dst,:vlc,:a_vlc,:c_off,:c_idl,:c_low,:c_nml,:c_hgh,:c_ovr) ]
   end
   
 end

@@ -155,12 +155,19 @@ angular.module('fmsMonitor').directive('monitorSideInfoAlertList', function() {
 	 * Sidebar에서 Trip 선택시 이벤트 
 	 */
 	$scope.$on('monitor-trip-info-change', function(evt, tripData) {
-		// if(!tripData.from || tripData.from != 'infobar') {
+		if(tripData && tripData.id) {
 			$scope.tripId = tripData.id;
+			var tripStartDate = FmsUtils.formatDate(tripData.stm, 'yyyy-MM-dd');
+
+			// 검색 조건이 시작일이 트립의 날짜보다 크면 검색이 안 되므로 검색 시작일을 트립 날짜로 변경
+			if(tripStartDate < $scope.searchParams.ctm_gte) {
+				$scope.searchParams.ctm_gte = tripStartDate;
+			}
+
 			$scope.tablestate.pagination.start = 0;
 			$scope.tablestate.pagination.number = $scope.countPerPage;
 			$scope.search();
-		// }
+		}
 	});
 
 	/**

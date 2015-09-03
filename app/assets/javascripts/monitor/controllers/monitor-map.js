@@ -502,14 +502,14 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 * 
 	 */
 	$scope.changeCurrentTrip = function(newTrip) {
-		// if($scope.currentTripId != newTrip.id) { //To-do : check 필요
-			$scope.currentTripId = newTrip.id;
-			// send trip information to infobar
-			$rootScope.$broadcast('monitor-trip-info-change', newTrip);
-
-			$scope.getAddress(newTrip, newTrip.s_lat, newTrip.s_lng, function(marker, address) {
-	 			newTrip['fromAddress'] = address;
-			});
+		// TODO 아래 주석. 체크 필요 
+		// if($scope.currentTripId != newTrip.id) {
+		$scope.currentTripId = newTrip.id;
+		// send trip information to infobar
+		$rootScope.$broadcast('monitor-trip-info-change', newTrip);
+		$scope.getAddress(newTrip, newTrip.s_lat, newTrip.s_lng, function(marker, address) {
+ 			newTrip['fromAddress'] = address;
+		});
 		// }
 	};
 
