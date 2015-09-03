@@ -72,6 +72,8 @@ class FleetSummary < ActiveRecord::Base
 		fleetSum.speed_normal = FleetSummary.get_speed_count(track_conds, 'c_nml', 'speed_normal')
 		fleetSum.speed_high = FleetSummary.get_speed_count(track_conds, 'c_hgh', 'speed_high')
 		fleetSum.speed_over = FleetSummary.get_speed_count(track_conds, 'c_ovr', 'speed_over')
+
+		# TODO fleet, driver -> Total drive_time, drive_dist 정보를 계산하여 fleet, driver에 설정 
 		fleetSum.save!
 	end
 

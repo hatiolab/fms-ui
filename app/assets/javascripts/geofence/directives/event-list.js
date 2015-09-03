@@ -164,8 +164,10 @@ angular.module('fmsGeofence').directive('eventList', function() {
 
 				if(!$scope.searchEnabled) {
 					$scope.searchEnabled = true;
-					$scope.tablestate = tablestate;
-					$scope.tablestate.pagination.number = GridUtils.getGridCountPerPage();
+					if(tablestate) {
+						$scope.tablestate = tablestate;
+						$scope.tablestate.pagination.number = GridUtils.getGridCountPerPage();
+					}
 				}
 
 				if(tablestate) {

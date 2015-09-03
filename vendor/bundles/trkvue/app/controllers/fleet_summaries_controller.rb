@@ -99,7 +99,7 @@ class FleetSummariesController < ResourceMultiUpdateController
 
     groupStr << ", sum_day" if(params[:driver_id])
 
-  #  orderStr = "drivers.code asc"   
+  #  orderStr = "drivers.code asc"
     orderStr = "#{sort_field} #{sort_value}" # default code asc
 
     if(params[:limit])

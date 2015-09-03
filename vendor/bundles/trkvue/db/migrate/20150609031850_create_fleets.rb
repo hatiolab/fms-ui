@@ -17,7 +17,9 @@ class CreateFleets < ActiveRecord::Migration
 			t.float :lat, :null => false
 			t.float :lng, :null => false
 			t.string :status, :null => false
-			t.float :velocity
+			t.float :drive_time, :default => 0
+			t.float :drive_dist, :default => 0
+			t.float :velocity, :default => 0
 			t.string :trip_id, :limit => 32
 			t.string :batch_id, :limit => 32
 			t.string :track_id, :limit => 32
