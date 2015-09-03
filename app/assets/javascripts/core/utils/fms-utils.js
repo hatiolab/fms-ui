@@ -118,7 +118,7 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 		},
 
 		/**
-		 * convert date to number
+		 * convert date to (UTC) number
 		 * 
 		 * @fromDateStr 2015-07-21
 		 * @toDateStr 2015-07-25
@@ -127,11 +127,15 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 			var toNumber = [];
 
 			if(fromDateStr) {
-				toNumber.push(new Date(fromDateStr).getTime());
+				// UTC 변환 
+				var fromTime = this.toUtcTime(new Date(fromDateStr));
+				toNumber.push(fromTime.getTime());
 			}
 
 			if(toDateStr) {
-				toNumber.push(this.addDate(new Date(toDateStr), 1).getTime());
+				// UTC 변환 
+				var toTime = this.toUtcTime(this.addDate(new Date(toDateStr), 1));
+				toNumber.push(toTime.getTime());
 			} 
 
 			return toNumber;
@@ -160,6 +164,37 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 			// to date
 			} else if(!fromDateStr && toDateStr) {
 				params['_q[' + fieldName + '-lte]'] = dateRange[0];
+			}
+		},
+
+		/**
+		 * Local time을 UTC로 바꾼 후 리턴
+		 * 
+		 * @param  {any}
+		 * @param  {string} 
+		 * @return {any} depend on toType
+		 */
+		toUtcTime : function(localTimeData) {
+			var localTime = 0;
+
+			if(typeof localTimeData == 'number') {
+				localTime = localTimeData;
+
+			} else if(typeof localTimeData == 'object') {
+				localTime = localTimeData.getTime();
+
+			} else {
+				throw new Error('Not support type!');
+			}
+
+		  var localOffset = new Date().getTimezoneOffset() * 60000;
+    	var utcTime = localTime + localOffset;
+
+			if(typeof localTimeData == 'number') {
+				return utcTime;
+
+			} else if(typeof localTimeData == 'object') {
+				return new Date(utcTime);
 			}
 		},
 

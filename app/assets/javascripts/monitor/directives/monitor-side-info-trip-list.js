@@ -177,7 +177,7 @@ angular.module('fmsMonitor').directive('monitorSideInfoTripList', function() {
 	 * Trip 선택 조회시
 	 */
 	$scope.$on('monitor-trip-info-change', function(evt, tripData) {
-		if(!$scope.trip || $scope.trip.id != tripData.id) {
+		if(tripData) {
 			$scope.trip = tripData;
 			var tripStartDate = FmsUtils.formatDate(tripData.stm, 'yyyy-MM-dd');
 

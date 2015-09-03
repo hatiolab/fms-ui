@@ -21,7 +21,7 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 	 * 임시 방안 - 추후 pub / sub으로 구현 
 	 * alert 조회 - 마지막 조회시간을 저장하고 있다가 10초에 한 번씩 마지막 조회 이 후 시간으로 조회 ...
 	 */
-	 $scope.lastSearchAlertTime = new Date().getTime();	
+	 $scope.lastSearchAlertTime = FmsUtils.toUtcTime(new Date().getTime());
 
 	/**
    * Alert 발생시 
@@ -41,16 +41,16 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 	   		isShow : true
 	   	};
    		
-   		$scope.lastSearchAlertTime = alertData.alert.ctm + 10;
+   		$scope.lastSearchAlertTime = alertData.alert.ctm;
 
    		if(!$scope.addAlert(alert)) {
-   			$scope.lastSearchAlertTime = alertData.alert.ctm + 1000;
+   			$scope.lastSearchAlertTime = alertData.alert.ctm;
    		}
 
    		$scope.$emit('new-alert-count-change', 1);		
 
    	} else {
-   		$scope.lastSearchAlertTime = new Date().getTime() + 10;
+   		$scope.lastSearchAlertTime = FmsUtils.toUtcTime(new Date().getTime());
    	}
    	
    	$timeout($scope.searchNewAlert, $scope.getInterval());
