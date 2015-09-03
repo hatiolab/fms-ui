@@ -23,14 +23,6 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
 	 * Group List
 	 */
 	$scope.groups = [];
-	/**
-	 * Fleet Group Show 여부 
-	 */
-	$scope.isHiddenGroup = true;
-	/**
-	 * Alarm Type Show 여부 
-	 */
-	$scope.isHiddenAlarmType = true;
 
 	/**
 	 * Search Geofence-Groups Relations
@@ -81,7 +73,7 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
 	 */
 	$scope.checkValidForm = function() {
 		var form = $scope.geofenceRelationSettingForm;
-		var keys = ['Name','Description'];
+		var keys = ['Name', 'Description'];
 
 		for(var i = 0 ; i < keys.length ; i++) {
 			var input = form[keys[i]];
@@ -109,9 +101,9 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
 	 */
 	$scope.isFormValid = function() {
 		var form = $scope.geofenceRelationSettingForm;
-		if(!form){
+		if(!form) {
 			return false;
-		}else{
+		} else {
 			//return form.$dirty && form.$valid;
 			return form.$dirty;
 		}
@@ -142,7 +134,8 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
 					function(data) { 
 						$scope.item = data; 
 						$scope.updateRelations(); 
-					}, function(error) {
+					}, 
+					function(error) {
 						ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
 					}
 				);
@@ -155,7 +148,8 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
 							function(data) {
 								$scope.item = data; 
 								$scope.updateRelations(); 
-							}, function(error) {
+							}, 
+							function(error) {
 								ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
 							});
 					}, 
@@ -208,11 +202,13 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
 		if (relationItems.length > 0) {
 			var url = '/geofence_groups/update_multiple.json';
 			var result = RestApi.updateMultiple(url, null, relationItems);
+
 			result.$promise.then(
 				function(data) {
 					ModalUtils.success('Success', 'Success To Save');
 					$scope.searchGeoGroups();
-				}, function(error) {
+				}, 
+				function(error) {
 					ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
 				});
 		}
@@ -232,7 +228,8 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
 						ModalUtils.success('Success', 'Success To Delete');
 						$scope.new();
 						$scope.refreshList();
-					}, function(error) {
+					}, 
+					function(error) {
 						ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
 					});
 			});
@@ -279,26 +276,29 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
 		if(!$scope.groups || $scope.groups.length == 0) {
 			$scope.searchGroups();
 		}
+
 		$scope.items.push({
 			no: 0,
-			fleet_group : {
-				id : '',
-				name : '',
-				description : ''
-			},
+			fleet_group : { id : '', name : '', description : '' },
 			fleet_group_id : '',
 			alarm_type : '',
-			geofence : {
-				id : $scope.item.id,
-				name : $scope.item.name,
-				description : $scope.item.description		
-			},
+			geofence : { id : $scope.item.id, name : $scope.item.name, description : $scope.item.description },
 			geofence_id: $scope.item.id,
 			isShow : true,
 			deleteFlag : false
 		});
 
 		$scope.numbering($scope.items, 1);
+	};
+
+	/**
+	 * Check All
+	 */
+	$scope.checkAll = function() {
+		console.log($scope.items);
+		angular.forEach($scope.items, function(item) {
+			item.deleteFlag = true;
+		});
 	};
 
 	/**

@@ -9,7 +9,6 @@ class Trip
   field :bid, type: String
   field :fid, type: String
   field :fvr, type: String
-  field :tid, type: String
   field :did, type: String
   field :stm, type: Integer
   field :etm, type: Integer

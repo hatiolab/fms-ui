@@ -26,7 +26,7 @@
 			<table class="table table-striped table-hover" st-pagination-scroll st-table="items" st-pipe="searchGeofenceGroups">
 				<thead>
 					<tr>
-						<th><translate name-value ="Remove" category="label"/></th>
+						<th><input type="checkbox" ng-click='checkAll()'></th>
 						<th>#</th>
 						<th><translate name-value ="Group Name" category="label"/></th>
 						<th><translate name-value ="Group Description" category="label"/></th>
@@ -37,16 +37,20 @@
 					<tr ng-repeat="geofenceGroup in items" ng-show="geofenceGroup.isShow">
 						<td><input type="checkbox" ng-model='geofenceGroup.deleteFlag'></td>
 						<td>{{geofenceGroup.no}}</td>
-						<td ng-click="isHiddenGroup=false">
+						<td>
+						<!--td ng-click="isHiddenGroup=false">
 						  <span ng-hide="!isHiddenGroup">{{geofenceGroup.fleet_group.name}}</span>					 
-							<select ng-model="geofenceGroup.fleet_group_id" ng-options="fleet_group.id as fleet_group.name for fleet_group in groups" ng-hide="isHiddenGroup">
+							<select ng-model="geofenceGroup.fleet_group_id" ng-options="fleet_group.id as fleet_group.name for fleet_group in groups" ng-hide="isHiddenGroup"-->
+							<select ng-model="geofenceGroup.fleet_group_id" ng-options="fleet_group.id as fleet_group.name for fleet_group in groups">
    							<option value=""></option>
 							</select>
 						</td>
 						<td>{{geofenceGroup.fleet_group.description}}</td>
-						<td ng-click="isHiddenAlarmType=false">
+						<td>
+						<!--td ng-click="isHiddenAlarmType=false">
 							<span ng-hide="!isHiddenAlarmType">{{geofenceGroup.alarm_type}}</span>
-							<select ng-model="geofenceGroup.alarm_type" ng-hide="isHiddenAlarmType">
+							<select ng-model="geofenceGroup.alarm_type" ng-hide="isHiddenAlarmType"-->
+							<select ng-model="geofenceGroup.alarm_type">
    								<option value=""></option>
    								<option value="IN">IN</option>
 								<option value="OUT">OUT</option>
@@ -64,12 +68,15 @@
 		<button type="button" class="btn btn-default margin-t7 pull-left margin-r7" ng-show="item.canBeBack" ng-click="back()">
 			<translate class="col-xs-3 control-label" name-value ="Back" category="button"/>
 		</button>
+
 		<button type="button" class="btn btn-default margin-t7 pull-left" ng-click="new()">
 			<translate class="col-xs-3 control-label" name-value ="New" category="button"/>
 		</button>
+		
 		<button type="button" class="btn btn-default margin-t7 pull-right btn-success margin-r7" ng-click="save()">
 			<translate class="col-xs-3 control-label" name-value ="Save" category="button"/>
 		</button>
+		
 	</div>
 	
 </div>

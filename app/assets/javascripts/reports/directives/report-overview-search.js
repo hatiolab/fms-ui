@@ -25,9 +25,9 @@ angular.module('fmsReports').directive('reportsOverviewSearch', function() {
 	},{
 		chartId : 'report-overview-4', sort_field :'impact', labels :[], data : []
 	}, {
-		chartId : 'report-overview-5', sort_field :'emergency', labels : [], data : []
+		chartId : 'report-overview-5', sort_field :'geofence', labels : [], data : []
 	}, {
-		chartId : 'report-overview-6', sort_field :'geofence', labels :[], data : []
+		chartId : 'report-overview-6', sort_field :'emergency', labels :[], data : []
 	} ];
 	/**
 	 * 검색 조건 모델 

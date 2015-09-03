@@ -23,11 +23,11 @@ angular.module('fmsHr').directive('hrOverviewSearch', function() {
 	}, {
 		chartId : 'hr-overview-3', sort_field :'overspeed', labels : [], data : []
 	},{
-		chartId : 'hr-overview-4', sort_field :'impact', labels :[], data : []
+		chartId : 'hr-overview-4', sort_field :'geofence', labels :[], data : []
 	}, {
-		chartId : 'hr-overview-5', sort_field :'emergency', labels : [], data : []
+		chartId : 'hr-overview-5', sort_field :'impact', labels : [], data : []
 	}, {
-		chartId : 'hr-overview-6', sort_field :'geofence', labels :[], data : []
+		chartId : 'hr-overview-6', sort_field :'emergency', labels :[], data : []
 	} ];
 	/**
 	 * 검색 조건 모델 
