@@ -1,15 +1,10 @@
-class MongoController < ActionController::Base
-
-  include Basic
-
-  respond_to :html, :xml, :json
-
-  before_filter :authenticate_user!, :set_current_user
-  
-  around_filter :scope_current_domain  
+class MongoController < DomainAppController
   
   private
   
+  #
+  # Common Search Function
+  #
   def searching(entity, params)
     where_params, where_conds, sorts = params["_q"], { 'dom' => Domain.current_domain.id }, []
     params["_o"].each { |key, value| sorts << "#{key} #{value}" } if params["_o"]
@@ -51,6 +46,9 @@ class MongoController < ActionController::Base
     return {:items => items, :total => total_count, :success => true, :conditions => where_conds}
   end
   
+  #
+  # Common Update Multiple Function
+  #
   def update_multiple_data(entity, params)
     delete_list, update_list, create_list = self.refine_multiple_data(params[:multiple_data], "id")
     # 1. delete

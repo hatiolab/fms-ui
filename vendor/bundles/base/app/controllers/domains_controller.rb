@@ -1,4 +1,4 @@
-class DomainsController < InheritedResources::Base
+class DomainsController < DomainAppController
   
   def index
     @domains = Domain.all
