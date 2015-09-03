@@ -18,7 +18,7 @@ angular.module('fmsCore')
 		return function(input, displayUnit) {
 
 			if(!input) {
-				return '';
+				return 0;
 			}
 
 			if(!angular.isNumber(input)) {
@@ -48,7 +48,7 @@ angular.module('fmsCore')
 		return function(input, displayUnit) {
 
 			if(!input) {
-				return '';
+				return 0;
 			}
 
 			if(!angular.isNumber(input)) {
@@ -76,6 +76,14 @@ angular.module('fmsCore')
 
 	.filter('fmsworktime', function($rootScope) { 
 		return function(input, displayUnit) {
+
+			if(!input) {
+				return 0;
+			}
+
+			if(!angular.isNumber(input)) {
+				input = Number(input);
+			}
 
 			var output = (input / 60);
 			output = Number(output.toFixed(1));
