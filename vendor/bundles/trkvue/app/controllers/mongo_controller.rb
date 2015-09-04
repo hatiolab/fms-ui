@@ -1,6 +1,8 @@
 class MongoController < DomainAppController
   
   private
+
+  DATE_FIELDS = ['etm', 'ttm', 'ctm', 'stm', 'utm']
   
   #
   # Common Search Function
@@ -27,14 +29,15 @@ class MongoController < DomainAppController
         where_conds[cond_name] = { '$in' => val }
       # gte
       elsif(cond_opr == 'gte')
-        where_conds[cond_name] = { '$gte' => v }
+        where_conds[cond_name] = { '$gte' => convert(cond_name, v) }
       # lte
       elsif(cond_opr == 'lte')
-        where_conds[cond_name] = { '$lte' => v }
+        where_conds[cond_name] = { '$lte' => convert(cond_name, v) }
       # between
       elsif(cond_opr == 'between')
-        between_val_arr = v ? v.split(',') : ''
-        where_conds[cond_name] = { '$gte' => between_val_arr[0], '$lte' => between_val_arr[1] } if(between_val_arr && between_val_arr.length >= 2)
+        between_vals = v ? v.split(',') : ''
+        val_1, val_2 = convert(cond_name, between_vals[0]), convert(cond_name, between_vals[1])
+        where_conds[cond_name] = { '$gte' => val_1, '$lte' => val_2 } if(between_vals && between_vals.length >= 2)
       # eq
       else
         where_conds[cond_name] = v
@@ -46,6 +49,14 @@ class MongoController < DomainAppController
     return {:items => items, :total => total_count, :success => true, :conditions => where_conds}
   end
   
+  def convert(field, value) 
+    DATE_FIELDS.include?(field) ? to_times(value) : value
+  end
+
+  def to_times(dateStr)
+    Date.parse(dateStr).to_time.to_i * 1000
+  end
+
   #
   # Common Update Multiple Function
   #

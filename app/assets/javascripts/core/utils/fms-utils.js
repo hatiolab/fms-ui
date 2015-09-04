@@ -118,7 +118,7 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 		},
 
 		/**
-		 * convert date to (UTC) number
+		 * convert date to number
 		 * 
 		 * @fromDateStr 2015-07-21
 		 * @toDateStr 2015-07-25
@@ -127,15 +127,11 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 			var toNumber = [];
 
 			if(fromDateStr) {
-				// UTC 변환 
-				var fromTime = this.toUtcTime(new Date(fromDateStr));
-				toNumber.push(fromTime.getTime());
+				toNumber.push(new Date(fromDateStr).getTime());
 			}
 
 			if(toDateStr) {
-				// UTC 변환 
-				var toTime = this.toUtcTime(this.addDate(new Date(toDateStr), 1));
-				toNumber.push(toTime.getTime());
+				toNumber.push(this.addDate(new Date(toDateStr), 1).getTime());
 			} 
 
 			return toNumber;
@@ -150,51 +146,14 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 		 * @toDateStr 2015-07-25
 		 */
 		buildDateConds : function(params, fieldName, fromDateStr, toDateStr) {
-			// convert date to number
-			var dateRange = this.dateToNumber(fromDateStr, toDateStr);
-
-			// from & to date
 			if(fromDateStr && toDateStr) {
-				params['_q[' + fieldName + '-between]'] = dateRange.join(',');
+				params['_q[' + fieldName + '-between]'] = fromDateStr + "," + toDateStr;
 
-			// from date
 			} else if(fromDateStr && !toDateStr) {
-				params['_q[' + fieldName + '-gte]'] = dateRange[0];
+				params['_q[' + fieldName + '-gte]'] = fromDateStr;
 
-			// to date
 			} else if(!fromDateStr && toDateStr) {
-				params['_q[' + fieldName + '-lte]'] = dateRange[0];
-			}
-		},
-
-		/**
-		 * Local time을 UTC로 바꾼 후 리턴
-		 * 
-		 * @param  {any}
-		 * @param  {string} 
-		 * @return {any} depend on toType
-		 */
-		toUtcTime : function(localTimeData) {
-			var localTime = 0;
-
-			if(typeof localTimeData == 'number') {
-				localTime = localTimeData;
-
-			} else if(typeof localTimeData == 'object') {
-				localTime = localTimeData.getTime();
-
-			} else {
-				throw new Error('Not support type!');
-			}
-
-		  var localOffset = new Date().getTimezoneOffset() * 60000;
-    	var utcTime = localTime + localOffset;
-
-			if(typeof localTimeData == 'number') {
-				return utcTime;
-
-			} else if(typeof localTimeData == 'object') {
-				return new Date(utcTime);
+				params['_q[' + fieldName + '-lte]'] = toDateStr;
 			}
 		},
 

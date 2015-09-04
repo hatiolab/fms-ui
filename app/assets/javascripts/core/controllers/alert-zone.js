@@ -43,7 +43,7 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
    		
    		if(!$scope.addAlert(alert)) {
    			console.log('send time : ' + $scope.lastSearchAlertTime);
-   			console.log('lastest aler time : ' + alertData.alert.ctm);
+   			console.log('lastest alert time : ' + alertData.alert.ctm);
    			$scope.lastSearchAlertTime = alertData.alert.ctm;
    		} else {
 				$scope.lastSearchAlertTime = new Date().getTime();
