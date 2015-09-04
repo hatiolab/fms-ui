@@ -65,6 +65,7 @@ gem 'roo'
 gem 'axlsx', '~> 2.0.1'
 gem 'axlsx_rails', '~> 0.2.0'
 gem 'uuidtools'
+gem 'whenever', :require => false
 gem 'hatiocore', path: 'vendor/bundles/hatiocore'
 gem 'base', path: 'vendor/bundles/base'
 gem 'trkvue', path: 'vendor/bundles/trkvue'
