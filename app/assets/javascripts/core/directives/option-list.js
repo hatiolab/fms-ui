@@ -30,4 +30,14 @@
       }
     };
 
+}])
+  .directive('fleets', [function () {
+
+    return { 
+      require : '^optionList',
+      link : function (scope, element, attrs, optionListCtrl) {
+        optionListCtrl.find('fleets', null);
+      }
+    };
+
 }]);
