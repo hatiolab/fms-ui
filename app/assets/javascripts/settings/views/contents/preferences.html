@@ -94,24 +94,27 @@
 				</div>				
 			</div>
 
-			<div class="form-group col-xs-12 col-sm-6" >
+			<!--div class="form-group col-xs-12 col-sm-6" >
 				<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">
-					<translate name-value ="Map Refresh" category="label"></translate>
+					<translate name-value ="Map Refresh" category="label"/>
 				</label>
 				<div class="radio pull-left">
-					<label class="pull-left"><input type="radio" name="MapRefresh" id="optionsRadios1" value="Y" ng-model="settings.map_refresh" checked> Yes</label>
-						<div class="pull-left" ng-show="settings.map_refresh == 'Y'">
-							<input type="number" min="10" class="form-control max-w60 pull-left" ng-model='settings.map_refresh_interval'></input>
-							<span class="pull-left padding-rl7 padding-t4">
-								<translate name-value ="Sec." category="label"></translate>
-							</span>
-						</div>
+					<label class="pull-left">
+						<input type="radio" name="MapRefresh" id="optionsRadios1" value="Y" ng-model="settings.map_refresh" checked/> Yes
+					</label>
+					<div class="pull-left" ng-show="settings.map_refresh == 'Y'">
+						<input type="number" min="1" class="form-control max-w60 pull-left" ng-model='settings.map_refresh_interval'/>
+						<span class="pull-left padding-rl7 padding-t4">
+							<translate name-value ="Min." category="label"/>
+						</span>
+					</div>
 				</div>
 				<div class="radio pull-left">
 					<label class="pull-left">
-						<input type="radio" name="MapRefresh" id="optionsRadios2" value="N" ng-model="settings.map_refresh">No</label>
+						<input type="radio" name="MapRefresh" id="optionsRadios2" value="N" ng-model="settings.map_refresh"/>No
+					</label>
 				</div>
-			</div>			
+			</div-->			
 
 		</fieldset>
 		<!-- Monitor fieldset end -->

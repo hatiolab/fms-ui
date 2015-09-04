@@ -62,7 +62,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 * Map Refresh 여부, Map Refresh Interval, Map Auto Fit 여부 
 	 * @type {Object}
 	 */
-	$scope.refreshOption = { refresh : false, interval : 10, autoFit : true };
+	$scope.refreshOption = { refresh : true, interval : 1, autoFit : false };
 
 	/**
 	 * 1. Refresh 여부 값을 Setting에서 가져와서 초기화, 
@@ -75,23 +75,23 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	/**
 	 * Refresh 설정이 변경된 경우 
 	 */	
-	$scope.$on('setting-map_refresh-change', function(evt, value) {
-		$scope.refreshOption.refresh = (!value || value == 'N') ? false : true;
-	});
+	//$scope.$on('setting-map_refresh-change', function(evt, value) {
+	//	$scope.refreshOption.refresh = (!value || value == 'N') ? false : true;
+	//});
 
 	/**
 	 * Refresh Interval 설정이 변경된 경우 
 	 */	
-	$scope.$on('setting-map_refresh_interval-change', function(evt, value) {
-		$scope.refreshOption.interval = parseInt(value);
-	});
+	//$scope.$on('setting-map_refresh_interval-change', function(evt, value) {
+	//	$scope.refreshOption.interval = parseInt(value);
+	//});
 
-	var refreshYn = $rootScope.getSetting('map_refresh');
+	//var refreshYn = $rootScope.getSetting('map_refresh');
 
-	$timeout(function() {
-		$scope.refreshOption.refresh = (!refreshYn || refreshYn == 'N') ? false : true;
-		$scope.refreshOption.interval = $rootScope.getIntSetting('map_refresh_interval');
-	}, 5 * 1000);
+	//$timeout(function() {
+	//	$scope.refreshOption.refresh = (!refreshYn || refreshYn == 'N') ? false : true;
+	//	$scope.refreshOption.interval = $rootScope.getIntSetting('map_refresh_interval');
+	//}, 2 * 1000);
 
 }).controller('MonitorMapCtrl', function($rootScope, $scope, $element, $timeout, ConstantSpeed, FmsUtils, ModalUtils, RestApi) {
 	
@@ -110,7 +110,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	/**
 	 * map marker models for fleets, map polyline model for tracks, currently selected marker, progress bar
 	 */
-	$scope.markers = [], $scope.polylines = [], $scope.selectedMarker = null; $scope.progressBar = null;	
+	$scope.markers = [], $scope.polylines = [], $scope.selectedMarker = null; $scope.progressBar = null;
 	/**
 	 * map control, marker control, polyline control
 	 */
@@ -119,7 +119,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 * Map Refresh 여부, Map Refresh Interval, Map Auto Fit 여부 
 	 * @type {Object}
 	 */
-	$scope.refreshOption = { refresh : false, interval : 10, autoFit : true };
+	$scope.refreshOption = { refresh : true, interval : 1, autoFit : false };
 	/**
 	 * window show / hide switch model
 	 */
@@ -201,7 +201,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 * Fit Bounds
 	 */
 	$scope.fitBounds = function(callback) {
-		if($scope.refreshOption.autoFit && $scope.markers && $scope.markers.length > 0) {
+		if($scope.markers && $scope.markers.length > 0) {
 			var startPoint = new google.maps.LatLng($scope.markers[0].lat, $scope.markers[0].lng);
 			var bounds = new google.maps.LatLngBounds(startPoint, startPoint);
 
@@ -209,7 +209,11 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 				bounds.extend(new google.maps.LatLng(marker.lat, marker.lng));
 			});
 
-			$scope.mapControl.getGMap().fitBounds(bounds);
+			if($scope.refreshOption.autoFit) {
+				$scope.mapControl.getGMap().fitBounds(bounds);
+			} else {
+				$scope.mapOption.center = { latitude: bounds.getCenter().G, longitude: bounds.getCenter().K };
+			}
 
 			if(callback) {
 				$timeout(callback, 1000);
@@ -940,8 +944,8 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	$scope.refreshTimer = function() {
 		$timeout.cancel();
 		if($scope.refreshOption.refresh && $scope.refreshOption.interval >= 1) {
-			var interval = $scope.refreshOption.interval >= 10 ? $scope.refreshOption.interval : 10;
-			$timeout($scope.refreshMap, interval * 1000);
+			var interval = $scope.refreshOption.interval >= 1 ? $scope.refreshOption.interval : 1;
+			$timeout($scope.refreshMap, interval * 60 * 1000);
 		}
 	};
 

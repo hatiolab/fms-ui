@@ -193,9 +193,13 @@ angular.module('fmsCore').directive('topMenu', function() {
 	 */
 	$scope.setActive($scope.items[0]);
 	
+	/**
+	 * Go To Monitor
+	 */
 	var moveListener = $rootScope.$on('go-to-monitor', function(event, tabId) {
 		$scope.setActive($scope.items[0]);
 	});
+
 	/**
 	 * Window Resize 시 모든 그리드 켄테이너의 Height 조정 
 	 */

@@ -1,7 +1,7 @@
-angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scope, $timeout, $interval, $element, $compile, FmsUtils, RestApi) {
+angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scope, $state, $timeout, $interval, $element, $compile, FmsUtils, RestApi) {
 
 	/**
-	 * timer 시작 여
+	 * timer 시작 여부 
 	 * 
 	 * @type {Boolean}
 	 */
@@ -14,14 +14,14 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 	$scope.alertList = []; 
 	/**
 	 * 최대 alert 개수 - 이 개수 이상이면 자동 삭제 
+	 * 
 	 * @type {Number}
 	 */
 	$scope.max_alert_count = 10;
 	/**
-	 * 임시 방안 - 추후 pub / sub으로 구현 
-	 * alert 조회 - 마지막 조회시간을 저장하고 있다가 10초에 한 번씩 마지막 조회 이 후 시간으로 조회 ...
+	 * 마지막 조회시간을 저장하고 있다가 10초에 한 번씩 마지막 조회 이 후 시간으로 조회 ...
 	 */
-	 $scope.lastSearchAlertTime = new Date().getTime();
+	$scope.lastSearchAlertTime = new Date().getTime();
 
 	/**
    * Alert 발생시 
@@ -185,9 +185,8 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
  		$scope.redrawPopups();
 
 	 	if('Y' == goTrip) {
-		 	RestApi.get('/events/' + alertId + '.json', {}, function(alert) {
-		 		$scope.$emit('monitor-event-trip-change', alert);
-		 	});
+	 		$state.go('monitor', { 'tabId': 'side-alerts' }, { reload : true });
+		 	/*RestApi.get('/events/' + alertId + '.json', {}, function(alert) { $scope.$emit('monitor-event-trip-change', alert);});*/
 	 	}
 	 };
 
