@@ -62,7 +62,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 * Map Refresh 여부, Map Refresh Interval, Map Auto Fit 여부 
 	 * @type {Object}
 	 */
-	$scope.refreshOption = { refresh : true, interval : 1, autoFit : false };
+	$scope.refreshOption = { refresh : true, interval : 1, autoFit : true };
 
 	/**
 	 * 1. Refresh 여부 값을 Setting에서 가져와서 초기화, 
@@ -119,7 +119,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 * Map Refresh 여부, Map Refresh Interval, Map Auto Fit 여부 
 	 * @type {Object}
 	 */
-	$scope.refreshOption = { refresh : true, interval : 1, autoFit : false };
+	$scope.refreshOption = { refresh : true, interval : 1, autoFit : true };
 	/**
 	 * window show / hide switch model
 	 */
