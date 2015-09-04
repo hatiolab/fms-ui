@@ -191,7 +191,7 @@ label input[type="checkbox"]{margin-right:5px;}
 .navbar-default .navbar-toggle .icon-bar{background-color:#ccc;}
 .navbar-default .navbar-toggle:hover .icon-bar{background-color:#fff;}
 
-.content{background:url(/assets/bg-content.png) no-repeat;padding-left:1px !important;}
+.content{background:url(/assets/bg-body.png) repeat-y;padding-left:1px !important;}
 .content,.content .height-full .ng-scope,.content #mapCanvas,.content .angular-google-map,.content .angular-google-map-container{height:100%;}
 
 /* fix for Twitter Bootstrap handling of responsive images */
@@ -272,7 +272,7 @@ font-size:12px;color:#666;}
 .setting-content .control-label{color:#4d5f7d}
 .setting-content .form-group .control-label{padding-top:4px !important;}
 .setting-content .line-infos .form-group{border-bottom:1px solid #efefef;overflow:hidden;margin-bottom:5px;padding:7px 0 5px 0;}
-.setting-content .bg-white{background:url(bg_white_gradient.png) repeat-x;margin-top:15px;padding:15px;border-top:1px solid #d4d9dd;}
+.setting-content .bg-white{margin-top:15px;padding:15px;border-top:1px solid #d4d9dd;}
 .setting-content fieldset{margin:0 15px 25px 15px;padding-bottom:5px;border:1px solid #d1dae4;}
 .setting-content fieldset legend{margin-left:10px;margin-bottom:5px;padding:0 5px;border:none;width:initial !important;color:#6883ae;font-weight:normal;}
 .setting-content fieldset .form-group{margin-bottom:10px;}
