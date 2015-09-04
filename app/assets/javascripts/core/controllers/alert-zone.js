@@ -41,17 +41,16 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 	   		isShow : true
 	   	};
    		
-   		$scope.lastSearchAlertTime = alertData.alert.ctm;
-
    		if(!$scope.addAlert(alert)) {
+   			console.log('send time : ' + $scope.lastSearchAlertTime);
+   			console.log('lastest aler time : ' + alertData.alert.ctm);
    			$scope.lastSearchAlertTime = alertData.alert.ctm;
+   		} else {
+				$scope.lastSearchAlertTime = new Date().getTime();
    		}
 
-   		$scope.$emit('new-alert-count-change', 1);		
-
-   	} else {
-   		$scope.lastSearchAlertTime = new Date().getTime();
-   	}
+   		$scope.$emit('new-alert-count-change', 1);
+   	} 
    	
    	$timeout($scope.searchNewAlert, $scope.getInterval());
    };
