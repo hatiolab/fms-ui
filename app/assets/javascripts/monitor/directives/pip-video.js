@@ -63,7 +63,39 @@ angular.module('pip', [])
                 if($._ios) {
                     $element.on('click', '.pip-container .toggler', function(e){
                         $element.find('video').each(function(){this.pause();}).toggle();
-                        $element.find('video:visible').each(function(e){this.play();});                        
+                        $element.find('video:visible').each(function(e){
+                            var currentTime = this.currentTime;
+                            $element.find('audio').each(function() {
+                                this.currentTime = currentTime;
+                                this.play();
+                            });
+                            this.play();
+                        });
+                    });
+
+                    $element.on('play', 'video', function(e) {
+                        var video = e.target;
+
+                        $element.find('audio').each(function(){
+                            this.currentTime = video.currentTime;
+                            this.play();
+                        });
+                    });
+
+                    $element.on('pause', 'video', function(e) {
+                        var video = e.target;
+
+                        $element.find('audio').each(function(){
+                            this.pause();
+                        });
+                    });
+
+                    $element.on('seeked', 'video', function(e) {
+                        var video = e.target;
+
+                        $element.find('audio').not(video).each(function(){
+                            this.currentTime = video.currentTime;
+                        });
                     });
 
                     return;
