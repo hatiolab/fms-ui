@@ -34,6 +34,7 @@ angular.module('pip', [])
 
         $.createEventCapturing(['canplay', 'play', 'pause', 'seeked']);
 
+        $._ios = /iphone|ipod|ipad/.test(window.navigator.userAgent.toLowerCase());
     })
     .directive('pipVideo', function() {
 
@@ -58,6 +59,15 @@ angular.module('pip', [])
                 scope.gy = a.gy;
                 scope.gz = a.gz;
                 scope.address = a.address;
+
+                if($._ios) {
+                    $element.on('click', '.pip-container .toggler', function(e){
+                        $element.find('video').each(function(){this.pause();}).toggle();
+                        $element.find('video:visible').each(function(e){this.play();});                        
+                    });
+
+                    return;
+                }
 
                 $element.on('click', '.pip-container video.forward-layer', function(e){
                     var video = e.target;
@@ -130,7 +140,7 @@ angular.module('pip', [])
                 });                
 
             },
-            templateUrl : '/assets/monitor/views/content/pip-video.html'
+            templateUrl : (!$._ios) ? '/assets/monitor/views/content/pip-video.html' : '/assets/monitor/views/content/pip-video-ios.html' 
         };
     })
     .directive('pipImage', function() {
