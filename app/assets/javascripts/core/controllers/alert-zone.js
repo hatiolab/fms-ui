@@ -165,6 +165,13 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 	};
 
 	/**
+	 * 에러 카운트 
+	 * 
+	 * @type {Number}
+	 */
+	$scope.errorCount = 0;
+
+	/**
 	 * Refresh timer를 시작 
 	 */
 	$scope.searchNewAlert = function() {
@@ -173,7 +180,10 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
  				$scope.setAlert(alert);
  			},
  			function(error) {
- 				console.log(error);
+ 				if($scope.errorCount < 5) {
+ 					console.log(error);
+ 					$scope.errorCount += 1;
+ 				}
  			});
 
  		// 다음 체크 다음 설정  
