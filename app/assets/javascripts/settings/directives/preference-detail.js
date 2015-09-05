@@ -12,6 +12,12 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 	.controller('preferenceDetailCtrl', function($rootScope, $scope, $filter, $resource, $element, $window, RestApi, ModalUtils) {
 
 		/**
+		 * Setting View Binding Model
+		 * 
+		 * @type {Object}
+		 */
+		$scope.settings = {};
+		/**
 		 * Language Setup Mode가 변경되었는지 여부 체크 
 		 */
 		$scope.prevLangSetupMode = 'N';
@@ -39,50 +45,49 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 		};
 
 		/**
-		 * infinite scorll directive에서 호출 
+		 * Settign 값 
+		 * 'trip_interval' : 10
+		 * 'batch_interval' : 10
+		 * 'gps_interval' : 10
+		 * 'map_refresh_interval' : 10
+		 * 'stillcut_interval' : 10
+		 * 'alert_away_interval' : 10
+		 * 'speed_over' : 120
+		 * 'speed_high' : 100
+		 * 'speed_normal' : 80
+		 * 'speed_slow' : 40
+		 * 'map_refresh' : Y
+		 * 'distance_unit' : km
+		 * 'timezone' : Seoul
+		 * 'format_date' : yyyy-MM-dd
+		 * 'format_time' : HH:mm:ss
+		 * 'content_base_url' : http://fms-server:8300
+		 * 'alarm_impact' : Y
+		 * 'alarm_g_sensor' : Y
+		 * 'alarm_emergency' : Y
+		 * 'alarm_geofence' : Y
+		 * 'alarm_overspeed' : Y
+		 * 'default_count_per_page' : 50
+		 * 'default_grid_buffer_count' : 200
+		 * 'language_setup_mode' : N
+		 * 'lat' : 37.3892,
+		 * 'lng' : 127.0896
 		 * 
 		 * @param  {Object}
 		 * @return N/A
 		 */
 		$scope.afterSearch = function(dataSet) {
-			$scope.settings = {
-				'batch_interval' : Number($scope.getByName(dataSet,'batch_interval').value) ,
-				'distance_unit' : $scope.getByName(dataSet,'distance_unit').value,
-				'gps_interval' : Number($scope.getByName(dataSet,'gps_interval').value),
-				'map_refresh_interval' : Number($scope.getByName(dataSet,'map_refresh_interval').value),
-				'content_base_url' : $scope.getByName(dataSet,'content_base_url').value,
-				'speed_high' : Number($scope.getByName(dataSet,'speed_high').value),
-				'speed_over' : Number($scope.getByName(dataSet,'speed_over').value),
-				'speed_slow' : Number($scope.getByName(dataSet,'speed_slow').value),
-				'speed_normal' : Number($scope.getByName(dataSet,'speed_normal').value),				
-				'stillcut_interval' : Number($scope.getByName(dataSet,'stillcut_interval').value),
-				'trip_interval' : Number($scope.getByName(dataSet,'trip_interval').value),
-				'map_refresh' : $scope.getByName(dataSet,'map_refresh').value,
-				'alarm_impact' : $scope.getByName(dataSet,'alarm_impact').value,
-				'alarm_g_sensor' : $scope.getByName(dataSet,'alarm_g_sensor').value,
-				'alarm_emergency' : $scope.getByName(dataSet,'alarm_emergency').value,
-				'alarm_geofence' : $scope.getByName(dataSet,'alarm_geofence').value,
-				'alarm_overspeed' : $scope.getByName(dataSet,'alarm_overspeed').value,
-				'timezone' : $scope.getByName(dataSet,'timezone').value,
-				'format_date' : $scope.getByName(dataSet,'format_date').value,
-				'format_time' : $scope.getByName(dataSet,'format_time').value,
-				'default_count_per_page' : $scope.getByName(dataSet,'default_count_per_page').value,
-				'default_grid_buffer_count' : $scope.getByName(dataSet,'default_grid_buffer_count').value,
-				'language_setup_mode' : $scope.getByName(dataSet,'language_setup_mode').value,
-				'lat' : DEFAULT_LAT,
-				'lng' : DEFAULT_LNG,
-			};
+			angular.forEach(dataSet, function(data) {
+				var property = data.name;
+				if(property.indexOf('_interval') >= 0 || property.indexOf('speed_') >= 0 || property.indexOf('_count') >= 0 || property == 'lat' || property == 'lng') {
+					$scope.settings[property] = data.value ? Number(data.value) : 0;
+				} else {
+					$scope.settings[property] = data.value;
+				}
+			});
 
 			$scope.prevLangSetupMode = $scope.settings.language_setup_mode;
 		};
-
-		/**
-		 * get setting by name
-		 */
-		$scope.getByName = function (dataSet, param) {
-			var result = $filter('filter')(dataSet, {'name' : param})[0];
-			return result;
-		}
 
 		/**
 		 * Check form validation
@@ -139,15 +144,31 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 		 */
 		$scope.beforeSave = function() {
 			var settings = $scope.items.map(function(item) {
-				return { 
-					id : item.id, 
-					name : item.name,
-					value : $scope.settings[item.name].toString(),
-					_cud_flag_ : item.id ? 'u' : 'c'
-				};
+				return { id : item.id, name : item.name, value : $scope.settings[item.name].toString(), _cud_flag_ : 'u' };
 			});
 
+			for (property in $scope.settings) {
+				if($scope.checkNewSetting(property)) {
+					settings.push({ id : '', name : property, value : $scope.settings[property].toString(), _cud_flag_ : 'c' });
+				}
+			}
+
+			console.log(settings);
 			return settings;
+		};
+
+		/**
+		 * Database에 저장되지 않은 새로운 설정인지 체크 
+		 * 
+		 * @param  {settingName}
+		 * @return {Bollean}
+		 */
+		$scope.checkNewSetting = function(settingName) {
+			var found = $scope.items.filter(function(item) {
+				return item.name == settingName;
+			});
+
+			return (!found || found.length == 0) ? true : false;
 		};
 
 		/**

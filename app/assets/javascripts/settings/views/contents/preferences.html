@@ -7,82 +7,85 @@
 
 			<div class="form-group col-xs-12 col-sm-6">
 				<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">
-					<translate name-value ="Batch Interval" category="label"></translate>
+					<translate name-value ="Batch Interval" category="label"/>
 				</label>
 				<div class="col-xs-7 col-sm-8 col-md-8">
-					<input type="number" min="1" class="form-control max-w100 pull-left" ng-model='settings.batch_interval'></input>
+					<input type="number" min="1" class="form-control max-w100 pull-left" ng-model='settings.batch_interval'/>
 					<span class="pull-left padding-rl7 padding-t4">
-						<translate name-value ="Hour" category="label"></translate>
+						<translate name-value ="Hour" category="label"/>
 					</span>
 				</div>
 			</div>
 			
 			<div class="form-group col-xs-12 col-sm-6">
 				<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">
-					<translate name-value ="Trip Interval" category="label"></translate>
+					<translate name-value ="Trip Interval" category="label"/>
 				</label>
 				<div class="col-xs-7 col-sm-8 col-md-8">
-					<input type="number" min="1" class="form-control max-w100 pull-left" ng-model='settings.trip_interval'></input>
+					<input type="number" min="1" class="form-control max-w100 pull-left" ng-model='settings.trip_interval'/>
 					<span class="pull-left padding-rl7 padding-t4">
-						<translate name-value ="Hour" category="label"></translate>
+						<translate name-value ="Hour" category="label"/>
 					</span>
 				</div>
 			</div>
 			
 			<div class="form-group col-xs-12 col-sm-6">
 				<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">
-					<translate name-value ="GPS Interval" category="label"></translate>
+					<translate name-value ="GPS Interval" category="label"/>
 				</label>
 				<div class="col-xs-7 col-sm-8 col-md-8">
-					<input type="number" min="1" class="form-control max-w100 pull-left" ng-model='settings.gps_interval'></input>
+					<input type="number" min="1" class="form-control max-w100 pull-left" ng-model='settings.gps_interval'/>
 					<span class="pull-left padding-rl7 padding-t4">
-						<translate name-value ="Minutes" category="label"></translate>
+						<translate name-value ="Minutes" category="label"/>
 					</span>
 				</div>
 			</div>
 			
 			<div class="form-group col-xs-12 col-sm-6">
 				<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">
-					<translate name-value ="Stillcut Interval" category="label"></translate>
+					<translate name-value ="Stillcut Interval" category="label"/>
 				</label>
 				<div class="col-xs-7 col-sm-8 col-md-8">
-					<input type="number" min="1" class="form-control max-w100 pull-left" ng-model='settings.stillcut_interval'></input>
+					<input type="number" min="1" class="form-control max-w100 pull-left" ng-model='settings.stillcut_interval'/>
 					<span class="pull-left padding-rl7 padding-t4">
-						<translate name-value ="Minutes" category="label"></translate>
+						<translate name-value ="Minutes" category="label"/>
 					</span>
 				</div>
 			</div>
 
 			<div class="form-group col-xs-12 col-sm-6">
 				<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">
-					<translate name-value ="Basic Latitude" category="label"></translate>
+					<translate name-value ="Basic Latitude" category="label"/>
 				</label>
 				<div class="col-xs-7 col-sm-8 col-md-8">
-					<input type="number" class="form-control max-w100 pull-left" ng-model='settings.lat'></input>
+					<input type="number" class="form-control max-w100 pull-left" ng-model='settings.lat'/>
 				</div>
 			</div>
 			
 			<div class="form-group col-xs-12 col-sm-6">
 				<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">
-					<translate name-value ="Basic Longitude" category="label"></translate>
+					<translate name-value ="Basic Longitude" category="label"/>
 				</label>
 				<div class="col-xs-7 col-sm-8 col-md-8">
-					<input type="number" class="form-control max-w100 pull-left" ng-model='settings.lng'></input>
+					<input type="number" class="form-control max-w100 pull-left" ng-model='settings.lng'/>
 				</div>
-			</div>			
+			</div>
 
 			<div class="form-group col-xs-12 col-sm-6">
 				<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">
-					<translate name-value ="Movie Base URL" category="label"></translate>
+					<translate name-value ="Fade Awary Alert" category="label"/>
 				</label>
 				<div class="col-xs-7 col-sm-8 col-md-8">
-					<input type="text" min="1" class="form-control max-w200" ng-model='settings.content_base_url'></input>
+					<input type="number" min="1" class="form-control max-w100 pull-left" ng-model='settings.alert_away_interval'/>
+					<span class="pull-left padding-rl7 padding-t4">
+						<translate name-value ="Seconds" category="label"/>
+					</span>
 				</div>
 			</div>
 
 			<div class="form-group col-xs-12 col-sm-6" >
 				<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">
-					<translate name-value ="Language Setup Mode" category="label"></translate>
+					<translate name-value ="Language Setup Mode" category="label"/>
 				</label>
 				<div class="radio pull-left">
 					<label class="pull-left">
@@ -92,6 +95,15 @@
 					<label class="pull-left">
 						<input type="radio" value="N" ng-model="settings.language_setup_mode" checked>No</label>
 				</div>				
+			</div>
+
+			<div class="form-group col-xs-12 col-sm-6">
+				<label class="control-label col-xs-5 col-sm-4 col-md-4 padding-clear">
+					<translate name-value ="Movie Base URL" category="label"/>
+				</label>
+				<div class="col-xs-7 col-sm-8 col-md-8">
+					<input type="text" min="1" class="form-control max-w200" ng-model='settings.content_base_url'/>
+				</div>
 			</div>
 
 			<!--div class="form-group col-xs-12 col-sm-6" >
@@ -114,7 +126,7 @@
 						<input type="radio" name="MapRefresh" id="optionsRadios2" value="N" ng-model="settings.map_refresh"/>No
 					</label>
 				</div>
-			</div-->			
+			</div-->
 
 		</fieldset>
 		<!-- Monitor fieldset end -->
@@ -122,18 +134,18 @@
 		<!-- distance & speed unit begin -->
 		<fieldset>
 			<legend>
-				<translate name-value ="Distance & Speed Unit" category="label"></translate>
+				<translate name-value ="Distance & Speed Unit" category="label"/>
 			</legend>
 			<div class="radio col-xs-6 col-sm-4 col-md-4">
 				<label>
-					<input type="radio" name="dns" id="optionsRadios1" value="miles" ng-model="settings.distance_unit" checked>
-					<translate name-value ="Miles" category="label"></translate>
+					<input type="radio" name="dns" id="optionsRadios1" value="miles" ng-model="settings.distance_unit" checked/>
+					<translate name-value ="Miles" category="label"/>
 				</label>
 			</div>
 			<div class="radio col-xs-6 col-sm-4 col-md-4">
 				<label>
-					<input type="radio" name="dns" id="optionsRadios2" value="km" ng-model="settings.distance_unit">
-					<translate name-value ="Kilometers" category="label"></translate>
+					<input type="radio" name="dns" id="optionsRadios2" value="km" ng-model="settings.distance_unit"/>
+					<translate name-value ="Kilometers" category="label"/>
 				</label>
 			</div>
 		</fieldset>
@@ -142,32 +154,34 @@
 		<!-- date time format begin -->
 		<fieldset>
 			<legend>
-				<translate name-value ="Data & Time format" category="label"></translate>
+				<translate name-value ="Data & Time format" category="label"/>
 			</legend>
 
 			<label class="control-label col-xs-2 col-sm-1 col-md-1 padding-clear align-left">
-				<translate name-value ="Date" category="label"></translate>
+				<translate name-value ="Date" category="label"/>
 			</label>
 			<code-list dateformat option-model ="settings.format_date"></code-list>
 
 			<div class="col-xs-12"></div>
 			<label class="control-label col-xs-2 col-sm-1 col-md-1 padding-clear align-left">
-				<translate name-value ="Time" category="label"></translate>
+				<translate name-value ="Time" category="label"/>
 			</label>
 			<code-list timeformat option-model ="settings.format_time"></code-list>
 
 			<div class="col-xs-12"></div>
 			<label class="control-label col-xs-2 col-sm-1 col-md-1 padding-clear align-left">
-				<translate name-value ="Timezone" category="label"></translate>
+				<translate name-value ="Timezone" category="label"/>
 			</label>
 			<div class="radio col-xs-5 col-sm-3 col-md-3">
 				<label>
-					<input type="radio" id="optionsTimezone1" value="Local" ng-model="settings.timezone" checked><translate name-value ="Local" category="label"></translate>
+					<input type="radio" id="optionsTimezone1" value="Local" ng-model="settings.timezone" checked/>
+					<translate name-value ="Local" category="label"/>
 				</label>
 			</div>
 			<div class="radio col-xs-5 col-sm-3 col-md-3">
 				<label>
-					<input type="radio" id="optionsTimezone2" value="UTC" ng-model="settings.timezone"><translate name-value ="UTC" category="label"></translate>
+					<input type="radio" id="optionsTimezone2" value="UTC" ng-model="settings.timezone"/>
+					<translate name-value ="UTC" category="label"/>
 				</label>
 			</div>
 		</fieldset>
@@ -176,38 +190,38 @@
 		<!-- speed range begin -->
 		<fieldset class="form-inline col-xs-12 col-sm-5 col-md-5">
 			<legend>
-				<translate name-value ="Speed Range" category="label"></translate>
+				<translate name-value ="Speed Range" category="label"/>
 			</legend>
 
 			<label class="control-label col-xs-3 padding-clear align-left padding-t4">
-				<translate name-value ="Slow" category="label"></translate>
+				<translate name-value ="Slow" category="label"/>
 			</label>
 			
-			<input type="number" min="1" class="form-control max-w200 pull-left" ng-model='settings.speed_slow'></input>
+			<input type="number" min="1" class="form-control max-w200 pull-left" ng-model='settings.speed_slow'/>
 
 			<div class="col-xs-12 float-clear margin-b7"></div>
 			
 			<label class="control-label col-xs-3 padding-clear align-left padding-t4">
-				<translate name-value ="Normal" category="label"></translate>
+				<translate name-value ="Normal" category="label"/>
 			</label>
 
-			<input type="number" min="1" class="form-control max-w200 pull-left" ng-model='settings.speed_normal'></input>
+			<input type="number" min="1" class="form-control max-w200 pull-left" ng-model='settings.speed_normal'/>
 			
 			<div class="col-xs-12 float-clear margin-b7"></div>
 			
 			<label class="control-label col-xs-3 padding-clear align-left padding-t4">
-				<translate name-value ="Fast" category="label"></translate>
+				<translate name-value ="Fast" category="label"/>
 			</label>
 
-			<input type="number" min="1" class="form-control max-w200 pull-left" ng-model='settings.speed_high'></input>
+			<input type="number" min="1" class="form-control max-w200 pull-left" ng-model='settings.speed_high'/>
 			
 			<div class="col-xs-12 float-clear margin-b7"></div>
 			
 			<label class="control-label col-xs-3 padding-clear align-left padding-t4">
-				<translate name-value ="Over" category="label"></translate>
+				<translate name-value ="Over" category="label"/>
 			</label>
 
-			<input type="number" min="1" class="form-control max-w200 pull-left" ng-model='settings.speed_over'></input>
+			<input type="number" min="1" class="form-control max-w200 pull-left" ng-model='settings.speed_over'/>
 
 			<div class="col-xs-12 float-clear margin-b5"></div>
 		</fieldset>
@@ -219,31 +233,36 @@
 			
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" ng-model='settings.alarm_impact' ng-true-value="'Y'" ng-false-value="'N'"><translate name-value ="Impact" category="label"></translate>
+					<input type="checkbox" ng-model='settings.alarm_impact' ng-true-value="'Y'" ng-false-value="'N'"/>
+					<translate name-value ="Impact" category="label"/>
 				</label>
 			</div>
 			
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" ng-model='settings.alarm_emergency' ng-true-value="'Y'" ng-false-value="'N'"><translate name-value ="Emergency Button" category="label"></translate>
+					<input type="checkbox" ng-model='settings.alarm_emergency' ng-true-value="'Y'" ng-false-value="'N'"/>
+					<translate name-value ="Emergency Button" category="label"/>
 				</label>
 			</div>
 			
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" ng-model='settings.alarm_g_sensor' ng-true-value="'Y'" ng-false-value="'N'"><translate name-value ="G sensor" category="label"></translate>
+					<input type="checkbox" ng-model='settings.alarm_g_sensor' ng-true-value="'Y'" ng-false-value="'N'">
+					<translate name-value ="G sensor" category="label"/>
 				</label>
 			</div>
 			
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" ng-model='settings.alarm_overspeed' ng-true-value="'Y'" ng-false-value="'N'"><translate name-value ="Over Speed" category="label"></translate>
+					<input type="checkbox" ng-model='settings.alarm_overspeed' ng-true-value="'Y'" ng-false-value="'N'">
+					<translate name-value ="Over Speed" category="label"/>
 				</label>
 			</div>
 			
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" ng-model='settings.alarm_geofence' ng-true-value="'Y'" ng-false-value="'N'"><translate name-value ="Geofence" category="label"></translate>
+					<input type="checkbox" ng-model='settings.alarm_geofence' ng-true-value="'Y'" ng-false-value="'N'">
+					<translate name-value ="Geofence" category="label"/>
 				</label>
 			</div>
 		</fieldset>
@@ -251,7 +270,7 @@
 		
 		<!-- buttons begin -->
 		<button type="button" class="btn btn-default pull-right btn-success margin-r15 margin-b5 float-clear" ng-click="save()">
-			<translate name-value ="Save" category="button"></translate>
+			<translate name-value ="Save" category="button"/>
 		</button>
 		<!-- buttons end -->
 	</form>
