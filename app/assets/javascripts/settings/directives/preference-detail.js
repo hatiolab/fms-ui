@@ -86,6 +86,8 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 				}
 			});
 
+			$scope.settings.lat = DEFAULT_LAT;
+			$scope.settings.lng = DEFAULT_LNG;
 			$scope.prevLangSetupMode = $scope.settings.language_setup_mode;
 		};
 
