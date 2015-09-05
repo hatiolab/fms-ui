@@ -25,6 +25,8 @@ angular.module('fmsCore')
 				input = Number(input);
 			}
 
+			input = Number(input.toFixed(1));
+
 			if(input) {
 				var unit = $rootScope.getSetting('distance_unit');
 				if(!unit || unit == 'km') {

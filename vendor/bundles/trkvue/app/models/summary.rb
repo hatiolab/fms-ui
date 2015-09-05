@@ -52,7 +52,7 @@ class Summary
 		# 2. 타임존에 따른 현재 시각을 구한다.
 		date_format, sum_date = '%Y-%m-%d', now.to_date - 1
 		# 3. 날짜, 년, 월, 일, 주 값을 구한다.
-    year, month, week = sum_date.strftime(date_format), sum_date.year, sum_date.month, sum_date.strftime("%U").to_i
+    year, month, week = sum_date.year, sum_date.month, sum_date.strftime("%U").to_i
     # 4. 시작시간 타임스탬프, 완료시간 타임스탬프를 구한다.
     startTime = ActiveSupport::TimeZone[domain.timezone].parse(sum_date.strftime(date_format)).to_time.to_i * 1000
     endTime = ActiveSupport::TimeZone[domain.timezone].parse(now.strftime(date_format)).to_time.to_i * 1000
@@ -83,7 +83,7 @@ class Summary
 		now, date_format = ActiveSupport::TimeZone[domain.timezone].parse(dateStr).to_time, '%Y-%m-%d'
 		# 3. 날짜, 년, 월, 일, 주 값을 구한다.
   	sum_date = now.to_date
-    year, month, week = sum_date.strftime(date_format), sum_date.year, sum_date.month, sum_date.strftime("%U").to_i
+    year, month, week = sum_date.year, sum_date.month, sum_date.strftime("%U").to_i
     # 4. 시작시간 타임스탬프, 완료시간 타임스탬프를 구한다.
     startTime = ActiveSupport::TimeZone[domain.timezone].parse(sum_date.strftime(date_format)).to_time.to_i * 1000
     endTime = ActiveSupport::TimeZone[domain.timezone].parse((sum_date + 1).strftime(date_format)).to_time.to_i * 1000
