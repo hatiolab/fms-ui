@@ -19,6 +19,6 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every 1.minutes do
-  runner "FleetSummary.houly_summary"
+every 1.hours do
+  runner "Summary.daily_summary"
 end

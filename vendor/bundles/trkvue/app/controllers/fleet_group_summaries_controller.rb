@@ -112,13 +112,8 @@ public
   end
 
   def daily_summary
-  	dateStr = params[:date] ? params[:date] : (Date.today - 1).strftime('%Y-%m-%d')
-  	date = Date.parse(dateStr)
-  	year, month, week = date.year, date.month, date.strftime("%U").to_i
-  	startTime, endTime = date.to_time.to_i * 1000, (date + 1).to_time.to_i * 1000
-  	
-  	FleetSummary.daily_summary(date, year, month, week, startTime, endTime)
-  	FleetGroupSummary.daily_summary(date, year, month, week)
+  	dateStr = (params[:date] ? params[:date] : (Date.today - 1).strftime('%Y-%m-%d'))
+  	Summary.daily_summary(dateStr)
 
   	respond_to do |format|
   	format.xml  { render :xml => { :success => true, :msg => 'success' } }
