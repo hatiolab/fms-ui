@@ -168,9 +168,13 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 	 * Refresh timer를 시작 
 	 */
 	$scope.searchNewAlert = function() {
- 		RestApi.get('/events/' + $scope.lastSearchAlertTime + '/latest_one.json', {}, function(alert) {
- 			$scope.setAlert(alert);
- 		});
+ 		RestApi.get('/events/' + $scope.lastSearchAlertTime + '/latest_one.json', {}, 
+ 			function(alert) {
+ 				$scope.setAlert(alert);
+ 			},
+ 			function(error) {
+ 				console.log(error);
+ 			});
 
  		// 다음 체크 다음 설정  
 		$scope.alertCheckTime = new Date().getTime() + $scope.getCheckAlertInterval();
