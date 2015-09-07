@@ -74,29 +74,72 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
 	$scope.checkValidForm = function() {
 		var form = $scope.geofenceRelationSettingForm;
 		var keys = ['Name', 'Description'];
+		var valid = true;
 
 		for(var i = 0 ; i < keys.length ; i++) {
 			var input = form[keys[i]];
 			if(input) {
 				if(!FmsUtils.isEmpty(input.$error)) {
 					if(input.$error.required) {
-						return $scope.showAlerMsg(input.$name + ' must not be empty!');
+						valid = $scope.showAlerMsg(input.$name + ' must not be empty!');
 					} else if(input.$error.maxlength) {
-						return $scope.showAlerMsg(input.$name + ' value length is over max length!');
+						valid = $scope.showAlerMsg(input.$name + ' value length is over max length!');
 					} else if(input.$error.minlength) {
-						return $scope.showAlerMsg(input.$name + ' value length is under min length!');
+						valid = $scope.showAlerMsg(input.$name + ' value length is under min length!');
 					}	else if(input.$error.email) {
-						return $scope.showAlerMsg(input.$name + ' value is invalid email format!');
+						valid = $scope.showAlerMsg(input.$name + ' value is invalid email format!');
 					}
 				}
 			}
 		}
 
-		return true;
+		return valid ? $scope.checkRelations() : false;
 	};
 
-	/**	/**
+	/**
+	 * Build Geofence - Group Relations Data for Multiple Update
+	 */
+	$scope.checkRelations = function() {
+		for (var i = 0; i < $scope.items.length; i++) {
+			var relation = $scope.items[i];
+			if(!relation.alarm_type || relation.alarm_type == '') {
+				return $scope.showAlerMsg('Event must not be empty!');
+			}
+
+			if(!relation.fleet_group_id || relation.fleet_group_id == '') {
+				return $scope.showAlerMsg('Group must not be empty!');
+			}
+		}
+
+		// Check Unique Relation
+		return $scope.checkRelationDuplicated();
+	};
+
+	/**
+	 * Check Relation is duplicated
+	 * 
+	 * @return {Boolean}
+	 */
+	$scope.checkRelationDuplicated = function() {
+		var items = $scope.buildRelations();
+		var groups = [];
+
+		for(var i = 0 ; i < items.length ; i++) {
+			var item = items[i];
+			var keyValue = item.fleet_group_id + '-' + item.alarm_type;
+			if(groups.indexOf(keyValue) >= 0) {
+				return $scope.showAlerMsg('Same Group & Event is not allowed!');
+			}
+
+			groups.push(keyValue);
+  	}
+  
+  	return true;
+	};
+
+	/**	
 	 * Form이 유효한 지 체크 
+	 * 
 	 * @return {Boolean}
 	 */
 	$scope.isFormValid = function() {
@@ -104,7 +147,6 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
 		if(!form) {
 			return false;
 		} else {
-			//return form.$dirty && form.$valid;
 			return form.$dirty;
 		}
 	};
@@ -128,40 +170,53 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
 	$scope.save = function() {
 		if ($scope.checkValidForm()) {
 			if ($scope.item.id && $scope.item.id != '') {
-				var url = '/geofences/' + $scope.item.id + '.json';
-				var result = RestApi.update(url, null, { geofence: $scope.item });
+				$scope.updateGeofence();
+			} else {
+				$scope.createGeofence();
+			}
+		}
+	};
+
+	/**
+	 * Update Geofence
+	 */
+	$scope.updateGeofence = function() {
+		var url = '/geofences/' + $scope.item.id + '.json';
+		var result = RestApi.update(url, null, { geofence: $scope.item });
+		result.$promise.then(
+			function(data) { 
+				$scope.item = data; 
+				$scope.updateRelations(); 
+			}, 
+			function(error) {
+				ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
+			}
+		);
+	};
+
+	/**
+	 * Create Geofence
+	 */
+	$scope.createGeofence = function() {
+		RestApi.checkUnique('/geofences/show_by_name.json?name='+$scope.item.name,null,
+			function() {
+				var result = RestApi.create('/geofences.json', null, { geofence: $scope.item });
 				result.$promise.then(
-					function(data) { 
+					function(data) {
 						$scope.item = data; 
 						$scope.updateRelations(); 
 					}, 
 					function(error) {
 						ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
-					}
-				);
-
-			} else {
-				RestApi.checkUnique('/geofences/show_by_name.json?name='+$scope.item.name,null,
-					function() {
-						var result = RestApi.create('/geofences.json', null, { geofence: $scope.item });
-						result.$promise.then(
-							function(data) {
-								$scope.item = data; 
-								$scope.updateRelations(); 
-							}, 
-							function(error) {
-								ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
-							});
-					}, 
-					function(data) {
-						ModalUtils.alert('sm', 'Error', 'Requested Data Already Exists!');
-					},
-					function(error) {
-						ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
 					});
-			}
-		}
-	};
+			}, 
+			function(data) {
+				ModalUtils.alert('sm', 'Error', 'Requested Data Already Exists!');
+			},
+			function(error) {
+				ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
+			});
+	};	
 
 	/**
 	 * Multiple Update Geofence - Group Relations
@@ -180,7 +235,6 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
 
 		for (var i = 0; i < $scope.items.length; i++) {
 			var relation = $scope.items[i];
-
 			if (relation.fleet_group_id) {
 				items.push({
 					id: relation.id,
@@ -207,6 +261,7 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
 				function(data) {
 					ModalUtils.success('Success', 'Success To Save');
 					$scope.searchGeoGroups();
+					$scope.$emit('geofence-items-change', data);
 				}, 
 				function(error) {
 					ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
@@ -223,6 +278,7 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
 		if ($scope.item.id && $scope.item.id != '') {
 			ModalUtils.confirm('sm', 'Confirmation', 'Are you sure to delete?', function() {
 				var result = RestApi.delete('/geofences/' + $scope.item.id + '.json', null);
+				
 				result.$promise.then(
 					function(data) {
 						ModalUtils.success('Success', 'Success To Delete');
@@ -295,7 +351,6 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
 	 * Check All
 	 */
 	$scope.checkAll = function() {
-		console.log($scope.items);
 		angular.forEach($scope.items, function(item) {
 			item.deleteFlag = true;
 		});

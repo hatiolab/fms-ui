@@ -1,13 +1,13 @@
 angular.module('fmsGeofence').directive('eventList', function() {
 	return {
-		restrict: 'E',
-		scope: { eventType:'@' },
-		templateUrl: '/assets/geofence/views/sidebars/event-list.html',
-		controller: function ($rootScope, $scope, $resource, $element, GridUtils, FmsUtils, RestApi) {
+		restrict : 'E',
+		scope : { eventType : '@' },
+		templateUrl : '/assets/geofence/views/sidebars/event-list.html',
+		controller : function ($rootScope, $scope, $resource, $element, GridUtils, FmsUtils, RestApi) {
 			/**
 			 * 기본 날짜 검색일 설정 
 			 */
-			var period = FmsUtils.getPeriodString(360);
+			var period = FmsUtils.getPeriodString(3);
 			/**
 			 * event_type from other directive
 			 */
@@ -47,7 +47,6 @@ angular.module('fmsGeofence').directive('eventList', function() {
 			$scope.normalizeSearchParams = function(params) {
 
 				var searchParams = { '_o[ctm]': 'desc' };
-				// convert date to number
 				FmsUtils.buildDateConds(searchParams, 'ctm', params['ctm_gte'], params['ctm_lte']);
 
 				if (!params) {
@@ -98,13 +97,19 @@ angular.module('fmsGeofence').directive('eventList', function() {
 			/**
 			 * search events
 			 */
-			$scope.search = function(tablestate) {
+			$scope.search = function(tablestate, callback) {
 				if($scope.checkSearch(tablestate)) {
 					var searchParams = $scope.beforeSearch();
 					$scope.doSearch(searchParams, function(dataSet) {
 						$scope.numbering(dataSet.items, 1);
 						$scope.events = dataSet.items;
 						$scope.afterSearch(dataSet);
+
+						if(callback) {
+							callback($scope.events);
+						} else {
+							$scope.$emit('geofence-event-list-change', $scope.geofence, $scope.events);
+						}
 					});
 				}
 			};
@@ -212,9 +217,6 @@ angular.module('fmsGeofence').directive('eventList', function() {
 			$scope.afterSearch = function(dataSet) {
 				$scope.isLoading = false;
 				$scope.setPageReultInfo(dataSet.total, dataSet.total_page, dataSet.page);
-				// Map에 정보를 전달하여 지도에 표시하게 한다.
-				//$scope.$emit('geofence-event-list-change', $scope.events);
-				$scope.$emit('geofence-event-all-selected', $scope.geofence, $scope.events);
 				GridUtils.setGridContainerHieght('geofence-alert-table-container');
 			};
 
@@ -251,13 +253,16 @@ angular.module('fmsGeofence').directive('eventList', function() {
 				if ($scope.searchEnabled) {
 					$scope.search($scope.tablestate);
 				}
-			});			
+			});
+			
 			/**
 			 * Geofence 선택시 
 			 */
-			var geofenceSelectListener = $rootScope.$on('geofence-item-selected', function(event, geofence) {
-				$scope.geofence = geofence
-				$scope.search($scope.tablestate);
+			var geofenceSelectListener = $rootScope.$on('geofence-item-selected', function(event, geofence, polygons, fleets) {
+				$scope.geofence = geofence;
+				$scope.search($scope.tablestate, function(events) {
+					$scope.$emit('geofence-item-change', geofence, polygons, fleets, events);
+				});
 			});
 
 			/**

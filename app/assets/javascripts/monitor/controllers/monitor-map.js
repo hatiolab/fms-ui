@@ -72,27 +72,6 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		$scope.$emit('monitor-refresh-options-change', $scope.refreshOption);
 	});
 
-	/**
-	 * Refresh 설정이 변경된 경우 
-	 */	
-	//$scope.$on('setting-map_refresh-change', function(evt, value) {
-	//	$scope.refreshOption.refresh = (!value || value == 'N') ? false : true;
-	//});
-
-	/**
-	 * Refresh Interval 설정이 변경된 경우 
-	 */	
-	//$scope.$on('setting-map_refresh_interval-change', function(evt, value) {
-	//	$scope.refreshOption.interval = parseInt(value);
-	//});
-
-	//var refreshYn = $rootScope.getSetting('map_refresh');
-
-	//$timeout(function() {
-	//	$scope.refreshOption.refresh = (!refreshYn || refreshYn == 'N') ? false : true;
-	//	$scope.refreshOption.interval = $rootScope.getIntSetting('map_refresh_interval');
-	//}, 2 * 1000);
-
 }).controller('MonitorMapCtrl', function($rootScope, $scope, $element, $timeout, ConstantSpeed, FmsUtils, ModalUtils, RestApi) {
 	
 	/**
@@ -456,23 +435,34 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		// 2. batches
 		for(var i = 0 ; i < batchSize ; i++) {
 			var batch = batches[i];
+			var batchLine = $scope.addBatchLine(batch);
 
 			// 2.1 batch start
-			if(i > 0)
-				$scope.addMarker($scope.batchToMarker(batch, 'start'));
+			//if(i > 0) {
+				var startBatchMarker = $scope.batchToMarker(batch, 'start');
+				$scope.addMarker(startBatchMarker);
+				batchLine.path.push(startBatchMarker);
+			//}
 
 			// 2.2 tracks & events : 시간순
 			var trackSize = tracks.length;
 			for(var j = 0 ; j < trackSize ; j++) {
 				var m = tracks[j];
 				if(m.bid == batch.id) {
-					$scope.addMarker(m.ttm ? $scope.trackToMarker(m) : $scope.eventToMarker(m));
+					var trackMarker = m.ttm ? $scope.trackToMarker(m) : $scope.eventToMarker(m);
+					$scope.addMarker(trackMarker);
+					batchLine.path.push(trackMarker);
 				}
 			}
 
 			// 2.3 batch end
-			if(i != batchSize - 1)
-				$scope.addMarker($scope.batchToMarker(batch, 'end'));
+			//if(i != batchSize - 1) {
+				var endBatchMarker = $scope.batchToMarker(batch, 'end');
+				$scope.addMarker(endBatchMarker);
+				batchLine.path.push(endBatchMarker);
+			//}
+
+			$scope.polylines.push(batchLine);
 		}
 
 		// 3. trip end
@@ -482,15 +472,6 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 			$scope.addMarker($scope.lastTripToMarker(trip));
 		}
 
-		// 4. Draw Line 
-		$scope.polylines.push({
-			id : trip.id, 
-			geodesic : true, 
-			visible : true,
-			stroke : { color: '#FF0000', opacity: 1.0, weight: 4 },
-			path : $scope.markers,
-		});
-
 		// 5. Speed Class 설정 
 		FmsUtils.setSpeedClass(trip, trip.vlc);
 
@@ -499,6 +480,21 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 
 		// 7. fit bounds
 		$scope.fitBounds(callback);
+	};
+
+	/**
+	 * Batch Line 추가
+	 *  
+	 * @param {Object}
+	 */
+	$scope.addBatchLine = function(batch) {
+		return {
+			id : batch.id, 
+			geodesic : true, 
+			visible : true,
+			stroke : { color: '#FF0000', opacity: 1.0, weight: 4 },
+			path : []
+		};
 	};
 
 	/**
@@ -615,7 +611,29 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		}
 
 		$scope.changeMarker(e.model, switchName);
-	}
+	};
+
+	/**
+	 * Toggle Highlight Batch Line
+	 * 
+	 * @param  {String}
+	 */
+	$scope.toggleHighlightBatchLine = function(batchId) {
+		var batchLines = $scope.polylines.filter(function(polyline) {
+			return polyline.id == batchId;
+		});
+
+		if(batchLines && batchLines.length > 0) {
+			var batchLine = batchLines[0];
+			if(batchLine.stroke.weight == 4) {
+				batchLine.stroke.color = '#0101DF';
+				batchLine.stroke.weight = 8;
+			} else {
+				batchLine.stroke.color = '#FF0000';
+				batchLine.stroke.weight = 4;
+			}
+		}
+	};
 
 	/**
 	 * convert fleet to marker
@@ -625,7 +643,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		marker._id = fleet.id;
 		marker.latitude = fleet.lat;
 		marker.longitude = fleet.lng;
-		marker.icon = $scope.getFleetMarkerIcon(fleet);
+		$scope.getFleetMarkerIcon(marker);
 		marker.events = {
 			click : function(e) {
 				$scope.addMarkerClickEvent(e, 'showFleetInfo');
@@ -642,13 +660,19 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		marker._id = 'trip-' + trip.id + '-' + type;
 		marker.latitude = (type == 'start') ? trip.s_lat : trip.lat;
 		marker.longitude = (type == 'start') ? trip.s_lng : trip.lng;
-		marker.icon = $scope.getTripMarkerIcon(trip, type);
+		$scope.getTripMarkerIcon(marker, type);
 		marker.type = type;
 		marker.options = { zIndex : google.maps.Marker.MAX_ZINDEX + 1 };
 		marker.events = {
 			click : function(e) {
 				$scope.addMarkerClickEvent(e, 'showTripInfo');
-			}
+			}/*,
+			mouseover : function(e) {
+				$scope.addTooltipEvent(e);
+			},
+			mouseout : function(e) {
+				$scope.switchOffAll();
+			}*/
 		};
 		return marker;
 	};	
@@ -670,7 +694,8 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 
 		var type = 'end';
 		marker._id = 'trip-' + trip.id + '-' + type;
-		marker.icon = $scope.getFleetMarkerIcon(trip, type);
+		$scope.getFleetMarkerIcon(marker);
+		marker.title = 'Trip (End)';
 		marker.type = type;
 		marker.options = { zIndex : google.maps.Marker.MAX_ZINDEX + 1 };
 		return marker;
@@ -684,12 +709,18 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		marker._id = batch.id + '-' + type;
 		marker.latitude = (type == 'start') ? batch.s_lat : batch.lat;
 		marker.longitude = (type == 'start') ? batch.s_lng : batch.lng;
-		marker.icon = $scope.getBatchMarkerIcon(batch, type);
+		$scope.getBatchMarkerIcon(marker, type);
 		marker.type = type;
 		marker.options = { zIndex : google.maps.Marker.MAX_ZINDEX - 1 };
 		marker.events = {
 			click : function(e) {
 				$scope.addMarkerClickEvent(e, 'showBatchInfo');
+			},
+			mouseover : function(e) {
+				$scope.toggleHighlightBatchLine(batch.id);
+			},
+			mouseout : function(e) {
+				$scope.toggleHighlightBatchLine(batch.id);
 			}
 		};
 		return marker;
@@ -703,13 +734,20 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		marker._id = 'track-' + track.id;
 		marker.latitude = track.lat;
 		marker.longitude = track.lng;
-		marker.ctm = parseInt(track.ctm);
-		marker.utm = parseInt(track.utm);
-		marker.ttm = parseInt(track.ttm);
-		marker.icon = $scope.getTrackMarkerIcon(track);
+		marker.ctm = track.ctm;
+		marker.utm = track.utm;
+		marker.ttm = track.ttm;
+		$scope.getTrackMarkerIcon(marker);
+
 		marker.events = {
 			click : function(e) {
 				$scope.addMarkerClickEvent(e, 'showTrackInfo');
+			},
+			mouseover : function(e) {
+				$scope.toggleHighlightBatchLine(marker.bid);
+			},
+			mouseout : function(e) {
+				$scope.toggleHighlightBatchLine(marker.bid);
 			}
 		};
 		return marker;
@@ -723,7 +761,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		marker._id = evt.id + '-' + evt.typ;
 		marker.latitude = evt.lat;
 		marker.longitude = evt.lng;
-		marker.icon = $scope.getEventMarkerIcon(evt);
+		$scope.getEventMarkerIcon(marker);
 
 		if(marker.geofence && marker.geofence.name) {
 			marker.geoInfo = marker.geofence.name + '/' + (marker.typ == 'I' ? 'In' : 'Out');
@@ -734,6 +772,12 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		marker.events = {
 			click : function(e) {
 				$scope.addMarkerClickEvent(e, 'showEventInfo');
+			},
+			mouseover : function(e) {
+				$scope.toggleHighlightBatchLine(marker.bid);
+			},
+			mouseout : function(e) {
+				$scope.toggleHighlightBatchLine(marker.bid);
 			}
 		};
 		return marker;
@@ -746,21 +790,24 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		var velocity = fleet.velocity;
 		var speedLevel = $rootScope.getSpeedLevel(velocity);
 		var level = speedLevel.split('_')[1];
-		return '/assets/fleet_' + level + '.png';
+		fleet.icon = '/assets/fleet_' + level + '.png';
+		fleet.title = 'Track (' + speedLevel + ')';
 	};
 
 	/**
 	 * Trip Marker Icon
 	 */
 	$scope.getTripMarkerIcon = function(trip, type) {
-		return '/assets/trip' + type + '.png';
+		trip.icon = '/assets/trip' + type + '.png';
+		trip.title = 'Trip (' + type + ')';
 	};
 
 	/**
 	 * Batch Marker Icon
 	 */
 	$scope.getBatchMarkerIcon = function(batch, type) {
-		return '/assets/batch' + type + '.png';
+		batch.icon = '/assets/batch' + type + '.png';
+		batch.title = 'Batch (' + type + ')';
 	};
 
 	/**
@@ -769,36 +816,39 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	$scope.getEventMarkerIcon = function(evt) {
 		var icon = 'assets/event_';
 		if(evt.typ == 'B') {
-			icon += 'emergency.png';
+			evt.icon = icon + 'emergency.png';
+			evt.title = 'Event (Emergency)';
 
 		} else if(evt.typ == 'G') {
-			icon += 'g_sensor.png';
+			evt.icon = icon + 'g_sensor.png';
+			evt.title = 'Event (Impact)';
 
 		} else if(evt.typ == 'I') {
-			icon += 'geofence_in.png';
+			evt.icon = icon + 'geofence_in.png';
+			evt.title = 'Event (Geofence IN)';
 
 		} else if(evt.typ == 'O') {
-			icon += 'geofence_out.png';
+			evt.icon = icon + 'geofence_out.png';
+			evt.title = 'Event (Geofence OUT)';
 
 		} else if(evt.typ == 'V') {
-			icon += 'overspeed.png';
+			evt.icon = icon + 'overspeed.png';
+			evt.title = 'Event (Over Speed)';
 		}
-
-		return icon;
 	};
 
 	/**
 	 * Track Marker Icon
 	 */
 	$scope.getTrackMarkerIcon = function(track) {
-		var icon = null, status = track.status;
 		var prefix = 'assets/track_';
 		if(track.f_img || track.r_img)
 			prefix += 'i_';
 
 		var speedLevel = $rootScope.getSpeedLevel(track.vlc);
 		prefix += speedLevel.split('_')[1];
-		return prefix + '.png';
+		track.icon = prefix + '.png';
+		track.title = 'Track (' + speedLevel + ')';
 	};
 
 	/**

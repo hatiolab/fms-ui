@@ -1,9 +1,16 @@
 <div ng-controller="GeofenceViewMapCtrl">
 
+	<script type="text/ng-template" id="geofence.control.refresh.tpl.html">
+		<div class="refresh-control">
+			<input type="checkbox" ng-model="refreshOption.refresh"> Refresh Every</input>
+			<input type="number" ng-model="refreshOption.interval" class="margin-l10 max-w50"> Minutes</input>
+			<input type="checkbox" ng-model="refreshOption.autoFit" class="margin-l10"> Auto Fit</input>
+	  </div>
+	</script>
+
 	<ui-gmap-google-map id='geofenceViewCanvas' center='mapOption.center' zoom='mapOption.zoom' control='mapControl'>
 
-		<!-- customized control
-		<ui-gmap-map-control template="polyButton.tpl.html" position="top-right" index="1" controller="mapWidgetCtrl"></ui-gmap-map-control-->
+		<ui-gmap-map-control template="geofence.control.refresh.tpl.html" controller="GeofenceRefreshControlCtrl" position="bottom-right" index="1"></ui-gmap-map-control>	
 
 		<ui-gmap-polygon
 			static="polygon.option.static"
@@ -19,92 +26,89 @@
 		<!-- markers -->
 		<ui-gmap-markers models="markers" coords="'self'" idKey="'_id'" events="'events'" icon="'icon'" control="markerControl"></ui-gmap-markers>
 
-	    <!-- lines -->
-	    <ui-gmap-polylines models="polylines" path="'path'" stroke="'stroke'" visible="'visible'" geodesic="'geodesic'" control="polylineControl" static='true'></ui-gmap-polylines>
+		<!-- fleet marker window -->
+    <ui-gmap-window id="fleetWindow" coords="selectedMarker" 
+      show="windowSwitch.showFleetInfo" closeClick="switchOffAll()">
+			<div>
+        <div class="photos pull-left">
+					<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+					  <!-- Indicators -->
+					  <ol class="carousel-indicators">
+					    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+					    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+					  </ol>
 
-			<!-- fleet marker window -->
-	    <ui-gmap-window id="fleetWindow" coords="selectedMarker" 
-	      show="windowSwitch.showFleetInfo" closeClick="switchOffAll()">
-				<div>
-	        <div class="photos pull-left">
-						<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-						  <!-- Indicators -->
-						  <ol class="carousel-indicators">
-						    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-						    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-						  </ol>
-
-						  <!-- Wrapper for slides -->
-						  <div class="carousel-inner" role="listbox">
-						    <div class="item active">
-						      <img ng-src="{{selectedMarker.car_image ? selectedMarker.car_image : '/assets/ph_car.png'}}"/>
-						    </div>
-						    <div class="item">
-						      <img ng-src="{{selectedMarker.driver.img ? selectedMarker.driver.img : '/assets/ph_user.png'}}"/>
-						    </div>
-						  </div>
-						</div>
-	        </div>
-	        <div class="pull-left">
-		        <table class="detail-info-table">
-		          <tr>
-		            <th class="modal-icon dot-gray">
-		            	<translate name-value ="Fleet" category="label"/>
-		            </th>
-		            <td>{{selectedMarker.name}}</td>
-		          </tr>
-			      <tr>
-		            <th class="modal-icon dot-gray"><translate name-value ="Group" category="label"></translate></th>
-		            <td>{{selectedMarker.fleet_group ? selectedMarker.fleet_group.name : ''}}</td>
-		          </tr>
-		          <tr>
-		            <th class="modal-icon dot-gray">
-		            	<translate name-value ="Car Model" category="label"/>
-		            </th>
-		            <td>{{selectedMarker.car_model}}</td>
-		          </tr>
-		          <tr>
-		            <th class="modal-icon dot-gray">
-		            	<translate name-value ="Car No" category="label"/>
-		            </th>
-		            <td>{{selectedMarker.car_no}}</td>
-		          </tr>
-		          <tr>
-		            <th class="modal-icon dot-gray">
-		            	<translate name-value ="Driver" category="label"/>
-		            </th>
-		            <td>{{selectedMarker.driver.name}}</td>
-		          </tr>
-						</table>
-	        </div>
-
-					<div class="col-xs-12 padding-clear detail-address margin-t5 map-window">
-						<translate name-value ="Address" category="label"/>
+					  <!-- Wrapper for slides -->
+					  <div class="carousel-inner" role="listbox">
+					    <div class="item active">
+					      <img ng-src="{{selectedMarker.car_image ? selectedMarker.car_image : '/assets/ph_car.png'}}"/>
+					    </div>
+					    <div class="item">
+					      <img ng-src="{{selectedMarker.driver.img ? selectedMarker.driver.img : '/assets/ph_user.png'}}"/>
+					    </div>
+					  </div>
 					</div>
-	      </div>
-			</ui-gmap-window>
+        </div>
+        <div class="pull-left">
+	        <table class="detail-info-table">
+	          <tr>
+	            <th class="modal-icon dot-gray">
+	            	<translate name-value ="Fleet" category="label"/>
+	            </th>
+	            <td>{{selectedMarker.name}}</td>
+	          </tr>
+		      <tr>
+	            <th class="modal-icon dot-gray"><translate name-value ="Group" category="label"></translate></th>
+	            <td>{{selectedMarker.fleet_group ? selectedMarker.fleet_group.name : ''}}</td>
+	          </tr>
+	          <tr>
+	            <th class="modal-icon dot-gray">
+	            	<translate name-value ="Car Model" category="label"/>
+	            </th>
+	            <td>{{selectedMarker.car_model}}</td>
+	          </tr>
+	          <tr>
+	            <th class="modal-icon dot-gray">
+	            	<translate name-value ="Car No" category="label"/>
+	            </th>
+	            <td>{{selectedMarker.car_no}}</td>
+	          </tr>
+	          <tr>
+	            <th class="modal-icon dot-gray">
+	            	<translate name-value ="Driver" category="label"/>
+	            </th>
+	            <td>{{selectedMarker.driver.name}}</td>
+	          </tr>
+					</table>
+        </div>
 
-	    <!-- event marker window -->
-	    <ui-gmap-window id="eventWindow" coords="selectedMarker" 
-	      show="windowSwitch.showEventInfo" closeClick="switchOffAll()">
-	      <div>
-	        <div>
-	        	<translate name-value ="Geofence Event ID" category="label"/>
-	        	<strong>{{selectedMarker.id}}</strong>
-	        </div>
-	        <div>
-	        	<translate name-value ="Geofence" category="label"/>
-	        	<strong>{{selectedMarker.geofence.name}} / {{selectedMarker.typ == 'O' ? 'OUT' : 'IN'}}</strong>
-	        </div>
-	        <div class="detial-time">
-	        	<translate name-value ="Occurred At" category="label"/>
-	        	<strong>{{selectedMarker.etm | fmstime}}</strong>
-	        </div>
-	        <div class="detail-address map-window">
-	        	<translate name-value ="Address" category="label"/>
-	        </div>
-	      </div>
-	    </ui-gmap-window>	
+				<div class="col-xs-12 padding-clear detail-address margin-t5 map-window">
+					<translate name-value ="Address" category="label"/>
+				</div>
+      </div>
+		</ui-gmap-window>
+
+    <!-- event marker window -->
+    <ui-gmap-window id="eventWindow" coords="selectedMarker" 
+      show="windowSwitch.showEventInfo" closeClick="switchOffAll()">
+      <div>
+        <div>
+        	<translate name-value ="Geofence Event ID" category="label"/>
+        	<strong>{{selectedMarker.id}}</strong>
+        </div>
+        <div>
+        	<translate name-value ="Geofence" category="label"/>
+        	<strong>{{selectedMarker.geofence.name}} / {{selectedMarker.typ == 'O' ? 'OUT' : 'IN'}}</strong>
+        </div>
+        <div class="detial-time">
+        	<translate name-value ="Occurred At" category="label"/>
+        	<strong>{{selectedMarker.etm | fmstime}}</strong>
+        </div>
+        <div class="detail-address map-window">
+        	<translate name-value ="Address" category="label"/>
+        </div>
+      </div>
+    </ui-gmap-window>	
 
 	</ui-gmap-google-map>
 	

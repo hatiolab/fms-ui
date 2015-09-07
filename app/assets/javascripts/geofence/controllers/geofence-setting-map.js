@@ -1,5 +1,5 @@
 angular.module('fmsGeofence')
-	.controller('GeofenceSettingMapCtrl', function($rootScope, $scope, $element, ModalUtils, RestApi) {
+	.controller('GeofenceSettingMapCtrl', function($rootScope, $scope, $element, $timeout, ModalUtils, RestApi, StorageUtils) {
 
 		/**
 		 * selected geofence
@@ -10,7 +10,7 @@ angular.module('fmsGeofence')
 		/**
 		 * map option
 		 */
-		$scope.mapOption = { center: { latitude: DEFAULT_LAT, longitude: DEFAULT_LNG }, zoom: 9 };
+		$scope.mapOption = { center: StorageUtils.getGeofenceBasicLoc(), zoom: 9 };
 		/**
 		 * map control
 		 * 
@@ -129,12 +129,22 @@ angular.module('fmsGeofence')
 			$scope.clearPolygon();
 
 			if(!paths || paths.length == 0) {
-				$scope.mapOption.center = { latitude: DEFAULT_LAT, longitude: DEFAULT_LNG };
+				$scope.mapOption.center = StorageUtils.getGeofenceBasicLoc();
 			} else {
 				angular.forEach(paths, function(path) {
 					$scope.polygon.path.push({ latitude : path.lat, longitude : path.lng });
 				});
+
+				$timeout($scope.setDefaultLoc, 500);
 			}
+		};
+
+		/**
+		 * 로케이션 정보를 저장한다.
+		 */
+		$scope.setDefaultLoc = function() {
+			var gmap = $scope.mapControl.getGMap();
+			StorageUtils.setGeofenceBasicLoc(gmap.center.G, gmap.center.K);
 		};
 
 		/**
@@ -159,7 +169,8 @@ angular.module('fmsGeofence')
 				function(data) { ModalUtils.alert('sm', 'Complete', 'Succeeded to save!'); },
 				function(data) { 
 					if(data.status == 0) {
-						ModalUtils.alert('sm', 'Error', 'Connection Failure'); 
+						$timeout($scope.setDefaultLoc, 500);
+						ModalUtils.alert('sm', 'Error', 'Connection Failure');
 					} else {
 						ModalUtils.alert('sm', 'Failure', 'Status : ' + data.status + ', Reason : ' + data.statusText); 
 					}

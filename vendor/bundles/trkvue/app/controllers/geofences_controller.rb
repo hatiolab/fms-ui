@@ -7,7 +7,7 @@ public
   def list
     select = 
       "geofences.id, geofences.name, geofences.description, 
-      geofence_groups.fleet_group_id as group_id, fleet_groups.name as group_name"
+      geofence_groups.fleet_group_id as group_id, fleet_groups.name as group_name, geofence_groups.alarm_type"
 
     joinStr = "geofences
                left outer join geofence_groups on geofences.id = geofence_groups.geofence_id
@@ -29,8 +29,11 @@ public
     items = JSON.parse(tempItems.to_json)
 
     items.each do |item|
-      groups = geofences.select { |geofence| item["id"].to_s == geofence["id"].to_s }.collect { |g| g["group_name"] }
-      item["groups"] = groups.uniq.join(',')
+      groups = geofences.select { |geofence| item["id"].to_s == geofence["id"].to_s }
+      in_groups = groups.select { |group| group["alarm_type"] == 'IN' }
+      out_groups = groups.select { |group| group["alarm_type"] == 'OUT' }
+      item["in_groups"] = !in_groups ? '' : in_groups.collect{ |g| g["group_name"] }.join(',')
+      item["out_groups"] = !out_groups ? '' : out_groups.collect{ |g| g["group_name"] }.join(',')
     end
     results = { :success => true, :total => items.size, :items => items }
 

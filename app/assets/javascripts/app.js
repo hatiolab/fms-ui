@@ -7,7 +7,8 @@ angular.module('fmsCore', ['ui.router', 'ngCookies', 'ngResource', 'ui.bootstrap
 	SPEED_HIGH : 'speed_high',
 	SPEED_OVER : 'speed_over'
 })
-.constant('ConstantReport', { OVERVIEW_TOP : 30, TOP : 30 });
+.constant('ConstantReport', { OVERVIEW_TOP : 30, TOP : 30 })
+.constant('ConstantGeofence', { LATEST_LOC : 'FMS_LATEST_LOC' });
 
 // 2. settings module
 angular.module('fmsSettings', ['fmsCore']);

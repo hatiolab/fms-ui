@@ -54,7 +54,8 @@
 					<tr>
 						<th><translate name-value ="Name" category="label"></translate></th>
 						<th><translate name-value ="Description" category="label"></translate></th>
-						<th><translate name-value ="Groups" category="label"></translate></th>
+						<th><translate name-value ="Groups In" category="label"></translate></th>
+						<th><translate name-value ="Groups Out" category="label"></translate></th>
 						<th></th>
 					</tr>
 				</thead>
@@ -62,7 +63,8 @@
 					<tr ng-repeat="item in items" ng-click="goItem(item)" ng-class="{active : item.active}">
 						<td>{{item.name}}</td>
 						<td>{{item.description}}</td>
-						<td>{{item.groups}}</td>
+						<td>{{item.in_groups}}</td>
+						<td>{{item.out_groups}}</td>
 						<td class="icon-td align-center" ng-click="assignGroup(item)">
 							<button class="btn btn-in-pagination">
 								<translate name-value ="Assign" category="button"></translate>

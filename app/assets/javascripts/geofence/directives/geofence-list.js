@@ -169,11 +169,19 @@ angular.module('fmsGeofence').directive('geofenceList', function() {
 	 * @param  {Object}
 	 * @return N/A
 	 */
-	$scope.goItem = function(item) {
-		if(item && item.id) {
-			$scope.setActiveItem(item);
-			$scope.item = angular.copy(item);
-			$scope.$emit('geofence-item-selected', item);
+	$scope.goItem = function(geofence) {
+		if(geofence && geofence.id) {
+			$scope.setActiveItem(geofence);
+
+			// Search Polyons, Fleets, TODO 1 Query Only
+			RestApi.get('/polygons.json', { '_q[geofence_id-eq]' : geofence.id }, function(polygonSet) {
+				RestApi.list('/geofence_groups.json', { '_q[geofence_id-eq]' : geofence.id }, function(relations) {
+					var groupIdList = relations.map(function(relation) { return relation.fleet_group_id });
+					RestApi.list('/fleets.json', { '_q[fleet_group_id-in]' : groupIdList.join(',') }, function(fleets) {
+						$scope.$emit('geofence-item-selected', geofence, polygonSet.items, fleets);
+					});
+				});
+			});
 		}
 	};
 
@@ -210,13 +218,20 @@ angular.module('fmsGeofence').directive('geofenceList', function() {
 		$scope.item.id = '';
 		$scope.item.name = '';
 		$scope.item.description = '';
-	};		
+	};
+
+	/**
+	 * Map Refresh Request를 받아서 처리한다.
+	 */
+	var refreshRequestListener = $rootScope.$on('geofence-map-refresh-request', function(evt, geofence) {
+		$scope.goItem(geofence);
+	});	
 
 	/**
 	 * Destroy Scope - RootScope Event Listener 정리 
 	 */
 	$scope.$on('$destroy', function(event) {
-		// TODO
+		refreshRequestListener();
 	});
 	  
 });

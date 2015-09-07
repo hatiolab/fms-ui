@@ -38,18 +38,12 @@
 						<td><input type="checkbox" ng-model='geofenceGroup.deleteFlag'></td>
 						<td>{{geofenceGroup.no}}</td>
 						<td>
-						<!--td ng-click="isHiddenGroup=false">
-						  <span ng-hide="!isHiddenGroup">{{geofenceGroup.fleet_group.name}}</span>					 
-							<select ng-model="geofenceGroup.fleet_group_id" ng-options="fleet_group.id as fleet_group.name for fleet_group in groups" ng-hide="isHiddenGroup"-->
 							<select ng-model="geofenceGroup.fleet_group_id" ng-options="fleet_group.id as fleet_group.name for fleet_group in groups">
    							<option value=""></option>
 							</select>
 						</td>
 						<td>{{geofenceGroup.fleet_group.description}}</td>
 						<td>
-						<!--td ng-click="isHiddenAlarmType=false">
-							<span ng-hide="!isHiddenAlarmType">{{geofenceGroup.alarm_type}}</span>
-							<select ng-model="geofenceGroup.alarm_type" ng-hide="isHiddenAlarmType"-->
 							<select ng-model="geofenceGroup.alarm_type">
    								<option value=""></option>
    								<option value="IN">IN</option>

@@ -5,8 +5,11 @@
 		<div class="photo-fleet-container">
 			<img ng-src="{{item.image}}" class="photo-driver" ng-show="item.image && item.image != ''"/>
 		</div>
+
 		<button type="button" class="btn btn-default btn-sm margin-t7 margin-r5 pull-left photo-fleet" ng-click="changeImage('car')"></button>
+		
 		<button type="button" class="btn btn-default btn-sm margin-t7 pull-left photo-driver" ng-click="changeImage('driver')"></button>
+		
 		<input type="file" ngf-select ngf-multiple="false" ng-model="file" ng-show="item.id"/>
 	</div>
 
@@ -14,15 +17,19 @@
 		<div class="col-xs-12 col-sm-8 col-md-8">
 
 			<div class="form-group">
-			 	<label class="col-xs-12 col-sm-2 col-md-2 control-label"><translate name-value ="ID " category="label"></translate><strong style="color:red">*</strong>
+			 	<label class="col-xs-12 col-sm-2 col-md-2 control-label">
+			 		<translate name-value ="ID " category="label"/>
+			 		<strong style="color:red">*</strong>
 			 	</label>
 			 	<div class="col-xs-11 col-sm-5 col-md-5">
-			 		<input type="text" name="ID" class="form-control" ng-model="item.name" required ng-maxlength="32"></input>
+			 		<input type="text" name="ID" class="form-control" ng-model="item.name" required ng-maxlength="32"/>
 			 	</div>
 			</div>
 			
 			<div class="form-group">
-			 	<label class="col-xs-12 col-sm-2 col-md-2 control-label"><translate name-value ="Driver " category="label"></translate><strong style="color:red">*</strong>
+			 	<label class="col-xs-12 col-sm-2 col-md-2 control-label">
+			 		<translate name-value ="Driver " category="label"/>
+			 		<strong style="color:red">*</strong>
 			 	</label>
 				<div class="col-xs-11 col-sm-5 col-md-5">
 					<select name="Driver" class="form-control" ng-model="item.driver_id" 
@@ -33,7 +40,9 @@
 			</div>
 			
 			<div class="form-group">
-			 	<label class="col-xs-12 col-sm-2 col-md-2 control-label"><translate name-value ="Car No. " category="label"></translate><strong style="color:red">*</strong>
+			 	<label class="col-xs-12 col-sm-2 col-md-2 control-label">
+			 		<translate name-value ="Car No." category="label"/>
+			 		<strong style="color:red">*</strong>
 			 	</label>
 			 	<div class="col-xs-11 col-sm-5 col-md-5">
 			 		<input name="Car No" type="text" class="form-control" ng-model="item.car_no" required ng-maxlength="32"></input>
@@ -41,7 +50,9 @@
 			</div>
 			
 			<div class="form-group">
-			 	<label class="col-xs-12 col-sm-2 col-md-2 control-label"><translate name-value ="Group " category="label"></translate><strong style="color:red">*</strong>
+			 	<label class="col-xs-12 col-sm-2 col-md-2 control-label">
+			 		<translate name-value ="Group " category="label"/>
+			 		<strong style="color:red">*</strong>
 			 	</label>
 				<div class="col-xs-11 col-sm-5 col-md-5">
 					<select name="Group" class="form-control" ng-model="item.fleet_group_id" 
@@ -57,50 +68,64 @@
 		<!-- fleet infos begin -->
 		<div class="line-infos bg-white col-xs-12">
 			<div class="form-group">
-		 		<label class="col-xs-12 col-sm-2 col-md-2 control-label"><translate name-value ="Car Model" category="label"></translate></label>
+		 		<label class="col-xs-12 col-sm-2 col-md-2 control-label">
+		 			<translate name-value ="Car Model" category="label"/>
+		 		</label>
 		 		<div class="col-xs-12 col-sm-5 col-md-5">
-		 	 		<input name="Car Model" type="text" class="form-control" ng-model="item.car_model" ng-maxlength="32"></input>
+		 	 		<input name="Car Model" type="text" class="form-control" ng-model="item.car_model" ng-maxlength="32"/>
 		 		</div>
 			</div>
 
 			<div class="form-group">
-		 		<label class="col-xs-12 col-sm-2 col-md-2 control-label"><translate name-value ="Device Name" category="label"></translate></label>
+		 		<label class="col-xs-12 col-sm-2 col-md-2 control-label">
+		 			<translate name-value ="Device Name" category="label"/>
+		 		</label>
 		 		<div class="col-xs-12 col-sm-5 col-md-5">
-		 	 		<input name="Device Name" type="text" class="form-control" ng-model="item.device_name" ng-maxlength="32"></input>
+		 	 		<input name="Device Name" type="text" class="form-control" ng-model="item.device_name" ng-maxlength="32"/>
 		 		</div>
 			</div>
 
 			<div class="form-group">
-		 		<label class="col-xs-12 col-sm-2 col-md-2 control-label"><translate name-value ="Device Model" category="label"></translate></label>
+		 		<label class="col-xs-12 col-sm-2 col-md-2 control-label">
+		 			<translate name-value ="Device Model" category="label"/>
+		 		</label>
 		 		<div class="col-xs-12 col-sm-5 col-md-5">
-		 	 		<input name="Device Model" type="text" class="form-control" ng-model="item.device_model" ng-maxlength="32"></input>
+		 	 		<input name="Device Model" type="text" class="form-control" ng-model="item.device_model" ng-maxlength="32"/>
 		 		</div>
 			</div>
 
 			<div class="form-group">
-		 		<label class="col-xs-12 col-sm-2 col-md-2 control-label"><translate name-value ="Purchasing Date" category="label"></translate></label>
-		    	<div class="max-w200 pull-left padding-l15">
-						<date-picker date-model ="item.purchase_date"></date-picker>
-		    	</div>
+		 		<label class="col-xs-12 col-sm-2 col-md-2 control-label">
+		 			<translate name-value ="Purchasing Date" category="label"/>
+		 		</label>
+		    <div class="max-w200 pull-left padding-l15">
+					<date-picker date-model ="item.purchase_date"></date-picker>
+		    </div>
 			</div>
 				
 			<div class="form-group">
-		 		<label class="col-xs-12 col-sm-2 col-md-2 control-label"><translate name-value ="Register Date" category="label"></translate></label>
+		 		<label class="col-xs-12 col-sm-2 col-md-2 control-label">
+		 			<translate name-value ="Register Date" category="label"/>
+		 		</label>
 
-		    	<div class="max-w200 pull-left padding-l15">
-		    		<date-picker date-model ="item.reg_date"></date-picker>
-		    	</div>
+		    <div class="max-w200 pull-left padding-l15">
+		    	<date-picker date-model ="item.reg_date"></date-picker>
+		    </div>
 			</div>
 		
 		
 			<!-- buttons begin -->
-			<button type="button" class="btn btn-default margin-t7 pull-left" ng-click="new()"><translate name-value ="New" category="button"></translate></button>
-			<button type="button" class="btn btn-default margin-t7 pull-right" ng-click="delete()" ng-disabled="!isDeletable()"><translate name-value ="Delete" category="button"></translate></button>
-			<button type="button" class="btn btn-default margin-t7 pull-right btn-success margin-r7" ng-click="save()" ng-disabled="!isFormValid()"><translate name-value ="Save" category="button"></translate></button>
+			<button type="button" class="btn btn-default margin-t7 pull-left" ng-click="new()">
+				<translate name-value ="New" category="button"/>
+			</button>
+			<button type="button" class="btn btn-default margin-t7 pull-right" ng-click="delete()" ng-disabled="!isDeletable()">
+				<translate name-value ="Delete" category="button"/>
+			</button>
+			<button type="button" class="btn btn-default margin-t7 pull-right btn-success margin-r7" ng-click="save()" ng-disabled="!isFormValid()">
+				<translate name-value ="Save" category="button"/>
+			</button>
 			<!-- buttons end -->
-		
 		</div>
-	</form>
-	<!-- fleet infos end -->
-	
+
+	</form>	
 </div>

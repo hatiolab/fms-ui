@@ -3,20 +3,26 @@
 
 		<form name="groupSettingForm" class="form-horizontal">
 			<div class="form-group">
-				<label class="col-xs-12 col-sm-3 col-md-3 control-label"><translate name-value ="Name" category="label"></translate> <strong style="color:red">*</strong></label>
+				<label class="col-xs-12 col-sm-3 col-md-3 control-label">
+					<translate name-value ="Name" category="label"/> 
+					<strong style="color:red">*</strong>
+				</label>
 				<div class="col-xs-11 col-sm-9 col-md-9">
-					<input type="text" class="form-control" ng-model="item.name" ng-maxlength="32"></input>
+					<input type="text" class="form-control" ng-model="item.name" ng-maxlength="32"/>
 				</div>
 			</div>
 			
 			<div class="form-group">
-				<label class="col-xs-12 col-sm-3 col-md-3 control-label"><translate name-value ="Description" category="label"></translate></label>
+				<label class="col-xs-12 col-sm-3 col-md-3 control-label">
+					<translate name-value ="Description" category="label"/>
+				</label>
 				<div class="col-xs-11 col-sm-9 col-md-9">
-					<textarea class="form-control" rows="3" ng-model="item.description" ng-maxlength="255"></textarea>
+					<textarea class="form-control" rows="3" ng-model="item.description" ng-maxlength="255"/>
 				</div>
 			</div>
 		</form>
 	</div>
+
 	<div class="line-infos bg-white col-xs-12">
 		<div id="setting-group-relation-table-container" class="search-table">
 			<table class="table table-striped table-hover" st-pagination-scroll st-table="items" st-pipe="searchGeofenceGroups">
@@ -33,18 +39,16 @@
 					<tr ng-repeat="geofenceGroup in items" ng-show="geofenceGroup.isShow">
 						<td><input type="checkbox" ng-model="geofenceGroup.deleteFlag"></td>
 						<td>{{geofenceGroup.no}}</td>
-						<td ng-click="geofenceHide=false">
-						    <span ng-hide="!geofenceHide">{{geofenceGroup.geofence.name}}</span>					 
-							<select ng-model="geofenceGroup.geofence_id" ng-options="geofence.id as geofence.name for  geofence in geofences" ng-hide="geofenceHide">
-   								<option value=""></option>
+						<td>
+							<select ng-model="geofenceGroup.geofence_id" ng-options="geofence.id as geofence.name for geofence in geofences">
+   							<option value=""></option>
 							</select>
 						</td>
 						<td>{{geofenceGroup.geofence.description}}</td>
-						<td ng-click="alarmTypeHide=false">
-							<span ng-hide="!alarmTypeHide">{{geofenceGroup.alarm_type}}</span>
-							<select ng-model="geofenceGroup.alarm_type" ng-hide="alarmTypeHide">
-   								<option value=""></option>
-   								<option value="IN" >IN</option>
+						<td>
+							<select ng-model="geofenceGroup.alarm_type">
+   							<option value=""></option>
+   							<option value="IN" >IN</option>
 								<option value="OUT">OUT</option>
 							</select>
 						</td>
@@ -52,6 +56,7 @@
 				</tbody>
 			</table>
 		</div>
+
 		<div class="table-context">
 			<button type="button" class="btn pull-right icon-minus" ng-click="deleteRelation()"></button>
 			<button type="button" class="btn pull-right icon-plus" ng-click="addRelation()"></button>
@@ -62,7 +67,6 @@
 		<button type="button" class="btn btn-default margin-t7 pull-right" ng-click="delete()" ng-disabled="!isDeletable()"><translate name-value ="Delete" category="button"></translate></button>
 		<button type="button" class="btn btn-default margin-t7 pull-right btn-success margin-r7" ng-click="save()" ng-disabled="!isFormValid()"><translate name-value ="Save" category="button"></translate></button>
 		<!-- buttons end -->
+
 	</div>
-	<!-- group infos end -->
-	
 </div>
