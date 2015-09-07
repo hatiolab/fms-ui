@@ -143,7 +143,7 @@
           }, timeThreshold);
 
         } else {
-          if(scope.items.length == 0 || scope.items[scope.items.length - 1].no >= pagination.totalItemCount) {
+          if(!scope.items || scope.items.length == 0 || scope.items[scope.items.length - 1].no >= pagination.totalItemCount) {
             return;
           }
 
