@@ -16,10 +16,13 @@
             $scope.options = dataSet;
           });
         };
+
+        this.setDataSet = function(dataSet) {
+          $scope.options = dataSet;
+        }
       },
       templateUrl: '/assets/core/views/option-list.html'
     };
-
 }])
   .directive('groups', [function () {
 
@@ -29,7 +32,6 @@
         optionListCtrl.find('fleet_groups', null);
       }
     };
-
 }])
   .directive('fleets', [function () {
 
@@ -39,5 +41,15 @@
         optionListCtrl.find('fleets', null);
       }
     };
+}])  
+  .directive('timezone', ['RestApi', function (RestApi) {
 
+    return { 
+      require : '^optionList',
+      link : function (scope, element, attrs, optionListCtrl) {
+        RestApi.list('/assets/core/views/timezone.json', null, function(dataSet) {
+          optionListCtrl.setDataSet(dataSet);
+        });
+      }
+    };
 }]);

@@ -1,6 +1,6 @@
 <div ng-controller="GeofenceSettingMapCtrl">
 
-	<ui-gmap-google-map id='geofenceSettingCanvas' center='mapOption.center' zoom='mapOption.zoom' control='mapControl'>
+	<ui-gmap-google-map id='geofenceSettingCanvas' center='mapOption.center' zoom='mapOption.zoom' control='mapControl' options='mapOption'>
 
 		<ui-gmap-drawing-manager options="drawingManagerOptions" control="drawingManagerControl" events="drawingManagerEvents">
 		</ui-gmap-drawing-manager>

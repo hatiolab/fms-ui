@@ -12,7 +12,7 @@ angular.module('fmsSettings').directive('fleetList', function() {
 		}
 	}; 
 })
-.controller('fleetListCtrl', function($rootScope, $scope, $resource, $element, GridUtils, FmsUtils, RestApi) {
+.controller('fleetListCtrl', function($rootScope, $scope, $element, GridUtils, FmsUtils, RestApi) {
 
 	/**
 	 * Fleet List

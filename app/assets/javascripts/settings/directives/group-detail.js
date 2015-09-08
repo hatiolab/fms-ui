@@ -330,6 +330,15 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 		};
 
 		/**
+		 * Check All
+		 */
+		$scope.checkAll = function() {
+			angular.forEach($scope.items, function(item) {
+				item.deleteFlag = true;
+			});
+		};
+
+		/**
 		 * group item selected
 		 * 
 		 * @param  {String}
@@ -349,5 +358,7 @@ angular.module('fmsSettings').directive('groupDetail', function() {
 	    groupChangeListener();
 	  });
 
+	  GridUtils.setGridContainerHieght('setting-group-relation-table-container');
+	  
 		// --------------------------- E N D ----------------------------
 	});

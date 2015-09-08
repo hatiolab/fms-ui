@@ -16,4 +16,12 @@ class Fleet < ActiveRecord::Base
 
   mount_uploader :car_image, ImageUploader
 
+  before_create do 
+  	if(!self.lat || self.lat == 0 || !self.lng || self.lng == 0)
+  		domain = Domain.current_domain
+  		self.lat = domain.lat
+  		self.lng = domain.lng
+  	end
+  end
+
 end

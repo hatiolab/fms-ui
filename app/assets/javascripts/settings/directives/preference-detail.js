@@ -155,7 +155,6 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 				}
 			}
 
-			console.log(settings);
 			return settings;
 		};
 

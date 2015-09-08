@@ -383,5 +383,10 @@ angular.module('fmsGeofence').directive('relationDetail', function() {
     geofenceChangeListener();
   });
 
+  /**
+   * 기본 테이블 Height 설정 
+   */
+	GridUtils.setGridContainerHieght('geofence-relation-table-container');
+
 	//--------------------------------- E N D ------------------------------------
 });

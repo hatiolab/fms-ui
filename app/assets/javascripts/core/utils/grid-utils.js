@@ -14,10 +14,8 @@ angular.module('fmsCore').factory('GridUtils', function($rootScope) {
 				'monitor-side-info-alert-table-container',
 				'geofence-view-table-container',
 				'geofence-setting-table-container',
+				'geofence-assignment-table-container',
 				'geofence-relation-table-container',
-				'setting-driver-table-container',
-				'setting-fleet-table-container',
-				'setting-group-relation-table-container',
 				'hr-overspeed-table-container',
 				'hr-drivehabit-table-container',
 				'hr-drivetime-table-container',
@@ -25,7 +23,12 @@ angular.module('fmsCore').factory('GridUtils', function($rootScope) {
 				'report-fleet-alert-table-container',
 				'report-fleet-drive-table-container',
 				'report-group-alert-table-container',
-				'report-group-drive-table-container'
+				'report-group-drive-table-container',
+				'setting-driver-table-container',
+				'setting-fleet-table-container',
+				'setting-group-relation-table-container',
+				'setting-company-table-container',				
+				'setting-user-table-container'
 			];
 			
 			var me = this;
@@ -62,17 +65,26 @@ angular.module('fmsCore').factory('GridUtils', function($rootScope) {
 			} else if(gridContainerId == 'geofence-setting-table-container') {
 				newHeight = newHeight - 465;
 
-			} else if(gridContainerId == 'geofence-relation-table-container') {
+			} else if(gridContainerId == 'geofence-assignment-table-container') {
 				newHeight = newHeight - 270;
+
+			} else if(gridContainerId == 'geofence-relation-table-container') {
+				newHeight = newHeight - 320;
 				
 			} else if(gridContainerId == 'setting-driver-table-container') {
-				newHeight = newHeight - 310;
-
-			} else if(gridContainerId == 'setting-fleet-table-container') {
 				newHeight = newHeight - 340;
 
+			} else if(gridContainerId == 'setting-fleet-table-container') {
+				newHeight = newHeight - 400;
+
 			} else if(gridContainerId == 'setting-group-table-container') {
+				newHeight = newHeight - 300;
+
+			} else if(gridContainerId == 'setting-company-table-container') {
 				newHeight = newHeight - 270;
+
+			} else if(gridContainerId == 'setting-user-table-container') {
+				newHeight = newHeight - 290;
 
 			} else if(gridContainerId == 'setting-group-relation-table-container') {
 				newHeight = newHeight - 323;
@@ -87,7 +99,7 @@ angular.module('fmsCore').factory('GridUtils', function($rootScope) {
 				newHeight = newHeight - 410;
 
 			} else if(gridContainerId == 'report-group-alert-table-container' || gridContainerId == 'report-group-drive-table-container') {
-				newHeight = newHeight - 325;
+				newHeight = newHeight - 325;				
 			}
 
 			if(newHeight > 10) {

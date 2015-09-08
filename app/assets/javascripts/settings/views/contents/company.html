@@ -1,0 +1,32 @@
+<div class="setting-content">
+
+	<div class="col-xs-12 col-sm-7 col-md-7">
+		<form name="companyForm" class="form-horizontal">
+
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-3 control-label">
+					<translate name-value ="Company Name" category="label"/> 
+					<strong style="color:red">*</strong>
+				</label>
+				<div class="col-xs-11 col-sm-9 col-md-9">
+					<input type="text" class="form-control" ng-model="item.name" ng-maxlength="32"/>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-3 control-label">
+					<translate name-value ="Timezone" category="label"/>
+				</label>
+				<div class="col-xs-11 col-sm-9 col-md-9">
+					<select name="Timezone" class="form-control" ng-model="item.timezone" ng-options="timezone.id as timezone.name for timezone in timezones" >
+						<option></option>
+					</select>
+				</div>
+			</div>
+
+		</form>
+	</div>
+
+	<user-list></user-list>
+
+</div>

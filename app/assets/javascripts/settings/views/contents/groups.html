@@ -28,11 +28,11 @@
 			<table class="table table-striped table-hover" st-pagination-scroll st-table="items" st-pipe="searchGeofenceGroups">
 				<thead>
 					<tr>
-						<th></th>
+						<th><input type="checkbox" ng-click='checkAll()'></th>
 						<th>#</th>
-						<th><translate name-value ="Geofence Name" category="label"></translate></th>
-						<th><translate name-value ="Geofence Description" category="label"></translate></th>
-						<th><translate name-value ="Event" category="label"></translate></th>
+						<th><translate name-value ="Geofence Name" category="label"/></th>
+						<th><translate name-value ="Geofence Description" category="label"/></th>
+						<th><translate name-value ="Event" category="label"/></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -58,14 +58,20 @@
 		</div>
 
 		<div class="table-context">
-			<button type="button" class="btn pull-right icon-minus" ng-click="deleteRelation()"></button>
-			<button type="button" class="btn pull-right icon-plus" ng-click="addRelation()"></button>
+			<button type="button" class="btn pull-right icon-minus" ng-click="deleteRelation()"/>
+			<button type="button" class="btn pull-right icon-plus" ng-click="addRelation()"/>
 		</div>
 		
 		<!-- buttons begin -->
-		<button type="button" class="btn btn-default margin-t7 pull-left" ng-click="new()"><translate name-value ="New" category="button"></translate></button>
-		<button type="button" class="btn btn-default margin-t7 pull-right" ng-click="delete()" ng-disabled="!isDeletable()"><translate name-value ="Delete" category="button"></translate></button>
-		<button type="button" class="btn btn-default margin-t7 pull-right btn-success margin-r7" ng-click="save()" ng-disabled="!isFormValid()"><translate name-value ="Save" category="button"></translate></button>
+		<button type="button" class="btn btn-default margin-t7 pull-left" ng-click="new()">
+			<translate name-value ="New" category="button"/>
+		</button>
+		<button type="button" class="btn btn-default margin-t7 pull-right" ng-click="delete()" ng-disabled="!isDeletable()">
+			<translate name-value ="Delete" category="button"/>
+		</button>
+		<button type="button" class="btn btn-default margin-t7 pull-right btn-success margin-r7" ng-click="save()" ng-disabled="!isFormValid()">
+			<translate name-value ="Save" category="button"/>
+		</button>
 		<!-- buttons end -->
 
 	</div>

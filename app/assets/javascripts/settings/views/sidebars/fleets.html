@@ -1,25 +1,54 @@
 <div class="col-xs-4 col-md-4 side-panel">
 	<div class="height-full" ng-show="true">
+
 		<!-- menu begin -->
 		<ul class="setting-sidemenu">
-			<li class="submenu-title"><translate name-value ="Setting" category="menu"></translate></li>
-			<li><a href="#/settings/drivers"><translate name-value ="Drivers" category="menu"></translate></a></li>
-			<li><a href="#/settings/fleets" class="active"><translate name-value ="Fleets" category="menu"></translate></a></li>
-			<li><a href="#/settings/groups"><translate name-value ="Groups" category="menu"></translate></a></li>
-			<li><a href="#/settings/preferences"><translate name-value ="Preferences" category="menu"></translate></a></li>
-			<button id="searchFleets" type="button" class="btn btn-default panel-refresh pull-right"></button>
+			<li class="submenu-title">
+				<translate name-value ="Setting" category="menu"/>
+			</li>
+			<li>
+				<a href="#/settings/drivers">
+					<translate name-value ="Drivers" category="menu"/>
+				</a>
+			</li>
+			<li>
+				<a href="#/settings/fleets" class="active">
+					<translate name-value ="Fleets" category="menu"/>
+				</a>
+			</li>
+			<li>
+				<a href="#/settings/groups">
+					<translate name-value ="Groups" category="menu"/>
+				</a>
+			</li>
+			<li>
+				<a href="#/settings/preferences">
+					<translate name-value ="Preferences" category="menu"/>
+				</a>
+			</li>
+			<li>
+				<a href="#/settings/company">
+					<translate name-value ="Company" category="menu"/>
+				</a>
+			</li>			
+			
+			<button id="searchFleets" type="button" class="btn btn-default panel-refresh pull-right"/>
 		</ul>
 		<!-- menu end -->
 		
 		<form name="fleetForm" class="form-horizontal">
 			<div class="form-group">
-				<label class="col-xs-12 col-sm-3 col-md-2 control-label"><translate name-value ="Name" category="label"></translate></label>
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+					<translate name-value ="Name" category="label"/>
+				</label>
 				<div class="col-xs-11 col-sm-7 col-md-6 padding-clear">
-					<input type="text" name="id" ng-model="searchParams.name" class="form-control"></input>
+					<input type="text" name="id" ng-model="searchParams.name" class="form-control"/>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-12 col-sm-3 col-md-2 control-label"><translate name-value ="Group" category="label"></translate></label>
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+					<translate name-value ="Group" category="label"/>
+				</label>
 				<div class="col-xs-11 col-sm-7 col-md-6 padding-clear">
 					<select name="group" class="form-control" ng-model="searchParams.group" ng-init="selected=''"
 						ng-options="group.name for group in groups">
@@ -28,7 +57,9 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-12 col-sm-3 col-md-2 control-label"><translate name-value ="Driver" category="label"></translate></label>
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+					<translate name-value ="Driver" category="label"/>
+				</label>
 				<div class="col-xs-11 col-sm-7 col-md-6 padding-clear">
 					<select name="group" class="form-control" ng-model="searchParams.driver" ng-init="selected=''"
 						ng-options="driver.name for driver in drivers" >
@@ -37,21 +68,24 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-12 col-sm-3 col-md-2 control-label"><translate name-value ="Car No." category="label"></translate></label>
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+					<translate name-value ="Car No." category="label"/>
+				</label>
 				<div class="col-xs-11 col-sm-7 col-md-6 padding-clear">
-					<input type="text" name="carNo" ng-model="searchParams.carNo" class="form-control"></input>
+					<input type="text" name="carNo" ng-model="searchParams.carNo" class="form-control"/>
 				</div>
 			</div>
 		</form>
+
 		<!-- table begin -->
 		<div id="setting-fleet-table-container" class="search-table">
 			<table class="table table-striped table-hover" st-pagination-scroll st-table="items" st-pipe="search">
 				<thead>
 					<tr>
-						<th data-field="name"><translate name-value ="Name" category="label"></translate></th>
-						<th data-field="driver"><translate name-value ="Driver" category="label"></translate></th>
-						<th data-field="carNo"><translate name-value ="Car No." category="label"></translate></th>
-						<th data-field="device"><translate name-value ="Device" category="label"></translate></th>
+						<th data-field="name"><translate name-value ="Name" category="label"/></th>
+						<th data-field="driver"><translate name-value ="Driver" category="label"/></th>
+						<th data-field="carNo"><translate name-value ="Car No." category="label"/></th>
+						<th data-field="device"><translate name-value ="Device" category="label"/></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -63,7 +97,8 @@
 					</tr>
 				</tbody>
 			</table>
+		</div>
+		<!-- table end -->
+
 	</div>
-	<!-- table end -->
-</div>
 </div>

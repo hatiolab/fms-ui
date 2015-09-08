@@ -7,7 +7,7 @@ class UsersController < ApplicationController
 private
 
   def resource_params
-    [ params.require(:user).permit(:login, :name, :email, :password, :password_confirmation, :locale, :timezone, :admin_flag, :active_flag, :operator_flag) ]
+    [ params.require(:user).permit(:login, :name, :email, :password, :password_confirmation, :locale, :timezone, :admin_flag, :active_flag, :operator_flag, :domain_id) ]
   end
     
 public
@@ -19,6 +19,11 @@ public
   
   def index
     conditions, include_arr, order_str, limit, offset = search_filter User
+    # TODO domain_id를 integer 형으로 변경 필요 
+    if(params["_q"]["domain_id-eq"])
+      param_domain_id = params["_q"]["domain_id-eq"]
+      conditions[0] << " and users.domain_id = '#{param_domain_id}'"
+    end
     @total_count = User.where(conditions).count
     @users = User.where(conditions).order(order_str).limit(limit).offset(offset)
   end

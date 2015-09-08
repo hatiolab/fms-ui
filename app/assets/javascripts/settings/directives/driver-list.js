@@ -12,7 +12,7 @@ angular.module('fmsSettings').directive('driverList', function() {
 		}
 	}; 
 })
-.controller('driverListCtrl', function($rootScope, $scope, $resource, $element, GridUtils, FmsUtils, RestApi) {
+.controller('driverListCtrl', function($rootScope, $scope, $element, GridUtils, FmsUtils, RestApi) {
 
 	/**
 	 * Driver List

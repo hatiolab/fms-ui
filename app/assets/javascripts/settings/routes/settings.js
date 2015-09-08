@@ -62,6 +62,18 @@ angular.module('fmsSettings').config(function($stateProvider, $urlRouterProvider
 				template: '<preference-detail></preference-detail>'
 			}
 		}
+	})
+
+	.state('settings.company', {
+		url: '/company',
+		views: {
+			'sidebar-view@': {
+				template: '<company-list></company-list>'
+			},
+			'content-view@' : {
+				template: '<company-detail></company-detail>'
+			}
+		}
 	});
 
 });

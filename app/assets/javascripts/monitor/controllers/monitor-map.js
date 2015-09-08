@@ -85,7 +85,12 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	/**
 	 * map option
 	 */
-	$scope.mapOption = { center: { latitude: DEFAULT_LAT, longitude: DEFAULT_LNG }, zoom: 9, fit : false };
+	$scope.mapOption = { 
+		mapTypeControlOptions : { position: google.maps.ControlPosition.TOP_CENTER },
+		center : { latitude: DEFAULT_LAT, longitude: DEFAULT_LNG }, 
+		zoom : 9, 
+		fit : false 
+	};
 	/**
 	 * map marker models for fleets, map polyline model for tracks, currently selected marker, progress bar
 	 */

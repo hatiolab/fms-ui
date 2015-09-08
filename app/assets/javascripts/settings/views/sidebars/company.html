@@ -1,6 +1,6 @@
 <div class="col-xs-4 col-md-4 side-panel">
 	<div class="height-full" ng-show="true">
-
+		
 		<!-- menu begin -->
 		<ul class="setting-sidemenu">
 			<li class="submenu-title">
@@ -17,7 +17,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="#/settings/groups" class="active">
+				<a href="#/settings/groups">
 					<translate name-value ="Groups" category="menu"/>
 				</a>
 			</li>
@@ -27,49 +27,40 @@
 				</a>
 			</li>
 			<li>
-				<a href="#/settings/company">
+				<a href="#/settings/company" class="active">
 					<translate name-value ="Company" category="menu"/>
 				</a>
 			</li>
 
-			<button type="button" class="btn btn-default panel-refresh pull-right"></button>
+			<!--button type="button" class="btn btn-default panel-refresh pull-right"/-->
 		</ul>
 		<!-- menu end -->
 			
-		<form name="groupForm" class="form-horizontal">
+		<form name="companyForm" class="form-horizontal">
 			<div class="form-group">
-		    <label class="col-xs-12 col-sm-3 col-md-2 control-label">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		    <!--label class="col-xs-12 col-sm-3 col-md-2 control-label">
 		    	<translate name-value ="Name" category="label"/>
 		    </label>
 		    <div class="col-xs-11 col-sm-7 col-md-6 padding-clear">
 		    	<input type="text" name="name" ng-model="searchParams.name" class="form-control"/>
-		    </div>
-			</div>
-
-			<div class="form-group">
-		    <label class="col-xs-12 col-sm-3 col-md-2 control-label">
-		    	<translate name-value ="Desc." category="label"/>
-		    </label>
-		    <div class="col-xs-11 col-sm-7 col-md-6 padding-clear">
-		    	<input type="text" name="description" ng-model="searchParams.description" class="form-control"/>
-		    </div>
+		    </div-->
 			</div>
 		</form>
 
 		<!-- table begin -->
-		<div id="setting-group-table-container" class="search-table">
-			<table class="table table-striped table-hover" st-pagination-scroll st-table="items" st-pipe="search">
+		<div id="setting-company-table-container" class="search-table">
+			<table class="table table-striped table-hover" st-table="items" st-pipe="search">
 		    <thead>
 		      <tr>
-		        <th data-field="name"><translate name-value ="Name" category="label"/></th>
-		        <th data-field="division"><translate name-value ="Description" category="label"/></th>
+		        <th><translate name-value="Name" category="label"/></th>
+		        <th><translate name-value="Timezone" category="label"/></th>
 		      </tr>
 		    </thead>
-
 				<tbody>
 					<tr ng-repeat="item in items" ng-click="goItem(item)" ng-class="{active : item.active}">
 						<td>{{item.name}}</td>
-						<td>{{item.description}}</td>
+						<td>{{item.timezone}}</td>
 					</tr>
 				</tbody>
 			</table>

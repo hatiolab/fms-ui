@@ -12,7 +12,7 @@ angular.module('fmsSettings').directive('groupList', function() {
 			}
 		};
 	})
-	.controller('groupListCtrl', function($rootScope, $scope, $resource, $element, GridUtils, FmsUtils, RestApi) {
+	.controller('groupListCtrl', function($rootScope, $scope, $element, GridUtils, FmsUtils, RestApi) {
 
 		/**
 		 * Group List

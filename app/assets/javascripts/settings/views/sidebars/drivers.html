@@ -3,35 +3,65 @@
 
 		<!-- menu begin -->
 		<ul class="setting-sidemenu">
-			<li class="submenu-title"><translate name-value ="Setting" category="menu"></translate></li>
-			<li><a href="#/settings/drivers" class="active"><translate name-value ="Drivers" category="menu"></translate></a></li>
-			<li><a href="#/settings/fleets"><translate name-value ="Fleets" category="menu"></translate></a></li>
-			<li><a href="#/settings/groups"><translate name-value ="Groups" category="menu"></translate></a></li>
-			<li><a href="#/settings/preferences"><translate name-value ="Preferences" category="menu"></translate></a></li>
-			<button id="searchDrivers" type="button" class="btn btn-default panel-refresh pull-right"></button>
+			<li class="submenu-title">
+				<translate name-value ="Setting" category="menu"/>
+			</li>
+			<li>
+				<a href="#/settings/drivers" class="active">
+					<translate name-value ="Drivers" category="menu"/>
+				</a>
+			</li>
+			<li>
+				<a href="#/settings/fleets">
+					<translate name-value ="Fleets" category="menu"/>
+				</a>
+			</li>
+			<li>
+				<a href="#/settings/groups">
+					<translate name-value ="Groups" category="menu"/>
+				</a>
+			</li>
+			<li>
+				<a href="#/settings/preferences">
+					<translate name-value ="Preferences" category="menu"/>
+				</a>
+			</li>
+			<li>
+				<a href="#/settings/company">
+					<translate name-value ="Company" category="menu"/>
+				</a>
+			</li>
+
+			<button id="searchDrivers" type="button" class="btn btn-default panel-refresh pull-right"/>
 		</ul>
 		<!-- menu end -->
 		
 		<!-- 검색 조건 -->	
 		<form name="driverForm" class="form-horizontal" novalidate>
 			<div class="form-group">
-		    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><translate name-value ="ID" category="label"></translate></label>
+		    <label class="col-xs-12 col-sm-3 col-md-2 control-label">
+		    	<translate name-value ="ID" category="label"/>
+		    </label>
 		    <div class="col-xs-11 col-sm-7 col-md-6 padding-clear">
 		    	<input type="text" name="code" ng-model="searchParams.code" class="form-control"/>
 		    </div>
 			</div>
 
 			<div class="form-group">
-		    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><translate name-value ="Name" category="label"></translate></label>
+		    <label class="col-xs-12 col-sm-3 col-md-2 control-label">
+		    	<translate name-value ="Name" category="label"/>
+		    </label>
 		    <div class="col-xs-11 col-sm-7 col-md-6 padding-clear">
 		    	<input type="text" name="name" ng-model="searchParams.name" class="form-control"/>
 		    </div>
 			</div>
 
 			<div class="form-group">
-		    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><translate name-value ="Division" category="label"></translate></label>
+		    <label class="col-xs-12 col-sm-3 col-md-2 control-label">
+		    	<translate name-value ="Division" category="label"/>
+		    </label>
 		    <div class="col-xs-11 col-sm-7 col-md-6 padding-clear">
-		    	<input type="text" name="division" ng-model="searchParams.division" class="form-control"></input>
+		    	<input type="text" name="division" ng-model="searchParams.division" class="form-control"/>
 		    </div>
 			</div>
 		</form>
@@ -42,9 +72,9 @@
 			<table class="table table-striped table-hover" st-pagination-scroll st-table="items" st-pipe="search">
 		    <thead>
 		      <tr>
-		        <th data-field="code"><translate name-value ="ID" category="label"></translate></th>
-		        <th data-field="name"><translate name-value ="Name" category="label"></translate></th>
-		        <th data-field="division"><translate name-value ="Division" category="label"></translate></th>
+		        <th data-field="code"><translate name-value ="ID" category="label"/></th>
+		        <th data-field="name"><translate name-value ="Name" category="label"/></th>
+		        <th data-field="division"><translate name-value ="Division" category="label"/></th>
 		      </tr>
 		    </thead>
 				<tbody>

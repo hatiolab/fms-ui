@@ -1,0 +1,43 @@
+<div class="line-infos bg-white col-xs-12">
+
+	<div>* User List</div>
+
+	<div id="setting-user-table-container" class="search-table">
+		<table class="table table-striped table-hover" st-table="users">
+			<thead>
+				<tr>
+					<th><input type="checkbox" ng-click='checkAll()'></th>
+					<th>#</th>
+					<th><translate name-value ="ID" category="label"/></th>
+					<th><translate name-value ="Name" category="label"/></th>
+					<th><translate name-value ="E-mail" category="label"/></th>
+					<th><translate name-value ="Admin" category="label"/></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="user in users" ng-show="user.isShow">
+					<td><input type="checkbox" ng-model="user.deleteFlag"></td>
+					<td>{{user.no}}</td>
+					<td>{{user.login}}</td>
+					<td>{{user.name}}</td>
+					<td>{{user.email}}</td>
+					<td>{{user.admin_flag ? 'Yes' : 'No'}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="table-context">
+		<button type="button" class="btn pull-right icon-minus" ng-click="removeUser()"/>
+		<button type="button" class="btn pull-right icon-plus" ng-click="newUser()"/>
+	</div>
+		
+	<!--button type="button" class="btn btn-default margin-t7 pull-left" ng-click="new()">
+		<translate name-value ="New" category="button"/>
+	</button>
+	
+	<button type="button" class="btn btn-default margin-t7 pull-right btn-success margin-r7" ng-click="save()" ng-disabled="!isFormValid()">
+		<translate name-value ="Save" category="button"/>
+	</button-->
+
+</div>

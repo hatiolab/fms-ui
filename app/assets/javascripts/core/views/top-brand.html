@@ -3,34 +3,31 @@
       <button ng-show="showToggleButton" type="button" ng-class="sidebarSwitch ? 'side-toggle show' : 'side-toggle'" ng-click="toggleSidebar()">
       </button>
 			
-			<a href="#" id="btn-legend" class="btn" tabindex="0" data-toggle="popover" data-trigger="focus" data-popover-content="#pop-legend" data-placement="bottom">
-				legend
-			</a>
+			<a href="#" id="btn-legend" class="btn" tabindex="0" data-toggle="popover" data-trigger="focus" data-popover-content="#pop-legend" data-placement="bottom" ng-show="showToggleButton">legend</a>
 		
 			<div class="popover fade" id="pop-legend">
 				<div class="popover-body">
 			    <ul>
-						<li><img src="/assets/fleet_off.png"> off</li>
-						<li><img src="/assets/fleet_idle.png"> idle</li>
-						<li><img src="/assets/fleet_slow.png"> slow</li>
-						<li><img src="/assets/fleet_normal.png"> normal</li>
-						<li><img src="/assets/fleet_high.png"> high</li>
-						<li><img src="/assets/fleet_over.png"> over</li>
-						<li class="border"><img src="/assets/event_g_sensor.png"> impact</li>
-						<li><img src="/assets/event_overspeed.png"> over speed</li>
-						<li><img src="/assets/event_geofence_in.png"> geofence in</li>
-						<li><img src="/assets/event_geofence_out.png"> geofence out</li>
-						<li><img src="/assets/event_emergency.png"> emergency</li>
-						<li class="border"><img src="/assets/batchstart.png"> batch star</li>
-						<li><img src="/assets/batchend.png"> batch end</li>
-						<li class="border"><img src="/assets/tripstart.png"> trip star</li>
-						<li><img src="/assets/tripend.png"> trip end</li>
+						<li><img src="/assets/fleet_off.png"> Off</li>
+						<li><img src="/assets/fleet_idle.png"> Idle</li>
+						<li><img src="/assets/fleet_slow.png"> Slow</li>
+						<li><img src="/assets/fleet_normal.png"> Normal</li>
+						<li><img src="/assets/fleet_high.png"> High</li>
+						<li><img src="/assets/fleet_over.png"> Over Speed</li>
+						<li class="border"><img src="/assets/event_g_sensor.png"> Impact</li>
+						<li><img src="/assets/event_overspeed.png"> Over speed</li>
+						<li><img src="/assets/event_geofence_in.png"> Geofence In</li>
+						<li><img src="/assets/event_geofence_out.png"> Geofence Out</li>
+						<li><img src="/assets/event_emergency.png"> Emergency</li>
+						<li class="border"><img src="/assets/batchstart.png"> Batch Start</li>
+						<li><img src="/assets/batchend.png"> Batch End</li>
+						<li class="border"><img src="/assets/tripstart.png"> Trip Start</li>
+						<li><img src="/assets/tripend.png"> Trip End</li>
 					</ul>
 				</div>
 			</div>
       
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <!--translate class="sr-only" name-value ="toggleNavigation" category="label" display="Toggle navigation"></translate-->
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
