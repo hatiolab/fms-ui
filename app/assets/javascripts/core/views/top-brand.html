@@ -2,6 +2,32 @@
     <div class="navbar-header">
       <button ng-show="showToggleButton" type="button" ng-class="sidebarSwitch ? 'side-toggle show' : 'side-toggle'" ng-click="toggleSidebar()">
       </button>
+			
+			<a href="#" id="btn-legend" class="btn" tabindex="0" data-toggle="popover" data-trigger="focus" data-popover-content="#pop-legend" data-placement="bottom">
+				legend
+			</a>
+		
+			<div class="popover fade" id="pop-legend">
+				<div class="popover-body">
+			    <ul>
+						<li><img src="/assets/fleet_off.png"> off</li>
+						<li><img src="/assets/fleet_idle.png"> idle</li>
+						<li><img src="/assets/fleet_slow.png"> slow</li>
+						<li><img src="/assets/fleet_normal.png"> normal</li>
+						<li><img src="/assets/fleet_high.png"> high</li>
+						<li><img src="/assets/fleet_over.png"> over</li>
+						<li class="border"><img src="/assets/event_g_sensor.png"> impact</li>
+						<li><img src="/assets/event_overspeed.png"> over speed</li>
+						<li><img src="/assets/event_geofence_in.png"> geofence in</li>
+						<li><img src="/assets/event_geofence_out.png"> geofence out</li>
+						<li><img src="/assets/event_emergency.png"> emergency</li>
+						<li class="border"><img src="/assets/batchstart.png"> batch star</li>
+						<li><img src="/assets/batchend.png"> batch end</li>
+						<li class="border"><img src="/assets/tripstart.png"> trip star</li>
+						<li><img src="/assets/tripend.png"> trip end</li>
+					</ul>
+				</div>
+			</div>
       
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
         <!--translate class="sr-only" name-value ="toggleNavigation" category="label" display="Toggle navigation"></translate-->
@@ -12,3 +38,15 @@
       
 			<a class="navbar-brand" href="#/"><img src="/assets/brand.png"/></a>
     </div>
+		
+		<script>
+			$(function(){
+			    $("[data-toggle=popover]").popover({
+			        html : true,
+			        content: function() {
+			          var content = $(this).attr("data-popover-content");
+			          return $(content).children(".popover-body").html();
+			        }
+			    });
+			});
+		</script>

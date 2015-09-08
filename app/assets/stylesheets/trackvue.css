@@ -426,6 +426,19 @@ background:url('/assets/icon-table-context.png') 0 -94px no-repeat;height:16px;w
 .map-control button.btn-primary:hover{background-color:transparent;}
 .map-control:nth-child(even) button{margin:0 5px;}
 
+#btn-legend{position:absolute;background-color:rgba(69, 107, 149, 0.8);top:55px;right:20px;z-index:1;
+	-webkit-border-bottom-right-radius: 25px;-webkit-border-bottom-left-radius: 25px;-moz-border-radius-bottomright: 25px;
+	-moz-border-radius-bottomleft: 25px;border-bottom-right-radius: 25px;border-bottom-left-radius: 25px;
+	-webkit-box-shadow: 2px 2px 3px -1px rgba(0,0,0,0.26);-moz-box-shadow: 2px 2px 3px -1px rgba(0,0,0,0.26);box-shadow: 2px 2px 3px -1px rgba(0,0,0,0.26);
+	padding:0 10px 0 15px;height:23px !important;color:#fff;text-transform:capitalize;
+}
+.popover-content{padding:0;}
+#btn-legend+.popover{padding:0px;}
+#btn-legend+.popover ul{list-style-type:none !important;text-align:left;padding:0;}
+#btn-legend+.popover li{padding:5px 5px 2px 5px;color:#585858;font-size:12px;}
+#btn-legend+.popover li.border{padding:5px 5px 2px 5px;border-top:1px solid #efefef;}
+#btn-legend+.popover img{width:16px;}
+
 /* date picker */
 .date .dropdown-menu{padding:0 0 10px 0;overflow:hidden;height:initial !important;}
 .date .dropdown-menu thead tr:first-child{background-color:#425169 !important;}
