@@ -45,7 +45,6 @@
     controller: function ($scope) {
       $scope.dt = { opened : false };
       $scope.format = 'yyyy-MM-dd';
-
       // $scope.clear = function () {
       //   $scope.dt = null;
       // };

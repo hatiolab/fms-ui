@@ -20,35 +20,6 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 	 * @type {Object}
 	 */
 	$scope.item = { image : '' };
-
-	 /**
-	  * Date Picker Handling
-	  * 
-	  * @param  {[type]}
-	  * @return {[type]}
-	  */
-	 $(function() {
-	 	var purchaseDate = $('#setting_fleet_datepicker1').datetimepicker({
-	 		language : 'en',
-	 		pickTime : false,
-	 		autoclose : true
-	 	}).on('changeDate', function(fev) {
-	 		$scope.item["purchase_date"] = FmsUtils.formatDate(fev.date, 'yyyy-MM-dd');
-	 		purchaseDate.data('datetimepicker').hide();
-	 	});
-	 });
-
-	 $(function() {
-	 	var regDate = $('#setting_fleet_datepicker2').datetimepicker({
-	 		language : 'en',
-	 		pickTime : false,
-	 		autoclose : true
-	 	}).on('changeDate', function(tev) {
-	 		$scope.item["reg_date"] = FmsUtils.formatDate(tev.date, 'yyyy-MM-dd');
-	 		regDate.data('datetimepicker').hide();
-	 	});
-	 });	
-
 	/**
 	 * File Object 변경시 자동 업로드 
 	 * 
@@ -170,6 +141,9 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 	 * @return {Object}
 	 */
 	$scope.save = function() {
+		$scope.item["purchase_date"] = FmsUtils.formatDate($scope.item.purchase_date, 'yyyy-MM-dd');
+		$scope.item["reg_date"] = FmsUtils.formatDate($scope.item.reg_date, 'yyyy-MM-dd');
+
 		if(!$scope.checkValidForm()) {
 			return;
 		}
