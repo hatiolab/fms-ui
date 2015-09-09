@@ -17,30 +17,35 @@ angular.module('fmsCore').directive('topMenu', function() {
 		name : 'Map', 
 		cls : 'icon-map',
 		href : '#/',
+		show : true,
 		showSidebarToggleButton : true,
 		active : true
 	}, {
 		name : 'Geofence', 
 		cls : 'icon-geofence',
 		href : '#/geofence',
+		show : true,
 		showSidebarToggleButton : true,
 		active : false
 	}, {
 		name : 'Driver', 
 		cls : 'icon-hr',
 		href : '#/hr/overview',
+		show : true,
 		showSidebarToggleButton : false,
 		active : false
 	}, {
 		name : 'Report', 
 		cls : 'icon-report',
 		href : '#/reports/overview',
+		show : true,
 		showSidebarToggleButton : false,
 		active : false
 	}, {
 		name : 'Setting', 
 		cls : 'icon-setting',
 		href : '#/settings/drivers',
+		show : login.admin_flag,
 		showSidebarToggleButton : false,
 		active : false
 	} ];

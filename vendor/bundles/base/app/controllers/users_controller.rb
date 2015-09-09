@@ -60,6 +60,14 @@ public
       end
     end
   end
+
+  def exists
+    user = User.find_by_email(params[:email])
+    respond_to do |format|
+      format.xml  { render :xml => user }
+      format.json { render :json => user }
+    end    
+  end
   
   def destroy
     @user = User.find(params[:id])

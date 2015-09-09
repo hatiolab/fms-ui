@@ -12,7 +12,14 @@ angular.module('fmsSettings').directive('companyList', function() {
 			}
 		};
 	})
-	.controller('companyListCtrl', function($rootScope, $scope, GridUtils, FmsUtils, RestApi) {
+	.controller('companyListCtrl', function($rootScope, $scope, $timeout, GridUtils, FmsUtils, RestApi) {
+
+		/**
+		 * System Domain
+		 * 
+		 * @type {Boolean}
+		 */
+		$scope.systemCompany = currentDomain.system_flag;
 
 		/**
 		 * Company List
@@ -44,16 +51,21 @@ angular.module('fmsSettings').directive('companyList', function() {
 		};
 
 		/**
-		 * infinite scorll directive에서 호출 
+		 * Domains 검색
 		 * 
 		 * @param  {Object}
 		 * @param  {Function}
 		 * @return N/A
 		 */
 		$scope.doSearch = function(params, callback) {
-			RestApi.list('/domains.json', params, function(items) {
-				callback(items);
-			});
+			if($scope.systemCompany) {
+				RestApi.list('/domains.json', params, function(items) {
+					callback(items);
+				});
+			} else {
+				$scope.items[0] = currentDomain;
+				callback($scope.items);
+			}
 		};
 
 		/**
@@ -65,6 +77,9 @@ angular.module('fmsSettings').directive('companyList', function() {
 		$scope.afterSearch = function(items) {
 			// grid container를 새로 설정한다.
 			GridUtils.setGridContainerHieght('setting-company-table-container');
+			if(!$scope.systemCompany) {
+				$scope.goItem(items[0]);
+			}
 		};
 
 		/**

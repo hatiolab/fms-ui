@@ -15,6 +15,10 @@ angular.module('fmsGeofence').directive('relationList', function() {
 
 .controller('relationListCtrl', function($rootScope, $scope, $resource, $element, $stateParams, GridUtils, FmsUtils, ModalUtils, RestApi) {
 	/**
+	 * admin mode
+	 */
+	$scope.adminFlag = login.admin_flag;
+	/**
 	 * Geofence List
 	 */
 	$scope.items = [];

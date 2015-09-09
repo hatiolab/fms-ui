@@ -7,8 +7,14 @@ angular.module('fmsSettings').directive('companyDetail', function() {
 			link: function(scope, element, attr, groupDetailCtrl) {}
 		};
 	})
-	.controller('companyDetailCtrl', function($rootScope, $scope, $filter, ModalUtils, GridUtils, RestApi) {
+	.controller('companyDetailCtrl', function($rootScope, $scope, $filter, $timeout, ModalUtils, GridUtils, RestApi) {
 
+		/**
+		 * System Domain
+		 * 
+		 * @type {Boolean}
+		 */
+		$scope.systemCompany = currentDomain.system_flag;
 		/**
 		 * Selected Company Item
 		 * 
@@ -24,6 +30,7 @@ angular.module('fmsSettings').directive('companyDetail', function() {
 
 		/**
 		 * Form이 유효한 지 체크 
+		 * 
 		 * @return {Boolean}
 		 */
 		$scope.isFormValid = function() {
@@ -32,6 +39,7 @@ angular.module('fmsSettings').directive('companyDetail', function() {
 
 		/**
 		 * 삭제 가능한 지 여부 
+		 * 
 		 * @return {Boolean}
 		 */
 		$scope.isDeletable = function() {
@@ -48,6 +56,14 @@ angular.module('fmsSettings').directive('companyDetail', function() {
 				return $scope.showAlerMsg('Name must not be empty!');
 			}
 
+			if (!$scope.item.name.length > 20) {
+				return $scope.showAlerMsg('Max length of Name is 20!');
+			}			
+
+			if (!$scope.item.timezone || $scope.item.timezone == '') {
+				return $scope.showAlerMsg('Timezone must not be empty!');
+			}
+
 			return true;
 		};
 
@@ -60,6 +76,17 @@ angular.module('fmsSettings').directive('companyDetail', function() {
 		$scope.showAlerMsg = function(msg) {
 			ModalUtils.alert('sm', 'Alert', msg);
 			return false;
+		};
+
+		/**
+		 * Timezone List
+		 * 
+		 * @return {Array}
+		 */
+		$scope.timezoneList = function() {
+			RestApi.list('/assets/core/views/timezone.json', null, function(dataSet) {
+				$scope.timezones = dataSet;
+			});			
 		};
 
 		/**
@@ -78,26 +105,16 @@ angular.module('fmsSettings').directive('companyDetail', function() {
 		};
 
 		/**
-		 * Timezone List
-		 * 
-		 * @return {Array}
-		 */
-		$scope.timezoneList = function() {
-			RestApi.list('/assets/core/views/timezone.json', null, function(dataSet) {
-				$scope.timezones = dataSet;
-			});			
-		};
-
-		/**
 		 * Update Company
 		 */
 		$scope.update = function() {
 			var url = '/domains/' + $scope.item.id + '.json';
-			var result = RestApi.update(url, null, { fleet_group: $scope.item });
+			var result = RestApi.update(url, null, { domain : $scope.item });
 
 			result.$promise.then(
 				function(data) {
-					$scope.updateRelations();
+					$scope.showAlerMsg('Completed!');
+					$scope.refreshList();
 				}, 
 				function(error) {
 					ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
@@ -108,29 +125,45 @@ angular.module('fmsSettings').directive('companyDetail', function() {
 		 * Create Company
 		 */
 		$scope.create = function() {
-			RestApi.checkUnique('/domains/show_by_name.json?name=' + $scope.item.name, null,
-				function() {
-					var result = RestApi.create('/domains.json', null, { fleet_group : $scope.item });
+			ModalUtils.confirm('sm', 'Create Company', 'Are you sure to create?', $scope.createCompany);
+		};
 
-					result.$promise.then(
-						function(data) {
-							$scope.item = data;
-							$scope.updateRelations();
-						}, 
-						function(error) {
-							ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
-						});
-				}, 
-				function(data) {
-					ModalUtils.alert('sm', 'Error', 'Requested Data Already Exists!');
+		/**
+		 * Create Company
+		 */
+		$scope.createCompany = function() {
+			RestApi.checkUnique('/domains/show_by_name.json?name=' + $scope.item.name, null,
+				$scope.invokeCreate, 
+				function(data) { 
+					ModalUtils.alert('sm', 'Error', 'Requested Data Already Exists!'); 
 				},
+				function(error) { 
+					ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText); 
+				});
+		};
+
+		/**
+		 * Invoke Create API
+		 */
+		$scope.invokeCreate = function() {
+			var result = RestApi.create('/domains.json', null, { domain : $scope.item });
+			var modalInst = ModalUtils.alert('sm', 'Info', 'Creating domain now. This will take a little time...'); 
+
+			result.$promise.then(
+				function(data) {
+					$scope.item = data;
+					$scope.refreshList();
+					modalInst.dismiss('cancel');
+					$scope.showAlerMsg('Completed!');
+				}, 
 				function(error) {
+					modalInst.dismiss('cancel');
 					ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
 				});
 		};
 
 		/**
-		 * Delete
+		 * Delete Company
 		 * 
 		 * @return N/A
 		 */
@@ -152,12 +185,13 @@ angular.module('fmsSettings').directive('companyDetail', function() {
 		};
 
 		/**
-		 * New
+		 * New Company
 		 * 
 		 * @return N/A
 		 */
 		$scope.new = function() {
 			$scope.item = {};
+			$scope.$emit('setting-user-item-clear', null);
 		};
 
 		/**
@@ -167,42 +201,6 @@ angular.module('fmsSettings').directive('companyDetail', function() {
 		 */
 		$scope.refreshList = function() {
 			$scope.$emit('setting-company-items-change', null);
-		}
-
-		/**
-		 * Add User
-		 * 
-		 * @return {Object}
-		 */
-		$scope.addUser = function() {
-			if(!$scope.geofences || $scope.geofences.length == 0) {
-				$scope.searchGeofences();
-			}
-			
-			$scope.items.push({
-				no: 0,
-				fleet_group : { id : $scope.item.id, name : $scope.item.name, description : $scope.item.description },
-				fleet_group_id : $scope.item.id,
-				alarm_type : '',
-				geofence : { id : '', name : '', description : '' },
-				geofence_id: '',
-				isShow : true,
-				deleteFlag : false
-			});
-
-			$scope.numbering($scope.items, 1);
-		};
-
-		/**
-		 * Delete User 
-		 */
-		$scope.deleteUser = function() {
-			for(var i = 0 ; i < $scope.items.length ; i++) {
-				var item = $scope.items[i];
-				if(item.deleteFlag) {
-					item.isShow = false;
-				}
-			}
 		};
 
 		/**

@@ -8,7 +8,7 @@ angular.module('fmsSettings').directive('userList', function() {
 			}
 		};
 	})
-	.controller('userListCtrl', function($rootScope, $scope, UserPopup, GridUtils, FmsUtils, RestApi) {
+	.controller('userListCtrl', function($rootScope, $scope, UserPopup, ModalUtils, GridUtils, FmsUtils, RestApi) {
 
 		/**
 		 * Selected Company
@@ -115,11 +115,32 @@ angular.module('fmsSettings').directive('userList', function() {
 			});
 		};
 
+	  /**
+	   * New User Popup
+	   */
+		$scope.newUser = function() {
+			if($scope.company) {
+				var user = { id : '', login : '', name : '', email : '', password : '', password_confirmation : '', domain_id : $scope.company.id, domain_name : $scope.company.name, timezone : $scope.company.timezone };
+				UserPopup.show(user);
+			}
+		};
+	  
+		/**
+		 * Show Alert Message
+		 * 
+		 * @param  {String}
+		 * @return {Boolean}
+		 */
+		$scope.showAlerMsg = function(msg) {
+			ModalUtils.alert('sm', 'Alert', msg);
+			return false;
+		};
+			  
 		/**
 		 * User Change Listener
 		 * 
 		 * @param  {Object} event
-		 * @param  {Object} company)
+		 * @param  {Object} company
 		 */
 		var userChangeListener = $rootScope.$on('setting-company-item-change', function(event, company) {
 			$scope.company = company;
@@ -136,33 +157,27 @@ angular.module('fmsSettings').directive('userList', function() {
 			$scope.search();
 		});
 
+		/**
+		 * User Clear Listener
+		 * 
+		 * @param  {Object} event
+		 */
+		var userClearListener = $rootScope.$on('setting-user-item-clear', function(event) {
+			$scope.users = [];
+		});
+
 	  /**
 	   * Destroy Scope - RootScope Event Listener 정리 
 	   */
 	  $scope.$on('$destroy', function(event) {
 	    userChangeListener();
 	    usersChangeListener();
+	    userClearListener();
 	  });
 
 	  /**
-	   * Save User
-	   * 
-	   * @param  {Object} user
+	   * 기본 그리드 Height 설정 
 	   */
-	  $scope.saveUser = function(user) {
-	  	alert('Under Construction...');
-	  };
-
-	  /**
-	   * New User Popup
-	   */
-		$scope.newUser = function() {
-			if($scope.company) {
-				var user = { id : '', login : '', name : '', email : '', password : '' };
-				UserPopup.show(user, $scope.saveUser);
-			}
-		};
-	  
 	  GridUtils.setGridContainerHieght('setting-user-table-container');
 	  
 		// ------------------------------ E N D -------------------------------------

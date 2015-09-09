@@ -112,9 +112,9 @@ angular.module('fmsCore').factory('RestApi', function($rootScope, $resource, Mod
 
 				// bad
 				}, function(response) {
-					if(badcallback){
+					if(badcallback) {
 						badcallback(response);
-					}else{
+					} else {
 						me.handleError(response);
 					}
 				});
@@ -128,9 +128,9 @@ angular.module('fmsCore').factory('RestApi', function($rootScope, $resource, Mod
 					existscallback(data);
 				}, 
 				function(response) {
-					if(response.status==404){
+					if(response.status == 404) {
 						callback(response);
-					}else{
+					} else {
 						badcallback(response);
 					}
 				});

@@ -25,6 +25,13 @@
 			</div>
 
 		</form>
+
+		<button type="button" class="btn btn-default margin-r5 pull-left" ng-show="systemCompany" ng-click="new()">
+			<translate name-value ="New" category="button"/>
+		</button>
+		<button type="button" class="btn btn-success pull-right" ng-click="save()">
+			<translate name-value ="Save" category="button"/>
+		</button>		
 	</div>
 
 	<user-list></user-list>

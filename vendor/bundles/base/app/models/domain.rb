@@ -9,6 +9,22 @@ class Domain < ActiveRecord::Base
   mount_uploader :content_image, FileUploader
 
   #
+  # Before Save
+  #
+  before_save do
+    if(self.system_flag)
+      raise "System Domain already exist!" if Domain.system_domain
+    end
+  end
+
+  #
+  # After Create
+  #
+  after_create do
+    self.setup
+  end
+
+  #
   # Find System Domain. System Domain must be only one
   #
   def self.system_domain
@@ -26,13 +42,11 @@ class Domain < ActiveRecord::Base
 
     debug_print "Finding initial data from System Domain ..."
     ori_codes = CommonCode.where("domain_id = #{sys_dom.id} and parent_id is null")
-    ori_tems = Terminology.where("domain_id = #{sys_dom.id}")
     ori_entities = Entity.where("domain_id = #{sys_dom.id}")
     ori_settings = Setting.where("domain_id = #{sys_dom.id}")
 
     debug_print "Copying initial data to Domain (#{self.name})..."
     self.clone_code_to_domain(ori_codes)
-    self.clone_to_domain(ori_tems, Terminology)
     self.clone_entity_to_domain(ori_entities)
     self.clone_to_domain(ori_settings, Setting)
 

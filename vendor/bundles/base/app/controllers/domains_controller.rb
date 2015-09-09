@@ -72,22 +72,21 @@ class DomainsController < DomainAppController
     end
   end
   
-  def create    
-    create_domain = nil
+  def create 
     if(params[:domain])
-      create_domain = Domain.new(params[:domain])
+      create_domain = Domain.new(resource_params[0])
     else
       create_domain = Domain.new      
       create_domain.name = params[:name]
       create_domain.description = params[:description]
       create_domain.timezone = params[:timezone]
-      create_domain.system_flag = params[:system_flag]      
+      create_domain.system_flag = params[:system_flag]
     end
       
     respond_to do |format|
       if create_domain.save
         format.html { redirect_to domains_path, notice: 'Domain was successfully created.' }
-        format.json { render :json => {:success => true, :msg => 'Domain was successfully created!', :item => create_domain} }
+        format.json { render :json => create_domain }
       else
         format.html { render action: "new" }
         format.json { render json: create_domain.errors, status: :unprocessable_entity }

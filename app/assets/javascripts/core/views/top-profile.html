@@ -3,10 +3,31 @@
 		</a>
 		
 		<ul class="dropdown-menu">
-			<li><a href="#" ng-click="changeLocale('en-US')"><translate name-value="English" type="menu" display="English"></translate></a></li>
-			<li><a href="#" ng-click="changeLocale('ko-KR')"><translate name-value="Spanish" type="menu" display="Spanish"></translate></a></li>
-			<li><a href="#" ng-click="changeLocale('zh-CN')"><translate name-value="French" type="menu" display="French"></translate></a></li>
+			<li>
+				<a href="#" ng-click="changeLocale('en-US')">
+					<translate name-value="English" type="menu"/>
+				</a>
+			</li>
+			<li>
+				<a href="#" ng-click="changeLocale('es-ES')">
+					<translate name-value="Spanish" type="menu"/>
+				</a>
+			</li>
+			<li>
+				<a href="#" ng-click="changeLocale('fr-FR')">
+					<translate name-value="French" type="menu"/>
+				</a>
+			</li>
 			<li role="separator" class="divider"></li>
-			<li><a href="/users/sign_out" rel="nofollow" data-method="delete"><translate name-value="Log Out" type="menu" display="Log Out"></a></li>
+			<li>
+				<a href="#" ng-click="showProfile()">
+					<translate name-value="Profile" type="menu"/>
+				</a>
+			</li>			
+			<li>
+				<a href="/users/sign_out" rel="nofollow" data-method="delete">
+					<translate name-value="Log Out" type="menu" display="Log Out">
+				</a>
+			</li>
 		</ul>
 	</li>

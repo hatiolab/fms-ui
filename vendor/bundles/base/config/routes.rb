@@ -41,10 +41,9 @@ Base::Engine.routes.draw do
   devise_for :users, controllers: { sessions: "sessions" }
   
   devise_scope :user do
-    post "create", :to => "users"
-    post "destroy_multiple", :to => "users"
-    get "login", to: "sessions#new"
-    get "logout", to: "sessions#destroy"
+    post "users/create", :to => "users#create"
+    post "users/destroy_multiple", :to => "users#destroy_multiple"
+    get  "users/exists", :to => "users#exists"
   end
   
   match '(errors)/:status', to: 'errors#show', constraints: {status: /\d{3}/}, via: :all

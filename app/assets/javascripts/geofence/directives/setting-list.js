@@ -14,7 +14,10 @@ angular.module('fmsGeofence').directive('settingList', function() {
 })
 
 .controller('settingListCtrl', function($rootScope, $scope, $element, $state, $stateParams, GridUtils, FmsUtils, ModalUtils, RestApi) {
-
+	/**
+	 * admin mode
+	 */
+	$scope.adminFlag = login.admin_flag;
 	/**
 	 * Geofence List
 	 */

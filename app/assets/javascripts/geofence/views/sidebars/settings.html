@@ -1,27 +1,28 @@
 <div class="col-xs-4 col-md-4 side-panel">
-	<div class="height-full" ng-show="true">
+	<div class="height-full">
 
 		<!-- menu begin -->
 		<ul class="setting-sidemenu">
 			<li class="submenu-title">
-				<translate name-value ="Geofence" category="menu"></translate>
+				<translate name-value ="Geofence" category="menu"/>
 			</li>
 			<li>
 				<a href="#/geofence" class="">
-					<translate name-value ="Geofence" category="menu"></translate>
+					<translate name-value ="Geofence" category="menu"/>
 				</a>
 			</li>
-			<li>
+			<li ng-show="adminFlag">
 				<a href="#/geofence/settings" class="active">
-					<translate name-value ="Geofence Setting" category="menu"></translate>
+					<translate name-value ="Geofence Setting" category="menu"/>
 				</a>
 			</li>
-			<li>
+			<li ng-show="adminFlag">
 				<a href="#/geofence/relations" class="">
-					<translate name-value ="Group Assignment" category="menu"></translate>
+					<translate name-value ="Group Assignment" category="menu"/>
 				</a>
 			</li>
-			<button id="searchGeofenceSettings" type="button" class="btn btn-default panel-refresh pull-right"></button>
+
+			<button id="searchGeofenceSettings" type="button" class="btn btn-default panel-refresh pull-right"/>
 		</ul>
 		<!-- menu end -->
 

@@ -1,5 +1,5 @@
 <div class="col-xs-4 col-md-4 side-panel">	
-	<div class="height-full" ng-show="true">
+	<div class="height-full">
 		
 		<!-- menu begin -->
 		<ul class="setting-sidemenu">
@@ -11,16 +11,17 @@
 					<translate name-value ="Geofence" category="menu"/>
 				</a>
 			</li>
-			<li>
+			<li ng-show="adminFlag">
 				<a href="#/geofence/settings" class="">
 					<translate name-value ="Geofence Setting" category="menu"/>
 				</a>
 			</li>
-			<li>
+			<li ng-show="adminFlag">
 				<a href="#/geofence/relations" class="active">
 					<translate name-value ="Group Assignment" category="menu"/>
 				</a>
 			</li>
+
 			<button id="searchGeofenceRelations" type="button" class="btn btn-default panel-refresh pull-right"/>
 		</ul>
 		<!-- menu end -->
