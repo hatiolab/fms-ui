@@ -59,16 +59,12 @@ class MongoController < DomainAppController
   end
 
   def to_from_times(dateStr)
-    time = ActiveSupport::TimeZone[Domain.current_domain.timezone].parse(dateStr).to_time.to_i * 1000
-    debug_print "Time zone : #{Domain.current_domain.timezone}, From Date : #{dateStr}, Value : #{time}"
-    return time
+    return ActiveSupport::TimeZone[Domain.current_domain.timezone].parse(dateStr).to_time.to_i * 1000
   end
 
   def to_to_times(dateStr)
     toDateStr = (Date.parse(dateStr) + 1).strftime('%Y-%m-%d')
-    time = ActiveSupport::TimeZone[Domain.current_domain.timezone].parse(toDateStr).to_time.to_i * 1000
-    debug_print "Time zone : #{Domain.current_domain.timezone}, To Date : #{toDateStr}, Value : #{time}"
-    return time
+    return ActiveSupport::TimeZone[Domain.current_domain.timezone].parse(toDateStr).to_time.to_i * 1000
   end  
 
   #

@@ -47,6 +47,9 @@ class EventsController < MongoController
     lastCheckTime = params[:id]
     conds = {'dom' => User.current_user.domain_id, 'ctm' => {'$gt' => lastCheckTime}}
     conds['fid'] = params[:fid] if params[:fid]
+
+    debug_print conds
+    
     alert = Event.all_of(conds).order('ctm asc').first
     result = alert ? { :alert => alert, :driver => alert.driver } : {}
 
