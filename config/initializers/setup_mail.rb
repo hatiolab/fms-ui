@@ -9,4 +9,4 @@ ActionMailer::Base.smtp_settings = {
 }
 
 ActionMailer::Base.raise_delivery_errors = true
-ActionMailer::Base.default_url_options[:host] = "192.168.35.153"
+ActionMailer::Base.default_url_options[:host] = "192.168.35.153:8000"
