@@ -48,6 +48,12 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	 * 처음 전체 페이지 로딩시는 event data 자동조회 하지 않는다.
 	 */
 	$scope.searchEnabled = false;
+	/**
+	 * 차량 검색 조건 
+	 * 
+	 * @type {Array}
+	 */
+	$scope.fleets = [];
 
 	/**
 	 * Normalize parameters
@@ -102,11 +108,11 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	/**
 	 * find groups
 	 */
-	$scope.findGroups = function(params) {
+	/*$scope.findGroups = function(params) {
 		RestApi.list('/fleet_groups.json', params, function(dataSet) {
 			$scope.groups = dataSet;
 		});
-	};
+	};*/
 
 	/**
 	 * find fleets
@@ -282,6 +288,17 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	});
 
 	/**
+	 * Group 변화를 감지해서 Fleet 자동 검색 
+	 */
+	$scope.$watch('searchParams.group', function(newVal, oldVal) {
+		if(newVal) {
+			$scope.findFleets({ '_q[fleet_group_id-eq]' : newVal.id });
+		} else {
+			$scope.findFleets({});
+		}
+	});	
+
+	/**
 	 * Scope destroy시 
 	 */
 	$scope.$on('$destroy', function(event) {
@@ -293,7 +310,7 @@ angular.module('fmsMonitor').directive('monitorSideAlerts', function() {
 	 */
 	$scope.init = function() {
 		$scope.isLoading = false;
-		$scope.findGroups({});
+		//$scope.findGroups({});
 		$scope.findFleets({});
 	};
 

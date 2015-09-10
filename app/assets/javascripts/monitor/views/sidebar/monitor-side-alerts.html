@@ -2,7 +2,17 @@
 
 	<option-list groups option-name ='Group' option-model ="searchParams.group"></option-list>
 
-	<option-list fleets option-name ='Fleet' option-model ="searchParams.fleet"></option-list>
+	<!--option-list fleets option-name ='Fleet' option-model ="searchParams.fleet"></option-list-->
+
+	<div class="form-group">
+		<translate for="inputPassword" class="col-xs-12 col-sm-3 col-md-2 control-label" name-param="Fleets" category="label" display="Fleets"/>
+		<div class="col-xs-11 col-sm-7 col-md-6 padding-clear">
+			<select name="fleet" class="form-control" ng-model="searchParams.fleet" ng-init="selected=''"
+			ng-options="fleet.name for fleet in fleets" >
+				<option value="" selected="selected">ALL</option>
+			</select>
+		</div>
+	</div>
 
 	<period-picker from-date="searchParams.ctm_gte" to-date="searchParams.ctm_lte" search="search">
 	</period-picker>
@@ -70,11 +80,11 @@
 		<thead>
 			<tr>
 				<th>#</th>
-				<th><translate name-value ="Fleet" category="label" display="Fleet"></translate></th>
-				<th><translate name-value ="Driver" category="label" display="Driver"></translate></th>
-				<th><translate name-value ="Geofence" category="label" display="Geofence"></translate></th>
-				<th><translate name-value ="Occurred at" category="label" display="Occurred Time"></translate></th>
-				<th><translate name-value ="Type" category="label" display="Type"></translate></th>
+				<th><translate name-value ="Fleet" category="label" display="Fleet"/></th>
+				<th><translate name-value ="Driver" category="label" display="Driver"/></th>
+				<th><translate name-value ="Geofence" category="label" display="Geofence"/></th>
+				<th><translate name-value ="Occurred at" category="label" display="Occurred Time"/></th>
+				<th><translate name-value ="Type" category="label" display="Type"/></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -84,9 +94,7 @@
 				<td>{{item.driver ? item.driver.name : ''}}</td>
 				<td>{{item.geofence ? item.geofence.name : ''}}</td>
 				<td>{{item.etm | fmstime}}</td>
-				<td class="icon-td align-center">
-					<span class="{{item.typeClass}}"></span>
-				</td>
+				<td class="icon-td align-center"><span class="{{item.typeClass}}"></span></td>
 			</tr>
 		</tbody>
 	</table>
