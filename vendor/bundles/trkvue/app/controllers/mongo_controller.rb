@@ -37,7 +37,6 @@ class MongoController < DomainAppController
       elsif(cond_opr == 'between')
         between_vals = v ? v.split(',') : ''
         val_1, val_2 = convert_from(cond_name, between_vals[0]), convert_to(cond_name, between_vals[1])
-        debug_print "from : #{val_1}, to : #{val_2}"
         where_conds[cond_name] = { '$gte' => val_1, '$lte' => val_2 } if(between_vals && between_vals.length >= 2)
       # eq
       else

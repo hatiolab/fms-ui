@@ -31,9 +31,16 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
 	 */
 	$scope.checkAlertInterval = 15;
 	/**
+	 * Set last search alert time
+	 */
+  $scope.setLastSearchAlertTime = function() {
+  	$scope.lastSearchAlertTime = new Date().getTime() - (1000 * 60 * 5);
+  };
+
+	/**
 	 * 마지막 조회시간을 저장하고 있다가 10초에 한 번씩 마지막 조회 이 후 시간으로 조회 ...
 	 */
-	$scope.lastSearchAlertTime = 1441879511925; //new Date().getTime();
+	$scope.lastSearchAlertTime = $scope.setLastSearchAlertTime();
 
 	/**
    * Alert 발생시 
@@ -54,8 +61,6 @@ angular.module('fmsCore').controller('AlertZoneCtrl', function($rootScope, $scop
    		
    		if(!$scope.addAlert(alert)) {
    			$scope.lastSearchAlertTime = alertData.alert.ctm;
-   		} else {
-				$scope.lastSearchAlertTime = new Date().getTime();
    		}
 
    		$scope.$emit('new-alert-count-change', 1);
