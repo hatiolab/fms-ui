@@ -146,11 +146,11 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 		 * @toDate 2015-07-25
 		 */
 		buildDateConds : function(params, fieldName, fromDate, toDate) {
-			if(fromDate) {
+			if(angular.isObject(fromDate)) {
 				fromDate = this.formatDate(fromDate, ConstantDate.SUBMIT_DATE_FORMAT);
 			}
 
-			if(toDate) {
+			if(angular.isObject(toDate)) {
 				toDate = this.formatDate(toDate, ConstantDate.SUBMIT_DATE_FORMAT);
 			}
 
