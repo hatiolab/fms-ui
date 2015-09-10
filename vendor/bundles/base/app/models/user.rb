@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   # attr_accessible :login, :name, :email, :password, :password_confirmation, :remember_me
   
   before_create do
-    self.login = self.email if(!self.login)
+    self.login = self.email if(!self.login || self.login == '')
     self.locale = 'en-US' if(!self.locale)
     self.active_flag = true if(!self.active_flag)
   end
