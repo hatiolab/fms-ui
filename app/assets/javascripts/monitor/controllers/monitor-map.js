@@ -537,7 +537,8 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 			$scope.selectedMarker = null;
 			$scope.switchOffAll();
 
-		} else if($scope.selectedMarker != marker) {
+		//} else if($scope.selectedMarker != marker) {
+		} else {
 			// showMovieInfo
 			if(marker.vdo && marker.vdo != '') {
 				$scope.changeMovieMarker(marker);
