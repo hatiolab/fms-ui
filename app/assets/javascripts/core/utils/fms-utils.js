@@ -1,4 +1,4 @@
-angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, ConstantSpeed) {
+angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, ConstantSpeed, ConstantDate) {
 	
 	return {
 		/**
@@ -25,26 +25,26 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 			var fromDateStr = ''; toDateStr = ''; var curr = new Date();
 
 			if(duration == "year") {
-				toDateStr = this.formatDate(curr, 'yyyy-MM-dd');
+				toDateStr = this.formatDate(curr, ConstantDate.SUBMIT_DATE_FORMAT);
 				fromDate = this.addDate(curr, -1 * (this.getDOY(curr) - 1));
-				fromDateStr = this.formatDate(fromDate, 'yyyy-MM-dd');
+				fromDateStr = this.formatDate(fromDate, ConstantDate.SUBMIT_DATE_FORMAT);
 
 			} else if(duration == "month") {
-				toDateStr = this.formatDate(curr, 'yyyy-MM-dd');
+				toDateStr = this.formatDate(curr, ConstantDate.SUBMIT_DATE_FORMAT);
 				//fromDate = this.addDate(curr, -1 * (curr.getDate() - 1));
 				fromDate = this.addDate(curr, -30);
-				fromDateStr = this.formatDate(fromDate, 'yyyy-MM-dd');
+				fromDateStr = this.formatDate(fromDate, ConstantDate.SUBMIT_DATE_FORMAT);
 
 			} else if(duration == "week") {
-				toDateStr = this.formatDate(curr, 'yyyy-MM-dd');
+				toDateStr = this.formatDate(curr, ConstantDate.SUBMIT_DATE_FORMAT);
 				//fromDate = this.addDate(curr, -1 * curr.getDay());
 				fromDate = this.addDate(curr, -7);
-				fromDateStr = this.formatDate(fromDate, 'yyyy-MM-dd');
+				fromDateStr = this.formatDate(fromDate, ConstantDate.SUBMIT_DATE_FORMAT);
 
 			} else {
-				toDateStr = this.formatDate(new Date(), 'yyyy-MM-dd');
+				toDateStr = this.formatDate(new Date(), ConstantDate.SUBMIT_DATE_FORMAT);
 				fromDate = this.addDate(new Date(), -1 * duration);
-				fromDateStr = this.formatDate(fromDate, 'yyyy-MM-dd');
+				fromDateStr = this.formatDate(fromDate, ConstantDate.SUBMIT_DATE_FORMAT);
 			}
 
 			return [fromDateStr, toDateStr];
@@ -75,7 +75,7 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 					pickTime : false,
 					autoclose : true
 				}).on('changeDate', function(fev) {
-					searchParams[dateFieldName] = me.formatDate(fev.date, 'yyyy-MM-dd');
+					searchParams[dateFieldName] = me.formatDate(fev.date, ConstantDate.SUBMIT_DATE_FORMAT);
 					datePick.data('datetimepicker').hide();
 					searchFunc.call();
 				});
@@ -101,8 +101,8 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 		 */
 		formatFromToDate : function(fromDate, toDate) {
 			var result = [];
-			result[0] = angular.isString(fromDate) ? fromDate : this.formatDate(fromDate, 'yyyy-MM-dd');
-			result[1] = angular.isString(toDate) ? toDate : this.formatDate(toDate, 'yyyy-MM-dd');
+			result[0] = angular.isString(fromDate) ? fromDate : this.formatDate(fromDate, ConstantDate.SUBMIT_DATE_FORMAT);
+			result[1] = angular.isString(toDate) ? toDate : this.formatDate(toDate, ConstantDate.SUBMIT_DATE_FORMAT);
 			return result;
 		},
 
@@ -142,20 +142,30 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 		 * 
 		 * @params
 		 * @fieldName
-		 * @fromDateStr 2015-07-21
-		 * @toDateStr 2015-07-25
+		 * @fromDate 2015-07-21
+		 * @toDate 2015-07-25
 		 */
-		buildDateConds : function(params, fieldName, fromDateStr, toDateStr) {
-			if(fromDateStr && toDateStr) {
-				params['_q[' + fieldName + '-between]'] = fromDateStr + "," + toDateStr;
+		buildDateConds : function(params, fieldName, fromDate, toDate) {
+			if(fromDate) {
+				fromDate = this.formatDate(fromDate, ConstantDate.SUBMIT_DATE_FORMAT);
+			}
 
-			} else if(fromDateStr && !toDateStr) {
-				params['_q[' + fieldName + '-gte]'] = fromDateStr;
+			if(toDate) {
+				toDate = this.formatDate(toDate, ConstantDate.SUBMIT_DATE_FORMAT);
+			}
 
-			} else if(!fromDateStr && toDateStr) {
-				params['_q[' + fieldName + '-lte]'] = toDateStr;
+			if(fromDate && toDate) {
+				params['_q[' + fieldName + '-between]'] = fromDate + "," + toDate;
+
+			} else if(fromDate && !toDate) {
+				params['_q[' + fieldName + '-gte]'] = fromDate;
+
+			} else if(!fromDate && toDate) {
+				params['_q[' + fieldName + '-lte]'] = toDate;
 			}
 		},
+
+
 
 		/**
 		 * set speed class to fleet object
@@ -168,6 +178,12 @@ angular.module('fmsCore').factory('FmsUtils', function($rootScope, $filter, Cons
 			}
 		},
 
+		/**
+		 * Set speed class
+		 * 
+		 * @param {Object}
+		 * @param {Number}
+		 */
 		setSpeedClass : function(obj, velocity) {
 			var level = $rootScope.getSpeedLevel(velocity);
 

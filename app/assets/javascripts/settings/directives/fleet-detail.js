@@ -6,7 +6,7 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 		scope: {}
 	}; 
 })
-.controller('fleetDetailCtrl', function($rootScope, $scope, $resource, $element, Upload, ModalUtils, FmsUtils, RestApi) {
+.controller('fleetDetailCtrl', function($rootScope, $scope, $resource, $element, Upload, ModalUtils, FmsUtils, RestApi, ConstantDate) {
 
 	/**
 	 * File
@@ -141,8 +141,8 @@ angular.module('fmsSettings').directive('fleetDetail', function() {
 	 * @return {Object}
 	 */
 	$scope.save = function() {
-		$scope.item["purchase_date"] = FmsUtils.formatDate($scope.item.purchase_date, 'yyyy-MM-dd');
-		$scope.item["reg_date"] = FmsUtils.formatDate($scope.item.reg_date, 'yyyy-MM-dd');
+		$scope.item["purchase_date"] = FmsUtils.formatDate($scope.item.purchase_date, ConstantDate.SUBMIT_DATE_FORMAT);
+		$scope.item["reg_date"] = FmsUtils.formatDate($scope.item.reg_date, ConstantDate.SUBMIT_DATE_FORMAT);
 
 		if(!$scope.checkValidForm()) {
 			return;

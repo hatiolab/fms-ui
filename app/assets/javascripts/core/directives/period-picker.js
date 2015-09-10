@@ -2,7 +2,7 @@
  * period setting
  */
  angular.module('fmsCore')
- .directive('periodPicker', ['FmsUtils', '$filter', function (FmsUtils, $filter) {
+ .directive('periodPicker', ['ConstantDate', 'FmsUtils', '$filter', function (ConstantDate, FmsUtils, $filter) {
 
   return { 
     restrict: 'E',
@@ -14,7 +14,7 @@
     controller: function ($scope) {
       $scope.fromDt = { opened : false };
       $scope.toDt = { opened : false };
-      $scope.format = 'yyyy-MM-dd';
+      $scope.format = ConstantDate.SUBMIT_DATE_FORMAT;
 
       $scope.clear = function () {
         $scope.dt = null;
@@ -34,7 +34,7 @@
 }])
 
  angular.module('fmsCore')
- .directive('datePicker', ['FmsUtils', '$filter', function (FmsUtils, $filter) {
+ .directive('datePicker', ['ConstantDate', 'FmsUtils', '$filter', function (ConstantDate, FmsUtils, $filter) {
 
   return { 
     restrict: 'E',
@@ -44,7 +44,8 @@
     },
     controller: function ($scope) {
       $scope.dt = { opened : false };
-      $scope.format = 'yyyy-MM-dd';
+      $scope.format = ConstantDate.SUBMIT_DATE_FORMAT;
+      
       // $scope.clear = function () {
       //   $scope.dt = null;
       // };

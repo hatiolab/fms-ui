@@ -6,7 +6,7 @@ angular.module('fmsMonitor').directive('monitorSideInfoAlertList', function() {
 		scope: {}
 	}; 
 })
-.controller('monitorSideInfoAlertListCtrl', function($rootScope, $scope, $element, GridUtils, FmsUtils, RestApi) {
+.controller('monitorSideInfoAlertListCtrl', function($rootScope, $scope, $element, ConstantDate, GridUtils, FmsUtils, RestApi) {
 	/**
 	 * 기본 날짜 검색일 설정 
 	 */
@@ -157,7 +157,7 @@ angular.module('fmsMonitor').directive('monitorSideInfoAlertList', function() {
 	$scope.$on('monitor-trip-info-change', function(evt, tripData) {
 		if(tripData && tripData.id) {
 			$scope.tripId = tripData.id;
-			var tripStartDate = FmsUtils.formatDate(tripData.stm, 'yyyy-MM-dd');
+			var tripStartDate = FmsUtils.formatDate(tripData.stm, ConstantDate.SUBMIT_DATE_FORMAT);
 
 			// 검색 조건이 시작일이 트립의 날짜보다 크면 검색이 안 되므로 검색 시작일을 트립 날짜로 변경
 			if(tripStartDate < $scope.searchParams.ctm_gte) {

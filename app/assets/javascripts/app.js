@@ -8,6 +8,7 @@ angular.module('fmsCore', ['ui.router', 'ngCookies', 'ngResource', 'ui.bootstrap
 	SPEED_OVER : 'speed_over'
 })
 .constant('ConstantReport', { OVERVIEW_TOP : 30, TOP : 30 })
+.constant('ConstantDate', { SUBMIT_DATE_FORMAT : 'yyyy-MM-dd' })
 .constant('ConstantGeofence', { LATEST_LOC : 'FMS_LATEST_LOC' });
 
 // 2. settings module
