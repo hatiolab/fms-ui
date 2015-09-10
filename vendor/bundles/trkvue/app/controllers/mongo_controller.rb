@@ -75,7 +75,7 @@ class MongoController < DomainAppController
     ori_timezone = Time.zone
     toDateStr = (Date.parse(dateStr) + 1).strftime('%Y-%m-%d')
     Time.zone = Domain.current_domain.timezone
-    times = Time.zone(toDateStr).to_time.to_i * 1000
+    times = Time.zone.parse(toDateStr).to_time.to_i * 1000
     debug_print "Time zone : #{Time.zone}, To Date : #{toDateStr}, Value : #{times}"
     Time.zone = ori_timezone
     return times
