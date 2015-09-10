@@ -922,14 +922,15 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	var rootScopeListener6 = $rootScope.$on('monitor-event-trip-change', function(evt, eventData) {
 		$scope.switchOffAll();
 		var marker = $scope.eventToMarker(eventData);
+		$scope.changeMarker(marker, 'showEventInfo');
 
-		if($scope.viewMode == 'TRIP' && eventData.tid == $scope.currentTripId) {
-			$scope.changeMarker(marker, 'showEventInfo');
+		/*if($scope.viewMode == 'TRIP' && eventData.tid == $scope.currentTripId) {
+			$scope.changeMarker(marker, 'showEventInfo');	
 		} else {
 			$scope.goTrip(eventData.tid, function() {
 				$scope.changeMarker(marker, 'showEventInfo');
 			});			
-		}
+		}*/
 	});
 
 	/**

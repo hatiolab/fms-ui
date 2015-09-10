@@ -54,6 +54,7 @@ angular.module('pip', [])
 
                 scope.eventId = a.eventId;
                 scope.occurredAt = a.occurredAt;
+                scope.savedAt = a.savedAt;
                 scope.velocity = a.velocity;
                 scope.gx = a.gx;
                 scope.gy = a.gy;

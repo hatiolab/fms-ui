@@ -176,6 +176,10 @@
         	<translate class="modal-icon dot-gray" name-value="Occurred At" category="label"/>
         	<strong>{{selectedMarker.etm | fmstime}}</strong>
         </div>
+        <div class="detail-item">
+        	<translate class="modal-icon dot-gray" name-value="Saved At" category="label"/>
+        	<strong>{{selectedMarker.ctm | fmstime}}</strong>
+        </div>
 				<div class="detail-item">
 					<translate class="modal-icon dot-gray" name-value="Speed" category="label"/>
 					<span class="{{selectedMarker.typeClass}}"></span> {{selectedMarker.vlc | fmsvelocity : true}}
@@ -202,6 +206,7 @@
 			<pip-video
 					event-id="{{selectedMarker.id}}"
 					occurred-at="{{selectedMarker.etm | fmstime}}"
+					saved-at="{{selectedMarker.ctm | fmstime}}"
 					velocity="{{selectedMarker.vlc | fmsvelocity : true}}"
       		gx="{{selectedMarker.gx}}"
       		gy="{{selectedMarker.gy}}"
