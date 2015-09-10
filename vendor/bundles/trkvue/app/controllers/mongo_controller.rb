@@ -65,8 +65,8 @@ class MongoController < DomainAppController
 
   def to_to_times(dateStr)
     timezone = Domain.current_domain.timezone
-    #toDateStr = (Date.parse(dateStr) + 1).strftime('%Y-%m-%d')
-    Date.parse("#{dateStr} 23:59:59 #{timezone}").to_time.to_i * 1000
+    toDateStr = (Date.parse(dateStr) + 1).strftime('%Y-%m-%d')
+    Date.parse("#{dateStr} #{timezone}").to_time.to_i * 1000
   end  
 
   #
