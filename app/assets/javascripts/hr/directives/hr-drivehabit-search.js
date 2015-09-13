@@ -18,7 +18,7 @@ angular.module('fmsHr').directive('hrDrivehabitSearch', function() {
 	 * 차트 바인딩 데이터 
 	 */
 	$scope.chartItems = [ {
-		chartId : 'hr-drive-habit-1', sort_field :'speed_over', labels : [], data : []
+		chartId : 'hr-drive-habit-1', sort_field :'speed_high', labels : [], data : []
 	}, {
 		chartId : 'hr-drive-habit-2', sort_field :'speed_slow', labels :[], data : []
 	} ];
@@ -36,7 +36,7 @@ angular.module('fmsHr').directive('hrDrivehabitSearch', function() {
 	 * Sort Field Name
 	 * @type {String}
 	 */
-	$scope.sort_field = 'speed_over';
+	$scope.sort_field = 'speed_high';
 	/**
 	 * Sort value
 	 * @type {String}
