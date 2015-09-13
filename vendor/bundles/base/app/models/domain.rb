@@ -11,7 +11,7 @@ class Domain < ActiveRecord::Base
   #
   # Before Save
   #
-  before_save do
+  before_create do
     if(self.system_flag)
       raise "System Domain already exist!" if Domain.system_domain
     end
