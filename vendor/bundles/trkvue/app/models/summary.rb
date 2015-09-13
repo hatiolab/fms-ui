@@ -51,7 +51,8 @@ class Summary
     year, month, week = sum_date.year, sum_date.month, sum_date.strftime("%U").to_i
 
     sumDateStr = sum_date.strftime(date_format)
-    startTime = ActiveSupport::TimeZone[Domain.current_domain.timezone].parse(sumDateStr).to_time.to_i * 1000
+    #startTime = ActiveSupport::TimeZone[Domain.current_domain.timezone].parse(sumDateStr).to_time.to_i * 1000
+    startTime = (domain.last_summary_time * 1000) + 1
     endTime = now.to_time.to_i * 1000
 
 		if(now.hour == 0)
@@ -227,7 +228,7 @@ class Summary
 		driver.work_time += fleetSum.drive_time
 		driver.distance += fleetSum.drive_dist
 		driver.point += fleetSum.speed_over
-		driver.save!		
+		driver.save!
 	end
 
 	#
