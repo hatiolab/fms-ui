@@ -9,5 +9,6 @@ class AddTrkvueInfoToDomains < ActiveRecord::Migration
     add_column :domains, :service_grade, :string, :limit => 10
     add_column :domains, :lat, :float
     add_column :domains, :lng, :float
+    add_column :domains, :last_summary_time, :integer, :default => 0
   end
 end

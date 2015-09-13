@@ -19,6 +19,7 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every 1.hours do
-  runner "Summary.daily_summary"
+every :hour do
+  #runner "Summary.daily_summary"
+  runner "Summary.hourly_summary"
 end

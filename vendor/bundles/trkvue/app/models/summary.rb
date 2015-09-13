@@ -3,6 +3,68 @@ class Summary
 	include ActiveModel::Model
 
 	############################################################################################
+	# 																	Hourly Summary
+	############################################################################################
+	#
+	# Hourly summary
+	#
+	def self.hourly_summary
+		debug_print "Hourly summary start..."
+
+		Domain.all.each do |domain|
+			if(domain.timezone)
+				now = ActiveSupport::TimeZone[domain.timezone].now
+				endTime = Summary.hourly_summary_by_domain(domain, now)
+				domain.last_summary_time = endTime / 1000
+				domain.save
+			end
+		end
+		
+		debug_print "Hourly summary completed"		
+	end
+
+	#
+	# Hourly Summary By Domain
+	#
+	def self.hourly_summary_by_domain(domain, now)
+		# 1. 날짜, 년, 월, 일, 주, 시작 시간, 끝 시간 값을 구한다.
+  	date_info = Summary.get_hourly_summary_time_info(domain, now)
+  	sum_date, year, month, week, startTime, endTime = date_info[0], date_info[1], date_info[2], date_info[3], date_info[4], date_info[5]
+    # 2. Current Domain 설정 
+    Domain.current_domain = domain
+    debug_print "Domain (#{domain.name}) houly summary start..."
+		# 4. Fleet 별 Daily Summary
+		Summary.do_fleet_summary(domain, sum_date, year, month, week, startTime, endTime)
+		# 5. Fleet Group 별 Daily Summary
+		Summary.do_fleet_group_summary(domain, sum_date, year, month, week)
+		debug_print "Domain (#{domain.name}) hourly summary completed"
+		return endTime
+	end
+
+	#
+	# 타임존에 따른 현재 날짜와 시각을 구한다
+	#
+	def self.get_hourly_summary_time_info(domain, now)
+		# 1. 타임존에 따른 현재 시각을 구한다.
+		sum_date, date_format = ((now.hour == 0) ? sum_date - 1 : now.to_date), '%Y-%m-%d'
+		# 2. 날짜, 년, 월, 일, 주 값을 구한다.
+    year, month, week = sum_date.year, sum_date.month, sum_date.strftime("%U").to_i
+
+    sumDateStr = sum_date.strftime(date_format)
+    startTime = ActiveSupport::TimeZone[Domain.current_domain.timezone].parse(sumDateStr).to_time.to_i * 1000
+    endTime = now.to_time.to_i * 1000
+
+		if(now.hour == 0)
+			# 시각이 0시 이면 서머리 날짜는 전날이고 서머리 완료시간이 정각 자정이어야 한다.
+			to_date = sum_date + 1
+			sumDateToStr = to_date.strftime(date_format)
+			endTime = ActiveSupport::TimeZone[Domain.current_domain.timezone].parse(sumDateToStr).to_time.to_i * 1000
+		end
+		
+		return [sum_date, year, month, week, startTime, endTime]
+	end
+
+	############################################################################################
 	# 																	Daily Summary
 	############################################################################################
 	#

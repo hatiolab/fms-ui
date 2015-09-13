@@ -84,7 +84,7 @@ angular.module('fmsCore').factory('GridUtils', function($rootScope) {
 				newHeight = newHeight - 270;
 
 			} else if(gridContainerId == 'setting-user-table-container') {
-				newHeight = newHeight - 290;
+				newHeight = newHeight - 310;
 
 			} else if(gridContainerId == 'setting-group-relation-table-container') {
 				newHeight = newHeight - 323;
