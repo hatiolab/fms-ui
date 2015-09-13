@@ -36,7 +36,7 @@ angular.module('fmsHr').directive('hrDrivehabitSearch', function() {
 	 * Sort Field Name
 	 * @type {String}
 	 */
-	$scope.sort_field = 'speed_high';
+	$scope.sort_field = $scope.chartItems[0].sort_field;
 	/**
 	 * Sort value
 	 * @type {String}
