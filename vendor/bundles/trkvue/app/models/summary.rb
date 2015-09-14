@@ -71,7 +71,7 @@ class Summary
 	#
 	# Do Hourly Summary
 	#
-	def self.do_fleet_summary_by_hourly(domain, date, year, month, week, startTime, endTime)
+	def self.do_fleet_summary_by_hourly(domain, date, year, month, week, startTime, endTime, closingDailySummary)
 		fleets = Fleet.all
 		return unless fleets
 		
@@ -79,7 +79,7 @@ class Summary
 
 		fleets.each do |fleet|
 			debug_print fleet.name
-			Summary.summary_hourly_by_fleet(domain, startTime, endTime, date, year, month, week, fleet, trips)
+			Summary.summary_hourly_by_fleet(domain, startTime, endTime, date, year, month, week, fleet, trips, closingDailySummary)
 		end
 	end
 
