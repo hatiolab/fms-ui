@@ -9,12 +9,8 @@
 	</tr>									
 	<tr>
 		<td class="info-label"><translate name-value ="Started at / Till" category="label"/></td>
-		<td class="info-value">{{trip.stm | fmstime}} / {{trip.etm | fmstime}}</td>
+		<td class="info-value">{{trip.stm | fmstime}} / {{trip.sts == '2' ? (trip.etm | fmstime) : ''}}</td>
 	</tr>
-	<!--tr>
-		<td class="info-label">Duration / Distance</td>
-		<td class="info-value">0 h 0 m 0 s / 0 Km</td>
-	</tr-->
 	<tr>
 		<td class="info-label"><translate name-value ="Last Speed" category="label"/></td>
 		<td class="info-value speed-status"><span class="{{trip.typeClass}}"></span><strong>{{trip.vlc | fmsvelocity : true}}</strong></td>
@@ -35,27 +31,3 @@
 		<td class="info-value">{{trip.fromAddress}}</td>
 	</tr>
 </table>
-
-<!-- pagination begin
-<div class="pagecontainer">
-	<nav class="pull-right padding-clear">
-  	<ul class="pagination">
-    <li class="padding-rl7 border-rl-lightgray" style="padding-top:3px;padding-bottom:8px">
-      <button type="button" class="btn btn-in-pagination" ng-click="goPrevTrip()">
-      	<span class="icon-infolist arrow-left"></span>Older Trip
-      </button>
-			<button type="button" class="btn btn-in-pagination" ng-click="goNextTrip()">Newer Trip
-				<span class="icon-infolist arrow-right"></span>
-			</button>
-    </li>
-    <li class="padding-rl7">
-      <button type="button" class="btn btn-in-pagination" ng-click="goPrevAlert()">
-      	<span class="icon-infolist arrow-left"></span>Older Alert
-      </button>
-			<button type="button" class="btn btn-in-pagination" ng-click="goNextAlert()">Newer Alert
-				<span class="icon-infolist arrow-right"></span>
-			</button>
-    </li>
-  </ul>
-	</nav>
-</div>pagination end -->
