@@ -332,7 +332,7 @@ class Summary
 	# Track의 선택 필드에 대한 평균값 계산, 속도가 0인 track은 제외한다.
 	#
 	def self.get_track_avg(conds, field)
-		conds['vlc'] = { "$gt" : 0 }
+		conds['vlc'] = { "$gt" => 0 }
 		match = { "$match" => conds }
 		group = { "$group" => { "_id" => nil, "avg" => { "$avg" => "$#{field}" }} }
 		result = Track.collection.aggregate([match, group])
