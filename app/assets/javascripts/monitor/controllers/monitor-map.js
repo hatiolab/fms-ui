@@ -959,16 +959,14 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 * Trip Refresh 이벤트  
 	 */
 	var rootScopeListener9 = $rootScope.$on('monitor-refresh-trip', function(evt, tripId) {
-		if(!tripId || tripId == '') {
-			ModalUtils.alert('sm', 'Information', 'Trip is not selected!');
-		}
-
 		if(tripId && tripId != '') {
 			$scope.currentTripId = tripId;
 		}
 
 		if($scope.currentTripId) {
 			$scope.goTrip($scope.currentTripId);
+		} else {
+			ModalUtils.alert('sm', 'Information', 'Trip is not selected!');
 		}
 	});
 

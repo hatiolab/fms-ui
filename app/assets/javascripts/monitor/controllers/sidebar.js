@@ -29,7 +29,7 @@ angular.module('fmsMonitor').controller('SidebarCtrl', function($rootScope, $sco
 	 */
 	$scope.selectTab = function(tab) {
 		if(tab.eventName != '') {
-			$timeout(function(){$scope.$emit(tab.eventName, '')}, 1000);
+			$timeout(function(){$scope.$emit(tab.eventName, '')}, 500);
 		}
 
 		for(var i = 0 ; i < $scope.tabs.length ; i++) {
