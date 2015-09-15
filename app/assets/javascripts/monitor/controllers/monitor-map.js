@@ -82,12 +82,11 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 * 현재 선택된 Trip ID
 	 */
 	$scope.currentTripId = null;
-	alert('DEFAULT_LAT : ' + DEFAULT_LAT + ', DEFAULT_LNG : ' + DEFAULT_LNG);
 	/**
 	 * map option
 	 */
 	$scope.mapOption = { 
-		mapTypeControlOptions : { position: google.maps.ControlPosition.TOP_CENTER },
+		//mapTypeControlOptions : { position: google.maps.ControlPosition.TOP_CENTER },
 		center : { latitude: DEFAULT_LAT, longitude: DEFAULT_LNG }, 
 		zoom : 9, 
 		fit : false 
