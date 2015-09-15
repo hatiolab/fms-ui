@@ -190,15 +190,12 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 			var bounds = new google.maps.LatLngBounds(startPoint, startPoint);
 
 			angular.forEach($scope.markers, function(marker) {
-				console.log('lat : ' + marker.lat + ', lng : ' + marker.lng);
 				bounds.extend(new google.maps.LatLng(marker.lat, marker.lng));
 			});
 
-			console.log(bounds.getCenter());
 			if($scope.refreshOption.autoFit) {
 				$scope.mapControl.getGMap().fitBounds(bounds);
 			} else {
-				console.log("lat : " + bounds.getCenter().G + ", lng : " + bounds.getCenter().K)
 				$scope.mapOption.center = { latitude: bounds.getCenter().G, longitude: bounds.getCenter().K };
 			}
 
