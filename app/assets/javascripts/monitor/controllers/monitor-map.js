@@ -190,6 +190,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 			var bounds = new google.maps.LatLngBounds(startPoint, startPoint);
 
 			angular.forEach($scope.markers, function(marker) {
+				console.log('lat : ' + marker.lat + ', lng : ' + marker.lng);
 				bounds.extend(new google.maps.LatLng(marker.lat, marker.lng));
 			});
 
