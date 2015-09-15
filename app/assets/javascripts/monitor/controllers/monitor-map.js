@@ -82,6 +82,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 * 현재 선택된 Trip ID
 	 */
 	$scope.currentTripId = null;
+	alert('DEFAULT_LAT : ' + DEFAULT_LAT + ', DEFAULT_LNG : ' + DEFAULT_LNG);
 	/**
 	 * map option
 	 */
