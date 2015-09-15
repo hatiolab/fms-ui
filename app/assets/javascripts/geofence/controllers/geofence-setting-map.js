@@ -10,10 +10,13 @@ angular.module('fmsGeofence')
 		/**
 		 * map option
 		 */
-		$scope.mapOption = { 
-			center: StorageUtils.getGeofenceBasicLoc(), zoom: 9,
+		$scope.mapOption = { center: StorageUtils.getGeofenceBasicLoc(), zoom: 9 };
+		/**
+		 * Map Type Control Option
+		 */
+		$scope.mapTypeControlOptions = {
 			mapTypeControlOptions : { position: google.maps.ControlPosition.TOP_CENTER }
-		};
+		};		
 		/**
 		 * map control
 		 * 

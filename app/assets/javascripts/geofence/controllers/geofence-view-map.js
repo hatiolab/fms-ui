@@ -21,16 +21,19 @@ angular.module('fmsGeofence')
 		 * 
 		 * @type {Object}
 		 */
-		$scope.mapOption = { 
-			center: StorageUtils.getGeofenceBasicLoc(), zoom: 9, fit : false,
+		$scope.mapOption = { center: StorageUtils.getGeofenceBasicLoc(), zoom: 9, fit : false };
+		/**
+		 * Map Type Control Option
+		 */
+		$scope.mapTypeControlOptions = {
 			mapTypeControlOptions : { position: google.maps.ControlPosition.TOP_CENTER }
 		};
 		/**
-	   * Map Refresh 여부, Map Refresh Interval, Map Auto Fit 여부 
-	   * 
-	   * @type {Object}
-	   */
-	  $scope.refreshOption = { refresh : true, interval : 1, autoFit : true };
+	   	 * Map Refresh 여부, Map Refresh Interval, Map Auto Fit 여부 
+	     * 
+	     * @type {Object}
+	     */
+	  	$scope.refreshOption = { refresh : true, interval : 1, autoFit : true };
 		/**
 		 * map control
 		 *

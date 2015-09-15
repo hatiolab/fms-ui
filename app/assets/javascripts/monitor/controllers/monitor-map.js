@@ -93,7 +93,9 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	/**
 	 * Map type control options
 	 */
-	$scope.mapTypeControlOptions = { position: google.maps.ControlPosition.TOP_CENTER };
+	$scope.mapTypeControlOptions = {
+		mapTypeControlOptions : { position: google.maps.ControlPosition.TOP_CENTER }
+	};
 	/**
 	 * map marker models for fleets, map polyline model for tracks, currently selected marker, progress bar
 	 */
