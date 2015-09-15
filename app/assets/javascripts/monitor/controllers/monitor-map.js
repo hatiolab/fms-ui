@@ -86,7 +86,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 * map option
 	 */
 	$scope.mapOption = { 
-		//mapTypeControlOptions : { position: google.maps.ControlPosition.TOP_CENTER },
+		mapTypeControlOptions : { position: google.maps.ControlPosition.TOP_CENTER },
 		center : { latitude: DEFAULT_LAT, longitude: DEFAULT_LNG }, 
 		zoom : 9, 
 		fit : false 
@@ -196,6 +196,8 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 			if($scope.refreshOption.autoFit) {
 				$scope.mapControl.getGMap().fitBounds(bounds);
 			} else {
+				console.log(bounds.getCenter());
+				console.log("lat : " + bounds.getCenter().G + ", lng : " + bounds.getCenter().K)
 				$scope.mapOption.center = { latitude: bounds.getCenter().G, longitude: bounds.getCenter().K };
 			}
 
