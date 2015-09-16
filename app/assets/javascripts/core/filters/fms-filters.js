@@ -122,11 +122,11 @@ angular.module('fmsCore')
 	})
 
 	.filter('triplastspeed', function($rootScope, $filter) { 
-		return function(input) { 
+		return function(input, tripEndtime) { 
 			if(input) {
 				var tripInterval = $rootScope.getIntSetting('trip_interval');
 				var currentTime = new Date().getTime();
-				var gap = currentTime - input;
+				var gap = currentTime - tripEndtime;
 
 				if(gap > (tripInterval * 60 * 60 * 1000)) {
 					return $filter('fmsvelocity')(0, true);
