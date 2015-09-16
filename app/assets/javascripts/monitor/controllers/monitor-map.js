@@ -201,8 +201,8 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 
 			if($scope.refreshOption.autoFit) {
 				$scope.mapControl.getGMap().fitBounds(bounds);
-				console.log(currentZoom);
 				var currentZoom = $scope.mapControl.getGMap().zoom;
+				console.log(currentZoom);
 				if(currentZoom <= 1 || currentZoom >= 12) {
 					console.log('Zoom changed to 9');
 					$scope.mapControl.getGMap().setZoom(9);
