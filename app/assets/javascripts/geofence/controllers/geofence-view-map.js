@@ -193,7 +193,7 @@ angular.module('fmsGeofence')
 				bounds.extend(new google.maps.LatLng(path.latitude, path.longitude));
 			});
 
-			var center = { latitude : bounds.getCenter().G, longitude : bounds.getCenter().K };
+			var center = { latitude : bounds.getCenter().lat(), longitude : bounds.getCenter().lng() };
 			StorageUtils.setGeofenceBasicLoc(center.latitude, center.longitude);
 
 			if($scope.refreshOption.autoFit) {

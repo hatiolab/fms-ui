@@ -150,7 +150,7 @@ angular.module('fmsGeofence')
 		 */
 		$scope.setDefaultLoc = function() {
 			var gmap = $scope.mapControl.getGMap();
-			StorageUtils.setGeofenceBasicLoc(gmap.center.G, gmap.center.K);
+			StorageUtils.setGeofenceBasicLoc(gmap.center.lat(), gmap.center.lng());
 		};
 
 		/**
