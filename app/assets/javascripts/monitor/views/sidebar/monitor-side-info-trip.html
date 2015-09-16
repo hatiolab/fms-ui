@@ -9,11 +9,11 @@
 	</tr>									
 	<tr>
 		<td class="info-label"><translate name-value ="Started at / Till" category="label"/></td>
-		<td class="info-value">{{trip.stm | fmstime}} / {{trip.sts == '2' ? (trip.etm | fmstime) : ''}}</td>
+		<td class="info-value">{{trip.stm | fmstime}} / {{trip.etm | tripendtime}}</td>
 	</tr>
 	<tr>
 		<td class="info-label"><translate name-value ="Last Speed" category="label"/></td>
-		<td class="info-value speed-status"><span class="{{trip.typeClass}}"></span><strong>{{trip.vlc | fmsvelocity : true}}</strong></td>
+		<td class="info-value speed-status"><span class="{{trip.typeClass}}"></span><strong>{{trip.vlc | triplastspeed}}</strong></td>
 	</tr>
 	<tr>
 		<td class="info-label"><translate name-value ="Vehicle Status" category="label"/></td>

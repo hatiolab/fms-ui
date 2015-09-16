@@ -68,7 +68,7 @@
 				<td>{{item.name}}</td>
 				<td>{{item.driver.name}}</td>
 				<td>{{item.car_no}}</td>
-				<td><span class="{{item.typeClass}}"></span>{{item.velocity | fmsvelocity:true}}</td>
+				<td><span class="{{item.typeClass}}"></span>{{item.velocity | triplastspeed}}</td>
 				<td class="icon-td align-center" ng-click="goTrip(item)">
 					<span class="icon-trip" ng-show="item.trip_id != null && item.trip_id != ''" ></span>
 				</td>

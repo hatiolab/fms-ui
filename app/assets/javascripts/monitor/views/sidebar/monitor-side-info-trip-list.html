@@ -20,7 +20,7 @@
 					<!--td>{{item.id}}</td-->
 					<td>{{item.driver ? item.driver.name : ''}}</td>
 					<td>{{item.stm | fmstime}}</td>
-					<td>{{item.sts == '2' ? (item.etm | fmstime) : ''}}</td>
+					<td>{{item.etm | tripendtime}}</td>
 					<td>{{item.c_ovr}}</td>
 				</tr>
 			</tbody>

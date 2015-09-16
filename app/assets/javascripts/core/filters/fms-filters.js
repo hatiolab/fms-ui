@@ -17,29 +17,21 @@ angular.module('fmsCore')
 	.filter('fmsvelocity', function($rootScope) { 
 		return function(input, displayUnit) {
 
-			if(!input) {
-				return 0;
-			}
-
 			if(!angular.isNumber(input)) {
 				input = Number(input);
 			}
 
 			input = Number(input.toFixed(1));
 
-			if(input) {
-				var unit = $rootScope.getSetting('distance_unit');
-				if(!unit || unit == 'km') {
-					input = input;
-				} else {
-					input = parseInt(input * 0.62137);
-				}
+			var unit = $rootScope.getSetting('distance_unit');
+			if(!unit || unit == 'km') {
+				input = input;
+			} else {
+				input = parseInt(input * 0.62137);
+			}
 
-				if(displayUnit) {
-					return input + ' ' + unit + '/h';
-				} else {
-					return input;
-				}
+			if(displayUnit) {
+				return input + ' ' + unit + '/h';
 			} else {
 				return input;
 			}
@@ -49,27 +41,19 @@ angular.module('fmsCore')
 	.filter('fmsdistance', function($rootScope) { 
 		return function(input, displayUnit) {
 
-			if(!input) {
-				return 0;
-			}
-
 			if(!angular.isNumber(input)) {
 				input = Number(input);
 			}
 
-			if(input) {
-				var unit = $rootScope.getSetting('distance_unit');
-				if(!unit || unit == 'km') {
-					input = input;
-				} else {
-					input = parseInt(input * 0.62137);
-				}
+			var unit = $rootScope.getSetting('distance_unit');
+			if(!unit || unit == 'km') {
+				input = input;
+			} else {
+				input = parseInt(input * 0.62137);
+			}
 
-				if(displayUnit) {
-					return input + ' ' + unit;
-				} else {
-					return input;
-				}
+			if(displayUnit) {
+				return input + ' ' + unit;
 			} else {
 				return input;
 			}
@@ -116,4 +100,42 @@ angular.module('fmsCore')
 		return function(input) {
 			return 'hour'
 		};
+	})
+
+	.filter('tripendtime', function($rootScope, $filter) { 
+		return function(input) { 
+			if(input) {
+				var tripInterval = $rootScope.getIntSetting('trip_interval');
+				var currentTime = new Date().getTime();
+				var gap = currentTime - input;
+
+				if(gap > (tripInterval * 60 * 60 * 1000)) {
+					return $filter('date')(input, $rootScope.dateFimeFormat);
+				} else {
+					return '';
+				}
+
+			} else {
+				return input;
+			}
+		}; 
+	})
+
+	.filter('triplastspeed', function($rootScope, $filter) { 
+		return function(input) { 
+			if(input) {
+				var tripInterval = $rootScope.getIntSetting('trip_interval');
+				var currentTime = new Date().getTime();
+				var gap = currentTime - input;
+
+				if(gap > (tripInterval * 60 * 60 * 1000)) {
+					return $filter('fmsvelocity')(0, true);
+				} else {
+					return $filter('fmsvelocity')(input, true);
+				}
+
+			} else {
+				return $filter('fmsvelocity')(0, true);
+			}
+		}; 
 	});
