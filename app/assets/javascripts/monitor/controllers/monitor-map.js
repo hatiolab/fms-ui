@@ -205,9 +205,9 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 				if(currentZoom <= 1 || currentZoom >= 15) {
 					$scope.mapControl.getGMap().setZoom(9);
 				}
-			} else {
+			} /*else {
 				$scope.mapOption.center = { latitude: bounds.getCenter().lat(), longitude: bounds.getCenter().lng() };
-			}
+			}*/
 
 			if(callback) {
 				$timeout(callback, 1000);
