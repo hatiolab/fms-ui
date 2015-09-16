@@ -131,7 +131,7 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 				var result = RestApi.updateMultiple(url, null, items);
 				result.$promise.then(
 					function(results) {
-						$scope.afterSave(results);
+						$scope.afterSave(items);
 					}, 
 					function(error) {
 						ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
