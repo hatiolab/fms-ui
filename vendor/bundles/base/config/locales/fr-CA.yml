@@ -1,0 +1,64 @@
+fr-CA:
+  attributes:
+    script_type: 'Script Type'
+    service_logic: 'Logic'
+    active_flag: 'Active'
+  activerecord:
+    models:
+      domain: 'Domain'
+      shift: 'Shift'
+      user: 'User'
+      role: 'Role'
+      common_code: 'Common Code'
+      terminology: 'Terminology'
+      menu: 'Menu'
+      entity: 'Entity'
+      diy_selection: 'Custom Selection'
+      diy_service: 'Custom Service'
+      diy_report: 'Custom Report'
+      attachment: 'Attachment'
+      property: 'Property'
+      varialble: 'Variable'
+      infographic: 'Infographic'
+      contact: 'Contact'
+      report: 'Report'
+    attributes:
+      menu:
+        menu_type: 'Menu Type'
+        template: 'Screen'
+      common_code:
+        parent_id: 'Parent Code'
+      diy_service:
+        atomic_flag: 'Atomic'
+      diy_report:
+        diy_selection_id: 'Custom Selection'
+      terminology:
+        locale: 'Locale'
+        display: 'Display'
+      infographic:
+        infographic_type: 'Infographic Type'
+      report:
+        template: 'Template'
+    errors:
+      models:
+        menu:
+          attributes:
+            name:
+              blank: 'Menu Code value is blank!'
+              taken: 'Menu Code(%{value}) is already exist!'
+      messages:
+        record_invalid: 'Invalid Record'
+    
+  errors:
+    messages:
+      duplicated_code: 'The code (%{code}) to create is already exist!'
+      invalid_x: 'Invalid %{x}'
+      empty_x_not_allowed: 'Empty %{x} not allowed'
+      x_already_exist: '%{x} is already exist!'
+      x_not_found: '%{x} not found!'
+      mismatch_with_x: 'Mismatch with %{x}'
+      unknown_file_type: 'Unknown File Type'
+      x_gte_y: '%{x} must be greater than or equal to %{y}'
+      x_gt_y: '%{x} must be greater than %{y}'
+      x_lte_y: '%{x} must be less than or equal to %{y}'
+      x_lt_y: '%{x} must be less than %{y}'
