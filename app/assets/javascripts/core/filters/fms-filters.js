@@ -110,7 +110,7 @@ angular.module('fmsCore')
 				var gap = currentTime - input;
 
 				if(gap > (tripInterval * 60 * 60 * 1000)) {
-					return $filter('date')(input, $rootScope.dateFimeFormat);
+					return $filter('fmstime')(input);
 				} else {
 					return '';
 				}
