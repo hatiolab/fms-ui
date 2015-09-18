@@ -90,9 +90,10 @@ class Summary
 	def self.update_fleet_velocity(fleet, batchInterval)
 		if(fleet.velocity > 0 && fleet.trip_id && fleet.last_trip_time)
 			now, last, limit = Time.now.to_i, fleet.last_trip_time.to_i, batchInterval * 60 * 60
-			# Batch Interval 만큼 시간이 지났다면 ...
+			# Batch Interval 만큼 시간이 지났다면 상태를 OFF로 변경, 속도는 0
 			if((now - last) > limit)
 				fleet.velocity = 0
+				fleet.status = 'OFF'
 				fleet.save!
 			end
 		end		
