@@ -122,13 +122,15 @@ angular.module('fmsCore')
 	})
 
 	.filter('triplastspeed', function($rootScope, $filter) { 
-		return function(input, tripEndtime) { 
+		return function(input, tripEndTime) { 
 			if(input) {
-				var tripInterval = $rootScope.getIntSetting('trip_interval');
+				var batchInterval = $rootScope.getIntSetting('batch_interval');
 				var currentTime = new Date().getTime();
-				var gap = currentTime - tripEndtime;
+				var gap = currentTime - tripEndTime.getTime();
 
-				if(gap > (tripInterval * 60 * 60 * 1000)) {
+				console.log('gap : ' + gap + ', batch interval : ' + (batchInterval * 60 * 60 * 1000));
+
+				if(gap > (batchInterval * 60 * 60 * 1000)) {
 					return $filter('fmsvelocity')(0, true);
 				} else {
 					return $filter('fmsvelocity')(input, true);

@@ -7,7 +7,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	];
 
 	/**
-	 * View 모드 변경 버튼 클릭시 View 모드 변경  
+	 * View 모드 변경 버튼 클릭시 View 모드 변경
 	 */
 	$scope.changeViewMode = function(modeItem) {
 		angular.forEach($scope.viewModes, function(viewMode) {
@@ -319,23 +319,21 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 * Refresh Event Markers
 	 */
 	$scope.refreshEvents = function(eventDataList) {
-		if(eventDataList && eventDataList.length > 0) {
-			// ready progress
-			$scope.readyProgress();
-			// clear all map data 
-			$scope.clearAll(null);			
-			// start progress ...		
-			$scope.startProgress(eventDataList.length);
+		// ready progress
+		$scope.readyProgress();
+		// clear all map data 
+		$scope.clearAll(null);
+		// start progress ...
+		$scope.startProgress(eventDataList.length);
 
-			for(var i = 0 ; i < eventDataList.length ; i++) {
-				var eventData = eventDataList[i];
-				var marker = $scope.eventToMarker(eventData);
-				$scope.addMarker(marker);
-			}
-
-			$scope.fitBounds();
+		for(var i = 0 ; i < eventDataList.length ; i++) {
+			var eventData = eventDataList[i];
+			var marker = $scope.eventToMarker(eventData);
+			$scope.addMarker(marker);
 		}
-	};	
+
+		$scope.fitBounds();
+	};
 
 	/**
 	 * 지도 초기화 
@@ -400,7 +398,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		// 0. ready progress
 		$scope.readyProgress();
 		// 1. invoke rest api
-		RestApi.get('/trips/' + tripId + '/trip_set.json', {}, 
+		RestApi.get('/trips/' + tripId + '/trip_set.json', {},
 			// success
 			function(dataSet) {
 				// 1. filter tracks
@@ -410,7 +408,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 				// 3. Data
 				var trip = tripSet[0];
 				var batches = tripSet[1];
-				var tracks = tripSet[2];				
+				var tracks = tripSet[2];
 				// 4. Total Count : Track Count
 				$scope.startProgress(tracks.length);
 				// 5. 호출이 완료되었으면 진행 + 1
@@ -554,7 +552,6 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 			$scope.selectedMarker = null;
 			$scope.switchOffAll();
 
-		//} else if($scope.selectedMarker != marker) {
 		} else {
 			// showMovieInfo
 			if(marker.vdo && marker.vdo != '') {
@@ -600,7 +597,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 			});
 		}	else {
 			$scope.selectedMarker = marker;
-			$scope.switchOn('showMovieInfo');			
+			$scope.switchOn('showMovieInfo');
 		}
 	};
 
@@ -928,10 +925,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 */
 	var rootScopeListener5 = $rootScope.$on('monitor-event-list-change', function(evt, eventItems) {
 		$scope.changeViewMode('EVENT');
-
-		if(eventItems && eventItems.length > 0) {
-			$scope.refreshEvents(eventItems);
-		}
+		$scope.refreshEvents(eventItems);
 	});
 
 	/**
@@ -941,14 +935,6 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		$scope.switchOffAll();
 		var marker = $scope.eventToMarker(eventData);
 		$scope.changeMarker(marker, 'showEventInfo');
-
-		/*if($scope.viewMode == 'TRIP' && eventData.tid == $scope.currentTripId) {
-			$scope.changeMarker(marker, 'showEventInfo');	
-		} else {
-			$scope.goTrip(eventData.tid, function() {
-				$scope.changeMarker(marker, 'showEventInfo');
-			});			
-		}*/
 	});
 
 	/**
@@ -1043,7 +1029,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 			}			
 		}
 
-		$scope.refreshTimer();	
+		$scope.refreshTimer();
 	};
 
 });

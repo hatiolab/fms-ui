@@ -55,11 +55,11 @@
 		<thead>
 		  <tr>
 		  	<th>#</th>
-				<th><translate name-value="Fleet" category="label" display="Fleet"></translate></th>
-				<th><translate name-value="Driver" category="label" display="Driver"></translate></th>
-				<th><translate name-value="Car No" category="label" display="Car No"></translate></th>
-				<th><translate name-value="Last Speed" category="label" display="Last Speed"></translate></th>
-				<th><translate name-value="Trip" category="label" display="Trip"></translate></th>
+				<th><translate name-value="Fleet" category="label"/></th>
+				<th><translate name-value="Driver" category="label"/></th>
+				<th><translate name-value="Car No" category="label"/></th>
+				<th><translate name-value="Last Speed" category="label"/></th>
+				<th><translate name-value="Trip" category="label"/></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -70,7 +70,7 @@
 				<td>{{item.car_no}}</td>
 				<td><span class="{{item.typeClass}}"></span>{{item.velocity | fmsvelocity:true}}</td>
 				<td class="icon-td align-center" ng-click="goTrip(item)">
-					<span class="icon-trip" ng-show="item.trip_id != null && item.trip_id != ''" ></span>
+					<span class="icon-trip" ng-show="item.trip_id != null && item.trip_id != ''"></span>
 				</td>
 			</tr>
 		</tbody>
