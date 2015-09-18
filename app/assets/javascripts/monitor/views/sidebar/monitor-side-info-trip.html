@@ -13,7 +13,7 @@
 	</tr>
 	<tr>
 		<td class="info-label"><translate name-value ="Last Speed" category="label"/></td>
-		<td class="info-value speed-status"><span class="{{trip.typeClass}}"></span><strong>{{trip.vlc | fmsvelocity : true}}</strong></td>
+		<td class="info-value speed-status"><span class="{{trip.typeClass}}"></span><strong>{{trip.vlc | triplastspeed : trip.etm}}</strong></td>
 	</tr>
 	<tr>
 		<td class="info-label"><translate name-value ="Vehicle Status" category="label"/></td>

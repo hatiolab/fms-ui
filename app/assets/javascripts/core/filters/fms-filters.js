@@ -126,9 +126,7 @@ angular.module('fmsCore')
 			if(input) {
 				var batchInterval = $rootScope.getIntSetting('batch_interval');
 				var currentTime = new Date().getTime();
-				var gap = currentTime - tripEndTime.getTime();
-
-				console.log('gap : ' + gap + ', batch interval : ' + (batchInterval * 60 * 60 * 1000));
+				var gap = currentTime - tripEndTime;
 
 				if(gap > (batchInterval * 60 * 60 * 1000)) {
 					return $filter('fmsvelocity')(0, true);

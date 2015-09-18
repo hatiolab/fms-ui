@@ -30,11 +30,11 @@ class Summary
 	#
 	def self.hourly_summary_by_domain(domain, now)
 		# 1. 날짜, 년, 월, 일, 주, 시작 시간, 끝 시간 값을 구한다.
-  		date_info = Summary.get_hourly_summary_time_info(domain, now)
-  		sum_date, year, month, week, startTime, endTime = date_info[0], date_info[1], date_info[2], date_info[3], date_info[4], date_info[5]
-    	# 2. Current Domain 설정 
-    	Domain.current_domain = domain
-    	debug_print "Domain (#{domain.name}) houly summary start..."
+		date_info = Summary.get_hourly_summary_time_info(domain, now)
+		sum_date, year, month, week, startTime, endTime = date_info[0], date_info[1], date_info[2], date_info[3], date_info[4], date_info[5]
+		# 2. Current Domain 설정 
+		Domain.current_domain = domain
+		debug_print "Domain (#{domain.name}) houly summary start..."
 		# 4. Fleet 별 Daily Summary
 		closingDailySummary = (now.hour == 0);	# 0시이면 이전 날짜에 대한 서머리를 종료한다.
 		Summary.do_fleet_summary_by_hourly(domain, sum_date, year, month, week, startTime, endTime, closingDailySummary)
@@ -51,12 +51,12 @@ class Summary
 		# 1. 타임존에 따른 현재 시각을 구한다.
 		sum_date, date_format = ((now.hour == 0) ? sum_date - 1 : now.to_date), '%Y-%m-%d'
 		# 2. 날짜, 년, 월, 일, 주 값을 구한다.
-    	year, month, week = sum_date.year, sum_date.month, sum_date.strftime("%U").to_i
+		year, month, week = sum_date.year, sum_date.month, sum_date.strftime("%U").to_i
 
-    	sumDateStr = sum_date.strftime(date_format)
-    	startTime = ActiveSupport::TimeZone[Domain.current_domain.timezone].parse(sumDateStr).to_time.to_i * 1000
-    	#startTime = (domain.last_summary_time * 1000) + 1
-    	endTime = now.to_time.to_i * 1000
+		sumDateStr = sum_date.strftime(date_format)
+		startTime = ActiveSupport::TimeZone[Domain.current_domain.timezone].parse(sumDateStr).to_time.to_i * 1000
+		#startTime = (domain.last_summary_time * 1000) + 1
+		endTime = now.to_time.to_i * 1000
 
 		if(now.hour == 0)
 			# 시각이 0시 이면 서머리 날짜는 전날이고 서머리 완료시간이 정각 자정이어야 한다.
@@ -64,7 +64,7 @@ class Summary
 			sumDateToStr = to_date.strftime(date_format)
 			endTime = ActiveSupport::TimeZone[Domain.current_domain.timezone].parse(sumDateToStr).to_time.to_i * 1000
 		end
-		
+
 		return [sum_date, year, month, week, startTime, endTime]
 	end
 
@@ -74,13 +74,28 @@ class Summary
 	def self.do_fleet_summary_by_hourly(domain, date, year, month, week, startTime, endTime, closingDailySummary)
 		fleets = Fleet.all
 		return unless fleets
-		
+		batchInterval = Setting.getIntValue('batch_interval')
 		trips = Summary.find_trips(domain, startTime, endTime)
 
 		fleets.each do |fleet|
 			debug_print fleet.name
 			Summary.summary_hourly_by_fleet(domain, startTime, endTime, date, year, month, week, fleet, trips, closingDailySummary)
+			Summary.update_fleet_velocity(fleet, batchInterval)
 		end
+	end
+
+	#
+	# fleet velocity를 업데이트 
+	#
+	def self.update_fleet_velocity(fleet, batchInterval)
+		if(fleet.velocity > 0 && fleet.trip_id && fleet.last_trip_time)
+			now, last, limit = Time.now.to_i, fleet.last_trip_time.to_i, batchInterval * 60 * 60
+			# Batch Interval 만큼 시간이 지났다면 ...
+			if((now - last) > limit)
+				fleet.velocity = 0
+				fleet.save!
+			end
+		end		
 	end
 
 	#
@@ -155,11 +170,11 @@ class Summary
 		# 1. 서머리 시간 체크 
 		return if(!Summary.check_summary_time(domain))
 		# 2. 날짜, 년, 월, 일, 주 값을 구한다.
-  		date_info = Summary.get_summary_date_info(domain, ActiveSupport::TimeZone[domain.timezone].now)
-  		sum_date, year, month, week, startTime, endTime = date_info[0], date_info[1], date_info[2], date_info[3], date_info[4], date_info[5]
-    	# 3. Current Domain 설정 
-    	Domain.current_domain = domain
-    	debug_print "Domain (#{domain.name}) daily summary start..."
+		date_info = Summary.get_summary_date_info(domain, ActiveSupport::TimeZone[domain.timezone].now)
+		sum_date, year, month, week, startTime, endTime = date_info[0], date_info[1], date_info[2], date_info[3], date_info[4], date_info[5]
+		# 3. Current Domain 설정 
+		Domain.current_domain = domain
+		debug_print "Domain (#{domain.name}) daily summary start..."
 		# 4. Fleet 별 Daily Summary
 		Summary.do_fleet_summary(domain, sum_date, year, month, week, startTime, endTime)
 		# 5. Fleet Group 별 Daily Summary
@@ -182,10 +197,10 @@ class Summary
 		# 2. 타임존에 따른 현재 시각을 구한다.
 		date_format, sum_date = '%Y-%m-%d', now.to_date - 1
 		# 3. 날짜, 년, 월, 일, 주 값을 구한다.
-    	year, month, week = sum_date.year, sum_date.month, sum_date.strftime("%U").to_i
-    	# 4. 시작시간 타임스탬프, 완료시간 타임스탬프를 구한다.
-    	startTime = ActiveSupport::TimeZone[domain.timezone].parse(sum_date.strftime(date_format)).to_time.to_i * 1000
-    	endTime = ActiveSupport::TimeZone[domain.timezone].parse(now.strftime(date_format)).to_time.to_i * 1000
+		year, month, week = sum_date.year, sum_date.month, sum_date.strftime("%U").to_i
+		# 4. 시작시간 타임스탬프, 완료시간 타임스탬프를 구한다.
+		startTime = ActiveSupport::TimeZone[domain.timezone].parse(sum_date.strftime(date_format)).to_time.to_i * 1000
+		endTime = ActiveSupport::TimeZone[domain.timezone].parse(now.strftime(date_format)).to_time.to_i * 1000
 		[sum_date, year, month, week, startTime, endTime]		
 	end
 
@@ -212,14 +227,14 @@ class Summary
 		# 2. 타임존에 따른 현재 시각을 구한다.
 		now, date_format = ActiveSupport::TimeZone[domain.timezone].parse(dateStr).to_time, '%Y-%m-%d'
 		# 3. 날짜, 년, 월, 일, 주 값을 구한다.
-  		sum_date = now.to_date
-    	year, month, week = sum_date.year, sum_date.month, sum_date.strftime("%U").to_i
-    	# 4. 시작시간 타임스탬프, 완료시간 타임스탬프를 구한다.
-    	startTime = ActiveSupport::TimeZone[domain.timezone].parse(sum_date.strftime(date_format)).to_time.to_i * 1000
-    	endTime = ActiveSupport::TimeZone[domain.timezone].parse((sum_date + 1).strftime(date_format)).to_time.to_i * 1000
-    	# 5. Current Domain 설정 
-    	Domain.current_domain = domain
-    	debug_print "Domain (#{domain.name}) daily summary start..."
+		sum_date = now.to_date
+		year, month, week = sum_date.year, sum_date.month, sum_date.strftime("%U").to_i
+		# 4. 시작시간 타임스탬프, 완료시간 타임스탬프를 구한다.
+		startTime = ActiveSupport::TimeZone[domain.timezone].parse(sum_date.strftime(date_format)).to_time.to_i * 1000
+		endTime = ActiveSupport::TimeZone[domain.timezone].parse((sum_date + 1).strftime(date_format)).to_time.to_i * 1000
+		# 5. Current Domain 설정 
+		Domain.current_domain = domain
+		debug_print "Domain (#{domain.name}) daily summary start..."
 		# 6. Fleet 별 Daily Summary
 		Summary.do_fleet_summary(domain, sum_date, year, month, week, startTime, endTime)
 		# 7. Fleet Group 별 Daily Summary
