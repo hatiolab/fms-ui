@@ -34,7 +34,7 @@ angular.module('pip', [])
 
         $.createEventCapturing(['canplay', 'play', 'pause', 'seeked']);
 
-        $._ios = /iphone|ipod|ipad/.test(window.navigator.userAgent.toLowerCase());
+        $.__mobile__ = /Android|webOS|iPhone|iPod|iPad|BlackBerry|Windows Phone/i.test(window.navigator.userAgent);
     })
     .directive('pipVideo', function() {
 
@@ -46,7 +46,7 @@ angular.module('pip', [])
                 if(!a.videoUrl || a.videoUrl == '') {
                     return;
                 }
-                
+
                 scope.videoUrl = a.videoUrl;
                 scope.frontVideoUrl = a.frontVideoUrl;
                 scope.rearVideoUrl = a.rearVideoUrl;
@@ -61,7 +61,7 @@ angular.module('pip', [])
                 scope.gz = a.gz;
                 scope.address = a.address;
 
-                if($._ios) {
+                if($.__mobile__) {
                     $element.on('click', '.pip-container .toggler', function(e){
                         $element.find('video').each(function(){this.pause();}).toggle();
                         $element.find('video:visible').each(function(e){
@@ -152,7 +152,7 @@ angular.module('pip', [])
                     if(canplay_front_video && canplay_rear_video && canplay_audio) {
                         $element.find('video,audio').each(function() {this.play();});
                     }
-                });                
+                });
                 $element.on('canplay', 'video.rear-video', function(e) {
                     if(canplay_rear_video)
                         return;
@@ -161,7 +161,7 @@ angular.module('pip', [])
                     if(canplay_front_video && canplay_rear_video && canplay_audio) {
                         $element.find('video,audio').each(function() {this.play();});
                     }
-                });                
+                });
                 $element.on('canplay', 'audio', function(e) {
                     if(canplay_audio)
                         return;
@@ -170,10 +170,10 @@ angular.module('pip', [])
                     if(canplay_front_video && canplay_rear_video && canplay_audio) {
                         $element.find('video,audio').each(function() {this.play();});
                     }
-                });                
+                });
 
             },
-            templateUrl : (!$._ios) ? '/assets/monitor/views/content/pip-video.html' : '/assets/monitor/views/content/pip-video-ios.html' 
+            templateUrl : (!$.__mobile__) ? '/assets/monitor/views/content/pip-video.html' : '/assets/monitor/views/content/pip-video-ios.html'
         };
     })
     .directive('pipImage', function() {
