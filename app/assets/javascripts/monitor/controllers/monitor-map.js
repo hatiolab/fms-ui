@@ -616,6 +616,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		if(stopFlag) {
 			$scope.progressBar.setCurrent(100);
 			$scope.progressBar.hide();
+			$timeout.cancel();
 		} else {
 			$scope.progressBar.setCurrent($scope.progressBar.getCurrent() + 1);
 			$timeout($scope.monitorProgressForMovie, 100, true, false);

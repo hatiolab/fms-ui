@@ -25,6 +25,8 @@
 //= require Chart.js/Chart.min
 //= require Chart.js/src/Chart.StackedBar
 //= require angular-chart.js/dist/angular-chart.min
+//= require ng-device-detector/ng-device-detector
+//= require re-tree/re-tree
 //= require bs
 //= require_tree .
 //= require_self

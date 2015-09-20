@@ -1,5 +1,5 @@
 // 1. core module
-angular.module('fmsCore', ['ui.router', 'ngCookies', 'ngResource', 'ui.bootstrap', 'smart-table', 'uiGmapgoogle-maps', 'ngFileUpload'])
+angular.module('fmsCore', ['ui.router', 'ngCookies', 'ngResource', 'ng.deviceDetector', 'ui.bootstrap', 'smart-table', 'uiGmapgoogle-maps', 'ngFileUpload'])
 .constant('ConstantSpeed', {
 	SPEED_IDLE : 'speed_idle',
 	SPEED_SLOW : 'speed_slow',

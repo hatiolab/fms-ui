@@ -8,7 +8,6 @@ angular.module('fmsCore').directive('topMenu', function() {
 })
 
 .controller('topMenuCtrl', function($rootScope, $location, $scope, $element, ConstantSpeed, GridUtils, RestApi) {
-
 	/**
 	 * 메뉴 바인딩 모델 
 	 * @type {Array}
@@ -24,28 +23,28 @@ angular.module('fmsCore').directive('topMenu', function() {
 		name : 'Geofence', 
 		cls : 'icon-geofence',
 		href : '#/geofence',
-		show : true,
+		show : !$rootScope.isMobile,
 		showSidebarToggleButton : true,
 		active : false
 	}, {
 		name : 'Driver', 
 		cls : 'icon-hr',
 		href : '#/hr/overview',
-		show : true,
+		show : !$rootScope.isMobile,
 		showSidebarToggleButton : false,
 		active : false
 	}, {
 		name : 'Report', 
 		cls : 'icon-report',
 		href : '#/reports/overview',
-		show : true,
+		show : !$rootScope.isMobile,
 		showSidebarToggleButton : false,
 		active : false
 	}, {
 		name : 'Setting', 
 		cls : 'icon-setting',
 		href : '#/settings/drivers',
-		show : login.admin_flag,
+		show : !$rootScope.isMobile && login.admin_flag,
 		showSidebarToggleButton : false,
 		active : false
 	} ];

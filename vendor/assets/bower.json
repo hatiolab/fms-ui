@@ -10,6 +10,7 @@
     "ng-file-upload": "latest",
     "Chart.js": "latest",
     "angular-chart.js": "latest",
-    "angular-cookies": "latest"
+    "angular-cookies": "latest",
+    "ng-device-detector": "latest"
   }
 }

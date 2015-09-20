@@ -1,5 +1,5 @@
 angular.module('pip', [])
-    .run(function() {
+    .run(function($rootScope, deviceDetector) {
         $.createEventCapturing = (function () {
             var special = $.event.special;
             return function (names) {
@@ -34,7 +34,12 @@ angular.module('pip', [])
 
         $.createEventCapturing(['canplay', 'play', 'pause', 'seeked']);
 
-        $.__mobile__ = /Android|webOS|iPhone|iPod|iPad|BlackBerry|Windows Phone/i.test(window.navigator.userAgent);
+        if($rootScope.isMobile === undefined) {
+            $rootScope.isMobile = deviceDetector.isMobile() || deviceDetector.isTablet();
+        } 
+
+        $.__mobile__ = $rootScope.isMobile;
+        //$.__mobile__ = /Android|webOS|iPhone|iPod|iPad|BlackBerry|Windows Phone/i.test(window.navigator.userAgent);
     })
     .directive('pipVideo', function() {
 
