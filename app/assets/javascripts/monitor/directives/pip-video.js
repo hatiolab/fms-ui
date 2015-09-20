@@ -36,7 +36,7 @@ angular.module('pip', [])
 
         if($rootScope.isMobile === undefined) {
             $rootScope.isMobile = deviceDetector.isMobile() || deviceDetector.isTablet();
-        } 
+        }
 
         $.__mobile__ = $rootScope.isMobile;
         //$.__mobile__ = /Android|webOS|iPhone|iPod|iPad|BlackBerry|Windows Phone/i.test(window.navigator.userAgent);
@@ -148,31 +148,35 @@ angular.module('pip', [])
                 var canplay_front_video = false;
                 var canplay_rear_video = false;
                 var canplay_audio = false;
+                var played = false;
 
                 $element.on('canplay', 'video.front-video', function(e) {
-                    if(canplay_front_video)
+                    if(canplay_front_video || played)
                         return;
                     canplay_front_video = true;
 
                     if(canplay_front_video && canplay_rear_video && canplay_audio) {
+                        played = true;
                         $element.find('video,audio').each(function() {this.play();});
                     }
                 });
                 $element.on('canplay', 'video.rear-video', function(e) {
-                    if(canplay_rear_video)
+                    if(canplay_rear_video || played)
                         return;
                     canplay_rear_video = true;
 
                     if(canplay_front_video && canplay_rear_video && canplay_audio) {
+                        played = true;
                         $element.find('video,audio').each(function() {this.play();});
                     }
                 });
                 $element.on('canplay', 'audio', function(e) {
-                    if(canplay_audio)
+                    if(canplay_audio || played)
                         return;
                     canplay_audio = true;
 
                     if(canplay_front_video && canplay_rear_video && canplay_audio) {
+                        played = true;
                         $element.find('video,audio').each(function() {this.play();});
                     }
                 });
