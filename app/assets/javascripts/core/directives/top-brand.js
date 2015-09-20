@@ -27,7 +27,7 @@ angular.module('fmsCore').directive('topBrand', function() {
 	 * 
 	 * @type {Object}
 	 */
-	$rootScope.deviceDetector = deviceDetector;
+	//$rootScope.deviceDetector = deviceDetector;
 
 	/**
 	 * isMobile

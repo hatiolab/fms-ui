@@ -196,6 +196,11 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 
 	/**
 	 * Fit Bounds
+	 * 조건
+	 * 1. 최초 진입시에는 무조건 Fit
+	 * 2. 모드 변경시 무조건 Fit
+	 * 3. Trip 변경시 무조건 Fit
+	 * 4. AutoFit이 체크되어 있다면 Fit
 	 */
 	$scope.fitBounds = function(callback) {
 		if($scope.markers && $scope.markers.length > 0) {
@@ -206,7 +211,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 				bounds.extend(new google.maps.LatLng(marker.lat, marker.lng));
 			});
 
-			if($scope.refreshOption.autoFit) {
+			if($scope.isApplyAutoFit()) {
 				$scope.mapControl.getGMap().fitBounds(bounds);
 				var currentZoom = $scope.mapControl.getGMap().zoom;
 				if(currentZoom <= 1 || currentZoom >= 15) {
@@ -218,6 +223,31 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 
 			if(callback) {
 				$timeout(callback, 1000);
+			}
+		}
+	};
+
+	/**
+	 * ChangeFitByModeChange
+	 * 
+	 * @type {Boolean}
+	 */
+	$scope.changeFitByModeChange = true;
+
+	/**
+	 * AutoFit을 적용할 지 여부 
+	 * 
+	 * @return {Boolean}
+	 */
+	$scope.isApplyAutoFit = function() {
+		if($scope.refreshOption.autoFit) {
+			return true;
+		} else {
+			if($scope.changeFitByModeChange) {
+				$scope.changeFitByModeChange = false;
+				return true;
+			} else {
+				return false;
 			}
 		}
 	};
@@ -523,14 +553,16 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 */
 	$scope.changeCurrentTrip = function(newTrip) {
 		// TODO 아래 주석. 체크 필요 
-		// if($scope.currentTripId != newTrip.id) {
+		if($scope.currentTripId != newTrip.id) {
+			$scope.changeFitByModeChange = true;
+		}
+
 		$scope.currentTripId = newTrip.id;
 		// send trip information to infobar
 		$rootScope.$broadcast('monitor-trip-info-change', newTrip);
 		$scope.getAddress(newTrip, newTrip.s_lat, newTrip.s_lng, function(marker, address) {
  			newTrip['fromAddress'] = address;
 		});
-		// }
 	};
 
 	/**
@@ -876,8 +908,11 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 * View Mode를 변경한다. - FLEET, EVENT, TRIP
 	 */
 	$scope.changeViewMode = function(mode) {
-		$scope.viewMode = mode;
-		$scope.$emit('monitor-view-mode-change', mode);
+		if($scope.viewMode != mode) {
+			$scope.changeFitByModeChange = true;
+			$scope.viewMode = mode;
+			$scope.$emit('monitor-view-mode-change', mode);
+		}
 	}
 
 	/**
