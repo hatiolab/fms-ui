@@ -1,6 +1,6 @@
 json.items do |json|
 	json.array!(@collection) do |fleet|
-		json.(fleet,:id,:domain_id,:name,:device_name,:device_model,:driver_id,:car_no,:car_model,:fleet_group_id,:purchase_date,:reg_date,:lat,:lng,:status,:velocity,:trip_id,:batch_id,:track_id,:last_trip_time,:creator_id,:created_at,:updater_id,:updated_at)
+		json.(fleet,:id,:domain_id,:name,:device_name,:device_model,:driver_id,:car_no,:car_model,:fleet_group_id,:purchase_date,:reg_date,:lat,:lng,:status,:velocity,:sw_ver,:trip_id,:batch_id,:track_id,:last_trip_time,:creator_id,:created_at,:updater_id,:updated_at)
 		
 		json.car_image fleet.car_image ? fleet.car_image.url : ''
 
