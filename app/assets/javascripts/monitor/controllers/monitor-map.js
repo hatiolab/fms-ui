@@ -586,11 +586,11 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		}
 
 		if(marker.latitude != 0 && marker.longitude != 0) {
-			$scope.readyProgress('Loading Movie....');
-			$scope.startProgressForMovie();
+			//$scope.readyProgress('Loading Movie....');
+			//$scope.startProgressForMovie();
 
 			$scope.getAddress(marker, null, null, function(marker, address) {
-				$scope.monitorProgressForMovie(true);
+				//$scope.monitorProgressForMovie(true);
 				marker.address = address;
 				$scope.selectedMarker = marker;
 				$scope.switchOn('showMovieInfo');
