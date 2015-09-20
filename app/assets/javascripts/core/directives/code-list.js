@@ -38,4 +38,16 @@
       }
     };
 
-}]);
+}])
+
+  .directive('locale', [function () {
+
+    return { 
+      require : '^codeList',
+      link : function (scope, element, attrs, ctrl) {
+        ctrl.find('common_codes/show_by_name', { name : 'LOCALE' });
+      }
+    };
+
+}])
+  ;

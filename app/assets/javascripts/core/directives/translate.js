@@ -17,7 +17,7 @@
     
     template: '<span ng-class ="isTranslated" ng-Dblclick="mLDescChange()">{{text}}</span>',
     
-    controller: function($rootScope, $scope, $transclude, $element, $modal, $cookies, ModalUtils) {
+    controller: function($rootScope, $scope, $transclude, $element, $modal, ModalUtils) {
 
       this.translation = function() {
         $scope.nameParam = $scope.nameParam ? $scope.nameParam : $scope.nameValue;
@@ -52,7 +52,7 @@
       }
 
       $scope.mLDescChange = function() {
-        var localeData = { category : $scope.category, name : $scope.nameParam, display : $scope.text, locale : $cookies.get('locale') };
+        var localeData = { category : $scope.category, name : $scope.nameParam, display : $scope.text, locale : login.locale };
         
         if(login.admin_flag&& LANG_SETUP=='Y') {
           ModalUtils.change('large', '', '', localeData ,function(data) {

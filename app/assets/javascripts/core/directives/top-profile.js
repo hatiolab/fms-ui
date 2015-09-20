@@ -7,16 +7,7 @@ angular.module('fmsCore').directive('topProfile', function() {
 		scope : { username : '@username' }
 	}; 
 })
-.controller('topProfileCtrl', function($scope, $window, $cookies, UserPopup) {
-
-	/**
-	 * Locale 변경 
-	 */
-	$scope.changeLocale = function(locale) {
-		login.locale = locale;
-		$cookies.put('locale', locale);
-		$window.location.reload();
-	};
+.controller('topProfileCtrl', function($scope, $window, UserPopup) {
 
 	/**
 	 * Profile 팝업 

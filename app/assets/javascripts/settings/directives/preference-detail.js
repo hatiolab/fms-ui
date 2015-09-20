@@ -208,7 +208,7 @@ angular.module('fmsSettings').directive('preferenceDetail', function() {
 
 			// Language Setup 모드 변경시 페이지 리로드 
 			if($scope.prevLangSetupMode != $scope.settings.language_setup_mode) {
-				ModalUtils.alert('sm', 'Mode Changed!', 'Mode was changed! So Application must be reload!', function() {
+					ModalUtils.alert('sm', 'Mode Changed!', 'Mode was changed! So Application must be reload!', function() {
 					$window.location.reload();
 				});
 			// 그렇지 않으면 성공 메시지 

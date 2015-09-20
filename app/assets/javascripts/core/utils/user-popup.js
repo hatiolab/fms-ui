@@ -15,12 +15,11 @@ angular.module('fmsCore').factory('UserPopup', function($modal, $log) {
       });
 
       modalInstance.result.then(function() {
-        console.log($modal);
       });
     }
   }
 })
-.controller('UserPopupCtrl', function($scope, $modalInstance, ModalUtils, FmsUtils, RestApi, user) {
+.controller('UserPopupCtrl', function($scope, $modalInstance, $window, ModalUtils, FmsUtils, RestApi, user) {
 
   /**
    * User
@@ -36,18 +35,28 @@ angular.module('fmsCore').factory('UserPopup', function($modal, $log) {
    */
   $scope.ok = function () {
     if($scope.user.id && $scope.user.id != '') {
-      $scope.updateUser($scope.afterSaveSuccess);
+      $scope.updateUser($scope.afterUpdateSuccess);
     } else {
-      $scope.createUser($scope.afterSaveSuccess);
+      $scope.createUser($scope.afterCreateSuccess);
     }
   };
 
   /**
-   * After Save Success
+   * After Create Success
    */
-  $scope.afterSaveSuccess = function() {
+  $scope.afterCreateSuccess = function() {
+    $scope.showAlerMsg('Success To Save');
     $modalInstance.close();
     $scope.$emit('setting-user-items-change', $scope.user);
+  };
+
+  /**
+   * After Update Success
+   */
+  $scope.afterUpdateSuccess = function() {
+    $scope.showAlerMsg('User preferences was changed! So Application must be reload!');
+    $modalInstance.close();
+    $window.location.reload();
   };
 
   /**
@@ -69,7 +78,6 @@ angular.module('fmsCore').factory('UserPopup', function($modal, $log) {
       var result = RestApi.create('/users/create.json', null, { 'user' : $scope.user });
       result.$promise.then(
         function(data) {
-          $scope.showAlerMsg('Success To Save');
           callback();
         }, 
         function(error) {
@@ -83,12 +91,11 @@ angular.module('fmsCore').factory('UserPopup', function($modal, $log) {
    * 
    * @param  {Object} user
    */
-  $scope.updateUser = function() {
+  $scope.updateUser = function(callback) {
     if($scope.checkValidUserForm(false)) {
       var result = RestApi.update('/users/' + $scope.user.id + '.json', null, { 'user' : $scope.user });
       result.$promise.then(
         function(data) {
-          $scope.showAlerMsg('Success To Save');
           callback();
         }, 
         function(error) {
@@ -115,7 +122,7 @@ angular.module('fmsCore').factory('UserPopup', function($modal, $log) {
    */
   $scope.checkValidUserForm = function(checkPassword) {
     var form = $scope.singupForm;
-    var keys = ['Name', 'email'];
+    var keys = ['Name', 'email', 'Locale'];
 
     if(checkPassword) {
       keys.push('Password');
