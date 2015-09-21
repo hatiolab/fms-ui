@@ -1,9 +1,9 @@
 angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootScope, $scope, $timeout) {
 
-	$scope.viewModes = [ 
-		{ mode: 'FLEET', name: 'FLEET', eventName : 'monitor-refresh-fleet', cls : 'btn-primary' }, 
-		{ mode: 'EVENT', name: 'ALERT', eventName : 'monitor-refresh-event', cls : '' }, 
-		{ mode: 'TRIP',  name: 'TRIP',  eventName : 'monitor-refresh-trip',  cls : '' } 
+	$scope.viewModes = [
+		{ mode: 'FLEET', name: 'FLEET', eventName : 'monitor-refresh-fleet', cls : 'btn-primary' },
+		{ mode: 'EVENT', name: 'ALERT', eventName : 'monitor-refresh-event', cls : '' },
+		{ mode: 'TRIP',  name: 'TRIP',  eventName : 'monitor-refresh-trip',  cls : '' }
 	];
 
 	/**
@@ -14,25 +14,25 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 			if(viewMode.mode == modeItem.mode) {
 				$scope.$emit(modeItem.eventName, '');
 			}
-		});		
+		});
 	};
 
 	/**
-	 * View 모드가 변경되었는지 체크, 즉 이전에 선택된 것과 비교 
+	 * View 모드가 변경되었는지 체크, 즉 이전에 선택된 것과 비교
 	 */
 	$scope.checkChangeMode = function(mode) {
 		for(var i = 0 ; i < $scope.viewModes.length ; i++) {
 			var viewMode = $scope.viewModes[i];
 			if(viewMode.cls != '' && viewMode.mode == mode) {
 				return false;
-			} 
+			}
 		}
 
 		return true;
 	};
 
 	/**
-	 * Button Class 변경 
+	 * Button Class 변경
 	 */
 	$scope.changeButtonClass = function(mode) {
 		for(var i = 0 ; i < $scope.viewModes.length ; i++) {
@@ -51,33 +51,33 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	});
 
 	/**
-	 * Scope destroy시 timeout 제거 
+	 * Scope destroy시 timeout 제거
 	 */
 	$scope.$on('$destroy', function(event) {
 		modeChangeListener();
-	});	
+	});
 
 }).controller('MapRefreshControlCtrl', function ($rootScope, $scope, $timeout) {
 	/**
-	 * Map Refresh 여부, Map Refresh Interval, Map Auto Fit 여부 
+	 * Map Refresh 여부, Map Refresh Interval, Map Auto Fit 여부
 	 * @type {Object}
 	 */
 	$scope.refreshOption = { refresh : true, interval : 1, autoFit : false };
 
 	/**
-	 * 1. Refresh 여부 값을 Setting에서 가져와서 초기화, 
-	 * 2. 여기서 Refresh 처리한 후 요청만 emit하기 
+	 * 1. Refresh 여부 값을 Setting에서 가져와서 초기화,
+	 * 2. 여기서 Refresh 처리한 후 요청만 emit하기
 	 */
 	$scope.$watchCollection('refreshOption', function(event) {
 		$scope.$emit('monitor-refresh-options-change', $scope.refreshOption);
 	});
 
 }).controller('MonitorMapCtrl', function($rootScope, $scope, $element, $timeout, ConstantSpeed, FmsUtils, ModalUtils, RestApi) {
-	
+
 	/**
 	 * View Mode - FLEET, TRIP, EVENT
 	 */
-	$scope.viewMode = 'FLEET';	
+	$scope.viewMode = 'FLEET';
 	/**
 	 * 현재 선택된 Trip ID
 	 */
@@ -85,11 +85,11 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	/**
 	 * map option
 	 */
-	$scope.mapOption = { 
+	$scope.mapOption = {
 		mapTypeControlOptions : { position: google.maps.ControlPosition.TOP_CENTER },
-		center : { latitude: DEFAULT_LAT, longitude: DEFAULT_LNG }, 
-		zoom : 9, 
-		fit : false 
+		center : { latitude: DEFAULT_LAT, longitude: DEFAULT_LNG },
+		zoom : 9,
+		fit : false
 	};
 	/**
 	 * Map type control options
@@ -106,14 +106,14 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 */
 	$scope.mapControl = {}; $scope.markerControl = {}; $scope.polylineControl = {};
 	/**
-	 * Map Refresh 여부, Map Refresh Interval, Map Auto Fit 여부 
+	 * Map Refresh 여부, Map Refresh Interval, Map Auto Fit 여부
 	 * @type {Object}
 	 */
 	$scope.refreshOption = { refresh : true, interval : 1, autoFit : true };
 	/**
 	 * window show / hide switch model
 	 */
-	$scope.windowSwitch = { 
+	$scope.windowSwitch = {
 		showFleetInfo : false,
 		showTripInfo : false,
 		showBatchInfo : false,
@@ -128,9 +128,9 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	$scope.switchOn = function(switchName) {
 		for (property in $scope.windowSwitch) {
 			if(property == switchName) {
-				$scope.windowSwitch[property] = true;	
+				$scope.windowSwitch[property] = true;
 			} else {
-				$scope.windowSwitch[property] = false;	
+				$scope.windowSwitch[property] = false;
 			}
 		}
 	};
@@ -139,15 +139,18 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 * window information switch off all
 	 */
 	$scope.switchOffAll = function() {
+        if($scope.windowSwitch.showMovieInfo) {
+            $('.pip-container video, .pip-container audio').each(function() {
+                this.pause();
+                this.src = "";
+                delete this;
+                $(this).remove();
+                console.log('deleted video, audio\n');
+            });
+        }
+
 		for (property in $scope.windowSwitch) {
 			$scope.windowSwitch[property] = false;
-		}
-
-		if($scope.selectedMarker) {
-			$scope.selectedMarker.vdo = null;
-			$scope.selectedMarker.f_vdo = null;
-			$scope.selectedMarker.r_vdo = null;
-			$scope.selectedMarker.ado = null;
 		}
 	};
 
@@ -176,7 +179,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	};
 
 	/**
-	 * Ready Progress Bar : 서버 사이드 호출 전 
+	 * Ready Progress Bar : 서버 사이드 호출 전
 	 */
 	$scope.readyProgress = function(msg) {
 		if(!$scope.progressBar) {
@@ -184,10 +187,10 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		}
 
 		$scope.progressBar.ready(msg === undefined ? 'Loading data ...' : msg);
-	};	
+	};
 
 	/**
-	 * Start Progress Bar : 서버에서 데이터를 받은 후 시작 
+	 * Start Progress Bar : 서버에서 데이터를 받은 후 시작
 	 */
 	$scope.startProgress = function(maxCnt) {
 		$scope.progressBar.start(maxCnt);
@@ -229,14 +232,14 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 
 	/**
 	 * ChangeFitByModeChange
-	 * 
+	 *
 	 * @type {Boolean}
 	 */
 	$scope.changeFitByModeChange = true;
 
 	/**
-	 * AutoFit을 적용할 지 여부 
-	 * 
+	 * AutoFit을 적용할 지 여부
+	 *
 	 * @return {Boolean}
 	 */
 	$scope.isApplyAutoFit = function() {
@@ -279,9 +282,9 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 			$scope.readyProgress();
 			// clear all map data
 			$scope.clearAll(null);
-			// start progress ...		
+			// start progress ...
 			$scope.startProgress(fleets.length);
-			
+
 			for(var i = 0 ; i < fleets.length ; i++) {
 				var marker = $scope.fleetToMarker(fleets[i]);
 				$scope.addMarker(marker);
@@ -319,10 +322,10 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	};
 
 	/**
-	 * Map Window의 Address를 업데이트한다. 
+	 * Map Window의 Address를 업데이트한다.
 	 *
 	 * @param {Object}
-	 * @param {String} 
+	 * @param {String}
 	 */
 	 $scope.updateMapWindowAddress = function(marker, address) {
 	 	if($scope.selectedMarker && $scope.selectedMarker._id == marker._id) {
@@ -351,7 +354,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	$scope.refreshEvents = function(eventDataList) {
 		// ready progress
 		$scope.readyProgress();
-		// clear all map data 
+		// clear all map data
 		$scope.clearAll(null);
 		// start progress ...
 		$scope.startProgress(eventDataList.length);
@@ -366,10 +369,10 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	};
 
 	/**
-	 * 지도 초기화 
+	 * 지도 초기화
 	 */
 	$scope.clearAll = function(center) {
-		// 선택된 마커 해제 
+		// 선택된 마커 해제
 		$scope.changeMarker(null);
 
 		// clear markers
@@ -447,7 +450,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 				$scope.clearAll(null);
 				// 7. Map Data Reset이 되었다면 진행 + 1
 				$scope.progressBar.updateBar(1);
-				// 8. trip 그리기 
+				// 8. trip 그리기
 				$scope.showTrip(trip, batches, tracks, callback);
 			// error
 			}, function(error) {
@@ -456,7 +459,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	};
 
 	/**
-	 * Trip, Batch와 Track이 포인트가 일치하는 Track은 제거하고 소팅하여 리턴 
+	 * Trip, Batch와 Track이 포인트가 일치하는 Track은 제거하고 소팅하여 리턴
 	 */
 	$scope.filterTrip = function(tripDataSet) {
 		var trip = tripDataSet.trip;
@@ -517,15 +520,15 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 
 		// 3. trip end
 		if(trip.sts == '2') {
-			$scope.addMarker($scope.tripToMarker(trip, 'end'));	
+			$scope.addMarker($scope.tripToMarker(trip, 'end'));
 		} else {
 			$scope.addMarker($scope.lastTripToMarker(trip));
 		}
 
-		// 5. Speed Class 설정 
+		// 5. Speed Class 설정
 		FmsUtils.setSpeedClass(trip, trip.vlc);
 
-		// 6. 현재 선택된 Trip을 변경 
+		// 6. 현재 선택된 Trip을 변경
 		$scope.changeCurrentTrip(trip);
 
 		// 7. fit bounds
@@ -534,13 +537,13 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 
 	/**
 	 * Batch Line 추가
-	 *  
+	 *
 	 * @param {Object}
 	 */
 	$scope.addBatchLine = function(batch) {
 		return {
-			id : batch.id, 
-			geodesic : true, 
+			id : batch.id,
+			geodesic : true,
 			visible : true,
 			stroke : { color: '#FF0000', opacity: 1.0, weight: 4 },
 			path : []
@@ -549,10 +552,10 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 
 	/**
 	 * 현재 선택된 Trip을 변경한다.
-	 * 
+	 *
 	 */
 	$scope.changeCurrentTrip = function(newTrip) {
-		// TODO 아래 주석. 체크 필요 
+		// TODO 아래 주석. 체크 필요
 		if($scope.currentTripId != newTrip.id) {
 			$scope.changeFitByModeChange = true;
 		}
@@ -575,7 +578,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 
 	/**
 	 * 선택 Marker를 변경한다.
-	 * 
+	 *
 	 * @param {Object}
 	 * @param {String}
 	 */
@@ -653,7 +656,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 			$scope.progressBar.setCurrent($scope.progressBar.getCurrent() + 1);
 			$timeout($scope.monitorProgressForMovie, 100, true, false);
 		}
-	};	
+	};
 
 	/**
 	 * add marker click event
@@ -668,7 +671,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 
 	/**
 	 * Toggle Highlight Batch Line
-	 * 
+	 *
 	 * @param  {String}
 	 */
 	$scope.toggleHighlightBatchLine = function(batchId) {
@@ -728,10 +731,10 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 			}*/
 		};
 		return marker;
-	};	
+	};
 
 	/**
-	 * Trip을 Fleet으로 변환 
+	 * Trip을 Fleet으로 변환
 	 */
 	$scope.lastTripToMarker = function(trip) {
 		var marker = null;
@@ -942,9 +945,9 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 			$scope.changeMarker(marker, 'showFleetInfo');
 
 		} else if($scope.viewMode == 'TRIP' || $scope.viewMode == 'EVENT') {
-			if(fleet.trip_id) 
+			if(fleet.trip_id)
 				$scope.goTrip(fleet.trip_id);
-		} 
+		}
 	});
 
 	/**
@@ -983,7 +986,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	});
 
 	/**
-	 * Refresh Option이 변경되었을 때 
+	 * Refresh Option이 변경되었을 때
 	 */
 	var rootScopeListener8 = $rootScope.$on('monitor-refresh-options-change', function(evt, refreshOption) {
 		$scope.refreshOption = refreshOption;
@@ -995,7 +998,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	});
 
 	/**
-	 * Trip Refresh 이벤트  
+	 * Trip Refresh 이벤트
 	 */
 	var rootScopeListener9 = $rootScope.$on('monitor-refresh-trip', function(evt, tripId) {
 		if(tripId && tripId != '') {
@@ -1010,7 +1013,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	});
 
 	/**
-	 * Content View Resize 이벤트  
+	 * Content View Resize 이벤트
 	 */
 	$scope.$on('content-view-resize', function(evt) {
 		if($scope.mapControl) {
@@ -1020,7 +1023,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	});
 
 	/**
-	 * Scope destroy시 timeout 제거 
+	 * Scope destroy시 timeout 제거
 	 */
 	$scope.$on('$destroy', function(event) {
 		$timeout.cancel();
@@ -1037,7 +1040,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	});
 
 	/**
-	 * Refresh timer를 시작 
+	 * Refresh timer를 시작
 	 */
 	$scope.refreshTimer = function() {
 		$timeout.cancel();
@@ -1062,7 +1065,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 
 			} else if($scope.viewMode == 'EVENT') {
 				$scope.$emit('monitor-refresh-event', 1);
-			}			
+			}
 		}
 
 		$scope.refreshTimer();
