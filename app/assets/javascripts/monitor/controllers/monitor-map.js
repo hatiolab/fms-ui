@@ -135,37 +135,13 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		}
 	};
 
-	// $scope.switchOffVideo = function() {
- //        if($scope.windowSwitch.showMovieInfo) {
-	//         $scope.selectedMarker = null;
-	//     }
-
-	// 	for (property in $scope.windowSwitch) {
-	// 		$scope.windowSwitch[property] = false;
-	// 	}
-	// }
-
-	// $.isOn = function() {
-	// 	return $scope.selectedMarker;
-	// }
-
 	/**
 	 * window information switch off all
 	 */
 	$scope.switchOffAll = function() {
-        // if($scope.windowSwitch.showMovieInfo) {
-        //     console.log('movie closed\n');
-
-	       //  $scope.selectedMarker = null;
-
-        //     $('.pip-container video, .pip-container audio').each(function() {
-        //         this.pause();
-        //         this.src = "";
-        //         delete this;
-        //         $(this).remove();
-        //         console.log('paused video, audio\n');
-        //     });
-        // }
+    if($scope.windowSwitch.showMovieInfo && $scope.videoWindow) {
+    	$scope.videoWindow.close();
+    }
 
 		for (property in $scope.windowSwitch) {
 			$scope.windowSwitch[property] = false;
@@ -1109,20 +1085,20 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
                '<audio hidden><source src="' + marker.ado + '" type="audio/mp3"></audio>' +
              '</div>' +
              '<div class="detail-item">' +
-               '<translate class="modal-icon dot-gray" name-value="Event ID" category="label" display ="Event ID"></translate>' +
+               '<span class="modal-icon dot-gray">Saved At</span>' +
                '<strong>' + marker.id + '</strong>' +
              '</div>' +
              '<div class="detail-item">' +
-               '<translate class="modal-icon dot-gray" name-value="Occurred at" category="label" display ="Occurred at"></translate>' +
+               '<span class="modal-icon dot-gray">Occurred At</span>' +
                '<strong>{{ selectedMarker.etm | fmstime }}</strong>' +
              '</div>' +
              '<div class="detail-item">' +
-               '<translate class="modal-icon dot-gray" name-value="Saved at" category="label" display ="Saved at"></translate>' +
+               '<span class="modal-icon dot-gray">Saved At</span>' +
                '<strong>{{ selectedMarker.ctm | fmstime }}</strong>' +
              '</div>' +
              '<div class="detail-item">' +
-               '<translate class="modal-icon dot-gray"  name-value="Speed" category="label" display ="Speed"></translate>' +
-               '<span class="selectedMarker.typeClass"></span> {{ selectedMarker.vlc | fmsvelocity : true }}' +
+               '<span class="modal-icon dot-gray">Speed</span>' +
+               '<span class="{{selectedMarker.typeClass}}"></span> {{ selectedMarker.vlc | fmsvelocity : true }}' +
              '</div>' +
              '<div class="detail-item">' +
                '<span class="modal-icon dot-gray">G-X</span>' +
@@ -1143,24 +1119,24 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
              '</div>' +
              '<div>' +
                '<a target="_self" href="' + marker.vdo + '" download="video.mp4">' +
-                 '<translate name-value ="Download" category="label"></translate>' +
+                 '<span>Download</span>' +
                '</a>' +
              '<div/>' +
              '<div class="detail-item">' +
-               '<translate class="modal-icon dot-gray" name-value="Event ID" category="label" display ="Event ID"></translate>' +
+               '<span class="modal-icon dot-gray">Event ID</span>' +
                '<strong>' + marker.id + '</strong>' +
              '</div>' +
              '<div class="detail-item">' +
-               '<translate class="modal-icon dot-gray" name-value="Occurred at" category="label" display ="Occurred at"></translate>' +
+               '<span class="modal-icon dot-gray">Occurred At</span>' +
                '<strong>{{ selectedMarker.etm | fmstime }}</strong>' +
              '</div>' +
              '<div class="detail-item">' +
-               '<translate class="modal-icon dot-gray" name-value="Saved at" category="label" display ="Saved at"></translate>' +
+               '<span class="modal-icon dot-gray">Saved At</span>' +
                '<strong>{{ selectedMarker.ctm | fmstime }}</strong>' +
              '</div>' +
              '<div class="detail-item">' +
-               '<translate class="modal-icon dot-gray"  name-value="Speed" category="label" display ="Speed"></translate>' +
-               '<span class="selectedMarker.typeClass"></span> {{ selectedMarker.vlc | fmsvelocity : true }}' +
+               '<span class="modal-icon dot-gray">Speed</span>' +
+               '<span class="{{selectedMarker.typeClass}}"></span> {{ selectedMarker.vlc | fmsvelocity : true }}' +
              '</div>' +
              '<div class="detail-item">' +
                '<span class="modal-icon dot-gray">G-X</span>' +
