@@ -627,13 +627,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
             console.log('paused video, audio\n');
         });
 
-        if(marker && marker.vdo && marker.vdo.indexOf('http') < 0) {
-            $scope.__event = {};
-            $scope.__event.vdo = CONTENT_BASE_URL + marker.vdo;
-            $scope.__event.f_vdo = CONTENT_BASE_URL + marker.f_vdo;
-            $scope.__event.r_vdo = CONTENT_BASE_URL + marker.r_vdo;
-            $scope.__event.ado = CONTENT_BASE_URL + marker.ado;
-        } else {
+        if(!marker) {
             $scope.__event = {};
             $scope.__event.f_vdo = "";
             $scope.__event.r_vdo = "";
@@ -658,6 +652,14 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 			$scope.selectedMarker = marker;
 			$scope.switchOn('showMovieInfo');
 		}
+
+        if(marker && marker.vdo && marker.vdo.indexOf('http') < 0) {
+            $scope.__event = {};
+            $scope.__event.vdo = CONTENT_BASE_URL + marker.vdo;
+            $scope.__event.f_vdo = CONTENT_BASE_URL + marker.f_vdo;
+            $scope.__event.r_vdo = CONTENT_BASE_URL + marker.r_vdo;
+            $scope.__event.ado = CONTENT_BASE_URL + marker.ado;
+        }
 	};
 
 	/**
