@@ -153,6 +153,8 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		for (property in $scope.windowSwitch) {
 			$scope.windowSwitch[property] = false;
 		}
+
+        $scope.selectedMarker = null;
 	};
 
 	/**
