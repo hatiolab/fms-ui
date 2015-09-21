@@ -140,12 +140,13 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 */
 	$scope.switchOffAll = function() {
         if($scope.windowSwitch.showMovieInfo) {
+            console.log('movie closed\n');
             $('.pip-container video, .pip-container audio').each(function() {
                 this.pause();
                 this.src = "";
-                delete this;
-                $(this).remove();
-                console.log('deleted video, audio\n');
+                // delete this;
+                // $(this).remove();
+                console.log('paused video, audio\n');
             });
         }
 
