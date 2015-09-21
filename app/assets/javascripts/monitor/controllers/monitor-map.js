@@ -142,10 +142,10 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
         if($scope.windowSwitch.showMovieInfo) {
             console.log('movie closed\n');
 
-            marker.vdo = "";
-            marker.f_vdo = "";
-            marker.r_vdo = "";
-            marker.ado = "";
+            $scope.selectedMarker.vdo = "";
+            $scope.selectedMarker.f_vdo = "";
+            $scope.selectedMarker.r_vdo = "";
+            $scope.selectedMarker.ado = "";
 
             $scope.selectedMarker = null;
 
