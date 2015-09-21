@@ -77,10 +77,6 @@ angular.module('pip', [])
                 scope.gz = a.gz;
                 scope.address = a.address;
 
-                if(!scope.videoUrl) {
-                    console.log("Empty : " + empty + "\n");
-                    return;
-                }
                 console.log("Video URL: " + scope.videoUrl + "\n");
 
                 if($.__mobile__) {
