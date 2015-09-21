@@ -72,7 +72,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		$scope.$emit('monitor-refresh-options-change', $scope.refreshOption);
 	});
 
-}).controller('MonitorMapCtrl', function($rootScope, $scope, $element, $timeout, ConstantSpeed, FmsUtils, ModalUtils, RestApi) {
+}).controller('MonitorMapCtrl', function($rootScope, $scope, $element, $timeout, $interpolate, ConstantSpeed, FmsUtils, ModalUtils, RestApi) {
 
 	/**
 	 * View Mode - FLEET, TRIP, EVENT
@@ -145,27 +145,27 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	// 	}
 	// }
 
-	$.isOn = function() {
-		return $scope.selectedMarker;
-	}
+	// $.isOn = function() {
+	// 	return $scope.selectedMarker;
+	// }
 
 	/**
 	 * window information switch off all
 	 */
 	$scope.switchOffAll = function() {
-        if($scope.windowSwitch.showMovieInfo) {
-            console.log('movie closed\n');
+        // if($scope.windowSwitch.showMovieInfo) {
+        //     console.log('movie closed\n');
 
-	        $scope.selectedMarker = null;
+	       //  $scope.selectedMarker = null;
 
-            $('.pip-container video, .pip-container audio').each(function() {
-                this.pause();
-                this.src = "";
-                delete this;
-                $(this).remove();
-                console.log('paused video, audio\n');
-            });
-        }
+        //     $('.pip-container video, .pip-container audio').each(function() {
+        //         this.pause();
+        //         this.src = "";
+        //         delete this;
+        //         $(this).remove();
+        //         console.log('paused video, audio\n');
+        //     });
+        // }
 
 		for (property in $scope.windowSwitch) {
 			$scope.windowSwitch[property] = false;
@@ -648,10 +648,12 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 				marker.address = address;
 				$scope.selectedMarker = marker;
 				$scope.switchOn('showMovieInfo');
+				$scope.showVideoInfo();
 			});
 		}	else {
 			$scope.selectedMarker = marker;
 			$scope.switchOn('showMovieInfo');
+			$scope.showVideoInfo();
 		}
 	};
 
@@ -1090,4 +1092,93 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		$scope.refreshTimer();
 	};
 
+   $scope.showVideoInfo = function() {
+       if(!$scope.videoWindow){
+           $scope.videoWindow = new google.maps.InfoWindow();
+       }
+       
+       var marker = $scope.selectedMarker;
+       var content = '';
+
+       if($.__mobile__) {
+           content = '<div>' +
+             '<div class="pip-container">' +
+               '<div><a class="toggler">Toggle</a></div>' +
+               '<video controls class="front-video backward-layer"><source src="' + marker.f_vdo + '" type="video/mp4"></video>' +
+               '<video class="rear-video backward-layer" hidden><source src="' + marker.r_vdo + '" type="video/mp4"></video>' +
+               '<audio hidden><source src="' + marker.ado + '" type="audio/mp3"></audio>' +
+             '</div>' +
+             '<div class="detail-item">' +
+               '<translate class="modal-icon dot-gray" name-value="Event ID" category="label" display ="Event ID"></translate>' +
+               '<strong>' + marker.id + '</strong>' +
+             '</div>' +
+             '<div class="detail-item">' +
+               '<translate class="modal-icon dot-gray" name-value="Occurred at" category="label" display ="Occurred at"></translate>' +
+               '<strong>{{ selectedMarker.etm | fmstime }}</strong>' +
+             '</div>' +
+             '<div class="detail-item">' +
+               '<translate class="modal-icon dot-gray" name-value="Saved at" category="label" display ="Saved at"></translate>' +
+               '<strong>{{ selectedMarker.ctm | fmstime }}</strong>' +
+             '</div>' +
+             '<div class="detail-item">' +
+               '<translate class="modal-icon dot-gray"  name-value="Speed" category="label" display ="Speed"></translate>' +
+               '<span class="selectedMarker.typeClass"></span> {{ selectedMarker.vlc | fmsvelocity : true }}' +
+             '</div>' +
+             '<div class="detail-item">' +
+               '<span class="modal-icon dot-gray">G-X</span>' +
+               '<strong>' + marker.gx + '</strong>' +
+               '<span class="modal-icon dot-gray">G-Y</span>' +
+               '<strong>' + marker.gy + '</strong>' +
+               '<span class="modal-icon dot-gray">G-Z</span>' +
+               '<strong>' + marker.gz + '</strong>' +
+             '</div>' +
+             '<div class="detail-address map-window margin-t5">' + marker.address + '</div>' +
+           '</div>';
+       } else {
+           content = '<div>' +
+             '<div class="pip-container">' +
+               '<video controls class="front-video backward-layer"><source src="' + marker.f_vdo + '" type="video/mp4"></video>' +
+               '<video class="rear-video forward-layer"><source src="' + marker.r_vdo + '" type="video/mp4"></video>' +
+               '<audio hidden><source src="' + marker.ado + '" type="audio/mp3"></audio>' +
+             '</div>' +
+             '<div>' +
+               '<a target="_self" href="' + marker.vdo + '" download="video.mp4">' +
+                 '<translate name-value ="Download" category="label"></translate>' +
+               '</a>' +
+             '<div/>' +
+             '<div class="detail-item">' +
+               '<translate class="modal-icon dot-gray" name-value="Event ID" category="label" display ="Event ID"></translate>' +
+               '<strong>' + marker.id + '</strong>' +
+             '</div>' +
+             '<div class="detail-item">' +
+               '<translate class="modal-icon dot-gray" name-value="Occurred at" category="label" display ="Occurred at"></translate>' +
+               '<strong>{{ selectedMarker.etm | fmstime }}</strong>' +
+             '</div>' +
+             '<div class="detail-item">' +
+               '<translate class="modal-icon dot-gray" name-value="Saved at" category="label" display ="Saved at"></translate>' +
+               '<strong>{{ selectedMarker.ctm | fmstime }}</strong>' +
+             '</div>' +
+             '<div class="detail-item">' +
+               '<translate class="modal-icon dot-gray"  name-value="Speed" category="label" display ="Speed"></translate>' +
+               '<span class="selectedMarker.typeClass"></span> {{ selectedMarker.vlc | fmsvelocity : true }}' +
+             '</div>' +
+             '<div class="detail-item">' +
+               '<span class="modal-icon dot-gray">G-X</span>' +
+               '<strong>' + marker.gx + '</strong>' +
+               '<span class="modal-icon dot-gray">G-Y</span>' +
+               '<strong>' + marker.gy + '</strong>' +
+               '<span class="modal-icon dot-gray">G-Z</span>' +
+               '<strong>' + marker.gz + '</strong>' +
+             '</div>' +
+             '<div class="detail-address map-window margin-t5">' + marker.address + '</div>' +
+           '</div>';
+       }
+   
+       var tostr = $interpolate(content);
+
+       $scope.videoWindow.setContent(tostr($scope));
+       $scope.videoWindow.setPosition(new google.maps.LatLng(marker.latitude, marker.longitude));
+
+       $scope.videoWindow.open($scope.mapControl.getGMap());
+   }
 });
