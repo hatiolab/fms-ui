@@ -141,20 +141,20 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	$scope.switchOffAll = function() {
         if($scope.windowSwitch.showMovieInfo) {
             console.log('movie closed\n');
-            $('.pip-container video, .pip-container audio').each(function() {
-                this.pause();
-                this.src = "";
-                // delete this;
-                // $(this).remove();
-                console.log('paused video, audio\n');
-            });
+            $scope.selectedMarker = null;
+            // $('.pip-container video, .pip-container audio').each(function() {
+            //     this.pause();
+            //     this.src = "";
+            //     // delete this;
+            //     // $(this).remove();
+            //     console.log('paused video, audio\n');
+            // });
         }
 
 		for (property in $scope.windowSwitch) {
 			$scope.windowSwitch[property] = false;
 		}
 
-        $scope.selectedMarker = null;
 	};
 
 	/**
