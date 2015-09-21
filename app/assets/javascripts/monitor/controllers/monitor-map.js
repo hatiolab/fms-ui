@@ -82,11 +82,6 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 * 현재 선택된 Trip ID
 	 */
 	$scope.currentTripId = null;
-    /**
-     * 현재 플레이될 비디오 이벤트
-     */
-    $scope.__event = {};
-
 	/**
 	 * map option
 	 */
@@ -140,24 +135,34 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		}
 	};
 
-    /**
-     * video window information switch off all
-     */
-    $scope.switchOffVideo = function() {
-        $scope.changeMovieMarker(null);
-    };
+	/**
+	 * window information switch off all
+	 */
+	$scope.switchOffAll = function() {
+        if($scope.windowSwitch.showMovieInfo) {
+            console.log('movie closed\n');
 
-    /**
-     * window information switch off all
-     */
-    $scope.switchOffAll = function() {
-        $scope.changeMovieMarker(null);
+            marker.vdo = "";
+            marker.f_vdo = "";
+            marker.r_vdo = "";
+            marker.ado = "";
 
-        for (property in $scope.windowSwitch) {
-            $scope.windowSwitch[property] = false;
+            $scope.selectedMarker = null;
+
+            $('.pip-container video, .pip-container audio').each(function() {
+                this.pause();
+                this.src = "";
+                delete this;
+                $(this).remove();
+                console.log('paused video, audio\n');
+            });
         }
 
-    };
+		for (property in $scope.windowSwitch) {
+			$scope.windowSwitch[property] = false;
+		}
+
+	};
 
 	/**
 	 * window information switch off all
@@ -618,27 +623,12 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 * Movie Marker를 변경한다.
 	 */
 	$scope.changeMovieMarker = function(marker) {
-
-        $('.pip-container video, .pip-container audio').each(function() {
-            this.pause();
-            this.src = "";
-            delete this;
-            $(this).remove();
-            console.log('paused video, audio\n');
-        });
-
-        if(!marker) {
-            $scope.__event.vdo = "";
-            $scope.__event.f_vdo = "";
-            $scope.__event.r_vdo = "";
-            $scope.__event.ado = "";
-
-            $scope.selectedMarker = marker;
-
-            console.log("Scope : " + $scope.__event);
-
-            return;
-        }
+		if(marker.vdo.indexOf('http') < 0) {
+			marker.vdo = CONTENT_BASE_URL + marker.vdo;
+			marker.f_vdo = CONTENT_BASE_URL + marker.f_vdo;
+			marker.r_vdo = CONTENT_BASE_URL + marker.r_vdo;
+			marker.ado = CONTENT_BASE_URL + marker.ado;
+		}
 
 		if(marker.latitude != 0 && marker.longitude != 0) {
 			//$scope.readyProgress('Loading Movie....');
@@ -654,13 +644,6 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 			$scope.selectedMarker = marker;
 			$scope.switchOn('showMovieInfo');
 		}
-
-        if(marker && marker.vdo && marker.vdo.indexOf('http') < 0) {
-            $scope.__event.vdo = CONTENT_BASE_URL + marker.vdo;
-            $scope.__event.f_vdo = CONTENT_BASE_URL + marker.f_vdo;
-            $scope.__event.r_vdo = CONTENT_BASE_URL + marker.r_vdo;
-            $scope.__event.ado = CONTENT_BASE_URL + marker.ado;
-        }
 	};
 
 	/**
