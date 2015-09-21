@@ -624,7 +624,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
             console.log('paused video, audio\n');
         });
 
-        if(marker.vdo && marker.vdo.indexOf('http') < 0) {
+        if(marker && marker.vdo && marker.vdo.indexOf('http') < 0) {
             $scope.__event.vdo = CONTENT_BASE_URL + marker.vdo;
             $scope.__event.f_vdo = CONTENT_BASE_URL + marker.f_vdo;
             $scope.__event.r_vdo = CONTENT_BASE_URL + marker.r_vdo;
