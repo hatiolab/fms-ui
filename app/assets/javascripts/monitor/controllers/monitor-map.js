@@ -623,14 +623,16 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
         });
 
         if(marker && marker.vdo && marker.vdo.indexOf('http') < 0) {
+            $scope.__event = {};
             $scope.__event.vdo = CONTENT_BASE_URL + marker.vdo;
             $scope.__event.f_vdo = CONTENT_BASE_URL + marker.f_vdo;
             $scope.__event.r_vdo = CONTENT_BASE_URL + marker.r_vdo;
             $scope.__event.ado = CONTENT_BASE_URL + marker.ado;
         } else {
-            $scope.__event.f_vdo = marker.f_vdo;
-            $scope.__event.r_vdo = marker.r_vdo;
-            $scope.__event.ado = marker.ado;
+            $scope.__event = {};
+            $scope.__event.f_vdo = "";
+            $scope.__event.r_vdo = "";
+            $scope.__event.ado = "";
 
             $scope.selectedMarker = marker;
 
