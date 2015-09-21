@@ -135,6 +135,20 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		}
 	};
 
+	// $scope.switchOffVideo = function() {
+ //        if($scope.windowSwitch.showMovieInfo) {
+	//         $scope.selectedMarker = null;
+	//     }
+
+	// 	for (property in $scope.windowSwitch) {
+	// 		$scope.windowSwitch[property] = false;
+	// 	}
+	// }
+
+	$.isOn = function() {
+		return $scope.selectedMarker;
+	}
+
 	/**
 	 * window information switch off all
 	 */
@@ -142,12 +156,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
         if($scope.windowSwitch.showMovieInfo) {
             console.log('movie closed\n');
 
-            $scope.selectedMarker.vdo = "";
-            $scope.selectedMarker.f_vdo = "";
-            $scope.selectedMarker.r_vdo = "";
-            $scope.selectedMarker.ado = "";
-
-            $scope.selectedMarker = null;
+	        $scope.selectedMarker = null;
 
             $('.pip-container video, .pip-container audio').each(function() {
                 this.pause();

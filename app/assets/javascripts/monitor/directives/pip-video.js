@@ -39,7 +39,6 @@ angular.module('pip', [])
         }
 
         $.__mobile__ = $rootScope.isMobile;
-        //$.__mobile__ = /Android|webOS|iPhone|iPod|iPad|BlackBerry|Windows Phone/i.test(window.navigator.userAgent);
     })
     .directive('pipVideo', function() {
 
@@ -48,9 +47,21 @@ angular.module('pip', [])
             scope: {},
             controller: 'pipVideoCtrl',
             link: function(scope, $element, a) {
-                if(!a.videoUrl || a.videoUrl == '') {
+                if(!$.isOn()) {
+                    console.log("IS OFF\n");
+
+                    $element.find('video, audio').each(function() {
+                        this.pause();
+                        this.src = "";
+                        delete this;
+                        $(this).remove();
+                        console.log('deleted video, audio\n');
+                    });
+
                     return;
                 }
+
+                console.log("Link\n");
 
                 scope.videoUrl = a.videoUrl;
                 scope.frontVideoUrl = a.frontVideoUrl;
@@ -65,6 +76,12 @@ angular.module('pip', [])
                 scope.gy = a.gy;
                 scope.gz = a.gz;
                 scope.address = a.address;
+
+                if(!scope.videoUrl) {
+                    console.log("Empty : " + empty + "\n");
+                    return;
+                }
+                console.log("Video URL: " + scope.videoUrl + "\n");
 
                 if($.__mobile__) {
                     $element.on('click', '.pip-container .toggler', function(e){

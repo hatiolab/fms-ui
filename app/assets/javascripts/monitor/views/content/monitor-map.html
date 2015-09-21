@@ -207,18 +207,19 @@
 		<!-- movie window -->
 		<ui-gmap-window id="movieWindow" coords="selectedMarker" show="windowSwitch.showMovieInfo" closeClick="switchOffAll()">
 			<pip-video
-				event-id="{{selectedMarker.id}}"
-				occurred-at="{{selectedMarker.etm | fmstime}}"
-				saved-at="{{selectedMarker.ctm | fmstime}}"
-				velocity="{{selectedMarker.vlc | fmsvelocity : true}}"
-				gx="{{selectedMarker.gx}}"
-				gy="{{selectedMarker.gy}}"
-				gz="{{selectedMarker.gz}}"
-				address="{{selectedMarker.address}}"
-				video-url="{{selectedMarker.vdo}}"
-				front-video-url="{{selectedMarker.f_vdo}}"
-				rear-video-url="{{selectedMarker.r_vdo}}"
-				audio-url="{{selectedMarker.ado}}">
+				event-id="{{!selectedMarker ? '' : selectedMarker.id}}"
+				occurred-at="{{!selectedMarker ? '' : (selectedMarker.etm | fmstime)}}"
+				saved-at="{{!selectedMarker ? '' : (selectedMarker.ctm | fmstime)}}"
+				velocity="{{!selectedMarker ? '' : (selectedMarker.vlc | fmsvelocity : true)}}"
+				gx="{{!selectedMarker ? '' : selectedMarker.gx}}"
+				gy="{{!selectedMarker ? '' : selectedMarker.gy}}"
+				gz="{{!selectedMarker ? '' : selectedMarker.gz}}"
+				address="{{!selectedMarker ? '' : selectedMarker.address}}"
+				video-url="{{!selectedMarker ? '' : selectedMarker.vdo}}"
+				front-video-url="{{!selectedMarker ? '' : selectedMarker.f_vdo}}"
+				rear-video-url="{{!selectedMarker ? '' : selectedMarker.r_vdo}}"
+				audio-url="{{!selectedMarker ? '' : selectedMarker.ado}}"
+				>
 			</pip-video>
 		</ui-gmap-window>
 
