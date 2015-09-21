@@ -628,11 +628,14 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
         });
 
         if(!marker) {
+            $scope.__event.vdo = "";
             $scope.__event.f_vdo = "";
             $scope.__event.r_vdo = "";
             $scope.__event.ado = "";
 
             $scope.selectedMarker = marker;
+
+            console.log("Scope : " + $scope.__event);
 
             return;
         }
