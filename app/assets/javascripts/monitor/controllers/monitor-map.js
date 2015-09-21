@@ -641,8 +641,6 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 
             $scope.selectedMarker = marker;
 
-            $scope.switchOff('showMovieInfo');
-
             return;
         }
 
