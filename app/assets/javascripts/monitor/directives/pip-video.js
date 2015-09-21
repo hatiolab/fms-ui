@@ -48,20 +48,20 @@ angular.module('pip', [])
             controller: 'pipVideoCtrl',
             link: function(scope, $element, a) {
                 if(!$.isOn()) {
-                    console.log("IS OFF\n");
+                    // console.log("IS OFF\n");
 
                     $element.find('video, audio').each(function() {
                         this.pause();
                         this.src = "";
                         delete this;
                         $(this).remove();
-                        console.log('deleted video, audio\n');
+                        // console.log('deleted video, audio\n');
                     });
 
                     return;
                 }
 
-                console.log("Link\n");
+                // console.log("Link\n");
 
                 scope.videoUrl = a.videoUrl;
                 scope.frontVideoUrl = a.frontVideoUrl;
@@ -77,7 +77,7 @@ angular.module('pip', [])
                 scope.gz = a.gz;
                 scope.address = a.address;
 
-                console.log("Video URL: " + scope.videoUrl + "\n");
+                // console.log("Video URL: " + scope.videoUrl + "\n");
 
                 if($.__mobile__) {
                     $element.on('click', '.pip-container .toggler', function(e){
