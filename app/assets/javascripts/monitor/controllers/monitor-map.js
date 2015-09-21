@@ -135,29 +135,26 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 		}
 	};
 
-	/**
-	 * window information switch off all
-	 */
-	$scope.switchOffAll = function() {
+    /**
+     * video window information switch off all
+     */
+    $scope.switchOffVideo = function() {
+        $scope.changeMovieMarker(null);
+    };
+
+    /**
+     * window information switch off all
+     */
+    $scope.switchOffAll = function() {
         if($scope.windowSwitch.showMovieInfo) {
-            console.log('movie closed\n');
-
-            $scope.selectedMarker = null;
-
-            $('.pip-container video, .pip-container audio').each(function() {
-                this.pause();
-                this.src = "";
-                delete this;
-                $(this).remove();
-                console.log('paused video, audio\n');
-            });
+            $scope.changeMovieMarker(null);
         }
 
-		for (property in $scope.windowSwitch) {
-			$scope.windowSwitch[property] = false;
-		}
+        for (property in $scope.windowSwitch) {
+            $scope.windowSwitch[property] = false;
+        }
 
-	};
+    };
 
 	/**
 	 * window information switch off all
@@ -618,12 +615,31 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 * Movie Marker를 변경한다.
 	 */
 	$scope.changeMovieMarker = function(marker) {
-		if(marker.vdo.indexOf('http') < 0) {
-			marker.vdo = CONTENT_BASE_URL + marker.vdo;
-			marker.f_vdo = CONTENT_BASE_URL + marker.f_vdo;
-			marker.r_vdo = CONTENT_BASE_URL + marker.r_vdo;
-			marker.ado = CONTENT_BASE_URL + marker.ado;
-		}
+
+        $('.pip-container video, .pip-container audio').each(function() {
+            this.pause();
+            this.src = "";
+            delete this;
+            $(this).remove();
+            console.log('paused video, audio\n');
+        });
+
+        if(marker.vdo && marker.vdo.indexOf('http') < 0) {
+            $scope.__event.vdo = CONTENT_BASE_URL + marker.vdo;
+            $scope.__event.f_vdo = CONTENT_BASE_URL + marker.f_vdo;
+            $scope.__event.r_vdo = CONTENT_BASE_URL + marker.r_vdo;
+            $scope.__event.ado = CONTENT_BASE_URL + marker.ado;
+        } else {
+            $scope.__event.f_vdo = marker.f_vdo;
+            $scope.__event.r_vdo = marker.r_vdo;
+            $scope.__event.ado = marker.ado;
+
+            $scope.selectedMarker = marker;
+
+            $scope.switchOff('showMovieInfo');
+
+            return;
+        }
 
 		if(marker.latitude != 0 && marker.longitude != 0) {
 			//$scope.readyProgress('Loading Movie....');
