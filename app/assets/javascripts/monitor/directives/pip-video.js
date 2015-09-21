@@ -42,7 +42,7 @@ angular.module('pip', [])
 
         if($.__mobile__) {
             $(document).on('click', '.pip-container .toggler', function(e){
-                var parent = $(this).parent();
+                var parent = $(this).parent().parent();
                 parent.find('video').each(function(){this.pause();}).toggle();
                 parent.find('video:visible').each(function(e){
                     var currentTime = this.currentTime;
