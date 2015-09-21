@@ -82,6 +82,11 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
 	 * 현재 선택된 Trip ID
 	 */
 	$scope.currentTripId = null;
+    /**
+     * 현재 플레이될 비디오 이벤트
+     */
+    $scope.__event = {};
+
 	/**
 	 * map option
 	 */
