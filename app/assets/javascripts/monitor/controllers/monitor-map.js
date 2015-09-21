@@ -146,9 +146,7 @@ angular.module('fmsMonitor').controller('MapModeControlCtrl', function ($rootSco
      * window information switch off all
      */
     $scope.switchOffAll = function() {
-        if($scope.windowSwitch.showMovieInfo) {
-            $scope.changeMovieMarker(null);
-        }
+        $scope.changeMovieMarker(null);
 
         for (property in $scope.windowSwitch) {
             $scope.windowSwitch[property] = false;
