@@ -205,7 +205,7 @@
 		</ui-gmap-window>
 
 		<!-- movie window -->
-		<ui-gmap-window id="movieWindow" coords="selectedMarker" show="windowSwitch.showMovieInfo" closeClick="switchOffVideo()">
+		<ui-gmap-window id="movieWindow" coords="selectedMarker" show="windowSwitch.showMovieInfo" closeClick="switchOffAll()">
 			<pip-video
 				event-id="{{selectedMarker.id}}"
 				occurred-at="{{selectedMarker.etm | fmstime}}"
@@ -215,10 +215,10 @@
 				gy="{{selectedMarker.gy}}"
 				gz="{{selectedMarker.gz}}"
 				address="{{selectedMarker.address}}"
-				video-url="{{__event.vdo}}"
-				front-video-url="{{__event.f_vdo}}"
-				rear-video-url="{{__event.r_vdo}}"
-				audio-url="{{__event.ado}}">
+				video-url="{{selectedMarker.vdo}}"
+				front-video-url="{{selectedMarker.f_vdo}}"
+				rear-video-url="{{selectedMarker.r_vdo}}"
+				audio-url="{{selectedMarker.ado}}">
 			</pip-video>
 		</ui-gmap-window>
 
