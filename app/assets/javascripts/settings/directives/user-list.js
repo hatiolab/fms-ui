@@ -124,6 +124,26 @@ angular.module('fmsSettings').directive('userList', function() {
 				UserPopup.show(user);
 			}
 		};
+
+		/**
+		 * 사용자 삭제 
+		 */
+		$scope.deleteUser = function(user) {
+			ModalUtils.alert('sm', 'Delete User', 'Do you want to delete user?', 
+				function() {
+
+					var result = RestApi.create('/users/destroy_multiple.json', {ids : "[" + user.id + "]"});
+					result.$promise.then(
+						function(data) {
+							$scope.search();
+							ModalUtils.success('Success', 'Success To Delete');
+
+						}, function(error) {
+							ModalUtils.alert('sm', 'Error', 'Status : ' + error.status + ', ' + error.statusText);
+						});
+				}
+			);
+		};
 	  
 		/**
 		 * Show Alert Message

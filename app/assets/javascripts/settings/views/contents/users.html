@@ -12,6 +12,7 @@
 					<th><translate name-value ="Name" category="label"/></th>
 					<th><translate name-value ="E-mail" category="label"/></th>
 					<th><translate name-value ="Admin" category="label"/></th>
+					<th><translate name-value ="Delete" category="label"/></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -22,6 +23,11 @@
 					<td>{{user.name}}</td>
 					<td>{{user.email}}</td>
 					<td>{{user.admin_flag ? 'Yes' : 'No'}}</td>
+					<td>
+						<button type="button" class="btn btn-warning" ng-click="deleteUser(user)">
+							<translate name-value ="Delete" category="button"/>
+						</button>
+					</td>
 				</tr>
 			</tbody>
 		</table>
